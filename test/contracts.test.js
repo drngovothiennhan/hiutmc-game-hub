@@ -23,16 +23,16 @@ test('only explicitly connected legacy games are launchable', () => {
   assert.equal(continuation.href, '/garden-continuation');
 });
 
-test('Garden continuation stays locked without the one-time receipt and opens after RPC proof', () => {
-  const locked = renderWorldMap(null, null, true, true);
-  assert.match(locked, /Khóa · cần hoàn thành Gia Viên/);
-  assert.doesNotMatch(locked, /href="#\/garden-continuation"/);
+test('Garden continuation opens after server receipt proof without a 9/9 prerequisite', () => {
+  const waiting = renderWorldMap(null, null, true, true);
+  assert.match(waiting, /Sẵn sàng sau xác minh SSO/);
+  assert.doesNotMatch(waiting, /href="#\/garden-continuation"/);
   const unlocked = renderWorldMap(null, {
     eligible: true,
     receiptId: '123e4567-e89b-42d3-a456-426614174000',
     grantedAt: '2026-09-25T11:00:00Z'
   }, true, true);
-  assert.match(unlocked, /Đã xác minh · đã mở khóa/);
+  assert.match(unlocked, /Đã mở · thành viên HIU TMC/);
   assert.match(unlocked, /href="#\/garden-continuation"/);
 });
 
@@ -57,16 +57,16 @@ test('legacy game launch carries the existing ecosystem session in a fragment', 
   assert.equal(bridge.get('refresh_token'), 'refresh');
 });
 
-test('Game Hub is hidden from anyone outside the staff role allowlist', () => {
-  assert.equal(canAccessGameHub({ role: 'admin' }), true);
-  assert.equal(canAccessGameHub({ role: 'mod' }), true);
-  assert.equal(canAccessGameHub({ role: 'super_mod' }), true);
-  assert.equal(canAccessGameHub({ role: 'member' }), false);
+test('Game Hub accepts every linked HIU TMC member regardless of role', () => {
+  for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member']) {
+    assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), true);
+  }
+  assert.equal(canAccessGameHub({ role: 'admin' }), false);
   assert.equal(canAccessGameHub(null), false);
   const anonymousGate = renderAccessGate({ member: null });
   assert.match(anonymousGate, /Đăng nhập HIU TMC/);
   assert.doesNotMatch(anonymousGate, /Bản đồ|Thành tựu|Gia Viên|Năng lực/);
   const memberGate = renderAccessGate({ member: { role: 'member' } });
-  assert.match(memberGate, /chỉ dành cho admin, mod và smod/);
+  assert.match(memberGate, /chưa liên kết hoặc tài khoản chưa được duyệt/);
   assert.doesNotMatch(memberGate, /topnav|Bản đồ|Gia Viên|Năng lực/);
 });

@@ -10,7 +10,7 @@ export function renderShell({ member, session = null, entitlement = null, garden
     : view === 'achievements'
       ? renderAchievements()
       : view === 'garden-continuation'
-        ? '<section class="garden-runtime-shell"><p class="eyebrow">BIÊN NHẬN MỞ KHÓA ĐÃ XÁC MINH</p><h1>Gia Viên Dược Thảo · Khu vườn mở rộng</h1><p>Tiến trình trước đó tại Study OS được giữ nguyên. Bạn đang tiếp tục Gia Viên trong Game Hub.</p><div id="garden-runtime-root"></div></section>'
+        ? '<section class="garden-runtime-shell"><p class="eyebrow">GIA VIÊN · QUYỀN VÀO ĐÃ XÁC MINH</p><h1>Gia Viên Dược Thảo · Khu vườn mở rộng</h1><p>Tiến trình trước đó tại Study OS được giữ nguyên. Bạn đang tiếp tục Gia Viên trong Game Hub.</p><div id="garden-runtime-root"></div></section>'
         : renderWorldMap(session, entitlement, Boolean(member), gardenBetaEnabled);
   const account = member
     ? `<button class="account-button" id="logout-button" type="button">Đăng xuất</button>`
@@ -29,7 +29,7 @@ export function renderAccessGate({ member = null, loading = false, authError = n
   const message = loading
     ? 'Game Hub đang kiểm tra phiên HIU TMC của bạn.'
     : member
-      ? 'Game Hub hiện chỉ dành cho admin, mod và smod.'
+      ? 'Phiên thành viên chưa liên kết hoặc tài khoản chưa được duyệt. Hãy đăng nhập lại qua HIU TMC.'
       : 'Hãy đăng nhập qua hệ sinh thái HIU TMC bằng tài khoản được cấp quyền.';
   const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
   const action = member
