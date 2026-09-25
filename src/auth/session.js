@@ -65,8 +65,8 @@ export function buildLegacySsoUrl(href, session) {
   return target.toString();
 }
 
-async function refreshIfNeeded(session, force = false) {
-  if (!force && session.expiresAt - Date.now() > 90_000) return session;
+async function refreshIfNeeded(session) {
+  if (session.expiresAt - Date.now() > 90_000) return session;
   const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
     method: 'POST',
     headers: { apikey: SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
@@ -108,9 +108,9 @@ export async function bootstrapSession() {
     const bridged = consumeIncomingBridge();
     const session = bridged || readStoredSession();
     if (!session) return { member: null, session: null, error: null };
-    // A bridge carries a one-time refresh token. Redeem it immediately so
-    // Supabase validates the refresh credential and issues the Hub's session.
-    const refreshed = await refreshIfNeeded(session, Boolean(bridged));
+    // Validate the bridged access token without rotating its refresh token:
+    // the Ecosystem still owns the stored session for a later return visit.
+    const refreshed = await refreshIfNeeded(session);
     const member = await verifyMember(refreshed.accessToken);
     const complete = { ...refreshed, member };
     saveSession(complete);

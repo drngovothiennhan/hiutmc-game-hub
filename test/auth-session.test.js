@@ -46,11 +46,8 @@ function installBrowserMocks(t, { hash, authUser, authStatus = 200, refreshBody 
 test('SSO bridge strips credentials from the URL and uses the trusted member claim', async t => {
   const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
   const refreshToken = 'short-token';
-  const refreshedAccessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
-  const refreshedRefreshToken = 'rotated-short';
   const mocks = installBrowserMocks(t, {
     hash: `#ecosystem_sso=1&access_token=${accessToken}&refresh_token=${refreshToken}`,
-    refreshBody: { access_token: refreshedAccessToken, refresh_token: refreshedRefreshToken },
     authUser: {
       id: 'auth-user-id',
       app_metadata: { member_id: 'trusted-member-id', role: 'member' },
@@ -62,22 +59,19 @@ test('SSO bridge strips credentials from the URL and uses the trusted member cla
 
   assert.equal(result.error, null);
   assert.equal(result.member.id, 'trusted-member-id');
-  assert.equal(result.session.accessToken, refreshedAccessToken);
-  assert.equal(result.session.refreshToken, refreshedRefreshToken);
+  assert.equal(result.session.accessToken, accessToken);
+  assert.equal(result.session.refreshToken, refreshToken);
   assert.equal(mocks.getReplacedUrl(), '/?from=ecosystem');
-  assert.equal(mocks.calls.length, 2);
-  assert.match(mocks.calls[0].url, /\/auth\/v1\/token\?grant_type=refresh_token$/);
-  assert.match(mocks.calls[1].url, /\/auth\/v1\/user$/);
+  assert.equal(mocks.calls.length, 1);
+  assert.match(mocks.calls[0].url, /\/auth\/v1\/user$/);
   assert.equal(mocks.values.get(SESSION_STORAGE_KEY) !== undefined, true);
   assert.equal(mocks.values.get(SESSION_STORAGE_KEY).includes('untrusted-member-id'), false);
 });
 
 test('SSO bootstrap rejects a client-supplied member id without trusted app metadata', async t => {
   const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
-  const refreshedAccessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
   const mocks = installBrowserMocks(t, {
     hash: `#ecosystem_sso=1&access_token=${accessToken}&refresh_token=${'s'.repeat(32)}`,
-    refreshBody: { access_token: refreshedAccessToken, refresh_token: 'rotated-token' },
     authUser: { id: 'auth-user-id', user_metadata: { member_id: 'client-forged-id' } }
   });
 
@@ -85,7 +79,7 @@ test('SSO bootstrap rejects a client-supplied member id without trusted app meta
 
   assert.equal(result.member, null);
   assert.match(result.error, /chưa liên kết hồ sơ HIU TMC/);
-  assert.equal(mocks.calls.length, 2);
+  assert.equal(mocks.calls.length, 1);
   assert.equal(mocks.values.has(SESSION_STORAGE_KEY), false);
 });
 
@@ -119,19 +113,18 @@ test('SSO bridge rejects empty credentials and clears the fragment without loggi
   assert.equal(mocks.calls.length, 0);
 });
 
-test('SSO bridge rejects a refresh token that Supabase does not redeem', async t => {
+test('SSO bridge rejects an access token Auth will not verify and clears it', async t => {
   const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
   const mocks = installBrowserMocks(t, {
     hash: `#ecosystem_sso=1&access_token=${accessToken}&refresh_token=present`,
-    refreshStatus: 400,
-    refreshBody: { error: 'invalid_grant' },
-    authUser: { id: 'auth-user-id', app_metadata: { member_id: 'trusted-member-id' } }
+    authStatus: 401,
+    authUser: { message: 'unauthorized' }
   });
   const result = await bootstrapSession();
 
   assert.equal(result.member, null);
-  assert.match(result.error, /Không thể xác minh phiên đăng nhập/);
-  assert.doesNotMatch(result.error, /present|invalid_grant/);
+  assert.match(result.error, /Không xác minh được phiên thành viên/);
+  assert.doesNotMatch(result.error, /present|unauthorized/);
   assert.equal(mocks.getReplacedUrl(), '/?from=ecosystem');
   assert.equal(mocks.calls.length, 1);
   assert.equal(mocks.values.has(SESSION_STORAGE_KEY), false);
