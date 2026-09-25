@@ -18,9 +18,9 @@ On the Game Hub main page, show a sequel card with clear locked/unlocked state. 
 
 ## Completion gate: verify before coding
 
-The inspected Garden contract records sequential plot progression: initial three plots, later plots unlock after the currently unlocked plots each have a valid harvest, up to nine. The reviewed contract does **not** identify an explicit “all rounds passed” marker or a completion receipt. Do not treat the plot progression as the completion rule without confirming it against the current Study OS UI, scenario and authoritative server behavior.
+The current V7 UI and reviewed contract show the Garden's final progression state as **9/9 plots unlocked**. The UI says the initial three plots each need a first valid harvest; after that, each newly opened plot's first harvest opens the next sequential plot, up to plot 9. The current UI labels 9/9 as “Đã mở đủ 9 ô.” However, the reviewed runtime has no explicit all-rounds-passed flag, completion receipt, or dedicated sequel-unlock contract. In particular, reaching 9/9 unlocks follows the first-harvest progression through plot 8; the existing UI does not say whether plot 9 itself must also be harvested to count as “passed”.
 
-G3.1 must identify the exact user-visible pass condition, authoritative producer, and server-readable evidence. If no reliable completion marker exists, document the smallest safe server-side completion assertion that can be added later; do not infer completion from browser state, a client flag, an untrusted member ID, or a guessed plot count.
+Treat **9/9 server-confirmed plots unlocked** as the leading candidate, not a finalized entitlement rule. G3.1 must compare that candidate with the approved meaning of “vượt qua các vòng”, then identify authoritative server-readable evidence and the producer. If the intended pass condition also requires harvesting plot 9 or another result, record that exact existing rule before implementation. Do not infer from browser state, a client flag, a member ID supplied by the client, or an assumed count.
 
 ## One-time unlock contract
 
