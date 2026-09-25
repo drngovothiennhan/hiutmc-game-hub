@@ -68,10 +68,10 @@ test('Garden is available to any linked, authenticated member regardless of role
 
 test('receipt migration keeps only the trusted approved-member gate', () => {
   const migration = readFileSync(new URL('../supabase/migrations/20260926043000_garden_hub_member_access_v1.sql', import.meta.url), 'utf8');
-  assert.match(migration, /auth\\.uid\\(\\)/);
+  assert.ok(migration.includes('auth.uid()'));
   assert.match(migration, /app_metadata/);
-  assert.match(migration, /m\\.auth_user_id = v_auth_user_id/);
-  assert.match(migration, /m\\.status::text = 'approved'/);
-  assert.match(migration, /m\\.login_enabled is true/);
+  assert.ok(migration.includes('m.auth_user_id = v_auth_user_id'));
+  assert.ok(migration.includes("m.status::text = 'approved'"));
+  assert.ok(migration.includes('m.login_enabled is true'));
   assert.doesNotMatch(migration, /role_restricted|prerequisite_incomplete|herb_garden_plots|v_member_role/);
 });
