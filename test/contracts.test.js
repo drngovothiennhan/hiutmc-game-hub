@@ -64,7 +64,8 @@ test('Game Hub accepts every linked HIU TMC member regardless of role', () => {
   assert.equal(canAccessGameHub({ role: 'admin' }), false);
   assert.equal(canAccessGameHub(null), false);
   const anonymousGate = renderAccessGate({ member: null });
-  assert.match(anonymousGate, /Đăng nhập HIU TMC/);
+  assert.match(anonymousGate, /Tiếp tục vào Game Hub/);
+  assert.match(anonymousGate, /\?open=game-hub/);
   assert.doesNotMatch(anonymousGate, /Bản đồ|Thành tựu|Gia Viên|Năng lực/);
   const memberGate = renderAccessGate({ member: { role: 'member' } });
   assert.match(memberGate, /chưa liên kết hoặc tài khoản chưa được duyệt/);
