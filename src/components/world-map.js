@@ -5,16 +5,21 @@ import { isVerifiedGardenUnlockReceipt } from '../entitlements/garden-unlock.js'
 
 function placeCard(place, session, entitlement, authenticated) {
   const legacy = place.state === 'available-legacy';
+  const live = place.state === 'available-live';
   const lockedContinuation = place.state === 'locked-continuation';
   const continuationUnlocked = lockedContinuation && isVerifiedGardenUnlockReceipt(entitlement);
   const pending = lockedContinuation && authenticated && entitlement?.reason === 'checking';
-  const status = legacy
+  const status = live
+    ? 'Game Hub · đang hoạt động'
+    : legacy
     ? 'Study OS · hiện tại'
     : continuationUnlocked
       ? 'Đã mở · thành viên HIU TMC'
       : lockedContinuation ? pending ? 'Đang xác minh quyền vào' : 'Sẵn sàng sau xác minh SSO' : 'Sắp mở';
-  const href = isLaunchable(place) ? buildLegacySsoUrl(place.href, session) : '';
-  const action = isLaunchable(place)
+  const href = live ? place.href : isLaunchable(place) ? buildLegacySsoUrl(place.href, session) : '';
+  const action = live
+    ? `<a class="place-action" href="${escapeHtml(href)}">Vào HIU Y Quán <span aria-hidden="true">→</span></a>`
+    : isLaunchable(place)
     ? `<a class="place-action" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">Mở runtime Study OS <span aria-hidden="true">↗</span></a>`
     : continuationUnlocked
       ? '<a class="place-action" href="#/garden-continuation">Tiếp tục Gia Viên <span aria-hidden="true">→</span></a>'
@@ -25,8 +30,8 @@ function placeCard(place, session, entitlement, authenticated) {
           : lockedContinuation
             ? '<span class="place-action place-action-disabled">Đăng nhập HIU TMC để vào chơi</span>'
             : '<span class="place-action place-action-disabled">Sắp mở</span>';
-  const cardClass = legacy ? '' : continuationUnlocked ? 'place-unlocked' : place.state === 'planned' ? 'place-planned' : 'place-locked';
-  return `<article class="place-card ${cardClass}" data-place-id="${escapeHtml(place.id)}"><div class="place-top"><span class="place-emblem" aria-hidden="true">${escapeHtml(place.icon)}</span><span class="tag ${legacy || continuationUnlocked ? 'tag-live' : 'tag-muted'}">${status}</span></div><p class="place-area">${escapeHtml(place.area)}</p><h3>${escapeHtml(place.title)}</h3><p class="place-description">${escapeHtml(place.description)}</p>${action}</article>`;
+  const cardClass = legacy || live ? '' : continuationUnlocked ? 'place-unlocked' : place.state === 'planned' ? 'place-planned' : 'place-locked';
+  return `<article class="place-card ${cardClass}" data-place-id="${escapeHtml(place.id)}"><div class="place-top"><span class="place-emblem" aria-hidden="true">${escapeHtml(place.icon)}</span><span class="tag ${legacy || live || continuationUnlocked ? 'tag-live' : 'tag-muted'}">${status}</span></div><p class="place-area">${escapeHtml(place.area)}</p><h3>${escapeHtml(place.title)}</h3><p class="place-description">${escapeHtml(place.description)}</p>${action}</article>`;
 }
 
 export function renderWorldMap(session, entitlement = null, authenticated = false, gardenBetaEnabled = false) {
