@@ -51,4 +51,53 @@ jobs:
             exit 1
           fi
       - name: Deploy G2 branch as a Cloudflare Pages preview
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Responsive Cloudflare preview smoke
+        env:
+          PREVIEW_URL: https://game-hub-intro-ux.hiutmc-game-hub.pages.dev
+        run: |
+          mkdir -p qa-game-hub
+          node --input-type=module <<'EOF'
+          import { chromium } from "playwright";
+          const browser = await chromium.launch({ headless: true });
+          for (const [width, height] of [[320, 740], [390, 844], [711, 1000], [768, 1024], [1024, 900]]) {
+            const page = await browser.newPage({ viewport: { width, height } });
+            await page.goto(process.env.PREVIEW_URL, { waitUntil: "domcontentloaded", timeout: 60000 });
+            await page.getByRole("heading", { name: "BẢN ĐỒ HỌC THUẬT", level: 1 }).waitFor({ state: "visible", timeout: 15000 });
+            const checks = await page.evaluate(() => {
+              const title = document.querySelector(".world-intro h1");
+              const intro = document.querySelector(".world-intro p:not(.eyebrow)");
+              const map = document.querySelector(".place-grid");
+              return {
+                viewport: document.documentElement.clientWidth,
+                pageWidth: document.documentElement.scrollWidth,
+                titleWidth: title?.clientWidth,
+                titleScrollWidth: title?.scrollWidth,
+                introWidth: intro?.clientWidth,
+                introScrollWidth: intro?.scrollWidth,
+                columns: getComputedStyle(map).gridTemplateColumns,
+                studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
+              };
+            });
+            if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) {
+              throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
+            }
+            if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) {
+              throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
+            }
+            await page.screenshot({ path: `qa-game-hub/home-${width}.png`, fullPage: true });
+            await page.close();
+          }
+          await browser.close();
+          EOF
+      - name: Upload responsive preview screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-hub-intro-responsive-preview
+          path: qa-game-hub
+          if-no-files-found: error
+          retention-days: 7
         run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub intro UX preview"
