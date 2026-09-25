@@ -28,7 +28,7 @@ jobs:
         run: node --test tests/y-quan-practice.test.mjs
       - run: npm run build
       - name: Verify Y Quan static module dependencies are packaged
-        run: node -e "for (const path of ['dist/y-quan-practice/index.html', 'dist/src/auth/roles.js', 'dist/src/games/y-quan-practice/case.js', 'dist/src/games/y-quan-practice/domain.js']) { require('node:fs').accessSync(path); }"
+        run: node -e "for (const path of ['dist/y-quan-practice/index.html', 'dist/src/styles.css', 'dist/src/auth/roles.js', 'dist/src/games/y-quan-practice/case.js', 'dist/src/games/y-quan-practice/domain.js']) { require('node:fs').accessSync(path); }"
       - name: Ensure runtime does not include server keys
         run: '! grep -R -E "service_role|SUPABASE_SECRET|sb_secret_" dist'
       - uses: actions/upload-artifact@v4
