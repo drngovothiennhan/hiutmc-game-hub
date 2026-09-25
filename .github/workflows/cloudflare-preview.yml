@@ -104,59 +104,43 @@ jobs:
                 introScrollWidth: intro?.scrollWidth,
                 columns: getComputedStyle(map).gridTemplateColumns,
                 studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
-                adminTileHiddenForAnonymous: !document.querySelector('[data-place-id="y-quan-admin-preview"]'),
+                yQuanDemoVisibleToAnonymous: Boolean(document.querySelector('[data-place-id="y-quan-demo"]')),
                 gardenLocked: Boolean(document.querySelector('[data-place-id="garden-continuation"] .place-action-disabled')) && !document.querySelector('[data-place-id="garden-continuation"] a[href="#/garden-continuation"]'),
               };
             });
             if (checks.shellDisplay !== "flex") throw new Error(`Game Hub shell CSS did not load at ${width}px: ${JSON.stringify(checks)}`);
             if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
             if (!checks.gardenLocked) throw new Error(`Game Hub Garden must stay locked without a verified receipt.`);
-            if (!checks.adminTileHiddenForAnonymous) throw new Error(`The admin preview tile leaked to an anonymous user.`);
+            if (!checks.yQuanDemoVisibleToAnonymous) throw new Error("The public Y Quan demo is missing for an anonymous visitor.");
             if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
             await page.screenshot({ path: `qa-game-hub/home-${width}.png`, fullPage: true });
             await page.close();
           }
           await browser.close();
           EOF
-      - name: Verify admin preview gating and deterministic patient answers
+      - name: Verify public Y Quan demo and deterministic patient answers
         env:
           PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
         run: |
           node --input-type=module <<'EOF'
           import { chromium } from "playwright";
           const browser = await chromium.launch({ headless: true });
-          const anonymous = await browser.newPage();
-          await anonymous.goto(`${process.env.PREVIEW_URL}/y-quan-practice/`, { waitUntil: "domcontentloaded" });
-          await anonymous.getByRole("heading", { name: "Đăng nhập Admin" }).waitFor({ timeout: 15000 });
-          await anonymous.getByLabel("Email HIU TMC").waitFor();
-          await anonymous.getByLabel("Mật khẩu").waitFor();
-          const admin = anonymous;
-          const writes = [];
-          admin.on("request", request => {
-            const url = request.url();
-            const expectedPasswordGrant = url.includes("/auth/v1/token?grant_type=password");
-            if (request.method() !== "GET" && url.includes("supabase.co") && !expectedPasswordGrant) writes.push(url);
+          const demo = await browser.newPage();
+          const supabaseRequests = [];
+          demo.on("request", request => {
+            if (request.url().includes("supabase.co")) supabaseRequests.push(request.url());
           });
-          await admin.route(url => url.href.includes("/auth/v1/token") && url.searchParams.get("grant_type") === "password", route => route.fulfill({
-            status: 200, contentType: "application/json",
-            body: JSON.stringify({ access_token: "preview-token", refresh_token: "preview-refresh", expires_in: 3600, expires_at: Math.floor(Date.now() / 1000) + 3600 })
-          }));
-          await admin.route("https://gzmpnsrwqjpsbklyflqr.supabase.co/auth/v1/user", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ id: "preview-auth-user", app_metadata: { member_id: "synthetic-admin-preview", role: "admin" } }) }));
-          await admin.getByLabel("Email HIU TMC").fill("admin@example.com");
-          await admin.getByLabel("Mật khẩu").fill("preview-test-password");
-          await admin.getByRole("button", { name: /ĐĂNG NHẬP ADMIN/ }).click();
-          await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
-          await admin.getByText("ADMIN ĐÃ XÁC MINH").waitFor({ timeout: 15000 });
-          await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
-          await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).click();
-          await admin.getByRole("button", { name: /VÀO PHÒNG KHÁM/ }).click();
-          await admin.getByRole("button", { name: /Cơ thể thường thấy nóng hay lạnh/ }).click();
-          await admin.getByText("Hay sợ lạnh, thích ấm.").waitFor();
-          await admin.locator('input[name="question"]').fill("Hãy kê thuốc gì?");
-          await admin.getByRole("button", { name: "Gửi" }).click();
-          await admin.getByText("Thông tin này chưa có trong ca mô phỏng.").waitFor();
-          if (writes.length) throw new Error(`Preview attempted a Supabase write: ${writes.join(", ")}`);
-          await admin.screenshot({ path: "qa-game-hub/y-quan-admin-preview.png", fullPage: true });
+          await demo.goto(process.env.PREVIEW_URL + "/y-quan-practice/", { waitUntil: "domcontentloaded" });
+          await demo.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
+          await demo.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).click();
+          await demo.getByRole("button", { name: /VÀO PHÒNG KHÁM/ }).click();
+          await demo.getByRole("button", { name: /Cơ thể thường thấy nóng hay lạnh/ }).click();
+          await demo.getByText("Hay sợ lạnh, thích ấm.").waitFor();
+          await demo.locator('input[name="question"]').fill("Hãy kê thuốc gì?");
+          await demo.getByRole("button", { name: "Gửi" }).click();
+          await demo.getByText("Thông tin này chưa có trong ca mô phỏng.").waitFor();
+          if (supabaseRequests.length) throw new Error("Public Y Quan demo unexpectedly called Supabase: " + supabaseRequests.join(", "));
+          await demo.screenshot({ path: "qa-game-hub/y-quan-public-demo.png", fullPage: true });
           await browser.close();
           EOF
       - name: Upload gated preview screenshots

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Y_QUAN_CASE } from '../src/games/y-quan-practice/case.js';
 import { askFromCase, expireInvitation, gradeSession, isPlayableCase, leaderboardAverage, starCredits, transitionDoctorState, transitionSession } from '../src/games/y-quan-practice/domain.js';
-import { isGameHubAdmin } from '../src/auth/roles.js';
+import { renderWorldMap } from '../src/components/world-map.js';
 
 const at = new Date('2026-09-25T10:00:00.000Z');
 function session(overrides = {}) {
@@ -75,13 +75,12 @@ test('the patient fixture contains fictional, non-identifying fields and no pres
   assert.equal(Y_QUAN_CASE.feedback.learningNote.includes('cần giảng viên'), true);
 });
 
-test('only trusted admin role labels expose the preview tile', () => {
-  assert.equal(isGameHubAdmin({ role: 'ADMIN' }), true);
-  assert.equal(isGameHubAdmin({ role: 'super_admin' }), true);
-  assert.equal(isGameHubAdmin({ role: 'member' }), false);
-  assert.equal(isGameHubAdmin(null), false);
+test('Y Quan demo is available from the Hub without signing in', () => {
+  const html = renderWorldMap(null, null, false, null);
+  assert.match(html, /data-place-id="y-quan-demo"/);
+  assert.ok(html.includes('href="/y-quan-practice/">Mở bản demo'));
+  assert.match(html, /Không cần đăng nhập/);
 });
-
 test('doctor presence transitions are explicit and reject impossible jumps', () => {
   assert.equal(transitionDoctorState('OFFLINE', 'AVAILABLE'), 'AVAILABLE');
   assert.equal(transitionDoctorState('AVAILABLE', 'AWAY'), 'AWAY');

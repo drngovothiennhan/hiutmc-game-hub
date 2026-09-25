@@ -6,17 +6,3 @@
 @media(max-width:380px){.yq-brand b{font-size:9px}.yq-admin{font-size:7px}.yq-intro h1{font-size:42px}.yq-guards{gap:7px;font-size:9px}.yq-case b{font-size:13px}.yq-voice{gap:4px}.yq-voice button,.yq-voice select{font-size:8px;padding:5px}.yq-mobile-switch button{font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
-.yq-login-page{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 88% 11%,rgba(207,223,158,.27),transparent 26rem),#f5f6f0}
-.yq-login-card{width:min(470px,100%);padding:clamp(24px,6vw,42px);border:1px solid var(--line);border-radius:24px;background:var(--paper);box-shadow:var(--shadow)}
-.yq-login-card>.yq-block-icon{margin:0 auto 18px}
-.yq-login-card>.yq-eyebrow{text-align:center}
-.yq-login-card h1{font:700 clamp(28px,6vw,38px)/1.12 Manrope,sans-serif;letter-spacing:-.04em;text-align:center;margin:14px 0}
-.yq-login-card>p{text-align:center;color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 22px}
-.yq-login-error{padding:11px 13px;border:1px solid #edc7bc;background:#fff3ee;border-radius:10px;color:#934735;font-size:12px;line-height:1.5;margin:0 0 16px}
-#yq-admin-login{display:grid;gap:14px}
-#yq-admin-login label{display:grid;gap:7px;color:#506354;font-size:11px;font-weight:700}
-#yq-admin-login input{width:100%;min-height:46px;border:1px solid #d7e0d3;border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink);font-size:14px}
-#yq-admin-login input:focus{border-color:#83a757}
-.yq-login-submit{width:100%;margin-top:4px}
-.yq-login-card>.yq-link{margin:12px auto 0}
-.yq-login-note{display:block;text-align:center;color:#899287;font-size:10px;line-height:1.5;margin:10px auto 0;max-width:310px}
