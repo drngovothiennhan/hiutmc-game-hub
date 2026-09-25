@@ -97,6 +97,7 @@ jobs:
               return {
                 viewport: document.documentElement.clientWidth,
                 pageWidth: document.documentElement.scrollWidth,
+                shellDisplay: getComputedStyle(document.querySelector(".app-shell")).display,
                 titleWidth: title?.clientWidth,
                 titleScrollWidth: title?.scrollWidth,
                 introWidth: intro?.clientWidth,
@@ -107,6 +108,7 @@ jobs:
                 gardenLocked: Boolean(document.querySelector('[data-place-id="garden-continuation"] .place-action-disabled')) && !document.querySelector('[data-place-id="garden-continuation"] a[href="#/garden-continuation"]'),
               };
             });
+            if (checks.shellDisplay !== "flex") throw new Error(`Game Hub shell CSS did not load at ${width}px: ${JSON.stringify(checks)}`);
             if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
             if (!checks.gardenLocked) throw new Error(`Game Hub Garden must stay locked without a verified receipt.`);
             if (!checks.adminTileHiddenForAnonymous) throw new Error(`The admin preview tile leaked to an anonymous user.`);
