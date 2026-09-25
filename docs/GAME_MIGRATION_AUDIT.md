@@ -121,3 +121,20 @@ Read-only live definitions verified:
 
 - **Rollback:** this documentation-only commit can be reverted; the prior Hub preview remains immutable. There are no Study OS, Supabase, production, or DNS changes to roll back.
 - **Next:** close the G2 SSO/responsive smoke gap, establish a safe G3 integration test path, then extract the existing Garden runtime and dependencies into the Hub without changing its RPC or gameplay contract. Keep the existing Study OS runtime and saves untouched.
+
+
+## G2 checkpoint amendment — 2026-09-25
+
+This amendment supersedes the earlier G2 verification commit and updates the deployment evidence after fixing the Cloudflare Pages project-existence check.
+
+- **Branch:** `g2/game-hub-shell`
+- **Verified implementation commit:** `4f27f5ce0430b616f39bd235ec1f7882cd3bf3af`
+- **CI:** Game Hub CI passed: [push run 36098534892](https://github.com/drngovothiennhan/hiutmc-game-hub/actions/runs/36098534892); PR CI passed: [run 36098531643](https://github.com/drngovothiennhan/hiutmc-game-hub/actions/runs/36098531643).
+- **Cloudflare Pages:** [preview run 36098531645](https://github.com/drngovothiennhan/hiutmc-game-hub/actions/runs/36098531645) passed, including dependency install, tests, build, existing Pages project check, and preview deploy. Immutable URL: `https://1c12afb8.hiutmc-game-hub.pages.dev`; branch alias `https://game-hub-shell.hiutmc-game-hub.pages.dev` also rendered the shell in the browser.
+- **Browser smoke:** page title and World Map content rendered; at the browser's 1363px viewport, document/body width matched the viewport (no horizontal overflow). This is a desktop smoke only, not a mobile/tablet responsive test.
+- **Authentication:** preview shows the unauthenticated state. Real HIU TMC SSO/member-session flow remains unverified.
+- **Study OS and data:** no Study OS changes, Supabase writes/migrations, production deployment, domain, or DNS changes.
+- **G2 gate:** remains open pending real-member SSO smoke and tablet/mobile responsive smoke.
+- **G3 gate:** gameplay extraction and save-parity QA have not started; the isolated test identity/rollback harness blocker remains as recorded above.
+
+**Next:** close remaining G2 verification gaps and establish isolated Garden integration testing before implementing the G3 runtime extraction.
