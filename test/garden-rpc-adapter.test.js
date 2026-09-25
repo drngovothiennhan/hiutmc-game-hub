@@ -11,7 +11,7 @@ function installStorage(t, session) {
 }
 
 test('Garden RPC adapter reuses the verified Hub session without placing it in URL or payload', async t => {
-  installStorage(t, { accessToken: 'fixture-access-token' });
+  installStorage(t, { accessToken: 'fixture-access-token', refreshToken: 'fixture-refresh-token', expiresAt: Date.now() + 3600000 });
   const originalFetch = globalThis.fetch;
   let request;
   globalThis.fetch = async (url, init) => {
@@ -39,4 +39,33 @@ test('Garden RPC adapter fails closed when the verified Hub session is absent', 
   assert.equal(result.data, null);
   assert.ok(result.error instanceof Error);
   assert.match(result.error.message, /Phiên đăng nhập/);
+});
+
+
+test('parallel Garden RPCs share one safe token refresh and store the rotated session', async t => {
+  let stored = { accessToken: 'expired-access-token', refreshToken: 'old-refresh-token', expiresAt: Date.now() - 1, member: { id: 'fixture-member' } };
+  const originalStorage = globalThis.localStorage;
+  globalThis.localStorage = {
+    getItem: key => key === SESSION_STORAGE_KEY ? JSON.stringify(stored) : null,
+    setItem: (key, value) => { if (key === SESSION_STORAGE_KEY) stored = JSON.parse(value); }
+  };
+  t.after(() => { globalThis.localStorage = originalStorage; });
+  const originalFetch = globalThis.fetch;
+  let refreshes = 0;
+  const rpcTokens = [];
+  globalThis.fetch = async (url, init) => {
+    if (String(url).includes('/auth/v1/token?grant_type=refresh_token')) {
+      refreshes += 1;
+      return { ok: true, json: async () => ({ access_token: 'rotated-access-token', refresh_token: 'rotated-refresh-token', expires_at: Math.floor((Date.now() + 3600000) / 1000) }) };
+    }
+    rpcTokens.push(init.headers.Authorization);
+    return { ok: true, json: async () => [] };
+  };
+  t.after(() => { globalThis.fetch = originalFetch; });
+
+  await Promise.all([gardenSupabase.rpc('herb_garden_state_v3'), gardenSupabase.rpc('herb_garden_inventory_v3')]);
+  assert.equal(refreshes, 1);
+  assert.deepEqual(rpcTokens, ['Bearer rotated-access-token', 'Bearer rotated-access-token']);
+  assert.equal(stored.refreshToken, 'rotated-refresh-token');
+  assert.deepEqual(stored.member, { id: 'fixture-member' });
 });
