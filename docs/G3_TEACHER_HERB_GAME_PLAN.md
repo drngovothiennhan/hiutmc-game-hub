@@ -39,9 +39,9 @@ The Game Hub migration and client flow are committed on PR #3. The migration has
 |---|---|---|
 | G3.1 — completion contract | Confirm the 9/9 server-unlocked predicate and read existing source schema. | Exact predicate and columns recorded; no gameplay writes. Complete. |
 | G3.2 — entitlement vertical slice | Add the private receipt store, authenticated RPC, and fail-closed Game Hub client gate. | Synthetic isolated DB tests pass for 9/9, locked 8/9, replay, trusted claim, and grants. Complete in QA. |
-| G3.3 — sequel shell | Add main-page sequel card and separate route; locked state points to existing Study OS prerequisite. Build richer visual direction in Game Hub. | Responsive preview; locked by default; no Garden RPC/table calls. |
-| G3.4 — sequel experience | Build the detailed sequel from approved scenarios and give it a separate Game Hub save only after the content and data contracts are approved. | Gameplay tests run entirely in isolated storage; no Garden copy. In progress. |
-| G3.5 — sample QA | Verify the designated QA member's completion through the safe authenticated UI and exercise only the sequel in isolated storage. | Positive/negative unlock checks and before/after sequel state evidence; Garden state unchanged. |
+| G3.3 — gated sequel shell | Add the main-page card, a receipt-gated route, and recheck control in Game Hub. | CI and responsive preview pass; locked by default; no Garden runtime/data calls. Complete as a shell only; this is not yet playable gameplay. |
+| G3.4 — sequel experience | Build detailed play from the sequel's approved learning scenarios and store its state separately in Game Hub. | Blocked until the sequel's actual content/rules are specified and approved; the current Garden scenarios explicitly do not authorize copying their gameplay into the sequel. |
+| G3.5 — sample QA | Verify the designated member's genuine 9/9 completion and play the sequel using isolated data. | Blocked: the verified sample snapshot has no Garden rows; shared production schema has not been changed. Do not manufacture a positive result. |
 
 ## Acceptance and release boundary
 
