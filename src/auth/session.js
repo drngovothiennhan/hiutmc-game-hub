@@ -53,6 +53,24 @@ function saveSession(session) {
   localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
 }
 
+let validAccessTokenRequest;
+export function getValidAccessToken() {
+  if (!validAccessTokenRequest) {
+    validAccessTokenRequest = (async () => {
+      const session = readStoredSession();
+      if (!session) return '';
+      try {
+        const valid = await refreshIfNeeded(session);
+        if (valid !== session) saveSession({ ...session, ...valid });
+        return valid.accessToken;
+      } catch {
+        return '';
+      }
+    })().finally(() => { validAccessTokenRequest = null; });
+  }
+  return validAccessTokenRequest;
+}
+
 export function buildLegacySsoUrl(href, session) {
   const target = new URL(href);
   if (session?.accessToken && session?.refreshToken) {
