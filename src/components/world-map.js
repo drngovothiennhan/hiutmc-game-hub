@@ -12,7 +12,7 @@ function placeCard(place, session, entitlement, authenticated) {
     ? 'Study OS · hiện tại'
     : sequelUnlocked
       ? 'Đã xác minh · đã mở khóa'
-      : 'Khóa · cần hoàn thành Gia Viên';
+      : lockedSequel ? 'Khóa · cần hoàn thành Gia Viên' : 'Sắp mở';
   const href = isLaunchable(place) ? buildLegacySsoUrl(place.href, session) : '';
   const action = isLaunchable(place)
     ? `<a class="place-action" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">Mở runtime Study OS <span aria-hidden="true">↗</span></a>`
@@ -20,7 +20,11 @@ function placeCard(place, session, entitlement, authenticated) {
       ? '<a class="place-action" href="#/teacher-herb">Vào Giáo viên Dược thảo <span aria-hidden="true">→</span></a>'
       : pending
         ? '<span class="place-action place-action-disabled" role="status">Đang xác minh điều kiện…</span>'
-        : '<span class="place-action place-action-disabled">Mở sau khi hoàn thành đủ 9 ô Gia Viên</span>';
+        : lockedSequel && authenticated
+          ? '<button class="place-action place-action-button" id="teacher-herb-retry" type="button">Kiểm tra điều kiện lại</button>'
+          : lockedSequel
+            ? '<span class="place-action place-action-disabled">Mở sau khi hoàn thành đủ 9 ô Gia Viên</span>'
+            : '<span class="place-action place-action-disabled">Sắp mở</span>';
   const cardClass = legacy ? '' : sequelUnlocked ? 'place-unlocked' : place.state === 'planned' ? 'place-planned' : 'place-locked';
   return `<article class="place-card ${cardClass}" data-place-id="${escapeHtml(place.id)}"><div class="place-top"><span class="place-emblem" aria-hidden="true">${escapeHtml(place.icon)}</span><span class="tag ${legacy || sequelUnlocked ? 'tag-live' : 'tag-muted'}">${status}</span></div><p class="place-area">${escapeHtml(place.area)}</p><h3>${escapeHtml(place.title)}</h3><p class="place-description">${escapeHtml(place.description)}</p>${action}</article>`;
 }
