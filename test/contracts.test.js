@@ -16,22 +16,22 @@ test('only explicitly connected legacy games are launchable', () => {
   const active = worldMap.filter(isLaunchable).map(place => place.id);
   assert.deepEqual(active, ['garden', 'clinic']);
   assert.ok(worldMap.filter(place => place.state !== 'available-legacy').every(place => !isLaunchable(place)));
-  const sequel = worldMap.find(place => place.id === 'teacher-herb');
-  assert.equal(sequel.state, 'locked-sequel');
-  assert.equal(sequel.href, '/teacher-herb');
+  const continuation = worldMap.find(place => place.id === 'garden-continuation');
+  assert.equal(continuation.state, 'locked-continuation');
+  assert.equal(continuation.href, '/garden-continuation');
 });
 
-test('sequel card stays locked without a verified receipt and opens only after RPC proof', () => {
+test('Garden continuation stays locked without the one-time receipt and opens after RPC proof', () => {
   const locked = renderWorldMap(null, null, true);
   assert.match(locked, /Khóa · cần hoàn thành Gia Viên/);
-  assert.doesNotMatch(locked, /href="#\/teacher-herb"/);
+  assert.doesNotMatch(locked, /href="#\/garden-continuation"/);
   const unlocked = renderWorldMap(null, {
     eligible: true,
     receiptId: '123e4567-e89b-42d3-a456-426614174000',
     grantedAt: '2026-09-25T11:00:00Z'
   }, true);
   assert.match(unlocked, /Đã xác minh · đã mở khóa/);
-  assert.match(unlocked, /href="#\/teacher-herb"/);
+  assert.match(unlocked, /href="#\/garden-continuation"/);
 });
 
 test('profile display escapes untrusted identity fields', () => {

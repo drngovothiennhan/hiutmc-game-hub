@@ -3,15 +3,14 @@ import { renderProfile } from '../profile/profile.js';
 import { renderSkillMatrix } from '../skill-matrix/skill-matrix.js';
 import { renderAchievements } from '../achievements/achievements.js';
 import { renderWorldMap } from './world-map.js';
-import { renderTeacherHerbIntro } from '../games/teacher-herb-intro.js';
 
 export function renderShell({ member, session = null, entitlement = null, view = 'world', authError = null, loading = false }) {
   const content = view === 'skills'
     ? renderSkillMatrix()
     : view === 'achievements'
       ? renderAchievements()
-      : view === 'teacher-herb'
-        ? renderTeacherHerbIntro()
+      : view === 'garden-continuation'
+        ? '<section class="garden-continuation-intro"><p class="eyebrow">BIÊN NHẬN MỞ KHÓA ĐÃ XÁC MINH</p><h1>Gia Viên Dược Thảo · Khu vườn mở rộng</h1><p>Tiến trình trước đó tại Study OS được giữ nguyên. Bạn đang tiếp tục Gia Viên trong Game Hub.</p><div id="garden-runtime-root"></div></section>'
         : renderWorldMap(session, entitlement, Boolean(member));
   const account = member
     ? `<button class="account-button" id="logout-button" type="button">Đăng xuất</button>`

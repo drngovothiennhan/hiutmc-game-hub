@@ -1,7 +1,8 @@
 import { bootstrapSession, logout } from './auth/session.js';
 import { readRoute } from './game-engine/router.js';
 import { renderShell } from './components/shell.js';
-import { claimOrGetTeacherHerbEntitlement, isVerifiedTeacherHerbEntitlement } from './entitlements/teacher-herb.js';
+import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './entitlements/garden-unlock.js';
+import { mountGarden, unmountGarden } from './games/garden-mount.js';
 
 const root = document.querySelector('#app');
 let currentMember = null;
@@ -12,8 +13,8 @@ let authError = null;
 function render() {
   const route = readRoute();
   const requestedView = route[0];
-  const view = requestedView === 'teacher-herb' && isVerifiedTeacherHerbEntitlement(currentEntitlement)
-    ? 'teacher-herb'
+  const view = requestedView === 'garden-continuation' && isVerifiedGardenUnlockReceipt(currentEntitlement)
+    ? 'garden-continuation'
     : requestedView === 'skills' || requestedView === 'achievements' ? requestedView : 'world';
   root.innerHTML = renderShell({
     member: currentMember,
@@ -23,11 +24,14 @@ function render() {
     authError
   });
   root.setAttribute('aria-busy', 'false');
-  root.querySelector('#teacher-herb-retry')?.addEventListener('click', async () => {
+  unmountGarden();
+  const gardenRoot = root.querySelector('#garden-runtime-root');
+  if (gardenRoot && currentMember && isVerifiedGardenUnlockReceipt(currentEntitlement)) mountGarden(gardenRoot, currentMember);
+  root.querySelector('#garden-unlock-retry')?.addEventListener('click', async () => {
     if (!currentSession) return;
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
-    currentEntitlement = await claimOrGetTeacherHerbEntitlement(currentSession);
+    currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
     render();
   });
   root.querySelector('#logout-button')?.addEventListener('click', async () => {
@@ -50,7 +54,7 @@ bootstrapSession().then(async result => {
   if (currentMember && currentSession) {
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
-    currentEntitlement = await claimOrGetTeacherHerbEntitlement(currentSession);
+    currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
     render();
   }
 }).catch(error => {

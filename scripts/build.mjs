@@ -1,10 +1,20 @@
 import { cp, mkdir, rm } from 'node:fs/promises';
+import { build } from 'esbuild';
 
 await rm('dist', { recursive: true, force: true });
-await mkdir('dist', { recursive: true });
+await mkdir('dist/assets', { recursive: true });
 await cp('index.html', 'dist/index.html');
 await cp('manifest.webmanifest', 'dist/manifest.webmanifest');
 await cp('service-worker.js', 'dist/service-worker.js');
-await cp('src', 'dist/src', { recursive: true });
 await cp('public', 'dist', { recursive: true });
-console.log('Static Hub shell built to dist/.');
+await build({
+  entryPoints: ['src/app.js'],
+  bundle: true,
+  format: 'esm',
+  target: ['es2022'],
+  outfile: 'dist/assets/app.js',
+  loader: { '.tsx': 'tsx', '.css': 'css' },
+  assetNames: 'assets/[name]-[hash]',
+  minify: true
+});
+console.log('Game Hub shell and isolated Garden runtime built to dist/.');
