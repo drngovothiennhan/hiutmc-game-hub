@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, g2/game-hub-shell, g3/game-hub-intro-ux]
   pull_request:
-    branches: [main]
+    branches: [main, g2/game-hub-shell]
 
 permissions:
   contents: read
