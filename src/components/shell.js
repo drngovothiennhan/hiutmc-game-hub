@@ -23,3 +23,17 @@ export function renderShell({ member, session = null, entitlement = null, garden
 function escapeText(value) {
   return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 }
+
+export function renderAccessGate({ member = null, loading = false, authError = null } = {}) {
+  const heading = loading ? 'Đang xác minh quyền truy cập' : member ? 'Khu vực nội bộ' : 'Đăng nhập để tiếp tục';
+  const message = loading
+    ? 'Game Hub đang kiểm tra phiên HIU TMC của bạn.'
+    : member
+      ? 'Game Hub hiện chỉ dành cho admin, mod và smod.'
+      : 'Hãy đăng nhập qua hệ sinh thái HIU TMC bằng tài khoản được cấp quyền.';
+  const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
+  const action = member
+    ? '<button class="account-button" id="logout-button" type="button">Đăng xuất</button>'
+    : `<a class="account-button" href="${ECOSYSTEM_HOME}" rel="noopener">Đăng nhập HIU TMC ↗</a>`;
+  return `<main class="access-gate"><section class="access-gate-card" role="status"><p class="eyebrow">HIU TMC GAME HUB</p><h1>${heading}</h1><p>${message}</p>${alert}<div class="access-gate-action">${action}</div></section></main>`;
+}
