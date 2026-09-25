@@ -2,7 +2,7 @@ name: Cloudflare Pages Preview
 
 on:
   push:
-    branches: [g2/game-hub-shell]
+    branches: [g2/game-hub-shell, g3/game-hub-intro-ux]
   workflow_dispatch:
 
 permissions:
@@ -20,7 +20,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CF_PAGES_PROJECT: hiutmc-game-hub
-      CF_PAGES_BRANCH: game-hub-shell
+      CF_PAGES_BRANCH: game-hub-intro-ux
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -51,4 +51,4 @@ jobs:
             exit 1
           fi
       - name: Deploy G2 branch as a Cloudflare Pages preview
-        run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub shell preview"
+        run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub intro UX preview"
