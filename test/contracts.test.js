@@ -4,6 +4,7 @@ import { readRoute, writeRoute } from '../src/game-engine/router.js';
 import { isLaunchable, worldMap } from '../src/data/world-map.js';
 import { escapeHtml } from '../src/profile/profile.js';
 import { buildLegacySsoUrl, SESSION_STORAGE_KEY } from '../src/auth/session.js';
+import { renderWorldMap } from '../src/components/world-map.js';
 
 test('router defaults to world map and parses supported views', () => {
   assert.deepEqual(readRoute(''), ['world']);
@@ -18,6 +19,19 @@ test('only explicitly connected legacy games are launchable', () => {
   const sequel = worldMap.find(place => place.id === 'teacher-herb');
   assert.equal(sequel.state, 'locked-sequel');
   assert.equal(sequel.href, '/teacher-herb');
+});
+
+test('sequel card stays locked without a verified receipt and opens only after RPC proof', () => {
+  const locked = renderWorldMap(null, null, true);
+  assert.match(locked, /Khóa · cần hoàn thành Gia Viên/);
+  assert.doesNotMatch(locked, /href="#\/teacher-herb"/);
+  const unlocked = renderWorldMap(null, {
+    eligible: true,
+    receiptId: '123e4567-e89b-42d3-a456-426614174000',
+    grantedAt: '2026-09-25T11:00:00Z'
+  }, true);
+  assert.match(unlocked, /Đã xác minh · đã mở khóa/);
+  assert.match(unlocked, /href="#\/teacher-herb"/);
 });
 
 test('profile display escapes untrusted identity fields', () => {
