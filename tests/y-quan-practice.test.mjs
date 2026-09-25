@@ -107,3 +107,18 @@ test('Y Quan clinic scene is included in the lobby, consultation, and offline ca
   assert.equal(image.subarray(0, 4).toString(), 'RIFF');
   assert.equal(image.subarray(8, 12).toString(), 'WEBP');
 });
+
+
+test('doctor portraits are selectable clinic-owner avatars and never serve as patient avatars', async () => {
+  const app = await readFile(new URL('../public/y-quan-practice/app.js', import.meta.url), 'utf8');
+  assert.ok(app.includes('ASSET_DOCTOR_MALE'));
+  assert.ok(app.includes('ASSET_DOCTOR_FEMALE'));
+  assert.ok(app.includes('data-action="select-doctor"'));
+  assert.ok(app.includes('doctorAvatarId:selectedDoctorAvatarId'));
+  assert.ok(app.includes("member?.role==='patient'"));
+  const chat = app.slice(app.indexOf('function renderChat'), app.indexOf('function renderExam'));
+  assert.ok(chat.includes('renderPatientAvatar()'));
+  assert.ok(chat.includes('currentDoctorAvatar()'));
+  assert.doesNotMatch(chat, /ASSET_DOCTOR_(?:MALE|FEMALE)/);
+  assert.doesNotMatch(chat, /ASSET_FEMALE_CHARACTER/);
+});
