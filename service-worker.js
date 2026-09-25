@@ -1,7 +1,7 @@
-const CACHE_NAME = 'hiutmc-game-hub-shell-v1';
+const CACHE_NAME = 'hiutmc-game-hub-shell-v2';
 const CORE = [
   '/', '/manifest.webmanifest', '/service-worker.js', '/icons/game-hub.svg',
-  '/src/app.js', '/src/config.js', '/src/styles.css',
+  '/assets/app.js', '/assets/app.css', '/src/config.js', '/src/styles.css', '/garden-decor-sprite.svg',
   '/src/auth/session.js', '/src/game-engine/router.js',
   '/src/components/shell.js', '/src/components/world-map.js',
   '/src/data/world-map.js', '/src/profile/profile.js',
