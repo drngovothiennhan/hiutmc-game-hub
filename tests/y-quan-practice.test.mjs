@@ -100,6 +100,7 @@ test('Y Quan clinic scene is included in the lobby, consultation, and offline ca
   ]);
   assert.ok(app.includes('/assets/y-quan-clinic-room.webp'));
   assert.match(app, /yq-clinic-scene/);
+  assert.match(app, /class="yq-intro-copy"/);
   assert.match(app, /yq-room-banner/);
   assert.match(serviceWorker, /hiutmc-game-hub-shell-v4/);
   assert.ok(serviceWorker.includes('/assets/y-quan-clinic-room.webp'));
