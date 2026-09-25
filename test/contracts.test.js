@@ -22,14 +22,14 @@ test('only explicitly connected legacy games are launchable', () => {
 });
 
 test('Garden continuation stays locked without the one-time receipt and opens after RPC proof', () => {
-  const locked = renderWorldMap(null, null, true);
+  const locked = renderWorldMap(null, null, true, true);
   assert.match(locked, /Khóa · cần hoàn thành Gia Viên/);
   assert.doesNotMatch(locked, /href="#\/garden-continuation"/);
   const unlocked = renderWorldMap(null, {
     eligible: true,
     receiptId: '123e4567-e89b-42d3-a456-426614174000',
     grantedAt: '2026-09-25T11:00:00Z'
-  }, true);
+  }, true, true);
   assert.match(unlocked, /Đã xác minh · đã mở khóa/);
   assert.match(unlocked, /href="#\/garden-continuation"/);
 });
