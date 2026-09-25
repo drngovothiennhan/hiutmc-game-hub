@@ -26,3 +26,16 @@
   .world-intro p:not(.eyebrow){max-width:100%;overflow-wrap:anywhere}
   .place-grid{grid-template-columns:1fr}
 }
+
+
+/* G3 one-time unlock and separate sequel entrance. */
+.place-unlocked{border-color:#c9ad72;background:linear-gradient(145deg,#fffdf6,#f5f1e5);box-shadow:0 8px 24px rgba(126,99,51,.08)}
+.place-unlocked .place-emblem{background:#efe5ca;color:#775a2e}
+.teacher-herb-intro{display:grid;gap:16px;padding:clamp(22px,4vw,42px);background:linear-gradient(145deg,#fbf9f2,#f3eddd);border-color:#d7c79f}
+.teacher-herb-intro h1{margin:0;color:var(--green);font:600 clamp(28px,4vw,42px)/1.15 'Noto Serif',serif}
+.teacher-herb-intro>p:not(.eyebrow){max-width:680px;line-height:1.75;color:#52645a;font-size:14px}
+.teacher-herb-status{display:flex;align-items:center;gap:14px;padding:16px;border:1px solid #e1d5b8;border-radius:14px;background:rgba(255,255,255,.58)}
+.teacher-herb-status>div{display:grid;gap:5px}
+.teacher-herb-status strong{font-size:13px;color:var(--green)}
+.teacher-herb-status span:not(.teacher-herb-seal){font-size:11px;line-height:1.5;color:var(--muted)}
+.teacher-herb-seal{width:46px;height:46px;display:grid;place-items:center;border:1px solid #bd9a5b;border-radius:50%;color:#8d6c36;font:600 23px 'Noto Serif',serif;flex:none}
