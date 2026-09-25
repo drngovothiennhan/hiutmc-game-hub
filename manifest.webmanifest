@@ -1,0 +1,12 @@
+{
+  "id": "/",
+  "name": "HIU TMC Game Hub — Y Học Đường",
+  "short_name": "HIU Game Hub",
+  "lang": "vi",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f1e7",
+  "theme_color": "#184c3b",
+  "icons": [{ "src": "/icons/game-hub.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
