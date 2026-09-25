@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { Y_QUAN_CASE } from '../src/games/y-quan-practice/case.js';
 import { askFromCase, expireInvitation, gradeSession, isPlayableCase, leaderboardAverage, starCredits, transitionDoctorState, transitionSession } from '../src/games/y-quan-practice/domain.js';
@@ -88,4 +89,20 @@ test('doctor presence transitions are explicit and reject impossible jumps', () 
   assert.equal(transitionDoctorState('IN_CONSULTATION', 'RECOVERING'), 'RECOVERING');
   assert.equal(transitionDoctorState('RECOVERING', 'IN_CONSULTATION'), 'IN_CONSULTATION');
   assert.throws(() => transitionDoctorState('OFFLINE', 'IN_CONSULTATION'), /Invalid doctor state transition/);
+});
+
+
+test('Y Quan clinic scene is included in the lobby, consultation, and offline cache', async () => {
+  const [app, serviceWorker, image] = await Promise.all([
+    readFile(new URL('../public/y-quan-practice/app.js', import.meta.url), 'utf8'),
+    readFile(new URL('../service-worker.js', import.meta.url), 'utf8'),
+    readFile(new URL('../public/assets/y-quan-clinic-room.webp', import.meta.url))
+  ]);
+  assert.match(app, /\\/assets\\/y-quan-clinic-room\\.webp/);
+  assert.match(app, /yq-clinic-scene/);
+  assert.match(app, /yq-room-banner/);
+  assert.match(serviceWorker, /hiutmc-game-hub-shell-v4/);
+  assert.match(serviceWorker, /\\/assets\\/y-quan-clinic-room\\.webp/);
+  assert.equal(image.subarray(0, 4).toString(), 'RIFF');
+  assert.equal(image.subarray(8, 12).toString(), 'WEBP');
 });
