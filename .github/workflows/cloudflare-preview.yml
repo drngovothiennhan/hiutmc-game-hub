@@ -3,6 +3,8 @@ name: Cloudflare Pages Preview
 on:
   push:
     branches: [g2/game-hub-shell, g3/game-hub-intro-ux]
+  pull_request:
+    branches: [g2/game-hub-shell]
   workflow_dispatch:
 
 permissions:
@@ -81,10 +83,14 @@ jobs:
                 introScrollWidth: intro?.scrollWidth,
                 columns: getComputedStyle(map).gridTemplateColumns,
                 studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
+                gardenLocked: Boolean(document.querySelector('[data-place-id="garden-continuation"] .place-action-disabled')) && !document.querySelector('[data-place-id="garden-continuation"] a[href="#/garden-continuation"]'),
               };
             });
             if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) {
               throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
+            }
+            if (!checks.gardenLocked) {
+              throw new Error(`Game Hub Garden must stay locked without a verified receipt.`);
             }
             if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) {
               throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
@@ -94,10 +100,10 @@ jobs:
           }
           await browser.close();
           EOF
-      - name: Upload responsive preview screenshots
+      - name: Upload gated responsive preview screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: game-hub-intro-responsive-preview
+          name: game-hub-garden-responsive-preview
           path: qa-game-hub
           if-no-files-found: error
           retention-days: 7
