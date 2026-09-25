@@ -75,3 +75,8 @@ No G3 acceptance transaction was run during G1. The production database was not 
 ## G2 shell boundary update — 2026-09-25
 
 The separate Game Hub repository has now been created. Its shell consumes an incoming HIU TMC Supabase session and uses the server-issued `app_metadata.member_id`; it does not query `club_members` directly or create Hub credentials. The existing Garden and Y Quán links remain outbound links to the current Study OS runtime, and no game state is read or written by the shell. SSO/CORS and member-session behavior remain unverified until a public preview can be exercised.
+
+
+## G3 direction — 2026-09-25
+
+G3 moves the same Gia Viên Dược Thảo runtime into Game Hub in controlled stages. Study OS continues serving the current runtime until Garden behavior and persistence pass parity checks. Game Hub records one private, idempotent unlock receipt after server verification of all nine unlocked plots. The receipt does not copy or continuously synchronize Garden state. The existing Garden tables, RPCs, save format, rewards, and scenario rules remain authoritative. See `G3_GARDEN_GAME_PLAN.md` and `GARDEN_V7_EXTRACTION_MAP.md`.
