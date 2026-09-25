@@ -3,9 +3,16 @@ import { renderProfile } from '../profile/profile.js';
 import { renderSkillMatrix } from '../skill-matrix/skill-matrix.js';
 import { renderAchievements } from '../achievements/achievements.js';
 import { renderWorldMap } from './world-map.js';
+import { renderTeacherHerbIntro } from '../games/teacher-herb-intro.js';
 
-export function renderShell({ member, session = null, view = 'world', authError = null, loading = false }) {
-  const content = view === 'skills' ? renderSkillMatrix() : view === 'achievements' ? renderAchievements() : renderWorldMap(session);
+export function renderShell({ member, session = null, entitlement = null, view = 'world', authError = null, loading = false }) {
+  const content = view === 'skills'
+    ? renderSkillMatrix()
+    : view === 'achievements'
+      ? renderAchievements()
+      : view === 'teacher-herb'
+        ? renderTeacherHerbIntro()
+        : renderWorldMap(session, entitlement, Boolean(member));
   const account = member
     ? `<button class="account-button" id="logout-button" type="button">Đăng xuất</button>`
     : `<a class="account-button" href="${ECOSYSTEM_HOME}" rel="noopener">HIU TMC</a>`;
