@@ -34,6 +34,6 @@ export function renderAccessGate({ member = null, loading = false, authError = n
   const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
   const action = member
     ? '<button class="account-button" id="logout-button" type="button">Đăng xuất</button>'
-    : `<a class="account-button" href="${ECOSYSTEM_HOME}" rel="noopener">Đăng nhập HIU TMC ↗</a>`;
+    : `<a class="account-button" href="${ECOSYSTEM_HOME}?open=game-hub" rel="noopener">Tiếp tục vào Game Hub ↗</a>`;
   return `<main class="access-gate"><section class="access-gate-card" role="status"><p class="eyebrow">HIU TMC GAME HUB</p><h1>${heading}</h1><p>${message}</p>${alert}<div class="access-gate-action">${action}</div></section></main>`;
 }
