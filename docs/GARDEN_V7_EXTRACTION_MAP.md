@@ -1,8 +1,8 @@
-> **Direction update (2026-09-25):** Historical compatibility map only. G3 no longer extracts Garden V7 into Game Hub. Gia Viên remains in Study OS; Game Hub will host the separate Teacher Herb Game sequel after a verified one-time completion entitlement. See [G3 sequel plan](G3_TEACHER_HERB_GAME_PLAN.md). The details below document existing runtime contracts and must not be read as authorization to copy, call, or change them.
+> **G3 direction (2026-09-25):** Active extraction map for moving the same Gia Viên Dược Thảo runtime into Game Hub in controlled stages. Study OS remains available until parity is accepted. The one-time receipt gates access; Garden saves and RPCs remain authoritative and are not copied. See [G3 plan](G3_GARDEN_GAME_PLAN.md).
 
 # Garden V7 extraction map
 
-**Status:** G3 preparation only. This document maps the existing runtime; it does not claim the game has been migrated.
+**Status:** Source contract verified; Game Hub runtime port is in progress. This document maps Study OS as the behavioral source and does not by itself prove parity.
 **Read-only source:** `drngovothiennhan/yhct-hiu-4-0` `main` at `4282a0e0e3d25d6c387bc98be554abbc79b5d0e4`.
 **Game Hub base:** `g3/garden-runtime-prep`, forked from `g2/game-hub-shell`.
 **Data boundary:** keep the existing Supabase project, member identity and RPC contracts. No schema/RPC edits, direct table writes, generated herb facts, or production game actions.

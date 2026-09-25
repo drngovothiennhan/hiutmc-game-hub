@@ -1,4 +1,4 @@
-> **Direction update (2026-09-25):** These are scenarios for the existing Study OS Garden only. They are a compatibility reference, not the current Game Hub build plan. G3 now builds a distinct sequel unlocked by a verified one-time completion signal; see [G3 sequel plan](G3_TEACHER_HERB_GAME_PLAN.md). Do not copy these actions or rules into the sequel unless separately approved as sequel content.
+> **G3 direction (2026-09-25):** These approved scenarios define the same Gia Viên Dược Thảo experience in Study OS and Game Hub. Preserve them during extraction and compare each flow before any runtime cutover. The receipt gates Game Hub access; it does not authorize new Garden rules.
 
 # Garden to Game Hub — gameplay and learning scenarios
 

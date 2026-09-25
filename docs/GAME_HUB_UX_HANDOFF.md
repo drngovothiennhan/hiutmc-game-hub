@@ -1,23 +1,22 @@
-# Game Hub introduction and layout handoff
+# Game Hub UX handoff — G3 Garden
 
-**Status:** G2 shell brief plus G3 sequel direction, 2026-09-25. This is not a Garden extraction brief.
+**Status:** G3 Garden runtime extraction brief, 2026-09-25.
 
-## Position and navigation
+## Product flow
 
-- Give the Game Hub its own landing page and clear identity: “HIU TMC Game Hub — Bản đồ học thuật”.
-- Keep the primary page hierarchy: introduction → available game locations → member profile/progress → planned locations.
-- Show the new Teacher Herb Game as a sequel card with an authoritative locked/unlocked state. While locked, provide a link to the existing Gia Viên Dược Thảo in Study OS. Do not imply completion or eligibility from browser-only state.
-- After the one-time server-verified completion entitlement is recorded, link to a separate Game Hub sequel route.
-- Use separate direct routes for modules and a consistent top bar with Hub mark, current location, profile/session status, and “Quay lại Game Hub”.
-- Keep the existing Garden V7 route, runtime and saves in Study OS. Keep HIU Y Quán on its existing Study OS runtime pending its separate phase.
+- Keep the existing Gia Viên Dược Thảo route in Study OS available while Game Hub work is in preview.
+- Show the same Garden experience as locked in Game Hub until the server confirms the learner has unlocked plots 1–9 in Study OS.
+- Record one private, idempotent receipt on first eligible entry. The browser cannot submit a member ID or completion flag.
+- After the receipt is verified, open the Gia Viên runtime in Game Hub. It is the same game and uses the existing Garden save format and authoritative RPC behavior.
+- The learner must see an active Garden runtime, not an entitlement receipt page or an empty handoff shell.
 
-## Visual direction
+## Runtime and visual direction
 
-- The sequel should have richer, more detailed visuals and a distinct presentation from Garden V7. Reuse the Game Hub shell, verified identity bridge, responsive foundation, and any source-cleared assets.
-- Do not redraw, restyle or change the existing Garden V7 experience.
-- Do not invent herbs, learning objectives, rewards or gameplay rules. Build those only from an approved sequel scenario.
-- Keep the locked state and next action visible to keyboard and screen-reader users; preserve focus, reduced motion, safe-area insets, and avoid horizontal overflow.
+- Extract `HerbGardenGameV7` and its cleared Garden assets from the current Study OS source. Keep Garden rules, actions, labels, data fields, and rewards aligned with the source.
+- A richer scene may frame the existing board and panels, but must not create separate game rules or duplicate the Garden save.
+- Keep HIU TMC SSO and member identity server-verified. The Hub may use only the trusted `app_metadata.member_id` claim.
+- Maintain responsive behavior at 320, 390, 711, 768, and 1024px widths.
 
-## Release criteria
+## Release boundary
 
-The landing page accurately distinguishes the existing Study OS prerequisite, the locked sequel, and an eligible sequel. The sequel remains inaccessible without a server-confirmed entitlement. The existing Study OS Garden path remains available throughout G3.
+The Study OS runtime remains active until Game Hub passes the scenario comparison and isolated save/reload checks. Do not merge, deploy production, change DNS, or write production Garden data as part of G3 preview work.

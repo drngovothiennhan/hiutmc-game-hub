@@ -67,10 +67,8 @@ Therefore, opening the production Garden UI for a parity check could create or u
 Continue code-only G3 work behind the gated Garden route using the exact V7 component behavior and mocked RPC responses. Keep the Study OS route/runtime untouched. Enable live RPC parity and plant/care/harvest QA only after isolated storage and recovery evidence are recorded.
 
 
-## Direction update — 2026-09-25
+## G3 direction — 2026-09-25
 
-This preflight remains a read-only record of the existing Study OS Garden runtime and its side effects. It is **not** authorization or a plan to extract that runtime into Game Hub. Current G3 direction is the separate sequel and one-time completion entitlement in `docs/G3_TEACHER_HERB_GAME_PLAN.md`. Keep every observation above as a safety constraint: do not call Garden RPCs from Game Hub preview or use this preflight to justify a production read/write.
+This preflight remains the read-only record of the existing Study OS Garden runtime and its side effects. G3 now extracts that same Garden experience into Game Hub after a one-time server-verified unlock receipt. The existing RPCs can have side effects even when their names imply reads; preserve the warnings above and use an isolated dataset for gameplay QA. Do not apply the receipt migration or perform gameplay writes in production as part of this draft PR.
 
-## Next
-
-Complete G3.1 by confirming the learner-facing Garden pass condition and its authoritative evidence from the current Study OS source, read-only. Then design an idempotent, server-verified one-time entitlement. Keep Study OS Garden routes, saves and gameplay untouched. Build the new sequel as a separate Game Hub module; do not continue Garden runtime extraction.
+Continue with source-to-Hub parity review, verify isolation and rollback, then test planting, care, harvest, storage, plot progression, and reload on synthetic QA data. Keep the Study OS route and saves in service until parity is accepted.

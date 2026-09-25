@@ -8,17 +8,17 @@ This repository is separate from `yhct-hiu-4-0`; it does not copy the Study OS a
 
 - G1 — read-only audit and existing game contracts
 - G2 — Hub shell, identity bridge, world map, routing, responsive/PWA foundation
-- G3 — build a new, visually richer Teacher Herb Game sequel in Game Hub. Learners unlock it only after the existing Gia Viên Dược Thảo prerequisite is completed in Study OS. Study OS keeps the current Garden runtime and saves.
+- G3 — continue the same Gia Viên Dược Thảo in Game Hub with a richer presentation after a server-confirmed one-time unlock. Study OS keeps its runtime available until behavior and save parity are accepted.
 - G4 — reviewed academic layer for new content
 - G5 — separately plan HIU Y Quán; no current runtime move is implied
 
-G3 uses a one-time, server-verified completion entitlement. It does not copy or continuously synchronize Garden saves. Read `docs/G3_TEACHER_HERB_GAME_PLAN.md` before G3 implementation. The previous Garden extraction map and scenarios remain compatibility references for the existing Study OS game; they are not the current G3 product direction.
+G3 uses a one-time, server-verified unlock receipt and keeps the existing Garden save format and RPCs authoritative. Read `docs/G3_GARDEN_GAME_PLAN.md` before G3 implementation. The extraction map and scenarios define the behavior that must be preserved.
 
 ## Safety
 
 - Do not store passwords or Supabase service-role/secret keys in the browser app.
 - Use the trusted Auth member identity; browser state never grants eligibility or rewards.
-- Keep Garden V7 runtime, RPCs, rules and saves in Study OS.
+- Keep the current Study OS runtime available, and preserve its RPC, rules, and save behavior in Game Hub until parity is accepted.
 - Do not test against member production saves or enable Garden RPCs in Game Hub.
-- Verify isolated storage and rollback before adding sequel persistence or an entitlement backend.
+- Verify isolated storage and rollback before any gameplay persistence or production entitlement backend change.
 - Keep PRs draft and preserve existing Study OS routes until review and preview gates pass.
