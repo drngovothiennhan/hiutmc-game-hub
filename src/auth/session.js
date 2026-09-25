@@ -32,7 +32,9 @@ function consumeIncomingBridge() {
   clearBridgeFragment();
   const invalidFields = [];
   if (accessToken.length < 40) invalidFields.push('access_token');
-  if (refreshToken.length < 20) invalidFields.push('refresh_token');
+  // Supabase owns the refresh-token format; require presence here and let its
+  // Auth endpoint validate the value instead of imposing a local length rule.
+  if (!refreshToken) invalidFields.push('refresh_token');
   if (invalidFields.length) {
     throw new Error(`Phiên HIU TMC gửi sang thiếu hoặc sai trường ${invalidFields.join(', ')}. Hãy mở Game Hub lại từ hệ sinh thái.`);
   }
@@ -63,8 +65,8 @@ export function buildLegacySsoUrl(href, session) {
   return target.toString();
 }
 
-async function refreshIfNeeded(session) {
-  if (session.expiresAt - Date.now() > 90_000) return session;
+async function refreshIfNeeded(session, force = false) {
+  if (!force && session.expiresAt - Date.now() > 90_000) return session;
   const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
     method: 'POST',
     headers: { apikey: SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
@@ -72,7 +74,7 @@ async function refreshIfNeeded(session) {
     cache: 'no-store'
   });
   const body = await response.json().catch(() => ({}));
-  if (!response.ok || !body.access_token || !body.refresh_token) throw new Error('Phiên đăng nhập đã hết hạn. Hãy mở Game Hub lại từ HIU TMC.');
+  if (!response.ok || !body.access_token || !body.refresh_token) throw new Error('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.');
   return {
     accessToken: body.access_token,
     refreshToken: body.refresh_token,
@@ -106,7 +108,9 @@ export async function bootstrapSession() {
     const bridged = consumeIncomingBridge();
     const session = bridged || readStoredSession();
     if (!session) return { member: null, session: null, error: null };
-    const refreshed = await refreshIfNeeded(session);
+    // A bridge carries a one-time refresh token. Redeem it immediately so
+    // Supabase validates the refresh credential and issues the Hub's session.
+    const refreshed = await refreshIfNeeded(session, Boolean(bridged));
     const member = await verifyMember(refreshed.accessToken);
     const complete = { ...refreshed, member };
     saveSession(complete);
