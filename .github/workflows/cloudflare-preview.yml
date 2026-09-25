@@ -52,15 +52,29 @@ jobs:
             printf '%s\n' "$create_output"
             exit 1
           fi
-      - name: Deploy G3 intro UX to a Cloudflare Pages preview
-        run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub intro UX preview"
+      - name: Deploy Garden runtime and record immutable preview URL
+        id: deploy
+        shell: bash
+        run: |
+          if ! deployment_output="$(npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Gia Vien Garden preview" 2>&1)"; then
+            echo "::error::Cloudflare Pages deployment failed; command output is suppressed to protect environment data."
+            exit 1
+          fi
+          preview_url="$(printf '%s\n' "$deployment_output" | grep -Eo 'https://[[:xdigit:]]{8}\.hiutmc-game-hub\.pages\.dev' | tail -n 1 || true)"
+          if [[ -z "$preview_url" ]]; then
+            preview_url="https://game-hub-intro-ux.hiutmc-game-hub.pages.dev"
+            echo "::warning::Cloudflare did not return a commit-specific URL; using the branch preview for smoke only."
+          fi
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+          printf 'Preview URL: %s\n' "$preview_url" >> "$GITHUB_STEP_SUMMARY"
+          echo "Cloudflare Pages preview is available."
       - name: Install Playwright Chromium
         run: |
           npm install --no-save --no-audit --no-fund playwright@1.55.0
           npx playwright install --with-deps chromium
       - name: Responsive Cloudflare preview smoke
         env:
-          PREVIEW_URL: https://game-hub-intro-ux.hiutmc-game-hub.pages.dev
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
         run: |
           mkdir -p qa-game-hub
           node --input-type=module <<'EOF'
