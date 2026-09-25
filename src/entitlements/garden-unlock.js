@@ -2,7 +2,7 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from '../config.js';
 
 const RPC_URL = `${SUPABASE_URL}/rest/v1/rpc/garden_hub_claim_or_get_receipt_v1`;
 const RECEIPT_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const ALLOWED_REASONS = new Set(['granted', 'already_granted', 'prerequisite_incomplete', 'identity_unlinked', 'role_restricted']);
+const ALLOWED_REASONS = new Set(['granted', 'already_granted', 'identity_unlinked']);
 
 export function isVerifiedGardenUnlockReceipt(value) {
   return value?.eligible === true
