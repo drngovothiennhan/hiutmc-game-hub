@@ -1,7 +1,8 @@
 import { LEGACY_STUDY_OS } from '../config.js';
 
 export const worldMap = [
-  { id: 'garden', title: 'Gia Viên Dược Thảo', area: 'Dược liệu học', description: 'Trồng, nhận dạng và vận dụng kiến thức dược liệu.', state: 'available-legacy', href: `${LEGACY_STUDY_OS}/garden`, icon: '✿' },
+  { id: 'garden', title: 'Gia Viên Dược Thảo', area: 'Dược liệu học · phần hiện tại', description: 'Hoàn thành các vòng tại Study OS để đủ điều kiện mở phần tiếp nối trong Game Hub.', state: 'available-legacy', href: `${LEGACY_STUDY_OS}/garden`, icon: '✿' },
+  { id: 'teacher-herb', title: 'Giáo viên Dược thảo', area: 'Phần tiếp nối · Game Hub', description: 'Hành trình trực quan hơn sẽ mở sau khi hệ thống xác nhận bạn đã hoàn thành Gia Viên Dược Thảo.', state: 'locked-sequel', href: '/teacher-herb', icon: '本' },
   { id: 'clinic', title: 'HIU Y Quán', area: 'Lâm sàng mô phỏng', description: 'Luyện tư duy lâm sàng qua runtime hiện có.', state: 'available-legacy', href: `${LEGACY_STUDY_OS}/garden?game=hiu-y-quan`, icon: '☯' },
   { id: 'four-diagnosis', title: 'Tứ Chẩn Các', area: 'Vọng · Văn · Vấn · Thiết', description: 'Khu vực học thuật được mở theo từng giai đoạn.', state: 'planned', href: '', icon: '診' },
   { id: 'meridian', title: 'Kinh Lạc Đường', area: 'Kinh lạc · huyệt vị', description: 'Khu vực thử thách kinh lạc dự kiến kết nối với 3D Atlas.', state: 'planned', href: '', icon: '經' },

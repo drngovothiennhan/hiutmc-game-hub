@@ -14,7 +14,10 @@ test('router defaults to world map and parses supported views', () => {
 test('only explicitly connected legacy games are launchable', () => {
   const active = worldMap.filter(isLaunchable).map(place => place.id);
   assert.deepEqual(active, ['garden', 'clinic']);
-  assert.ok(worldMap.filter(place => place.state === 'planned').every(place => !isLaunchable(place)));
+  assert.ok(worldMap.filter(place => place.state !== 'available-legacy').every(place => !isLaunchable(place)));
+  const sequel = worldMap.find(place => place.id === 'teacher-herb');
+  assert.equal(sequel.state, 'locked-sequel');
+  assert.equal(sequel.href, '/teacher-herb');
 });
 
 test('profile display escapes untrusted identity fields', () => {
