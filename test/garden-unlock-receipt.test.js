@@ -31,10 +31,10 @@ test('entitlement request uses the authenticated RPC without sending member iden
   assert.equal(request.url.includes('?'), false);
 });
 
-test('locked prerequisite and untrusted identity results stay locked', async t => {
-  installRpcMock(t, { payload: [{ eligible: false, receipt_id: null, granted_at: null, reason: 'prerequisite_incomplete' }] });
+test('unlinked identity results stay locked', async t => {
+  installRpcMock(t, { payload: [{ eligible: false, receipt_id: null, granted_at: null, reason: 'identity_unlinked' }] });
   const result = await claimOrGetGardenUnlockReceipt({ accessToken: 'fixture-access-token' });
-  assert.deepEqual(result, { eligible: false, reason: 'prerequisite_incomplete' });
+  assert.deepEqual(result, { eligible: false, reason: 'identity_unlinked' });
 });
 
 test('malformed receipt and unavailable RPC fail closed', async t => {
@@ -55,9 +55,10 @@ test('only a server receipt with eligible result can open the extended Garden ru
   assert.equal(isVerifiedGardenUnlockReceipt({ eligible: true }), false);
 });
 
-test('Garden beta is visible only to admin, mod, and super_mod', () => {
-  for (const role of ['admin', 'mod', 'super_mod']) assert.equal(canAccessGardenBeta({ role }), true);
-  for (const role of ['guest', 'member', 'leader', '', null]) assert.equal(canAccessGardenBeta({ role }), false);
+test('Garden is available to any linked, authenticated member regardless of role', () => {
+  for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member', 'guest', '']) assert.equal(canAccessGardenBeta({ id: 'linked-member-id', role }), true);
+  assert.equal(canAccessGardenBeta({ id: '', role: 'member' }), false);
+  assert.equal(canAccessGardenBeta({ role: 'admin' }), false);
   assert.equal(canAccessGardenBeta(null), false);
   assert.equal(renderWorldMap(null, null, false, false).includes('data-place-id="garden-continuation"'), false);
   assert.equal(renderWorldMap(null, null, true, true).includes('data-place-id="garden-continuation"'), true);
