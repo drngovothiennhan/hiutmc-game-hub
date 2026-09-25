@@ -1,9 +1,13 @@
 import { bootstrapSession, logout } from './auth/session.js';
+import { isGameHubAdmin } from './auth/roles.js';
 import { readRoute } from './game-engine/router.js';
 import { renderShell } from './components/shell.js';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './entitlements/garden-unlock.js';
 import { mountGarden, unmountGarden } from './games/garden-mount.js';
 
+// Build-only safety switch: the admin review preview must not invoke an RPC
+// that can claim a production Garden receipt while its operator opens the Hub.
+const ADMIN_PREVIEW_BUILD = __GAME_HUB_ADMIN_PREVIEW__;
 const root = document.querySelector('#app');
 let currentMember = null;
 let currentSession = null;
@@ -51,7 +55,11 @@ bootstrapSession().then(async result => {
   authError = result.error;
   render();
 
-  if (currentMember && currentSession) {
+  // Outside this explicitly isolated preview build, preserve the existing
+  // receipt lookup for all signed-in members. On the preview, skip it for an
+  // Admin so opening the test activity cannot mutate a production game receipt.
+  const isIsolatedPreviewAdmin = ADMIN_PREVIEW_BUILD && isGameHubAdmin(currentMember);
+  if (currentMember && currentSession && !isIsolatedPreviewAdmin) {
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
     currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);

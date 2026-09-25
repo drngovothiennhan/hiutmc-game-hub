@@ -22,6 +22,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CF_PAGES_PROJECT: hiutmc-game-hub
+      GAME_HUB_ADMIN_PREVIEW: "true"
       CF_PAGES_BRANCH: ${{ github.ref_name == 'g5/admin-y-quan-practice' && 'admin-y-quan-practice' || 'game-hub-intro-ux' }}
     steps:
       - uses: actions/checkout@v4

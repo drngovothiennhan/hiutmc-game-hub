@@ -23,6 +23,7 @@ await build({
   target: ['es2022'],
   outfile: 'dist/assets/app.js',
   loader: { '.tsx': 'tsx', '.css': 'css' },
+  define: { __GAME_HUB_ADMIN_PREVIEW__: JSON.stringify(process.env.GAME_HUB_ADMIN_PREVIEW === 'true') },
   assetNames: 'assets/[name]-[hash]',
   minify: true
 });
