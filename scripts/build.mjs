@@ -12,6 +12,7 @@ await cp('public', 'dist', { recursive: true });
 // modules at runtime. Copy the narrow module set it needs; don't expose all src.
 await mkdir('dist/src/auth', { recursive: true });
 await mkdir('dist/src/games/y-quan-practice', { recursive: true });
+await cp('src/styles.css', 'dist/src/styles.css');
 await cp('src/auth/roles.js', 'dist/src/auth/roles.js');
 await cp('src/games/y-quan-practice/case.js', 'dist/src/games/y-quan-practice/case.js');
 await cp('src/games/y-quan-practice/domain.js', 'dist/src/games/y-quan-practice/domain.js');
