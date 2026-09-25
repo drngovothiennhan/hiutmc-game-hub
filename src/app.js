@@ -1,9 +1,9 @@
 import { bootstrapSession, logout } from './auth/session.js';
 import { readRoute } from './game-engine/router.js';
-import { renderShell } from './components/shell.js';
+import { renderShell, renderAccessGate } from './components/shell.js';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './entitlements/garden-unlock.js';
 import { mountGarden, unmountGarden } from './games/garden-mount.js';
-import { canAccessGardenBeta } from './auth/garden-beta-access.js';
+import { canAccessGameHub } from './auth/garden-beta-access.js';
 
 const root = document.querySelector('#app');
 let currentMember = null;
@@ -12,9 +12,22 @@ let currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
 let authError = null;
 
 function render() {
+  if (!canAccessGameHub(currentMember)) {
+    root.innerHTML = renderAccessGate({ member: currentMember, authError });
+    root.setAttribute('aria-busy', 'false');
+    root.querySelector('#logout-button')?.addEventListener('click', async () => {
+      await logout();
+      currentMember = null;
+      currentSession = null;
+      currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
+      authError = null;
+      render();
+    });
+    return;
+  }
   const route = readRoute();
   const requestedView = route[0];
-  const gardenBetaEnabled = canAccessGardenBeta(currentMember);
+  const gardenBetaEnabled = canAccessGameHub(currentMember);
   const view = requestedView === 'garden-continuation' && gardenBetaEnabled && isVerifiedGardenUnlockReceipt(currentEntitlement)
     ? 'garden-continuation'
     : requestedView === 'skills' || requestedView === 'achievements' ? requestedView : 'world';
@@ -31,7 +44,7 @@ function render() {
   const gardenRoot = root.querySelector('#garden-runtime-root');
   if (gardenRoot && gardenBetaEnabled && currentMember && isVerifiedGardenUnlockReceipt(currentEntitlement)) mountGarden(gardenRoot, currentMember);
   root.querySelector('#garden-unlock-retry')?.addEventListener('click', async () => {
-    if (!currentSession || !canAccessGardenBeta(currentMember)) return;
+    if (!currentSession || !canAccessGameHub(currentMember)) return;
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
     currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
@@ -47,14 +60,14 @@ function render() {
   });
 }
 
-root.innerHTML = renderShell({ member: null, view: 'world', loading: true });
+root.innerHTML = renderAccessGate({ loading: true });
 bootstrapSession().then(async result => {
   currentMember = result.member;
   currentSession = result.session;
   authError = result.error;
   render();
 
-  if (currentMember && currentSession && canAccessGardenBeta(currentMember)) {
+  if (currentMember && currentSession && canAccessGameHub(currentMember)) {
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
     currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
