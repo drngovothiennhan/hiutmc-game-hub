@@ -103,7 +103,7 @@ jobs:
                 introWidth: intro?.clientWidth,
                 introScrollWidth: intro?.scrollWidth,
                 columns: getComputedStyle(map).gridTemplateColumns,
-                studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
+                studyOsLabels: [...document.querySelectorAll('.place-card:not([data-place-id="y-quan-demo"]) .tag-live')].map(node => node.textContent.trim()),
                 yQuanDemoVisibleToAnonymous: Boolean(document.querySelector('[data-place-id="y-quan-demo"]')),
                 gardenLocked: Boolean(document.querySelector('[data-place-id="garden-continuation"] .place-action-disabled')) && !document.querySelector('[data-place-id="garden-continuation"] a[href="#/garden-continuation"]'),
               };
