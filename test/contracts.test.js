@@ -26,7 +26,7 @@ test('only explicitly connected legacy games are launchable', () => {
 test('Garden continuation opens after server receipt proof without a 9/9 prerequisite', () => {
   const waiting = renderWorldMap(null, null, true, true);
   assert.match(waiting, /Sẵn sàng sau xác minh SSO/);
-  assert.doesNotMatch(locked, /href="#\/garden-continuation"/);
+  assert.doesNotMatch(waiting, /href="#\/garden-continuation"/);
   const unlocked = renderWorldMap(null, {
     eligible: true,
     receiptId: '123e4567-e89b-42d3-a456-426614174000',
