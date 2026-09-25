@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from '../src/entitlements/garden-unlock.js';
+import { canAccessGardenBeta } from '../src/auth/garden-beta-access.js';
+import { renderWorldMap } from '../src/components/world-map.js';
 
 function installRpcMock(t, { status = 200, payload = [] } = {}) {
   const originalFetch = globalThis.fetch;
@@ -51,4 +53,12 @@ test('only a server receipt with eligible result can open the extended Garden ru
   assert.equal(isVerifiedGardenUnlockReceipt({ eligible: true, receiptId: '123e4567-e89b-42d3-a456-426614174000', grantedAt: '2026-09-25T11:00:00Z' }), true);
   assert.equal(isVerifiedGardenUnlockReceipt({ eligible: true, receiptId: 'client-flag', grantedAt: '2026-09-25T11:00:00Z' }), false);
   assert.equal(isVerifiedGardenUnlockReceipt({ eligible: true }), false);
+});
+
+test('Garden beta is visible only to admin, mod, and super_mod', () => {
+  for (const role of ['admin', 'mod', 'super_mod']) assert.equal(canAccessGardenBeta({ role }), true);
+  for (const role of ['guest', 'member', 'leader', '', null]) assert.equal(canAccessGardenBeta({ role }), false);
+  assert.equal(canAccessGardenBeta(null), false);
+  assert.equal(renderWorldMap(null, null, false, false).includes('data-place-id="garden-continuation"'), false);
+  assert.equal(renderWorldMap(null, null, true, true).includes('data-place-id="garden-continuation"'), true);
 });
