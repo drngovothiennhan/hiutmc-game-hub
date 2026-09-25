@@ -77,3 +77,47 @@ The named repository `drngovothiennhan/hiutmc-game-hub` returned GitHub 404 and 
 After the audit was recorded, the user confirmed that `drngovothiennhan/hiutmc-game-hub` had been created. The repository is separate from Study OS and was empty when inspected. A README-only bootstrap commit (`d5f88dcb387e22fcc3598c80506cd515b30d6839`) exists on `main`; implementation work is isolated on `g2/game-hub-shell`. No Study OS or production database changes have been made.
 
 G2 implementation has passed local shell tests and static build. GitHub CI and a public preview are still pending; therefore the G2 gate is not yet passed. Local browser preview could not be verified in the remote browser environment. The shell's identity bootstrap uses the trusted `app_metadata.member_id` claim and deliberately avoids direct reads from `club_members`, whose inspected access path is server-function mediated. Member-session and CORS compatibility still require an actual Hub preview and approved SSO smoke test.
+
+
+## Current checkpoint update — G2 preview and G3 readiness
+
+This section supersedes the obsolete G1 follow-up above for current status. The earlier G1 findings remain as a historical read-only audit; the repository and deployment blockers described there have since changed.
+
+### Checkpoint G2 preview
+
+- **Branch:** `g2/game-hub-shell`
+- **Commit verified:** `b6bb5779467fc9b3adc0b345653d5d119382e726`
+- **Files changed in this checkpoint update:** this audit addendum only; no source or gameplay change.
+- **Database migration:** none. Supabase inspection was read-only.
+- **CI:** Game Hub CI succeeded for the verified commit: [run 36094118622](https://github.com/drngovothiennhan/hiutmc-game-hub/actions/runs/36094118622) and [run 36094116243](https://github.com/drngovothiennhan/hiutmc-game-hub/actions/runs/36094116243).
+- **Cloudflare preview:** deployment succeeded in [run 36094116200](https://github.com/drngovothiennhan/hiutmc-game-hub/actions/runs/36094116200). The immutable deployment URL `https://983376a8.hiutmc-game-hub.pages.dev` was opened and rendered the G2 shell.
+- **Preview caveat:** the branch alias `https://game-hub-shell.hiutmc-game-hub.pages.dev` returned a TLS 502 in the browser smoke. Use the immutable deployment URL for this checkpoint; the alias issue remains open.
+- **Production/DNS:** no production deployment, custom domain, or DNS change.
+
+### G2 gate still open
+
+The shell, world map, navigation, session bootstrap code, and preview exist. Current game cards still launch the existing Study OS Garden and HIU Y Quán routes. The preview displays “Chưa có phiên đăng nhập” without a bridged member session. A real-member SSO/session smoke and responsive mobile/tablet smoke have not been verified. Therefore G2 is not marked passed and no gameplay migration is claimed.
+
+### G3 source and contract preflight
+
+The Study OS Garden entry is `HerbGardenGame.tsx` / `HerbGardenGameV7.tsx`; the current V7 care UI calls `herb_garden_state_v3`, `herb_garden_inventory_v3`, `herb_garden_visit_v2`, `herb_garden_seed_inventory_v1`, `herb_garden_reward_status_v1`, `herb_garden_wallet_v1`, and the existing plant/water/fertilize/harvest RPCs. The UI imports the Study OS React member type, Supabase client, icon package, and Garden styles; an exact extraction must preserve these dependencies and behavior rather than rewrite gameplay.
+
+Read-only live definitions verified:
+
+- `herb_garden_water_v4` and `herb_garden_fertilize_v4` resolve the member from the authenticated session, check approval, validate slot 1–9, and call `private.herb_garden_apply_care_v7`.
+- The authoritative care function permits one water action in each of 12 six-hour growth slots and one fertilizer action in each of three 24-hour growth days. It rejects non-growing/expired plants, updates server counters, records events, and returns the resulting state.
+- `herb_garden_harvest_v3` requires a mature, unexpired plant with at least 12 water and 3 fertilizer actions. It atomically adds one harvested herb, one same-species seed, 3 credits, increments plot harvest count, records an event, then evaluates sequential plot unlock.
+- Existing Garden RPCs are SECURITY DEFINER and require an approved member. The Hub must call these server-owned routines and must not use direct table writes or client-supplied rewards.
+
+### G3 safety gate
+
+- Supabase development branch listing currently returns no branches.
+- No approved isolated Garden test account has been verified.
+- A transaction-rollback integration harness has not yet been established or run.
+- No Garden gameplay action or row mutation was performed in the live Supabase project.
+- **G3 gameplay extraction and data-parity QA have not started.** Do not exercise plant/care/harvest against a real member save until an isolated test identity/environment or a verified rollback harness is available.
+
+### Rollback and next checkpoint
+
+- **Rollback:** this documentation-only commit can be reverted; the prior Hub preview remains immutable. There are no Study OS, Supabase, production, or DNS changes to roll back.
+- **Next:** close the G2 SSO/responsive smoke gap, establish a safe G3 integration test path, then extract the existing Garden runtime and dependencies into the Hub without changing its RPC or gameplay contract. Keep the existing Study OS runtime and saves untouched.
