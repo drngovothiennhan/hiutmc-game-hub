@@ -20,4 +20,4 @@ This repository is separate from `yhct-hiu-4-0`. It must not copy the Study OS a
 - Do not merge or deploy a release before CI, preview, SSO, responsive, and save-parity checks pass.
 - Preserve legacy Study OS game routes until migration is verified.
 
-G3 now mounts the extracted Garden V7 runtime behind the server-verified one-time 9/9 receipt. Gameplay parity and isolated save/reload QA remain release gates; see docs/GAME_CONTRACTS.md.
+G3 mounts the extracted Garden V7 runtime for every authenticated, approved HIU TMC member using a server-verified one-time access receipt. The original sequential plot progression remains active inside the Garden. Gameplay parity and isolated save/reload QA are recorded in docs/GAME_CONTRACTS.md.
