@@ -23,6 +23,13 @@ function render() {
     authError
   });
   root.setAttribute('aria-busy', 'false');
+  root.querySelector('#teacher-herb-retry')?.addEventListener('click', async () => {
+    if (!currentSession) return;
+    currentEntitlement = { eligible: false, reason: 'checking' };
+    render();
+    currentEntitlement = await claimOrGetTeacherHerbEntitlement(currentSession);
+    render();
+  });
   root.querySelector('#logout-button')?.addEventListener('click', async () => {
     await logout();
     currentMember = null;
