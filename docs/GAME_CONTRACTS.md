@@ -75,3 +75,8 @@ No G3 acceptance transaction was run during G1. The production database was not 
 ## G2 shell boundary update — 2026-09-25
 
 The separate Game Hub repository has now been created. Its shell consumes an incoming HIU TMC Supabase session and uses the server-issued `app_metadata.member_id`; it does not query `club_members` directly or create Hub credentials. The existing Garden and Y Quán links remain outbound links to the current Study OS runtime, and no game state is read or written by the shell. SSO/CORS and member-session behavior remain unverified until a public preview can be exercised.
+
+
+## G3 direction update — 2026-09-25
+
+This document remains the compatibility record for the existing Study OS games. G3 no longer migrates Gia Viên V7 into Game Hub. It builds a separate sequel that unlocks after the learner passes the existing Garden. The Hub receives eligibility once through a server-verified, idempotent entitlement; Garden inventory, plot state, rewards, event history, tables and RPCs are not copied or changed. The exact pass condition is not established by this contract and must be confirmed from the current authoritative Study OS flow before implementation. See `docs/G3_TEACHER_HERB_GAME_PLAN.md`.

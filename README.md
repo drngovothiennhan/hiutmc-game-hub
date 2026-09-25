@@ -2,22 +2,23 @@
 
 Independent academic game hub for the HIU TMC ecosystem.
 
-This repository is separate from `yhct-hiu-4-0`. It must not copy the Study OS application. The first implementation phase is a modular Hub shell and preview. Existing Garden and HIU Y Quán game state remains in the current Supabase project until the Hub preview and compatibility gates pass.
+This repository is separate from `yhct-hiu-4-0`; it does not copy the Study OS application. The Hub reuses the verified HIU TMC SSO session while keeping game modules and their save ownership separate.
 
 ## Delivery order
 
-- G1 — read-only audit and contract record
-- G2 — Hub shell, identity bridge, world map, routing, profile/skill/achievement shells, responsive/PWA foundation
-- G3 — migrate Garden UI to the existing authoritative RPCs without changing save data or gameplay
-- G4 — reviewed academic layer
-- G5 — migrate HIU Y Quán after Garden production is stable
+- G1 — read-only audit and existing game contracts
+- G2 — Hub shell, identity bridge, world map, routing, responsive/PWA foundation
+- G3 — build a new, visually richer Teacher Herb Game sequel in Game Hub. Learners unlock it only after the existing Gia Viên Dược Thảo prerequisite is completed in Study OS. Study OS keeps the current Garden runtime and saves.
+- G4 — reviewed academic layer for new content
+- G5 — separately plan HIU Y Quán; no current runtime move is implied
+
+G3 uses a one-time, server-verified completion entitlement. It does not copy or continuously synchronize Garden saves. Read `docs/G3_TEACHER_HERB_GAME_PLAN.md` before G3 implementation. The previous Garden extraction map and scenarios remain compatibility references for the existing Study OS game; they are not the current G3 product direction.
 
 ## Safety
 
-- Do not store passwords or Supabase service-role/secret keys in this app.
-- Keep Supabase identity and existing game RPCs as the initial source of truth.
-- Do not run Garden actions against member production saves during QA.
-- Do not merge or deploy a release before CI, preview, SSO, responsive, and save-parity checks pass.
-- Preserve legacy Study OS game routes until migration is verified.
-
-See the G1 migration audit and contracts in the project handoff files.
+- Do not store passwords or Supabase service-role/secret keys in the browser app.
+- Use the trusted Auth member identity; browser state never grants eligibility or rewards.
+- Keep Garden V7 runtime, RPCs, rules and saves in Study OS.
+- Do not test against member production saves or enable Garden RPCs in Game Hub.
+- Verify isolated storage and rollback before adding sequel persistence or an entitlement backend.
+- Keep PRs draft and preserve existing Study OS routes until review and preview gates pass.

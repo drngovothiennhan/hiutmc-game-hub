@@ -1,36 +1,23 @@
 # Game Hub introduction and layout handoff
 
-**Status:** UX implementation brief for the Garden extraction. No production layout or gameplay was changed by this document.
+**Status:** G2 shell brief plus G3 sequel direction, 2026-09-25. This is not a Garden extraction brief.
 
 ## Position and navigation
 
 - Give the Game Hub its own landing page and clear identity: “HIU TMC Game Hub — Bản đồ học thuật”.
-- Keep the primary page hierarchy: introductory identity → available game locations → member profile/progress → clearly marked future locations.
-- Use separate, direct routes for modules. Each module page has a consistent top bar with Game Hub mark, current location, profile/session status, and “Quay lại Game Hub”.
-- Garden entry is shown as a Hub runtime only after the Garden route, SSO, and save-parity gates pass. Until then, retain the existing Study OS link and label it as runtime hiện tại.
-- Keep HIU Y Quán linked to its Study OS runtime until its separately planned extraction phase. Do not route it through the Garden migration.
+- Keep the primary page hierarchy: introduction → available game locations → member profile/progress → planned locations.
+- Show the new Teacher Herb Game as a sequel card with an authoritative locked/unlocked state. While locked, provide a link to the existing Gia Viên Dược Thảo in Study OS. Do not imply completion or eligibility from browser-only state.
+- After the one-time server-verified completion entitlement is recorded, link to a separate Game Hub sequel route.
+- Use separate direct routes for modules and a consistent top bar with Hub mark, current location, profile/session status, and “Quay lại Game Hub”.
+- Keep the existing Garden V7 route, runtime and saves in Study OS. Keep HIU Y Quán on its existing Study OS runtime pending its separate phase.
 
-## Introductory copy (verified scope only)
+## Visual direction
 
-**Title:** HIU TMC Game Hub  
-**Description:** “Không gian tập trung các trò chơi học thuật Y học cổ truyền của HIU TMC. Gia Viên Dược Thảo đang được tách theo từng giai đoạn; HIU Y Quán hiện tiếp tục chạy tại Study OS.”  
-**Status labels:** “Đang chạy tại Study OS”, “Đang chuẩn bị chuyển”, “Sắp ra mắt” only when backed by branch/preview status. Do not imply a module is live in the Hub before its release gate passes.
-
-## Garden page layout
-
-- Desktop/tablet landscape: narrow fixed navigation/header; garden scene and nine-plot board as the central work area; inventory, seed bag and wallet in a compact side panel; action details below/alongside the selected plot.
-- Mobile: single-column layout; scene first, plot selector immediately below, then separate seed bag / harvested inventory / wallet cards. Keep primary actions full-width and text-wrapped; no clipped action labels.
-- Preserve the existing Garden artwork, sprite IDs, and gameplay language first. Avoid redrawing the game scene during extraction.
-- Keep status and action messages adjacent to the selected plot. Do not place critical care timers only in decorative scenery.
-- Respect display mode, keyboard focus, reduced motion, safe-area insets, and horizontal overflow checks.
-
-## Visual identity and assets
-
-- Reuse the current Game Hub shell palette and logos where it does not alter the existing Garden art or reduce contrast.
-- Reuse `garden-decor-sprite.svg` and the current scene assets. Do not invent new botanical illustrations or data for this migration.
-- Isolate legacy Garden CSS in a dedicated entry/route so its global selectors do not change the rest of the Hub.
-- Verify asset paths on Cloudflare Pages preview, including nested `/garden/` URLs and refresh/deep links.
+- The sequel should have richer, more detailed visuals and a distinct presentation from Garden V7. Reuse the Game Hub shell, verified identity bridge, responsive foundation, and any source-cleared assets.
+- Do not redraw, restyle or change the existing Garden V7 experience.
+- Do not invent herbs, learning objectives, rewards or gameplay rules. Build those only from an approved sequel scenario.
+- Keep the locked state and next action visible to keyboard and screen-reader users; preserve focus, reduced motion, safe-area insets, and avoid horizontal overflow.
 
 ## Release criteria
 
-The introduction must accurately distinguish live modules, modules still hosted in Study OS, and planned areas. The old Garden route remains available until Hub SSO, state parity, deep link, mobile/tablet layout, and isolated gameplay QA all pass.
+The landing page accurately distinguishes the existing Study OS prerequisite, the locked sequel, and an eligible sequel. The sequel remains inaccessible without a server-confirmed entitlement. The existing Study OS Garden path remains available throughout G3.

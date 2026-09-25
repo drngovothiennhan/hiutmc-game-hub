@@ -1,3 +1,5 @@
+> **Direction update (2026-09-25):** Historical compatibility map only. G3 no longer extracts Garden V7 into Game Hub. Gia Viên remains in Study OS; Game Hub will host the separate Teacher Herb Game sequel after a verified one-time completion entitlement. See [G3 sequel plan](G3_TEACHER_HERB_GAME_PLAN.md). The details below document existing runtime contracts and must not be read as authorization to copy, call, or change them.
+
 # Garden V7 extraction map
 
 **Status:** G3 preparation only. This document maps the existing runtime; it does not claim the game has been migrated.

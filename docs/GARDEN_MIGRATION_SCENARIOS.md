@@ -1,3 +1,5 @@
+> **Direction update (2026-09-25):** These are scenarios for the existing Study OS Garden only. They are a compatibility reference, not the current Game Hub build plan. G3 now builds a distinct sequel unlocked by a verified one-time completion signal; see [G3 sequel plan](G3_TEACHER_HERB_GAME_PLAN.md). Do not copy these actions or rules into the sequel unless separately approved as sequel content.
+
 # Garden to Game Hub — gameplay and learning scenarios
 
 **Status:** scenario specification based on the current runtime and verified contract. No new herbs, diagnoses, rewards, or gameplay rules are authored here.
