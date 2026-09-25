@@ -80,3 +80,46 @@ test('SSO bootstrap rejects a client-supplied member id without trusted app meta
   assert.equal(mocks.calls.length, 1);
   assert.equal(mocks.values.has(SESSION_STORAGE_KEY), false);
 });
+
+test('SSO bridge rejects missing credentials, reports only field names, and clears the received fragment', async t => {
+  const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
+  const mocks = installBrowserMocks(t, {
+    hash: `#ecosystem_sso=1&access_token=${accessToken}`,
+    authUser: { id: 'auth-user-id', app_metadata: { member_id: 'trusted-member-id' } }
+  });
+
+  const result = await bootstrapSession();
+
+  assert.equal(result.member, null);
+  assert.match(result.error, /refresh_token/);
+  assert.doesNotMatch(result.error, /accessToken|refreshToken|[A-Za-z0-9_-]{40,}/);
+  assert.equal(mocks.getReplacedUrl(), '/?from=ecosystem');
+  assert.equal(mocks.calls.length, 0);
+  assert.equal(mocks.values.has(SESSION_STORAGE_KEY), false);
+});
+
+test('SSO bridge rejects a flagged fragment with invalid token fields and clears it', async t => {
+  const mocks = installBrowserMocks(t, {
+    hash: '#ecosystem_sso=1&access_token=short&refresh_token=short',
+    authUser: { id: 'auth-user-id', app_metadata: { member_id: 'trusted-member-id' } }
+  });
+  const invalidResult = await bootstrapSession();
+
+  assert.equal(invalidResult.member, null);
+  assert.match(invalidResult.error, /access_token, refresh_token/);
+  assert.equal(mocks.getReplacedUrl(), '/?from=ecosystem');
+  assert.equal(mocks.calls.length, 0);
+});
+
+test('SSO bootstrap ignores an unrelated fragment without clearing it', async t => {
+  const mocks = installBrowserMocks(t, {
+    hash: '#tab=profile',
+    authUser: { id: 'auth-user-id', app_metadata: { member_id: 'trusted-member-id' } }
+  });
+  const result = await bootstrapSession();
+
+  assert.equal(result.error, null);
+  assert.equal(result.member, null);
+  assert.equal(mocks.getReplacedUrl(), null);
+  assert.equal(mocks.calls.length, 0);
+});

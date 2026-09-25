@@ -30,7 +30,12 @@ function consumeIncomingBridge() {
   const accessToken = fragment.get('access_token') || '';
   const refreshToken = fragment.get('refresh_token') || '';
   clearBridgeFragment();
-  if (accessToken.length < 40 || refreshToken.length < 20) throw new Error('Phiên HIU TMC gửi sang không hợp lệ. Hãy mở Game Hub lại từ hệ sinh thái.');
+  const invalidFields = [];
+  if (accessToken.length < 40) invalidFields.push('access_token');
+  if (refreshToken.length < 20) invalidFields.push('refresh_token');
+  if (invalidFields.length) {
+    throw new Error(`Phiên HIU TMC gửi sang thiếu hoặc sai trường ${invalidFields.join(', ')}. Hãy mở Game Hub lại từ hệ sinh thái.`);
+  }
   return { accessToken, refreshToken, expiresAt: expiryFromToken(accessToken) };
 }
 
@@ -97,10 +102,10 @@ async function verifyMember(accessToken) {
 }
 
 export async function bootstrapSession() {
-  const bridged = consumeIncomingBridge();
-  const session = bridged || readStoredSession();
-  if (!session) return { member: null, session: null, error: null };
   try {
+    const bridged = consumeIncomingBridge();
+    const session = bridged || readStoredSession();
+    if (!session) return { member: null, session: null, error: null };
     const refreshed = await refreshIfNeeded(session);
     const member = await verifyMember(refreshed.accessToken);
     const complete = { ...refreshed, member };
