@@ -3,9 +3,11 @@ import { build } from 'esbuild';
 
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/assets', { recursive: true });
+await mkdir('dist/src', { recursive: true });
 await cp('index.html', 'dist/index.html');
 await cp('manifest.webmanifest', 'dist/manifest.webmanifest');
 await cp('service-worker.js', 'dist/service-worker.js');
+await cp('src/styles.css', 'dist/src/styles.css');
 await cp('public', 'dist', { recursive: true });
 await build({
   entryPoints: ['src/app.js'],
