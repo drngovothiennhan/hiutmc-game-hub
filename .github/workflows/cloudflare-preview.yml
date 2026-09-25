@@ -97,14 +97,14 @@ jobs:
                 introScrollWidth: intro?.scrollWidth,
                 columns: getComputedStyle(map).gridTemplateColumns,
                 studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
-                gardenLocked: Boolean(document.querySelector('[data-place-id="garden-continuation"] .place-action-disabled')) && !document.querySelector('[data-place-id="garden-continuation"] a[href="#/garden-continuation"]'),
+                gardenHidden: !document.querySelector('[data-place-id="garden-continuation"]'),
               };
             });
             if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) {
               throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
             }
-            if (!checks.gardenLocked) {
-              throw new Error(`Game Hub Garden must stay locked without a verified receipt.`);
+            if (!checks.gardenHidden) {
+              throw new Error(`Game Hub Garden must stay hidden from guests and non-privileged visitors.`);
             }
             if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) {
               throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
