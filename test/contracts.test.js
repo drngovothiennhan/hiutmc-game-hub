@@ -68,5 +68,5 @@ test('Game Hub is hidden from anyone outside the staff role allowlist', () => {
   assert.doesNotMatch(anonymousGate, /Bản đồ|Thành tựu|Gia Viên|Năng lực/);
   const memberGate = renderAccessGate({ member: { role: 'member' } });
   assert.match(memberGate, /chỉ dành cho admin, mod và smod/);
-  assert.doesNotMatch(memberGate, /topnav|href="#\\/world"/);
+  assert.doesNotMatch(memberGate, /topnav|Bản đồ|Gia Viên|Năng lực/);
 });
