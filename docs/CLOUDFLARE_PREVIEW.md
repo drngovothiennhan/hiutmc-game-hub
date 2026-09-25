@@ -1,6 +1,8 @@
-# Cloudflare Pages preview
+# Cloudflare Pages previews
 
-The G2 shell preview is deployed to Cloudflare Pages using Wrangler Direct Upload. The workflow only runs for pushes to `g2/game-hub-shell` or a manual dispatch. It creates the `hiutmc-game-hub` Pages project if it does not exist, sets `main` as the production branch, and deploys the G2 build on the isolated `game-hub-shell` branch. This does not change DNS, attach a custom domain, or deploy the `main` branch.
+The preview workflow deploys branch builds to the isolated `hiutmc-game-hub` Cloudflare Pages project. The `main` branch remains the production branch; deploying a branch preview does not change production routing or DNS.
+
+For Y Quán review, pushes to `g5/admin-y-quan-practice` deploy to the `admin-y-quan-practice` branch preview. This preview uses the same HIU TMC session and validates administrator access before showing the activity. See [Y Quán Admin Preview](Y_QUAN_ADMIN_PREVIEW.md) for the data boundary and lecturer review gate.
 
 ## GitHub Actions secrets
 
@@ -9,15 +11,15 @@ Configure these repository-level Actions secrets in `drngovothiennhan/hiutmc-gam
 - `CLOUDFLARE_API_TOKEN`: Cloudflare API token with Account → Cloudflare Pages → Edit permission.
 - `CLOUDFLARE_ACCOUNT_ID`: the HIU TMC Cloudflare account ID.
 
-The workflow never prints either value. If either secret is missing, the Pages deployment steps are skipped and the CI summary explains what is missing.
+The workflow never prints either value. If either secret is missing, deployment fails before invoking Wrangler.
 
 ## Preview address
 
-After a successful Cloudflare deploy, the branch preview is expected at:
+After the branch deployment succeeds, use the immutable deployment URL shown in the GitHub Actions summary. The Y Quán branch preview is expected at:
 
-`https://game-hub-shell.hiutmc-game-hub.pages.dev`
+`https://admin-y-quan-practice.hiutmc-game-hub.pages.dev`
 
-Confirm the actual deployment URL in the Cloudflare Pages deployment output before using it for browser QA. Cloudflare preview deployments are public by default; this shell contains no game-save reads or writes and uses only the public Supabase publishable key.
+Cloudflare preview deployments are public by default; the game route itself checks the HIU TMC session and Admin role. Its case data is synthetic and contains no real patient information.
 
 ## Source
 

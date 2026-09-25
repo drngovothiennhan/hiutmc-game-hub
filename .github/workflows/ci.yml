@@ -2,7 +2,7 @@ name: Game Hub CI
 
 on:
   push:
-    branches: [main, g2/game-hub-shell, g3/game-hub-intro-ux]
+    branches: [main, g2/game-hub-shell, g3/game-hub-intro-ux, g5/admin-y-quan-practice]
   pull_request:
     branches: [main, g2/game-hub-shell]
 
@@ -24,6 +24,8 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
+      - name: Test Y Quan admin preview guards
+        run: node --test tests/y-quan-practice.test.mjs
       - run: npm run build
       - name: Ensure runtime does not include server keys
         run: '! grep -R -E "service_role|SUPABASE_SECRET|sb_secret_" dist'

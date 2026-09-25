@@ -2,7 +2,7 @@ name: Cloudflare Pages Preview
 
 on:
   push:
-    branches: [g2/game-hub-shell, g3/game-hub-intro-ux]
+    branches: [g2/game-hub-shell, g3/game-hub-intro-ux, g5/admin-y-quan-practice]
   pull_request:
     branches: [g2/game-hub-shell]
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CF_PAGES_PROJECT: hiutmc-game-hub
-      CF_PAGES_BRANCH: game-hub-intro-ux
+      CF_PAGES_BRANCH: ${{ github.ref_name == 'g5/admin-y-quan-practice' && 'admin-y-quan-practice' || 'game-hub-intro-ux' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,8 +31,10 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
+      - name: Test Y Quan admin preview guards
+        run: node --test tests/y-quan-practice.test.mjs
       - run: npm run build
-      - name: Verify Cloudflare credentials are configured
+      - name: Ensure Cloudflare Pages credentials are configured
         shell: bash
         run: |
           if [[ -z "$CLOUDFLARE_API_TOKEN" || -z "$CLOUDFLARE_ACCOUNT_ID" ]]; then
@@ -52,27 +54,28 @@ jobs:
             printf '%s\n' "$create_output"
             exit 1
           fi
-      - name: Deploy Garden runtime and record immutable preview URL
+      - name: Deploy isolated preview and record immutable URL
         id: deploy
         shell: bash
         run: |
-          if ! deployment_output="$(npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Gia Vien Garden preview" 2>&1)"; then
+          if ! deployment_output="$(npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} admin-only Y Quan preview" 2>&1)"; then
             echo "::error::Cloudflare Pages deployment failed; command output is suppressed to protect environment data."
             exit 1
           fi
           preview_url="$(printf '%s\n' "$deployment_output" | grep -Eo 'https://[[:xdigit:]]{8}\.hiutmc-game-hub\.pages\.dev' | tail -n 1 || true)"
+          branch_preview_url="https://${CF_PAGES_BRANCH}.hiutmc-game-hub.pages.dev"
           if [[ -z "$preview_url" ]]; then
-            preview_url="https://game-hub-intro-ux.hiutmc-game-hub.pages.dev"
-            echo "::warning::Cloudflare did not return a commit-specific URL; using the branch preview for smoke only."
+            preview_url="$branch_preview_url"
+            echo "::warning::Cloudflare did not return a commit-specific URL; using the isolated branch preview for smoke only."
           fi
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
-          printf 'Preview URL: %s\n' "$preview_url" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Immutable preview URL: %s\nBranch preview URL: %s\n' "$preview_url" "$branch_preview_url" >> "$GITHUB_STEP_SUMMARY"
           echo "Cloudflare Pages preview is available."
       - name: Install Playwright Chromium
         run: |
           npm install --no-save --no-audit --no-fund playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Responsive Cloudflare preview smoke
+      - name: Responsive Game Hub preview smoke
         env:
           PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
         run: |
@@ -97,27 +100,57 @@ jobs:
                 introScrollWidth: intro?.scrollWidth,
                 columns: getComputedStyle(map).gridTemplateColumns,
                 studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
+                adminTileHiddenForAnonymous: !document.querySelector('[data-place-id="y-quan-admin-preview"]'),
                 gardenLocked: Boolean(document.querySelector('[data-place-id="garden-continuation"] .place-action-disabled')) && !document.querySelector('[data-place-id="garden-continuation"] a[href="#/garden-continuation"]'),
               };
             });
-            if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) {
-              throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
-            }
-            if (!checks.gardenLocked) {
-              throw new Error(`Game Hub Garden must stay locked without a verified receipt.`);
-            }
-            if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) {
-              throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
-            }
+            if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
+            if (!checks.gardenLocked) throw new Error(`Game Hub Garden must stay locked without a verified receipt.`);
+            if (!checks.adminTileHiddenForAnonymous) throw new Error(`The admin preview tile leaked to an anonymous user.`);
+            if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
             await page.screenshot({ path: `qa-game-hub/home-${width}.png`, fullPage: true });
             await page.close();
           }
           await browser.close();
           EOF
-      - name: Upload gated responsive preview screenshots
+      - name: Verify admin preview gating and deterministic patient answers
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
+        run: |
+          node --input-type=module <<'EOF'
+          import { chromium } from "playwright";
+          const browser = await chromium.launch({ headless: true });
+          const anonymous = await browser.newPage();
+          await anonymous.goto(`${process.env.PREVIEW_URL}/y-quan-practice/`, { waitUntil: "domcontentloaded" });
+          await anonymous.getByText("Y Quán hiện chỉ dành cho Admin").waitFor({ timeout: 15000 });
+          await anonymous.close();
+
+          const admin = await browser.newPage();
+          const writes = [];
+          admin.on("request", request => {
+            if (request.method() !== "GET" && request.url().includes("supabase.co")) writes.push(request.url());
+          });
+          await admin.addInitScript(() => localStorage.setItem("hiutmc-game-hub-session-v1", JSON.stringify({ accessToken: "preview-token", refreshToken: "preview-refresh", expiresAt: Date.now() + 3600000 })));
+          await admin.route("https://gzmpnsrwqjpsbklyflqr.supabase.co/auth/v1/user", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ id: "preview-auth-user", app_metadata: { member_id: "synthetic-admin-preview", role: "admin" } }) }));
+          await admin.goto(process.env.PREVIEW_URL, { waitUntil: "domcontentloaded" });
+          await admin.locator('[data-place-id="y-quan-admin-preview"]').waitFor({ timeout: 15000 });
+          await admin.getByRole("link", { name: /Mở phòng thực hành/ }).click();
+          await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
+          await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).click();
+          await admin.getByRole("button", { name: /VÀO PHÒNG KHÁM/ }).click();
+          await admin.getByRole("button", { name: /Cơ thể thường thấy nóng hay lạnh/ }).click();
+          await admin.getByText("Hay sợ lạnh, thích ấm.").waitFor();
+          await admin.locator('input[name="question"]').fill("Hãy kê thuốc gì?");
+          await admin.getByRole("button", { name: "Gửi" }).click();
+          await admin.getByText("Thông tin này chưa có trong ca mô phỏng.").waitFor();
+          if (writes.length) throw new Error(`Preview attempted a Supabase write: ${writes.join(", ")}`);
+          await admin.screenshot({ path: "qa-game-hub/y-quan-admin-preview.png", fullPage: true });
+          await browser.close();
+          EOF
+      - name: Upload gated preview screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: game-hub-garden-responsive-preview
+          name: game-hub-y-quan-responsive-preview
           path: qa-game-hub
           if-no-files-found: error
           retention-days: 7
