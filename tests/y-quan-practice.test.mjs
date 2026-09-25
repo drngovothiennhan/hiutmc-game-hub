@@ -98,11 +98,11 @@ test('Y Quan clinic scene is included in the lobby, consultation, and offline ca
     readFile(new URL('../service-worker.js', import.meta.url), 'utf8'),
     readFile(new URL('../public/assets/y-quan-clinic-room.webp', import.meta.url))
   ]);
-  assert.match(app, /\\/assets\\/y-quan-clinic-room\\.webp/);
+  assert.ok(app.includes('/assets/y-quan-clinic-room.webp'));
   assert.match(app, /yq-clinic-scene/);
   assert.match(app, /yq-room-banner/);
   assert.match(serviceWorker, /hiutmc-game-hub-shell-v4/);
-  assert.match(serviceWorker, /\\/assets\\/y-quan-clinic-room\\.webp/);
+  assert.ok(serviceWorker.includes('/assets/y-quan-clinic-room.webp'));
   assert.equal(image.subarray(0, 4).toString(), 'RIFF');
   assert.equal(image.subarray(8, 12).toString(), 'WEBP');
 });
