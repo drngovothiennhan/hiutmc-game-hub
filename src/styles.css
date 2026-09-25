@@ -15,3 +15,12 @@
   .world-seal span{font-size:27px}
   .world-seal small{font-size:5px}
 }
+
+
+/* Keep location cards and the seal from crowding the intro at tablet widths. */
+@media(max-width:900px){
+  .world-copy{max-width:100%;padding-right:145px}
+  .world-intro h1{font-size:clamp(28px,4vw,42px);line-height:1.12;letter-spacing:.02em;overflow-wrap:anywhere}
+  .world-intro p:not(.eyebrow){max-width:100%;overflow-wrap:anywhere}
+  .place-grid{grid-template-columns:1fr}
+}
