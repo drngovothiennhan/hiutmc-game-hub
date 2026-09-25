@@ -30,21 +30,15 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
       - run: npm run build
-      - name: Check Cloudflare credentials are available
-        id: credentials
+      - name: Verify Cloudflare credentials are configured
         shell: bash
         run: |
-          if [[ -n "$CLOUDFLARE_API_TOKEN" && -n "$CLOUDFLARE_ACCOUNT_ID" ]]; then
-            echo "available=true" >> "$GITHUB_OUTPUT"
-            echo "Cloudflare Pages credentials are available."
-          else
-            echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "Cloudflare preview deployment skipped: add repository Actions secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID. No credential values are printed."
-            echo "## Cloudflare preview skipped" >> "$GITHUB_STEP_SUMMARY"
-            echo "Add repository Actions secrets \`CLOUDFLARE_API_TOKEN\` and \`CLOUDFLARE_ACCOUNT_ID\`, then rerun this workflow." >> "$GITHUB_STEP_SUMMARY"
+          if [[ -z "$CLOUDFLARE_API_TOKEN" || -z "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo "::error::Add repository Actions secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID. Secret values are never printed."
+            exit 1
           fi
+          echo "Cloudflare Pages credentials are available."
       - name: Ensure Cloudflare Pages project exists
-        if: steps.credentials.outputs.available == 'true'
         shell: bash
         run: |
           projects="$(npx --yes wrangler@4 pages project list --json)"
@@ -64,5 +58,4 @@ jobs:
             npx --yes wrangler@4 pages project create "$CF_PAGES_PROJECT" --production-branch main
           fi
       - name: Deploy G2 branch as a Cloudflare Pages preview
-        if: steps.credentials.outputs.available == 'true'
         run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub shell preview"
