@@ -127,17 +127,25 @@ jobs:
           const browser = await chromium.launch({ headless: true });
           const anonymous = await browser.newPage();
           await anonymous.goto(`${process.env.PREVIEW_URL}/y-quan-practice/`, { waitUntil: "domcontentloaded" });
-          await anonymous.getByText("Y Quán hiện chỉ dành cho Admin").waitFor({ timeout: 15000 });
-          await anonymous.close();
-
-          const admin = await browser.newPage();
+          await anonymous.getByRole("heading", { name: "Đăng nhập Admin" }).waitFor({ timeout: 15000 });
+          await anonymous.getByLabel("Email HIU TMC").waitFor();
+          await anonymous.getByLabel("Mật khẩu").waitFor();
+          const admin = anonymous;
           const writes = [];
           admin.on("request", request => {
-            if (request.method() !== "GET" && request.url().includes("supabase.co")) writes.push(request.url());
+            const url = request.url();
+            const expectedPasswordGrant = url.includes("/auth/v1/token?grant_type=password");
+            if (request.method() !== "GET" && url.includes("supabase.co") && !expectedPasswordGrant) writes.push(url);
           });
-          await admin.addInitScript(() => localStorage.setItem("hiutmc-game-hub-session-v1", JSON.stringify({ accessToken: "preview-token", refreshToken: "preview-refresh", expiresAt: Date.now() + 3600000 })));
+          await admin.route(url => url.href.includes("/auth/v1/token") && url.searchParams.get("grant_type") === "password", route => route.fulfill({
+            status: 200, contentType: "application/json",
+            body: JSON.stringify({ access_token: "preview-token", refresh_token: "preview-refresh", expires_in: 3600, expires_at: Math.floor(Date.now() / 1000) + 3600 })
+          }));
           await admin.route("https://gzmpnsrwqjpsbklyflqr.supabase.co/auth/v1/user", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ id: "preview-auth-user", app_metadata: { member_id: "synthetic-admin-preview", role: "admin" } }) }));
-          await admin.goto(process.env.PREVIEW_URL, { waitUntil: "domcontentloaded" });
+          await admin.getByLabel("Email HIU TMC").fill("admin@example.com");
+          await admin.getByLabel("Mật khẩu").fill("preview-test-password");
+          await admin.getByRole("button", { name: /ĐĂNG NHẬP ADMIN/ }).click();
+          await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
           await admin.locator('[data-place-id="y-quan-admin-preview"]').waitFor({ timeout: 15000 });
           await admin.getByRole("link", { name: /Mở phòng thực hành/ }).click();
           await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
