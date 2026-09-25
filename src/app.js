@@ -1,32 +1,51 @@
 import { bootstrapSession, logout } from './auth/session.js';
 import { readRoute } from './game-engine/router.js';
 import { renderShell } from './components/shell.js';
+import { claimOrGetTeacherHerbEntitlement, isVerifiedTeacherHerbEntitlement } from './entitlements/teacher-herb.js';
 
 const root = document.querySelector('#app');
 let currentMember = null;
 let currentSession = null;
+let currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
 let authError = null;
 
 function render() {
   const route = readRoute();
-  const view = route[0] === 'skills' || route[0] === 'achievements' ? route[0] : 'world';
-  root.innerHTML = renderShell({ member: currentMember, session: currentSession, view, authError });
+  const requestedView = route[0];
+  const view = requestedView === 'teacher-herb' && isVerifiedTeacherHerbEntitlement(currentEntitlement)
+    ? 'teacher-herb'
+    : requestedView === 'skills' || requestedView === 'achievements' ? requestedView : 'world';
+  root.innerHTML = renderShell({
+    member: currentMember,
+    session: currentSession,
+    entitlement: currentEntitlement,
+    view,
+    authError
+  });
   root.setAttribute('aria-busy', 'false');
   root.querySelector('#logout-button')?.addEventListener('click', async () => {
     await logout();
-  currentMember = null;
+    currentMember = null;
     currentSession = null;
+    currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
     authError = null;
     render();
   });
 }
 
 root.innerHTML = renderShell({ member: null, view: 'world', loading: true });
-bootstrapSession().then(result => {
-currentMember = result.member;
+bootstrapSession().then(async result => {
+  currentMember = result.member;
   currentSession = result.session;
   authError = result.error;
   render();
+
+  if (currentMember && currentSession) {
+    currentEntitlement = { eligible: false, reason: 'checking' };
+    render();
+    currentEntitlement = await claimOrGetTeacherHerbEntitlement(currentSession);
+    render();
+  }
 }).catch(error => {
   authError = error instanceof Error ? error.message : 'Không thể xác minh phiên HIU TMC.';
   render();
