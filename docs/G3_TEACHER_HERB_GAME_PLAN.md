@@ -1,6 +1,6 @@
 # G3 plan — Teacher Herb Game sequel
 **Checkpoint:** 2026-09-25  
-**Status:** approved product direction; design and integration gates only. No Study OS runtime, Garden save, Supabase schema, or production data was changed.
+**Status:** completion gate agreed; isolated one-time entitlement vertical slice implemented for QA. No Study OS runtime, Garden save, production schema, or production data was changed.
 
 ## Product direction
 
@@ -18,29 +18,29 @@ On the Game Hub main page, show a sequel card with clear locked/unlocked state. 
 
 ## Completion gate: verify before coding
 
-The current V7 UI and reviewed contract show the Garden's final progression state as **9/9 plots unlocked**. The UI says the initial three plots each need a first valid harvest; after that, each newly opened plot's first harvest opens the next sequential plot, up to plot 9. The current UI labels 9/9 as “Đã mở đủ 9 ô.” However, the reviewed runtime has no explicit all-rounds-passed flag, completion receipt, or dedicated sequel-unlock contract. In particular, reaching 9/9 unlocks follows the first-harvest progression through plot 8; the existing UI does not say whether plot 9 itself must also be harvested to count as “passed”.
+The completion gate is finalized as **exactly plots 1 through 9, all server-confirmed unlocked**. This matches the existing V7 progression display “Đã mở đủ 9 ô”; unlocking plot 9 does not require harvesting plot 9. The user confirmed this as the meaning of passing Gia Viên for this sequel gate on 2026-09-25. There is no explicit Garden completion flag, so the server derives the gate directly from the existing `herb_garden_plots` rows without invoking side-effecting Garden RPCs. The predicate requires 9 rows, minimum slot 1, maximum slot 9, and all 9 `unlocked=true`.
 
-Treat **9/9 server-confirmed plots unlocked** as the leading candidate, not a finalized entitlement rule. G3.1 must compare that candidate with the approved meaning of “vượt qua các vòng”, then identify authoritative server-readable evidence and the producer. If the intended pass condition also requires harvesting plot 9 or another result, record that exact existing rule before implementation. Do not infer from browser state, a client flag, a member ID supplied by the client, or an assumed count.
+Do not infer eligibility from browser state, a client flag, a member ID supplied by the client, or an assumed count.
 
 ## One-time unlock contract
 
 Use a one-time, server-verified entitlement exchange. It conveys eligibility only; it does not synchronize Garden save data.
 
-1. The Study OS side confirms its existing completion rule and issues a short-lived proof for the authenticated member and the sequel audience. The proof is submitted in a POST body, never a query string or analytics event.
-2. A Game Hub server-side verifier validates issuer, audience, member binding, expiry and unique receipt ID. The member binding must match the current Auth user's trusted `app_metadata.member_id`.
-3. In one atomic operation, Game Hub records a minimal entitlement for that member and sequel version. Enforce uniqueness so duplicate/replayed proofs cannot grant duplicate state. Replaying a valid already-consumed proof returns the existing entitlement without creating another.
-4. The browser receives only the eligibility/result state. Never trust localStorage or a client-supplied `eligible=true` as access control. Once granted, the sequel can load its own Game Hub save without calling Garden again.
+1. Game Hub calls a parameterless authenticated RPC. The browser sends no member identifier or completion boolean.
+2. The backend binds the request to `auth.uid()` and only the trusted `app_metadata.member_id`, checks the linked approved/login-enabled member row, and reads the nine Garden plot rows without calling a Garden RPC.
+3. In one atomic operation, the backend creates a minimal entitlement receipt in the unexposed `game_hub_private` schema. A unique `(member_id, game_key)` constraint makes repeated or concurrent requests return the same durable receipt.
+4. The browser receives only eligibility, receipt ID, grant time, and a bounded reason. It does not receive Garden rows or a completion proof. It uses the server receipt to render the sequel entry; the sequel route rechecks the entitlement returned by the RPC.
 
-The precise producer/verifier endpoint and persistence mechanism remain a design gate. The reviewed production project has no isolated Supabase branch or proven rollback harness. Do not create production tables/RPCs, secrets, Edge Functions, or write data until a non-production environment and rollback path are verified and the smallest required backend change is reviewed. Prefer a Game Hub-owned entitlement record; add no Garden fields or mutations.
+The Game Hub migration and client flow are committed on PR #3. The migration has been applied only to the new isolated QA Supabase project with synthetic source-schema fixtures. Production has not received the migration. Study OS continues to write its existing Garden tables/RPCs; no Study OS source edit, Garden mutation, token secret, or extra proof service is required.
 
 ## Delivery slices
 
 | Slice | Work | Exit evidence |
 |---|---|---|
-| G3.1 — completion contract | Read current Study OS completion scenarios and authoritative server sources; identify exact pass predicate and evidence. Keep this read-only. | Source commit, pass condition, and trustworthy producer recorded; ambiguity resolved without gameplay writes. |
-| G3.2 — bridge design | Specify proof claims, audience, expiry, replay/idempotency, identity binding, error cases, and isolated storage/rollback. | Reviewed contract and threat-focused tests; no production changes. |
+| G3.1 — completion contract | Confirm the 9/9 server-unlocked predicate and read existing source schema. | Exact predicate and columns recorded; no gameplay writes. Complete. |
+| G3.2 — entitlement vertical slice | Add the private receipt store, authenticated RPC, and fail-closed Game Hub client gate. | Synthetic isolated DB tests pass for 9/9, locked 8/9, replay, trusted claim, and grants. Complete in QA. |
 | G3.3 — sequel shell | Add main-page sequel card and separate route; locked state points to existing Study OS prerequisite. Build richer visual direction in Game Hub. | Responsive preview; locked by default; no Garden RPC/table calls. |
-| G3.4 — entitlement vertical slice | Implement isolated server verification and a separate sequel save only after isolation/recovery gate. | Unit/contract tests for locked, eligible, wrong member, expired, replayed and duplicate handoff. |
+| G3.4 — sequel experience | Build the detailed sequel from approved scenarios and give it a separate Game Hub save only after the content and data contracts are approved. | Gameplay tests run entirely in isolated storage; no Garden copy. In progress. |
 | G3.5 — sample QA | Verify the designated QA member's completion through the safe authenticated UI and exercise only the sequel in isolated storage. | Positive/negative unlock checks and before/after sequel state evidence; Garden state unchanged. |
 
 ## Acceptance and release boundary
@@ -51,4 +51,4 @@ The precise producer/verifier endpoint and persistence mechanism remain a design
 - Garden V7 routes, RPCs, save format and production data remain unchanged. The old Study OS experience remains available.
 - All gameplay facts, objectives and scoring for the sequel must come from approved source scenarios; do not invent academic claims or alter Garden rules.
 - CI/build/isolated preview and authenticated sample QA must pass before declaring G3 complete. Keep PRs draft until those gates pass.
-- No merge, production deployment, DNS/domain change, production schema/data mutation, or Study OS source edit is part of this checkpoint.
+- No merge, production deployment, DNS/domain change, production schema/data mutation, or Study OS source edit is part of this checkpoint. The QA entitlement database contains only test schema/fixture tables; synthetic QA rows were removed after tests, leaving zero receipts and zero fixture members.
