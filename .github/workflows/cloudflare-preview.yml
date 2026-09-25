@@ -50,7 +50,8 @@ jobs:
             printf '%s\n' "$create_output"
             exit 1
           fi
-      - name: Deploy G2 branch as a Cloudflare Pages preview
+      - name: Deploy G3 intro UX to a Cloudflare Pages preview
+        run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub intro UX preview"
       - name: Install Playwright Chromium
         run: |
           npm install --no-save --no-audit --no-fund playwright@1.55.0
@@ -100,4 +101,3 @@ jobs:
           path: qa-game-hub
           if-no-files-found: error
           retention-days: 7
-        run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub intro UX preview"
