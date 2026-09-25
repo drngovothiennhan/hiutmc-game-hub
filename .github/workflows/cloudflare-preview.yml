@@ -146,8 +146,7 @@ jobs:
           await admin.getByLabel("Mật khẩu").fill("preview-test-password");
           await admin.getByRole("button", { name: /ĐĂNG NHẬP ADMIN/ }).click();
           await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
-          await admin.locator('[data-place-id="y-quan-admin-preview"]').waitFor({ timeout: 15000 });
-          await admin.getByRole("link", { name: /Mở phòng thực hành/ }).click();
+          await admin.getByText("ADMIN ĐÃ XÁC MINH").waitFor({ timeout: 15000 });
           await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).waitFor({ timeout: 15000 });
           await admin.getByRole("button", { name: /BẮT ĐẦU CA MÔ PHỎNG/ }).click();
           await admin.getByRole("button", { name: /VÀO PHÒNG KHÁM/ }).click();
