@@ -41,21 +41,14 @@ jobs:
       - name: Ensure Cloudflare Pages project exists
         shell: bash
         run: |
-          projects="$(npx --yes wrangler@4 pages project list --json)"
-          if printf '%s' "$projects" | node -e '
-            let input = "";
-            process.stdin.on("data", chunk => input += chunk);
-            process.stdin.on("end", () => {
-              try {
-                const parsed = JSON.parse(input);
-                const projects = Array.isArray(parsed) ? parsed : (parsed.result || parsed.projects || []);
-                process.exit(projects.some(project => project.name === process.env.CF_PAGES_PROJECT) ? 0 : 1);
-              } catch { process.exit(2); }
-            });
-          '; then
-            echo "Cloudflare Pages project already exists."
+          if create_output="$(npx --yes wrangler@4 pages project create "$CF_PAGES_PROJECT" --production-branch main 2>&1)"; then
+            printf '%s\n' "$create_output"
+            echo "Created Cloudflare Pages project."
+          elif [[ "$create_output" == *"A project with this name already exists"* ]]; then
+            echo "Cloudflare Pages project already exists; continuing with the existing project."
           else
-            npx --yes wrangler@4 pages project create "$CF_PAGES_PROJECT" --production-branch main
+            printf '%s\n' "$create_output"
+            exit 1
           fi
       - name: Deploy G2 branch as a Cloudflare Pages preview
         run: npx --yes wrangler@4 pages deploy dist --project-name="$CF_PAGES_PROJECT" --branch="$CF_PAGES_BRANCH" --commit-hash="$GITHUB_SHA" --commit-message="${GITHUB_SHA} Game Hub shell preview"
