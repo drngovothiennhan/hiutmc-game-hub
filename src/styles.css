@@ -39,3 +39,5 @@
 .teacher-herb-status strong{font-size:13px;color:var(--green)}
 .teacher-herb-status span:not(.teacher-herb-seal){font-size:11px;line-height:1.5;color:var(--muted)}
 .teacher-herb-seal{width:46px;height:46px;display:grid;place-items:center;border:1px solid #bd9a5b;border-radius:50%;color:#8d6c36;font:600 23px 'Noto Serif',serif;flex:none}
+
+.place-action-button{display:inline-flex;align-self:flex-start;padding:0;border:0;background:transparent;font:inherit;text-align:left;cursor:pointer}.place-action-button:hover{text-decoration:underline}
