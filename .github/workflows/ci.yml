@@ -25,6 +25,8 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
       - run: npm run build
+      - name: Verify production entry assets
+        run: test -s dist/src/styles.css && test -s dist/assets/app.js
       - name: Ensure runtime does not include server keys
         run: '! grep -R -E "service_role|SUPABASE_SECRET|sb_secret_" dist'
       - uses: actions/upload-artifact@v4
