@@ -5,6 +5,8 @@ import { isLaunchable, worldMap } from '../src/data/world-map.js';
 import { escapeHtml } from '../src/profile/profile.js';
 import { buildLegacySsoUrl, SESSION_STORAGE_KEY } from '../src/auth/session.js';
 import { renderWorldMap } from '../src/components/world-map.js';
+import { canAccessGameHub } from '../src/auth/garden-beta-access.js';
+import { renderAccessGate } from '../src/components/shell.js';
 
 test('router defaults to world map and parses supported views', () => {
   assert.deepEqual(readRoute(''), ['world']);
@@ -53,4 +55,18 @@ test('legacy game launch carries the existing ecosystem session in a fragment', 
   assert.equal(bridge.get('ecosystem_sso'), '1');
   assert.equal(bridge.get('access_token'), 'access');
   assert.equal(bridge.get('refresh_token'), 'refresh');
+});
+
+test('Game Hub is hidden from anyone outside the staff role allowlist', () => {
+  assert.equal(canAccessGameHub({ role: 'admin' }), true);
+  assert.equal(canAccessGameHub({ role: 'mod' }), true);
+  assert.equal(canAccessGameHub({ role: 'super_mod' }), true);
+  assert.equal(canAccessGameHub({ role: 'member' }), false);
+  assert.equal(canAccessGameHub(null), false);
+  const anonymousGate = renderAccessGate({ member: null });
+  assert.match(anonymousGate, /Đăng nhập HIU TMC/);
+  assert.doesNotMatch(anonymousGate, /Bản đồ|Thành tựu|Gia Viên|Năng lực/);
+  const memberGate = renderAccessGate({ member: { role: 'member' } });
+  assert.match(memberGate, /chỉ dành cho admin, mod và smod/);
+  assert.doesNotMatch(memberGate, /topnav|Bản đồ|Gia Viên|Năng lực/);
 });
