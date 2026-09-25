@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from '../src/entitlements/garden-unlock.js';
 import { canAccessGardenBeta } from '../src/auth/garden-beta-access.js';
 import { renderWorldMap } from '../src/components/world-map.js';
@@ -62,4 +63,15 @@ test('Garden is available to any linked, authenticated member regardless of role
   assert.equal(canAccessGardenBeta(null), false);
   assert.equal(renderWorldMap(null, null, false, false).includes('data-place-id="garden-continuation"'), false);
   assert.equal(renderWorldMap(null, null, true, true).includes('data-place-id="garden-continuation"'), true);
+});
+
+
+test('receipt migration keeps only the trusted approved-member gate', () => {
+  const migration = readFileSync(new URL('../supabase/migrations/20260926043000_garden_hub_member_access_v1.sql', import.meta.url), 'utf8');
+  assert.match(migration, /auth\\.uid\\(\\)/);
+  assert.match(migration, /app_metadata/);
+  assert.match(migration, /m\\.auth_user_id = v_auth_user_id/);
+  assert.match(migration, /m\\.status::text = 'approved'/);
+  assert.match(migration, /m\\.login_enabled is true/);
+  assert.doesNotMatch(migration, /role_restricted|prerequisite_incomplete|herb_garden_plots|v_member_role/);
 });
