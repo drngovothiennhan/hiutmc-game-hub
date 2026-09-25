@@ -42,12 +42,12 @@ export default function HerbGardenGame({member}:{member:Member}){
     setPlots(rows);
     setSelectedSlot(current=>rows.find(x=>x.slot_no===current&&x.unlocked)?.slot_no||rows.find(x=>x.unlocked)?.slot_no||rows[0]?.slot_no||1);
   };
-  const refreshPlotState=async()=>{const {data,error}=await supabase.rpc('herb_garden_state_v3');if(!error)applyPlotRows((Array.isArray(data)?data:[]) as Plot[])};
+  const refreshPlotState=async()=>{const {data,error}=await gardenSupabase.rpc('herb_garden_state_v3');if(!error)applyPlotRows((Array.isArray(data)?data:[]) as Plot[])};
   const load=async(clearMessage=true)=>{
     setBusy(true);if(clearMessage)setMsg('');
     try{
       const [state,stock,personalization,seedStock,rewardState,walletState]=await Promise.all([
-        supabase.rpc('herb_garden_state_v3'),supabase.rpc('herb_garden_inventory_v3'),supabase.rpc('herb_garden_visit_v2',{p_member_id:member.id}),supabase.rpc('herb_garden_seed_inventory_v1'),supabase.rpc('herb_garden_reward_status_v1'),supabase.rpc('herb_garden_wallet_v1')
+        gardenSupabase.rpc('herb_garden_state_v3'),gardenSupabase.rpc('herb_garden_inventory_v3'),gardenSupabase.rpc('herb_garden_visit_v2',{p_member_id:member.id}),gardenSupabase.rpc('herb_garden_seed_inventory_v1'),gardenSupabase.rpc('herb_garden_reward_status_v1'),gardenSupabase.rpc('herb_garden_wallet_v1')
       ]);
       for(const result of [state,stock,seedStock,rewardState,walletState])if(result.error)throw result.error;
       applyPlotRows((Array.isArray(state.data)?state.data:[]) as Plot[]);
@@ -84,13 +84,13 @@ export default function HerbGardenGame({member}:{member:Member}){
 
   const toggleInitial=(slot:number)=>{if(initialComplete||busy)return;setInitialChoice(xs=>xs.includes(slot)?xs.filter(x=>x!==slot):xs.length<3?[...xs,slot]:xs)};
   const choosePlot=(plot:Plot)=>{if(!initialComplete){toggleInitial(plot.slot_no);return}if(plot.unlocked)setSelectedSlot(plot.slot_no)};
-  const confirmInitial=async()=>{if(initialChoice.length!==3)return;setBusy(true);setMsg('');try{const chosen=[...initialChoice].sort((a,b)=>a-b);const {error}=await supabase.rpc('herb_garden_select_initial_plots_v3',{p_slots:initialChoice});if(error)throw error;setInitialChoice([]);await load(false);setMsg(`Đã mở 3 ô khởi đầu: ${chosen.join(', ')}. Túi giống khởi đầu đã sẵn sàng.`)}catch(e){setMsg((e as Error).message)}finally{setBusy(false)}};
+  const confirmInitial=async()=>{if(initialChoice.length!==3)return;setBusy(true);setMsg('');try{const chosen=[...initialChoice].sort((a,b)=>a-b);const {error}=await gardenSupabase.rpc('herb_garden_select_initial_plots_v3',{p_slots:initialChoice});if(error)throw error;setInitialChoice([]);await load(false);setMsg(`Đã mở 3 ô khởi đầu: ${chosen.join(', ')}. Túi giống khởi đầu đã sẵn sàng.`)}catch(e){setMsg((e as Error).message)}finally{setBusy(false)}};
 
   const run=async(kind:'plant'|'water'|'fertilize'|'harvest',slot:number)=>{
     setBusy(true);setMsg('');
     try{
       const rpc={plant:'herb_garden_plant_v3',water:'herb_garden_water_v4',fertilize:'herb_garden_fertilize_v4',harvest:'herb_garden_harvest_v3'}[kind];
-      const {data,error}=await supabase.rpc(rpc,{p_slot_no:slot});
+      const {data,error}=await gardenSupabase.rpc(rpc,{p_slot_no:slot});
       if(error)throw error;
       await load(false);
       if(kind==='plant')setMsg(`Đã gieo 1 hạt tại ô ${slot}. Lịch chăm 72 giờ đã bắt đầu.`);
