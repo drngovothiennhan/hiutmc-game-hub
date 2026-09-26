@@ -65,7 +65,7 @@ test('Y Quan defaults to the Thap van practice module with a one-time doctor int
   assert.match(client, /220 câu/);
   assert.match(client, /tối thiểu 90 phút/);
   assert.ok(client.includes("gameHubPath('y-quan-live/interview/')"));
-  assert.ok(page.includes("import('./app.js')"));
+  assert.ok(page.includes("import(base+'y-quan-live/interview/app.js')"));
   assert.match(build, /cp\('public', 'dist', \{ recursive: true \}\)/);
 });
 
