@@ -77,3 +77,7 @@
 @keyframes hub-view-out{to{opacity:0;transform:translateY(-3px)}}
 @keyframes hub-view-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+
+.app-shell{animation:hub-shell-enter .16s ease-out both}
+@keyframes hub-shell-enter{from{opacity:.92;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.app-shell{animation:none}}
