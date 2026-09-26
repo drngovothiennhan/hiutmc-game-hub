@@ -11,18 +11,20 @@ export function resolveDisplayMode(preference, viewportWidth = globalThis.innerW
   return viewportWidth > 0 && viewportWidth <= 720 ? 'mobile' : 'pc';
 }
 
-export function readDisplayModePreference(storage = globalThis.localStorage) {
+export function readDisplayModePreference(storage) {
   try {
-    return normalizeDisplayMode(storage?.getItem(DISPLAY_MODE_KEY));
+    const target = storage ?? globalThis.localStorage;
+    return normalizeDisplayMode(target?.getItem(DISPLAY_MODE_KEY));
   } catch {
     return 'auto';
   }
 }
 
-export function saveDisplayModePreference(value, storage = globalThis.localStorage) {
+export function saveDisplayModePreference(value, storage) {
   const mode = normalizeDisplayMode(value);
   try {
-    storage?.setItem(DISPLAY_MODE_KEY, mode);
+    const target = storage ?? globalThis.localStorage;
+    target?.setItem(DISPLAY_MODE_KEY, mode);
   } catch {
     // Keep the current session usable when storage is disabled or full.
   }
