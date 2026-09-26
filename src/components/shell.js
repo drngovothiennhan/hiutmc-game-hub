@@ -21,7 +21,8 @@ export function renderShell({ member, session = null, entitlement = null, garden
       : view === 'garden-continuation'
         ? '<section class="garden-runtime-shell"><p class="eyebrow">GIA VIÊN · QUYỀN VÀO ĐÃ XÁC MINH</p><h1>Gia Viên Dược Thảo · Khu vườn mở rộng</h1><p>Tiến trình trước đó tại Study OS được giữ nguyên. Bạn đang tiếp tục Gia Viên trong Game Hub.</p><div id="garden-runtime-root"></div></section>'
         : renderWorldMap(session, entitlement, Boolean(member), gardenBetaEnabled);
-  const installControls = renderInstallControls(canInstall);\n  const account = member
+  const installControls = renderInstallControls(canInstall);
+  const account = member
     ? `<button class="account-button" id="logout-button" type="button">Đăng xuất</button>`
     : `<a class="account-button" href="${ECOSYSTEM_HOME}" rel="noopener">HIU TMC</a>`;
   const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
