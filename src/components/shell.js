@@ -24,16 +24,17 @@ function escapeText(value) {
   return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 }
 
-export function renderAccessGate({ member = null, loading = false, authError = null } = {}) {
-  const heading = loading ? 'Đang xác minh quyền truy cập' : member ? 'Khu vực nội bộ' : 'Đăng nhập để tiếp tục';
+export function renderAccessGate({ member = null, loading = false, authError = null, canRetry = false } = {}) {
+  const heading = loading ? 'Đang xác minh quyền beta' : member ? 'Chưa thể vào beta' : 'Đăng nhập để tiếp tục';
   const message = loading
-    ? 'Game Hub đang kiểm tra phiên HIU TMC của bạn.'
+    ? 'Game Hub đang xác minh tài khoản HIU TMC đã được duyệt và bật đăng nhập.'
     : member
-      ? 'Bản thử nghiệm hiện chỉ dành cho Admin, Mod và Super Mod của HIU TMC.'
-      : 'Hãy đăng nhập qua hệ sinh thái HIU TMC bằng tài khoản được cấp quyền.';
+      ? 'Beta dành cho mọi thành viên HIU TMC đã được duyệt và bật đăng nhập.'
+      : 'Hãy đăng nhập qua hệ sinh thái HIU TMC bằng tài khoản thành viên.';
   const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
+  const retry = canRetry ? '<button class="account-button" id="beta-retry" type="button">Thử xác minh lại</button>' : '';
   const action = member
-    ? '<button class="account-button" id="logout-button" type="button">Đăng xuất</button>'
+    ? `<div class="access-gate-actions">${retry}<button class="account-button" id="logout-button" type="button">Đăng xuất</button></div>`
     : `<a class="account-button" href="${ECOSYSTEM_HOME}?open=game-hub" rel="noopener">Tiếp tục vào Game Hub ↗</a>`;
   return `<main class="access-gate"><section class="access-gate-card" role="status"><p class="eyebrow">HIU TMC GAME HUB</p><h1>${heading}</h1><p>${message}</p>${alert}<div class="access-gate-action">${action}</div></section></main>`;
 }

@@ -1,5 +1,6 @@
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from '../config.js';
 import { getValidAccessToken } from '../auth/session.js';
+import { reportGameHubError } from '../observability/error-reporting.js';
 
 export const gardenSupabase = {
   async rpc(name, args = {}) {
@@ -17,9 +18,17 @@ export const gardenSupabase = {
         cache: 'no-store'
       });
       const data = await response.json().catch(() => null);
-      if (!response.ok) return { data: null, error: new Error(data?.message || 'Không thể đồng bộ trạng thái Gia Viên.') };
+      if (!response.ok) {
+        void reportGameHubError({ accessToken: token }, new Error('A Garden gameplay request failed.'), {
+          code: 'garden_rpc_http', area: 'garden', operation: name, status: response.status
+        });
+        return { data: null, error: new Error(data?.message || 'Không thể đồng bộ trạng thái Gia Viên.') };
+      }
       return { data, error: null };
     } catch {
+      void reportGameHubError({ accessToken: token }, new Error('A Garden gameplay request could not reach the server.'), {
+        code: 'garden_rpc_network', area: 'garden', operation: name
+      });
       return { data: null, error: new Error('Không thể kết nối để đồng bộ Gia Viên.') };
     }
   }

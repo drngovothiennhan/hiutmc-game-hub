@@ -57,20 +57,19 @@ test('legacy game launch carries the existing ecosystem session in a fragment', 
   assert.equal(bridge.get('refresh_token'), 'refresh');
 });
 
-test('Game Hub beta is restricted to linked admin, mod, and super_mod roles', () => {
-  for (const role of ['admin', 'mod', 'super_mod']) {
+test('Game Hub beta is available to every linked, verified member role', () => {
+  for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member', 'guest']) {
     assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), true);
   }
-  for (const role of ['leader', 'member', 'guest']) {
-    assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), false);
-  }
+  assert.equal(canAccessGameHub({ id: '', role: 'member' }), false);
   assert.equal(canAccessGameHub({ role: 'admin' }), false);
   assert.equal(canAccessGameHub(null), false);
   const anonymousGate = renderAccessGate({ member: null });
   assert.match(anonymousGate, /Tiếp tục vào Game Hub/);
   assert.match(anonymousGate, /\?open=game-hub/);
   assert.doesNotMatch(anonymousGate, /Bản đồ|Thành tựu|Gia Viên|Năng lực/);
-  const memberGate = renderAccessGate({ member: { role: 'member' } });
-  assert.match(memberGate, /chỉ dành cho Admin, Mod và Super Mod/);
-  assert.doesNotMatch(memberGate, /topnav|Bản đồ|Gia Viên|Năng lực/);
+  const memberGate = renderAccessGate({ member: { role: 'member' }, authError: 'Tài khoản chưa được duyệt.' });
+  assert.match(memberGate, /đã được duyệt và bật đăng nhập/);
+  assert.match(memberGate, /Tài khoản chưa được duyệt/);
+  assert.doesNotMatch(memberGate, /chỉ dành cho Admin, Mod và Super Mod|topnav|Bản đồ|Gia Viên|Năng lực/);
 });
