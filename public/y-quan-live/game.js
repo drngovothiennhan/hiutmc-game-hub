@@ -47,7 +47,7 @@ async function token(){
     throw Error('Phiên đăng nhập hết hạn. Hãy mở Game Hub lại từ HIU TMC.');
   }
 }
-async function rpc(name,body={}){
+async function rpc(name,body={},routeOverride=''){
   let requestStarted=false;
   try{
     const t=await token();
@@ -58,7 +58,7 @@ async function rpc(name,body={}){
     if(!r.ok)throw Error(x.message||x.details||'Máy chủ chưa xử lý được thao tác.');
     return x;
   }catch(e){
-    if(requestStarted)reportError('rpc_failed',routeForRpc(name));
+    if(requestStarted)reportError('rpc_failed',routeOverride||routeForRpc(name));
     throw e;
   }
 }
@@ -75,4 +75,4 @@ ROOT.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b
 ROOT.addEventListener('submit',async e=>{const f=e.target.closest('form[data-form="case"]');if(!f)return;e.preventDefault();const fd=new FormData(f),domains=fd.getAll('domain').map(String),diagnosis=String(fd.get('diagnosis')||''),reasoning=String(fd.get('reasoning')||'');try{if(f.dataset.id)await rpc('y_quan_submit_case_v1',{p_visit_id:f.dataset.id,p_answered_domains:domains,p_diagnosis:diagnosis,p_reasoning:reasoning});else await rpc('y_quan_submit_daily_case_v1',{p_slot_no:Number(f.dataset.slot),p_answered_domains:domains,p_diagnosis:diagnosis,p_reasoning:reasoning});message='Ca đã được máy chủ chấm và lưu.';await load()}catch(err){message=err.message;render()}});
 window.addEventListener('error',()=>reportError('client_uncaught','unknown'));
 window.addEventListener('unhandledrejection',()=>reportError('client_unhandled_rejection','unknown'));
-try{session=getSession();if(session?.accessToken)await load();else render()}catch(e){reportError('dashboard_load_failed','bootstrap');message=e.message;render()}setInterval(()=>{if(session?.accessToken&&data?.doctor?.is_open)rpc('y_quan_open_clinic_v1',{p_doctor_avatar_id:data.doctor.doctor_avatar_id}).then(load).catch(()=>reportError('rpc_failed','background_refresh'))},60000);
+try{session=getSession();if(session?.accessToken)await load();else render()}catch(e){reportError('dashboard_load_failed','bootstrap');message=e.message;render()}setInterval(()=>{if(session?.accessToken&&data?.doctor?.is_open)rpc('y_quan_open_clinic_v1',{p_doctor_avatar_id:data.doctor.doctor_avatar_id},'background_refresh').then(load).catch(()=>{})},60000);
