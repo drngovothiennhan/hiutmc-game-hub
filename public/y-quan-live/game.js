@@ -3,7 +3,7 @@ const DOMAINS=[['cold','Hàn – nhiệt'],['sweat','Mồ hôi'],['pain','Đau n
 let session=null,data=null,clinics=[],doctorVisits=[],patientVisits=[],leaderboard=[],page='doctor',busy=false,message='',stars={};
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const reportCooldown=new Map();
-function reportError(code,route='unknown'){
+function reportError(code,route='unknown',status=null){
   if(!['rpc_failed','dashboard_load_failed','session_refresh_failed','client_uncaught','client_unhandled_rejection'].includes(code))return;
   if(!['bootstrap','dashboard','clinic','patient','leaderboard','case','rating','background_refresh','unknown'].includes(route))route='unknown';
   const key=code+':'+route,now=Date.now();
@@ -15,7 +15,7 @@ function reportError(code,route='unknown'){
     void fetch(URL+'/rest/v1/rpc/game_hub_record_error_v1',{
       method:'POST',
       headers:{apikey:KEY,Authorization:'Bearer '+current.accessToken,'Content-Type':'application/json'},
-      body:JSON.stringify({p_error_code:code,p_route_key:route}),
+      body:JSON.stringify({p_code:code,p_message:'Y Quan client operation failed.',p_route:'/y-quan-live/',p_context:{area:'y-quan-live',operation:route,status:status?String(status):null,errorType:code}}),
       cache:'no-store',
       keepalive:true
     }).catch(()=>{});
@@ -48,17 +48,18 @@ async function token(){
   }
 }
 async function rpc(name,body={},routeOverride=''){
-  let requestStarted=false;
+  let requestStarted=false,status=null;
   try{
     const t=await token();
     if(!t)throw Error('Hãy đăng nhập Game Hub bằng tài khoản HIU TMC để đồng bộ tiến trình.');
     requestStarted=true;
     const r=await fetch(URL+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store'});
+    status=r.status;
     const x=await r.json().catch(()=>({}));
     if(!r.ok)throw Error(x.message||x.details||'Máy chủ chưa xử lý được thao tác.');
     return x;
   }catch(e){
-    if(requestStarted)reportError('rpc_failed',routeOverride||routeForRpc(name));
+    if(requestStarted)reportError('rpc_failed',routeOverride||routeForRpc(name),status);
     throw e;
   }
 }
