@@ -17,7 +17,7 @@ test('router defaults to world map and parses supported views', () => {
 test('only explicitly connected legacy games are launchable', () => {
   const active = worldMap.filter(isLaunchable).map(place => place.id);
   assert.deepEqual(active, ['garden', 'clinic']);
-  assert.ok(worldMap.filter(place => place.state !== 'available-legacy').every(place => !isLaunchable(place)));
+  assert.ok(worldMap.filter(place => !['available-legacy', 'available-live'].includes(place.state)).every(place => !isLaunchable(place)));
   const continuation = worldMap.find(place => place.id === 'garden-continuation');
   assert.equal(continuation.state, 'locked-continuation');
   assert.equal(continuation.href, '/garden-continuation');
