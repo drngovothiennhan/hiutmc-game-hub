@@ -1,5 +1,6 @@
 import { cases, questions } from './data.js';
 import { createQuestionPlan, scoreAttempt, starsForScore } from './engine.js';
+import { gameHubPath } from '../paths.js';
 
 const root = document.querySelector('#yq-interview');
 const scenes = [
@@ -63,17 +64,17 @@ function nav() {
   return `<div class="scene-nav" aria-label="Phòng trong Y Quán">${scenes.map(([id,label],i)=>`<span class="scene-step ${scene===id?'current':''} ${scenes.findIndex(x=>x[0]===scene)>i?'done':''}">${i+1}. ${label}</span>`).join('')}</div>`;
 }
 function header() {
-  return `<header class="iq-header"><a class="iq-back" href="/y-quan-live/">← Về Y Quán</a><div><span class="iq-kicker">HIU TMC · KHU LUYỆN TẬP</span><h1>Luyện vấn chẩn Thập vấn</h1></div><span class="beta-tag">BẢN TRẢI NGHIỆM</span></header>${nav()}`;
+  return `<header class="iq-header"><a class="iq-back" href="${gameHubPath('y-quan-live/')}">← Về Y Quán</a><div><span class="iq-kicker">HIU TMC · KHU LUYỆN TẬP</span><h1>Luyện vấn chẩn Thập vấn</h1></div><span class="beta-tag">BẢN TRẢI NGHIỆM</span></header>${nav()}`;
 }
 function doctorCard() {
-  const src=doctorAvatar==='female'?'/assets/avatars/female_character_29944.jpg':'/assets/avatars/doctor_male_29945.jpg';
+  const src=doctorAvatar==='female'?gameHubPath('assets/avatars/female_character_29944.jpg'):gameHubPath('assets/avatars/doctor_male_29945.jpg');
   return `<div class="character doctor"><img src="${src}" alt="Bác sĩ ${doctorAvatar==='female'?'nữ':'nam'} HIU Y Quán"><div><span class="role-label">BÁC SĨ</span><b>Bác sĩ trực</b><small>Đang lắng nghe</small></div></div>`;
 }
 function patientCard(expression='neutral') {
-  return `<div class="character patient"><div class="expression">${face[expression] || face.neutral}</div><img src="${esc(caseFile?.avatar || '/assets/avatars/female_character_29944.jpg')}" alt="Người bệnh mô phỏng"><div><span class="role-label">NGƯỜI BỆNH · CA MÔ PHỎNG</span><b>${esc(caseFile?.patient || 'Người bệnh')}</b><small>${esc(caseFile?.title || '')}</small></div></div>`;
+  return `<div class="character patient"><div class="expression">${face[expression] || face.neutral}</div><img src="${esc(gameHubPath(caseFile?.avatar || 'assets/avatars/female_character_29944.jpg'))}" alt="Người bệnh mô phỏng"><div><span class="role-label">NGƯỜI BỆNH · CA MÔ PHỎNG</span><b>${esc(caseFile?.patient || 'Người bệnh')}</b><small>${esc(caseFile?.title || '')}</small></div></div>`;
 }
 function waiting() {
-  return `<section class="room-panel room-entry" tabindex="-1"><div class="room-backdrop waiting-bg"><div class="lantern">☯</div><div class="room-copy"><p class="iq-kicker">CA BỆNH GIÁO DỤC · KHÔNG LƯU DỮ LIỆU SỨC KHỎE</p><h2>Chuẩn bị đón người bệnh</h2><p>Mỗi lượt có đúng 10 câu, một câu được chọn ngẫu nhiên từ ngân hàng 220 câu, phân đều cho 10 nội dung Thập vấn.</p><div class="avatar-select"><span>Chọn bác sĩ:</span><button class="avatar-option ${doctorAvatar==='male'?'picked':''}" data-doctor-avatar="male"><img src="/assets/avatars/doctor_male_29945.jpg" alt="">Nam</button><button class="avatar-option ${doctorAvatar==='female'?'picked':''}" data-doctor-avatar="female"><img src="/assets/avatars/female_character_29944.jpg" alt="">Nữ</button></div><button class="iq-primary" data-action="start">Bắt đầu ca ngẫu nhiên <span>→</span></button></div></div><div class="three-notes"><div><b>01 · Hỏi đủ 10 mục</b><span>Mỗi nội dung Thập vấn có một câu hỏi ngẫu nhiên.</span></div><div><b>02 · Ghi nhận</b><span>Chọn dữ kiện phù hợp với lời kể của người bệnh.</span></div><div><b>03 · Biện chứng</b><span>Bot phản hồi độ chính xác chẩn đoán theo phần trăm.</span></div></div></section>`;
+  return `<section class="room-panel room-entry" tabindex="-1"><div class="room-backdrop waiting-bg"><div class="lantern">☯</div><div class="room-copy"><p class="iq-kicker">CA BỆNH GIÁO DỤC · KHÔNG LƯU DỮ LIỆU SỨC KHỎE</p><h2>Chuẩn bị đón người bệnh</h2><p>Mỗi lượt có đúng 10 câu, một câu được chọn ngẫu nhiên từ ngân hàng 220 câu, phân đều cho 10 nội dung Thập vấn.</p><div class="avatar-select"><span>Chọn bác sĩ:</span><button class="avatar-option ${doctorAvatar==='male'?'picked':''}" data-doctor-avatar="male"><img src="${gameHubPath('assets/avatars/doctor_male_29945.jpg')}" alt="">Nam</button><button class="avatar-option ${doctorAvatar==='female'?'picked':''}" data-doctor-avatar="female"><img src="${gameHubPath('assets/avatars/female_character_29944.jpg')}" alt="">Nữ</button></div><button class="iq-primary" data-action="start">Bắt đầu ca ngẫu nhiên <span>→</span></button></div></div><div class="three-notes"><div><b>01 · Hỏi đủ 10 mục</b><span>Mỗi nội dung Thập vấn có một câu hỏi ngẫu nhiên.</span></div><div><b>02 · Ghi nhận</b><span>Chọn dữ kiện phù hợp với lời kể của người bệnh.</span></div><div><b>03 · Biện chứng</b><span>Bot phản hồi độ chính xác chẩn đoán theo phần trăm.</span></div></div></section>`;
 }
 function categoryPanel() {
   const categories = [...new Set(plan.map(q=>q.category))];
@@ -104,11 +105,11 @@ function pharmacy() {
   const performance = accuracy>=85?'Vững':accuracy>=65?'Đang tiến bộ':'Cần hỏi và đối chiếu thêm';
   const expected = caseFile.keyFindings;
   const missed = expected.filter(id=>!captured.has(id));
-  return `<section class="room-panel room-entry" tabindex="-1"><div class="scene-title"><div><span class="iq-kicker">PHÒNG CHẾ DƯỢC · TỔNG KẾT HỌC TẬP</span><h2>Phản hồi ca bệnh</h2></div><span class="score-seal">${accuracy}<small>/100</small></span></div><div class="result-grid"><div class="result-paper"><span class="iq-kicker">NHẬN ĐỊNH CA · BOT ${starsForScore(accuracy)} ★</span><h3>${esc(caseFile.pattern)}</h3><p>Đáp án của ca mô phỏng: ${esc(caseFile.b8c.join(' · '))}.</p><p><b>Gợi ý ghi nhận thêm:</b> ${missed.length?missed.map(esc).join(' · '):'Bạn đã chọn đủ dữ kiện trọng tâm của rubric mẫu.'}</p><p><b>Nguyên tắc:</b> ${esc(caseFile.principles[0])}. Đây là mục tiêu học tập, không phải hướng dẫn điều trị.</p></div><div class="result-feedback"><span class="iq-kicker">ĐỘ CHÍNH XÁC</span><h3>${performance} · ${accuracy}%</h3><p>${scheduledResult?.error ? 'Máy chủ chưa xác nhận kết quả: '+esc(scheduledResult.error)+'. Hãy kiểm tra trạng thái ở mục Y quán của tôi trước khi nộp lại.' : scheduledResult ? 'Máy chủ đã chấm: '+accuracy+'% · '+scheduledResult.bot_stars+' ★ · +'+scheduledResult.credits+' tín dụng.' : 'Ca tự do: điểm hiển thị để luyện tập, không tạo tín dụng. Với ca hôm nay, hãy vào Y quán của tôi để mở y quán và làm theo lịch máy chủ.'}</p><div class="result-actions"><button class="iq-primary" data-action="new-case">Luyện ca khác</button><a class="iq-secondary link-button" href="/y-quan-live/">Về Y Quán</a></div></div></div><p class="disclaimer">Tình huống tổng hợp dùng cho đào tạo. Không dùng để tự chẩn đoán hoặc tự điều trị. Nội dung cần giảng viên YHCT thẩm định trước khi sử dụng làm học liệu chính thức.</p></section>`;
+  return `<section class="room-panel room-entry" tabindex="-1"><div class="scene-title"><div><span class="iq-kicker">PHÒNG CHẾ DƯỢC · TỔNG KẾT HỌC TẬP</span><h2>Phản hồi ca bệnh</h2></div><span class="score-seal">${accuracy}<small>/100</small></span></div><div class="result-grid"><div class="result-paper"><span class="iq-kicker">NHẬN ĐỊNH CA · BOT ${starsForScore(accuracy)} ★</span><h3>${esc(caseFile.pattern)}</h3><p>Đáp án của ca mô phỏng: ${esc(caseFile.b8c.join(' · '))}.</p><p><b>Gợi ý ghi nhận thêm:</b> ${missed.length?missed.map(esc).join(' · '):'Bạn đã chọn đủ dữ kiện trọng tâm của rubric mẫu.'}</p><p><b>Nguyên tắc:</b> ${esc(caseFile.principles[0])}. Đây là mục tiêu học tập, không phải hướng dẫn điều trị.</p></div><div class="result-feedback"><span class="iq-kicker">ĐỘ CHÍNH XÁC</span><h3>${performance} · ${accuracy}%</h3><p>${scheduledResult?.error ? 'Máy chủ chưa xác nhận kết quả: '+esc(scheduledResult.error)+'. Hãy kiểm tra trạng thái ở mục Y quán của tôi trước khi nộp lại.' : scheduledResult ? 'Máy chủ đã chấm: '+accuracy+'% · '+scheduledResult.bot_stars+' ★ · +'+scheduledResult.credits+' tín dụng.' : 'Ca tự do: điểm hiển thị để luyện tập, không tạo tín dụng. Với ca hôm nay, hãy vào Y quán của tôi để mở y quán và làm theo lịch máy chủ.'}</p><div class="result-actions"><button class="iq-primary" data-action="new-case">Luyện ca khác</button><a class="iq-secondary link-button" href="${gameHubPath('y-quan-live/')}">Về Y Quán</a></div></div></div><p class="disclaimer">Tình huống tổng hợp dùng cho đào tạo. Không dùng để tự chẩn đoán hoặc tự điều trị. Nội dung cần giảng viên YHCT thẩm định trước khi sử dụng làm học liệu chính thức.</p></section>`;
 }
 function render() {
   if (!signedIn()) {
-    root.innerHTML = `<header class="iq-header"><a class="iq-back" href="/y-quan-live/">← Về Y Quán</a><div><span class="iq-kicker">HIU TMC · KHU LUYỆN TẬP</span><h1>Luyện vấn chẩn Thập vấn</h1></div></header><section class="room-panel room-entry"><h2>Đăng nhập thành viên để tiếp tục</h2><p>Khu trải nghiệm dùng cùng phiên HIU TMC. Bài luyện này không lưu thông tin sức khỏe hoặc điểm vào hồ sơ người chơi.</p><a class="iq-primary link-button" href="https://hiutmc.com/?open=game-hub">Đăng nhập HIU TMC →</a></section>`;
+    root.innerHTML = `<header class="iq-header"><a class="iq-back" href="${gameHubPath('y-quan-live/')}">← Về Y Quán</a><div><span class="iq-kicker">HIU TMC · KHU LUYỆN TẬP</span><h1>Luyện vấn chẩn Thập vấn</h1></div></header><section class="room-panel room-entry"><h2>Đăng nhập thành viên để tiếp tục</h2><p>Khu trải nghiệm dùng cùng phiên HIU TMC. Bài luyện này không lưu thông tin sức khỏe hoặc điểm vào hồ sơ người chơi.</p><a class="iq-primary link-button" href="https://hiutmc.com/?open=game-hub">Đăng nhập HIU TMC →</a></section>`;
     return;
   }
   const view = scene==='waiting' ? waiting() : scene==='pulse' ? pulse() : scene==='care' ? care() : pharmacy();
@@ -152,6 +153,11 @@ window.addEventListener('message', event => {
   if (event.data?.type==='HIU_YQ_PRACTICE_ERROR') {scheduledResult={error:event.data.message};render()}
 });
 window.addEventListener('storage', event => {if(event.key==='hiutmc-member-session-v1')render()});
-render();
-
-if (window.parent!==window) window.parent.postMessage({type:'HIU_YQ_PRACTICE_READY'},location.origin);
+try {
+  if (!root) throw new Error('Thap van root #yq-interview was not found');
+  render();
+  if (window.parent!==window) window.parent.postMessage({type:'HIU_YQ_PRACTICE_READY'},location.origin);
+} catch (error) {
+  console.error('[HIU Y Quán][Thập vấn] startup failed',{path:location.pathname,name:error?.name||'Error',message:error?.message||String(error),stack:error?.stack||''});
+  if (root) root.innerHTML='<section class="room-panel"><h1>Phòng luyện chưa khởi tạo được</h1><p>Đã ghi nhận lỗi khởi tạo. Hãy tải lại hoặc quay về Y Quán.</p><button onclick="location.reload()">Tải lại</button><a class="iq-secondary link-button" href="../">Về Y Quán</a></section>';
+}
