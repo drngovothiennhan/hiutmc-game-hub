@@ -87,3 +87,28 @@ test('Y Quan chat is private to visit participants and sends as the authenticate
   assert.match(sql, /grant execute on function public\.y_quan_visit_messages_v1\(uuid\) to authenticated/i);
   assert.match(sql, /grant execute on function public\.y_quan_send_message_v1\(uuid, text\) to authenticated/i);
 });
+
+import { gameHubBasePath, gameHubPath } from '../public/y-quan-live/paths.js';
+
+test('Y Quan paths stay inside both the Pages root and the production app mount', async () => {
+  assert.equal(gameHubBasePath('/y-quan-live/'), '/');
+  assert.equal(gameHubPath('y-quan-live/interview/', '/y-quan-live/'), '/y-quan-live/interview/');
+  assert.equal(gameHubBasePath('/apps/game-hub/y-quan-live/'), '/apps/game-hub/');
+  assert.equal(gameHubPath('/y-quan-live/interview/', '/apps/game-hub/y-quan-live/'), '/apps/game-hub/y-quan-live/interview/');
+  assert.equal(gameHubPath('https://example.test/avatar.png', '/apps/game-hub/'), 'https://example.test/avatar.png');
+
+  const entry = await read('../public/y-quan-live/index.html');
+  const game = await read('../public/y-quan-live/game.js');
+  const interviewEntry = await read('../public/y-quan-live/interview/index.html');
+  const interview = await read('../public/y-quan-live/interview/app.js');
+  assert.match(entry, /href="game\.css"/);
+  assert.doesNotMatch(entry, /(?:href|src)="\/(?:y-quan-live|assets)\//);
+  assert.match(game, /new URL\(gameHubPath\('y-quan-live\/interview\/'\),location\.origin\)/);
+  assert.match(game, /gameHubPath\('assets\/avatars\//);
+  assert.match(interviewEntry, /href="\.\.\/game\.css"/);
+  assert.match(interviewEntry, /href="interview\.css"/);
+  assert.doesNotMatch(interviewEntry, /(?:href|src)="\/(?:y-quan-live|assets)\//);
+  assert.match(interview, /import \{ gameHubPath \} from '\.\.\/paths\.js'/);
+  assert.match(interview, /gameHubPath\('y-quan-live\/'\)/);
+  assert.match(interview, /\[HIU Y Quán\]\[Thập vấn\] startup failed/);
+});
