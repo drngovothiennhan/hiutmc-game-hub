@@ -32,6 +32,7 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
       - run: npm run build
+      - run: npm run verify:pwa
       - name: Verify Cloudflare credentials are configured
         shell: bash
         run: |
@@ -95,15 +96,30 @@ jobs:
                 loginHeading: title?.textContent.trim(),
                 loginLink: Boolean(loginLink),
                 gameMapVisible: Boolean(document.querySelector('[data-place-id="clinic"]')),
+                modeToggleVisible: Boolean(document.querySelector('[data-display-mode-toggle]')),
               };
             });
             if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1) {
               throw new Error(`Login gate clips at ${width}px: ${JSON.stringify(checks)}`);
             }
-            if (checks.loginHeading !== "Đăng nhập để tiếp tục" || !checks.loginLink || checks.gameMapVisible) {
+            if (checks.loginHeading !== "Đăng nhập để tiếp tục" || !checks.loginLink || checks.gameMapVisible || !checks.modeToggleVisible) {
               throw new Error(`Unexpected guest access state at ${width}px: ${JSON.stringify(checks)}`);
             }
             await page.screenshot({ path: `qa-game-hub/login-gate-${width}.png`, fullPage: true });
+            const modeToggle = page.getByRole("button", { name: /chế độ hiển thị/i });
+            await modeToggle.click();
+            if (await page.locator("html").getAttribute("data-display-mode") !== "mobile") {
+              throw new Error(`Mobile override did not apply at ${width}px.`);
+            }
+            await modeToggle.click();
+            if (await page.locator("html").getAttribute("data-display-mode") !== "pc") {
+              throw new Error(`PC override did not apply at ${width}px.`);
+            }
+            await modeToggle.click();
+            const autoMode = await page.evaluate(() => matchMedia("(min-width: 760px) and (pointer: fine)").matches ? "pc" : "mobile");
+            if (await page.locator("html").getAttribute("data-display-mode") !== autoMode) {
+              throw new Error(`Automatic display mode did not restore at ${width}px.`);
+            }
             await page.close();
           }
           await browser.close();

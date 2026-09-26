@@ -25,6 +25,7 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
       - run: npm run build
+      - run: npm run verify:pwa
       - name: Verify production entry assets
         run: test -s dist/src/styles.css && test -s dist/assets/app.js
       - name: Ensure runtime does not include server keys
