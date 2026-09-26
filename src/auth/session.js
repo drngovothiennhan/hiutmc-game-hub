@@ -108,15 +108,34 @@ async function verifyMember(accessToken) {
   const authUser = await authResponse.json().catch(() => ({}));
   if (!authResponse.ok || !authUser.id) throw new Error('Không xác minh được phiên thành viên. Hãy đăng nhập lại từ HIU TMC.');
 
-  // app_metadata is issued by the trusted HIU TMC auth service. Do not query
-  // club_members directly from the Hub: the existing game database exposes
-  // member state through approved server functions, not client table reads.
+  // app_metadata is issued by the trusted HIU TMC auth service. It anchors the
+  // account, while the current role is refreshed through a server-side RPC so
+  // role changes do not wait for an old JWT to expire.
   const memberId = String(authUser.app_metadata?.member_id || '');
   if (!memberId) throw new Error('Phiên này chưa liên kết hồ sơ HIU TMC. Hãy đăng nhập lại từ HIU TMC.');
+  let role = 'member';
+  try {
+    const roleResponse = await fetch(`${SUPABASE_URL}/rest/v1/rpc/garden_hub_current_member_role_v1`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_PUBLISHABLE_KEY,
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: '{}',
+      cache: 'no-store'
+    });
+    if (roleResponse.ok) {
+      const payload = await roleResponse.json().catch(() => []);
+      const row = Array.isArray(payload) ? payload[0] : payload;
+      role = String(row?.role || 'member');
+    }
+  } catch {}
   return {
     id: memberId,
     displayName: 'Thành viên HIU TMC',
-    role: String(authUser.app_metadata?.role || 'member'),
+    role,
     avatarUrl: ''
   };
 }
@@ -140,12 +159,8 @@ export async function bootstrapSession() {
 }
 
 export async function logout() {
-  const session = readStoredSession();
+  // Game Hub borrows HIU TMC's Supabase session. Revoke only this app's copy;
+  // calling Auth signOut here would revoke the shared refresh token used by
+  // HIU TMC and break the user's return path into Game Hub.
   localStorage.removeItem(SESSION_STORAGE_KEY);
-  if (!session?.accessToken) return;
-  await fetch(`${SUPABASE_URL}/auth/v1/logout?scope=local`, {
-    method: 'POST',
-    headers: { apikey: SUPABASE_PUBLISHABLE_KEY, Authorization: `Bearer ${session.accessToken}` },
-    keepalive: true
-  }).catch(() => {});
 }
