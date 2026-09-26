@@ -23,14 +23,22 @@ export const gardenSupabase = {
         void reportGameHubError({ accessToken: token }, new Error('A Garden gameplay request failed.'), {
           code: 'garden_rpc_http', area: 'garden', operation: name, status: response.status
         });
-        return { data: null, error: new Error(data?.message || 'Không thể đồng bộ trạng thái Gia Viên.') };
+        const error = new Error(data?.message || 'Không thể đồng bộ trạng thái Gia Viên.');
+        // A 5xx can be emitted after the function began processing a write,
+        // so its outcome is ambiguous just like a network timeout.
+        error.code = response.status >= 500 ? 'GARDEN_RPC_TRANSPORT' : 'GARDEN_RPC_HTTP';
+        error.status = response.status;
+        return { data: null, error };
       }
       return { data, error: null };
-    } catch {
+    } catch (cause) {
       void reportGameHubError({ accessToken: token }, new Error('A Garden gameplay request could not reach the server.'), {
         code: 'garden_rpc_network', area: 'garden', operation: name
       });
-      return { data: null, error: new Error('Không thể kết nối để đồng bộ Gia Viên.') };
+      const error = new Error('Không thể kết nối để đồng bộ Gia Viên.');
+      error.code = 'GARDEN_RPC_TRANSPORT';
+      error.cause = cause;
+      return { data: null, error };
     }
   }
 };

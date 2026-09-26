@@ -35,6 +35,7 @@ export default function HerbGardenGame({member}:{member:Member}){
   const [initialChoice,setInitialChoice]=useState<number[]>([]);
   const [selectedSlot,setSelectedSlot]=useState(1);
   const [busy,setBusy]=useState(false);
+  const [needsReconciliation,setNeedsReconciliation]=useState(false);
   const [msg,setMsg]=useState('');
   const [now,setNow]=useState(Date.now());
   const [plotDeckOpen,setPlotDeckOpen]=useState(true);
@@ -58,7 +59,8 @@ export default function HerbGardenGame({member}:{member:Member}){
       setRewards(rewardState.data as RewardRow[]);
       setWallet(Number(walletState.data));
       if(!personalization.error&&personalization.data){const own=personalization.data as {theme?:string;decor?:string[]};setProfile({theme:own.theme||'bamboo',decor:Array.isArray(own.decor)?own.decor:[]})}
-    }catch(e){setMsg((e as Error).message)}finally{setBusy(false)}
+      setNeedsReconciliation(false);return true;
+    }catch(e){setMsg((e as Error).message);return false}finally{setBusy(false)}
   };
 
   useEffect(()=>{
@@ -89,9 +91,10 @@ export default function HerbGardenGame({member}:{member:Member}){
 
   const toggleInitial=(slot:number)=>{if(initialComplete||busy)return;setInitialChoice(xs=>xs.includes(slot)?xs.filter(x=>x!==slot):xs.length<3?[...xs,slot]:xs)};
   const choosePlot=(plot:Plot)=>{if(!initialComplete){toggleInitial(plot.slot_no);return}if(plot.unlocked)setSelectedSlot(plot.slot_no)};
-  const confirmInitial=async()=>{if(initialChoice.length!==3)return;setBusy(true);setMsg('');try{const chosen=[...initialChoice].sort((a,b)=>a-b);const {error}=await gardenSupabase.rpc('herb_garden_select_initial_plots_v3',{p_slots:initialChoice});if(error)throw error;setInitialChoice([]);await load(false);setMsg(`Đã mở 3 ô khởi đầu: ${chosen.join(', ')}. Túi giống khởi đầu đã sẵn sàng.`)}catch(e){setMsg((e as Error).message)}finally{setBusy(false)}};
+  const confirmInitial=async()=>{if(initialChoice.length!==3||needsReconciliation)return;setBusy(true);setMsg('');try{const chosen=[...initialChoice].sort((a,b)=>a-b);const {error}=await gardenSupabase.rpc('herb_garden_select_initial_plots_v3',{p_slots:initialChoice});if(error)throw error;setInitialChoice([]);await load(false);setMsg(`Đã mở 3 ô khởi đầu: ${chosen.join(', ')}. Túi giống khởi đầu đã sẵn sàng.`)}catch(e){const error=e as Error&{code?:string};if(error.code==='GARDEN_RPC_TRANSPORT'){setNeedsReconciliation(true);const reconciled=await load(false);setNeedsReconciliation(!reconciled);setMsg(reconciled?`${error.message} Yêu cầu có thể đã được máy chủ xử lý; trạng thái đã tải lại, hãy kiểm tra trước khi gửi lại.`:`${error.message} Chưa xác minh được trạng thái máy chủ; thao tác ghi đang bị khóa. Hãy tải lại khi kết nối ổn định.`)}else setMsg(error.message)}finally{setBusy(false)}};
 
   const run=async(kind:'plant'|'water'|'fertilize'|'harvest',slot:number)=>{
+    if(needsReconciliation){setMsg('Trạng thái thao tác trước chưa được xác minh. Hãy tải lại trạng thái máy chủ trước khi tiếp tục.');return}
     setBusy(true);setMsg('');
     try{
       const rpc={plant:'herb_garden_plant_v3',water:'herb_garden_water_v4',fertilize:'herb_garden_fertilize_v4',harvest:'herb_garden_harvest_v3'}[kind];
@@ -115,7 +118,7 @@ export default function HerbGardenGame({member}:{member:Member}){
         }
         setMsg(`Thu hoạch ô ${slot}${r.name?`: ${r.name}`:''}. Máy chủ xác nhận +${credits} tín dụng, +${seedReward} hạt cùng loài; túi giống loài này hiện có ×${seedQuantity}.${r.unlocked_slot?` Đã mở khóa ô ${r.unlocked_slot}.`:''}`);
       }
-    }catch(e){setMsg((e as Error).message)}finally{setBusy(false)}
+    }catch(e){const error=e as Error&{code?:string};if(error.code==='GARDEN_RPC_TRANSPORT'){setNeedsReconciliation(true);const reconciled=await load(false);setNeedsReconciliation(!reconciled);setMsg(reconciled?`${error.message} Yêu cầu có thể đã được máy chủ xử lý; trạng thái đã tải lại, hãy kiểm tra trước khi thử lại.`:`${error.message} Chưa xác minh được trạng thái máy chủ; thao tác ghi đang bị khóa. Hãy tải lại khi kết nối ổn định.`)}else setMsg(error.message)}finally{setBusy(false)}
   };
 
   return <section className="herb-garden-page herb-garden-v3 garden-pro-v7">
