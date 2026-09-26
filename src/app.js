@@ -4,6 +4,7 @@ import { renderShell, renderAccessGate } from './components/shell.js';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './entitlements/garden-unlock.js';
 import { mountGarden, unmountGarden } from './games/garden-mount.js';
 import { canAccessGameHub } from './auth/garden-beta-access.js';
+import { installGlobalErrorReporting, reportGameHubError } from './observability/error-reporting.js';
 
 const root = document.querySelector('#app');
 let currentMember = null;
@@ -11,24 +12,60 @@ let currentSession = null;
 let currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
 let authError = null;
 
+function attachLogout() {
+  root.querySelector('#logout-button')?.addEventListener('click', async () => {
+    await logout();
+    currentMember = null;
+    currentSession = null;
+    currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
+    authError = null;
+    render();
+  });
+}
+
+async function retryBetaVerification() {
+  if (!currentSession || !canAccessGameHub(currentMember)) return;
+  currentEntitlement = { eligible: false, reason: 'checking' };
+  render();
+  currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
+  render();
+}
+
+function attachRetry() {
+  root.querySelector('#beta-retry')?.addEventListener('click', retryBetaVerification);
+}
+
 function render() {
   if (!canAccessGameHub(currentMember)) {
     root.innerHTML = renderAccessGate({ member: currentMember, authError });
     root.setAttribute('aria-busy', 'false');
-    root.querySelector('#logout-button')?.addEventListener('click', async () => {
-      await logout();
-      currentMember = null;
-      currentSession = null;
-      currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
-      authError = null;
-      render();
-    });
+    attachLogout();
     return;
   }
+
+  if (!isVerifiedGardenUnlockReceipt(currentEntitlement)) {
+    const checking = currentEntitlement.reason === 'checking';
+    const message = currentEntitlement.reason === 'identity_unlinked'
+      ? 'Tài khoản HIU TMC chưa được duyệt hoặc chưa bật đăng nhập.'
+      : currentEntitlement.reason === 'unavailable'
+        ? 'Chưa kết nối được máy chủ xác minh. Hãy thử lại sau.'
+        : null;
+    root.innerHTML = renderAccessGate({
+      member: currentMember,
+      loading: checking,
+      authError: message,
+      canRetry: currentEntitlement.reason === 'unavailable'
+    });
+    root.setAttribute('aria-busy', checking ? 'true' : 'false');
+    attachLogout();
+    attachRetry();
+    return;
+  }
+
   const route = readRoute();
   const requestedView = route[0];
-  const gardenBetaEnabled = canAccessGameHub(currentMember);
-  const view = requestedView === 'garden-continuation' && gardenBetaEnabled && isVerifiedGardenUnlockReceipt(currentEntitlement)
+  const gardenBetaEnabled = true;
+  const view = requestedView === 'garden-continuation' && isVerifiedGardenUnlockReceipt(currentEntitlement)
     ? 'garden-continuation'
     : requestedView === 'skills' || requestedView === 'achievements' ? requestedView : 'world';
   root.innerHTML = renderShell({
@@ -42,44 +79,32 @@ function render() {
   root.setAttribute('aria-busy', 'false');
   unmountGarden();
   const gardenRoot = root.querySelector('#garden-runtime-root');
-  if (gardenRoot && gardenBetaEnabled && currentMember && isVerifiedGardenUnlockReceipt(currentEntitlement)) mountGarden(gardenRoot, currentMember);
-  root.querySelector('#garden-unlock-retry')?.addEventListener('click', async () => {
-    if (!currentSession || !canAccessGameHub(currentMember)) return;
-    currentEntitlement = { eligible: false, reason: 'checking' };
-    render();
-    currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
-    render();
-  });
-  root.querySelector('#logout-button')?.addEventListener('click', async () => {
-    await logout();
-    currentMember = null;
-    currentSession = null;
-    currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
-    authError = null;
-    render();
-  });
+  if (gardenRoot && currentMember && isVerifiedGardenUnlockReceipt(currentEntitlement)) mountGarden(gardenRoot, currentMember);
+  root.querySelector('#garden-unlock-retry')?.addEventListener('click', retryBetaVerification);
+  attachLogout();
 }
 
 root.innerHTML = renderAccessGate({ loading: true });
+installGlobalErrorReporting(() => currentSession);
 bootstrapSession().then(async result => {
   currentMember = result.member;
   currentSession = result.session;
   authError = result.error;
-  render();
-
   if (currentMember && currentSession && canAccessGameHub(currentMember)) {
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
     currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
-    render();
-  } else if (currentMember) {
-    currentEntitlement = { eligible: false, reason: 'role_restricted' };
-    render();
+  } else {
+    currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
   }
+  render();
 }).catch(error => {
   authError = error instanceof Error ? error.message : 'Không thể xác minh phiên HIU TMC.';
+  void reportGameHubError(currentSession, error, { code: 'session_bootstrap', area: 'access', operation: 'bootstrapSession' });
   render();
 });
 
 window.addEventListener('hashchange', render);
-if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js').catch(() => {}));
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js').catch(error => {
+  void reportGameHubError(currentSession, error, { code: 'service_worker_register', area: 'runtime', operation: 'register' });
+}));

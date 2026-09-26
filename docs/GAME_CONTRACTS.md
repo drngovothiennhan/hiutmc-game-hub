@@ -79,7 +79,8 @@ The separate Game Hub repository has now been created. Its shell consumes an inc
 
 ## G3 beta access policy — 2026-09-26
 
-- The production beta is limited to linked, approved, login-enabled `admin`, `mod`, and `super_mod` members.
-- The browser role check only controls presentation. The one-time receipt RPC independently checks the current `club_members.role` in Postgres along with `auth.uid()`, trusted `app_metadata.member_id`, approval, and `login_enabled`; a client role claim alone cannot issue a receipt.
-- Nonstaff roles receive no beta route or unlock receipt. The private receipt table remains inaccessible to client roles, and the receipt RPC remains authenticated-only.
-- This access policy does not change gameplay progression or existing saves. A QA branch is required before exercising gameplay persistence; no member production Garden save is used for testing.
+- The beta is available to every linked HIU TMC member whose current database record is approved and has login enabled, regardless of role.
+- The browser only uses the linked member ID to begin verification. The authenticated receipt RPC independently checks `auth.uid()`, trusted `app_metadata.member_id`, approval, and `login_enabled`; a role claim or client flag cannot issue a receipt.
+- Anonymous, unlinked, unapproved, and login-disabled accounts receive no beta route or unlock receipt. The private receipt table remains inaccessible to client roles, and the receipt RPC remains authenticated-only.
+- Game Hub runtime errors are sent to the authenticated `garden_hub_report_error_v1` RPC after sensitive values are removed and context is allowlisted. Reports are rate-limited and appear in Admin Center > Nhật ký from `ecosystem_audit_log`.
+- This access policy does not change gameplay progression or existing saves. Do not test gameplay persistence against member production saves.

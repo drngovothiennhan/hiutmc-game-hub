@@ -9,14 +9,13 @@ function placeCard(place, session, entitlement, authenticated) {
   const lockedContinuation = place.state === 'locked-continuation';
   const continuationUnlocked = lockedContinuation && isVerifiedGardenUnlockReceipt(entitlement);
   const pending = lockedContinuation && authenticated && entitlement?.reason === 'checking';
-  const roleRestricted = lockedContinuation && entitlement?.reason === 'role_restricted';
   const status = live
     ? 'Game Hub · đang hoạt động'
     : legacy
     ? 'Study OS · hiện tại'
     : continuationUnlocked
       ? 'Đã mở · thành viên HIU TMC'
-      : lockedContinuation ? roleRestricted ? 'Chỉ dành cho Ban Quản lý' : pending ? 'Đang xác minh quyền vào' : 'Sẵn sàng sau xác minh SSO' : 'Sắp mở';
+      : lockedContinuation ? pending ? 'Đang xác minh quyền vào' : 'Sẵn sàng sau xác minh thành viên' : 'Sắp mở';
   const href = live ? place.href : isLaunchable(place) ? buildLegacySsoUrl(place.href, session) : '';
   const action = live
     ? `<a class="place-action" href="${escapeHtml(href)}">Vào HIU Y Quán <span aria-hidden="true">→</span></a>`
@@ -24,9 +23,7 @@ function placeCard(place, session, entitlement, authenticated) {
     ? `<a class="place-action" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">Mở runtime Study OS <span aria-hidden="true">↗</span></a>`
     : continuationUnlocked
       ? '<a class="place-action" href="#/garden-continuation">Tiếp tục Gia Viên <span aria-hidden="true">→</span></a>'
-      : roleRestricted
-        ? '<span class="place-action place-action-disabled" role="status">Tài khoản chưa thuộc nhóm được cấp quyền</span>'
-        : pending
+      : pending
         ? '<span class="place-action place-action-disabled" role="status">Đang xác minh điều kiện…</span>'
         : lockedContinuation && authenticated
           ? '<button class="place-action place-action-button" id="garden-unlock-retry" type="button">Thử xác minh lại</button>'
