@@ -37,9 +37,13 @@ function attachInstallButton() {
     }
     const prompt = deferredInstallPrompt;
     deferredInstallPrompt = null;
-    await prompt.prompt();
-    const choice = await prompt.userChoice;
-    if (choice?.outcome === 'accepted') render();
+    try {
+      await prompt.prompt();
+      const choice = await prompt.userChoice;
+      if (choice?.outcome === 'accepted') render();
+    } catch {
+      root.querySelector('#install-help')?.showModal();
+    }
   });
 }
 
@@ -137,6 +141,9 @@ function render() {
 }
 
 root.innerHTML = renderAccessGate({ loading: true, displayMode: displayModePreference, canInstall: !isStandalonePwa() });
+applyDisplayMode(root, displayModePreference);
+attachDisplayModeControl();
+attachInstallButton();
 installGlobalErrorReporting(() => currentSession);
 bootstrapSession().then(async result => {
   currentMember = result.member;
