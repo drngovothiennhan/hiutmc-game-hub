@@ -102,12 +102,12 @@ test('Y Quan paths stay inside both the Pages root and the production app mount'
   const interviewEntry = await read('../public/y-quan-live/interview/index.html');
   const interview = await read('../public/y-quan-live/interview/app.js');
   assert.ok(entry.includes("y-quan-live/game.css"));
-  assert.ok(entry.includes("import(base+'y-quan-live/game.js')"));
+  assert.ok(entry.includes("import(base+'y-quan-live/game.js?v="));
   assert.match(game, /new URL\(gameHubPath\('y-quan-live\/interview\/'\),location\.origin\)/);
   assert.match(game, /gameHubPath\('assets\/avatars\//);
   assert.ok(interviewEntry.includes("'y-quan-live/game.css'"));
   assert.ok(interviewEntry.includes("'y-quan-live/interview/interview.css'"));
-  assert.ok(interviewEntry.includes("import(base+'y-quan-live/interview/app.js')"));
+  assert.ok(interviewEntry.includes("import(base+'y-quan-live/interview/app.js?v="));
   assert.match(interview, /import \{ gameHubPath \} from '\.\.\/paths\.js'/);
   assert.match(interview, /gameHubPath\('y-quan-live\/'\)/);
   assert.match(interview, /\[HIU Y Quán\]\[Thập vấn\] startup failed/);
