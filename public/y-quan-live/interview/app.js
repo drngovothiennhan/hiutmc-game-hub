@@ -158,6 +158,6 @@ try {
   render();
   if (window.parent!==window) window.parent.postMessage({type:'HIU_YQ_PRACTICE_READY'},location.origin);
 } catch (error) {
-  console.error('[HIU Y Quán][Thập vấn] startup failed',{path:location.pathname,name:error?.name||'Error',message:error?.message||String(error),stack:error?.stack||''});
+  console.error('[HIU Y Quán][Thập vấn] startup failed '+JSON.stringify({path:location.pathname,name:error?.name||'Error',message:error?.message||String(error),stack:error?.stack||''}));
   if (root) root.innerHTML='<section class="room-panel"><h1>Phòng luyện chưa khởi tạo được</h1><p>Đã ghi nhận lỗi khởi tạo. Hãy tải lại hoặc quay về Y Quán.</p><button onclick="location.reload()">Tải lại</button><a class="iq-secondary link-button" href="../">Về Y Quán</a></section>';
 }
