@@ -1,4 +1,4 @@
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { access, cp, mkdir, readFile, rm } from 'node:fs/promises';
 import { build } from 'esbuild';
 
 await rm('dist', { recursive: true, force: true });
@@ -19,4 +19,15 @@ await build({
   assetNames: 'assets/[name]-[hash]',
   minify: true
 });
+const worker = await readFile('dist/service-worker.js', 'utf8');
+const coreBlock = worker.match(/const CORE = \[([\s\S]*?)\]/)?.[1];
+if (!coreBlock) throw new Error('Could not read the service worker precache list.');
+const coreAssets = [...coreBlock.matchAll(/'([^']+)'/g)].map(([, asset]) => asset);
+await Promise.all(coreAssets.map(async asset => {
+  try {
+    await access(`dist/${asset.replace(/^\\//, '')}`);
+  } catch {
+    throw new Error(`PWA precache asset is missing from the production build: ${asset}`);
+  }
+}));
 console.log('Game Hub shell and isolated Garden runtime built to dist/.');
