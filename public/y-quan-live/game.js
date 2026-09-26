@@ -2,9 +2,67 @@ const URL='https://gzmpnsrwqjpsbklyflqr.supabase.co',KEY='sb_publishable_Y4hMhXR
 const DOMAINS=[['cold','Hàn – nhiệt'],['sweat','Mồ hôi'],['pain','Đau nhức'],['bowel','Đại tiểu tiện'],['food','Ăn uống'],['chest','Ngực bụng'],['senses','Tai mắt'],['thirst','Khát, nước uống'],['history','Bệnh cũ, thuốc dùng'],['course','Nguyên nhân, diễn tiến']];
 let session=null,data=null,clinics=[],doctorVisits=[],patientVisits=[],leaderboard=[],page='doctor',busy=false,message='',stars={};
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const reportCooldown=new Map();
+function reportError(code,route='unknown',status=null){
+  if(!['rpc_failed','dashboard_load_failed','session_refresh_failed','client_uncaught','client_unhandled_rejection'].includes(code))return;
+  if(!['bootstrap','dashboard','clinic','patient','leaderboard','case','rating','background_refresh','unknown'].includes(route))route='unknown';
+  const key=code+':'+route,now=Date.now();
+  if(now-(reportCooldown.get(key)||0)<30000)return;
+  reportCooldown.set(key,now);
+  try{
+    const current=getSession();
+    if(!current?.accessToken)return;
+    void fetch(URL+'/rest/v1/rpc/game_hub_record_error_v1',{
+      method:'POST',
+      headers:{apikey:KEY,Authorization:'Bearer '+current.accessToken,'Content-Type':'application/json'},
+      body:JSON.stringify({p_code:code,p_message:'Y Quan client operation failed.',p_route:'/y-quan-live/',p_context:{area:'y-quan-live',operation:route,status:status?String(status):null,errorType:code}}),
+      cache:'no-store',
+      keepalive:true
+    }).catch(()=>{});
+  }catch{}
+}
+function routeForRpc(name){
+  if(name.includes('case'))return'case';
+  if(name.includes('rate'))return'rating';
+  if(name.includes('clinic'))return'clinic';
+  if(name.includes('patient'))return'patient';
+  if(name.includes('leaderboard'))return'leaderboard';
+  return'dashboard';
+}
+
 function getSession(){try{return JSON.parse(localStorage.getItem(STORE)||'null')}catch{return null}}
-async function token(){session=getSession();if(!session?.accessToken)return'';if(Number(session.expiresAt||0)-Date.now()>90000)return session.accessToken;const r=await fetch(URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refreshToken})});const b=await r.json();if(!r.ok)throw Error('Phiên đăng nhập hết hạn. Hãy mở Game Hub lại từ HIU TMC.');session={...session,accessToken:b.access_token,refreshToken:b.refresh_token,expiresAt:Number(b.expires_at)*1000};localStorage.setItem(STORE,JSON.stringify(session));return session.accessToken}
-async function rpc(name,body={}){const t=await token();if(!t)throw Error('Hãy đăng nhập Game Hub bằng tài khoản HIU TMC để đồng bộ tiến trình.');const r=await fetch(URL+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store'});const x=await r.json().catch(()=>({}));if(!r.ok)throw Error(x.message||x.details||'Máy chủ chưa xử lý được thao tác.');return x}
+async function token(){
+  session=getSession();
+  if(!session?.accessToken)return'';
+  if(Number(session.expiresAt||0)-Date.now()>90000)return session.accessToken;
+  try{
+    const r=await fetch(URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refreshToken})});
+    const b=await r.json().catch(()=>({}));
+    if(!r.ok||!b.access_token)throw Error('refresh_failed');
+    session={...session,accessToken:b.access_token,refreshToken:b.refresh_token,expiresAt:Number(b.expires_at)*1000};
+    localStorage.setItem(STORE,JSON.stringify(session));
+    return session.accessToken;
+  }catch{
+    reportError('session_refresh_failed','bootstrap');
+    throw Error('Phiên đăng nhập hết hạn. Hãy mở Game Hub lại từ HIU TMC.');
+  }
+}
+async function rpc(name,body={},routeOverride=''){
+  let requestStarted=false,status=null;
+  try{
+    const t=await token();
+    if(!t)throw Error('Hãy đăng nhập Game Hub bằng tài khoản HIU TMC để đồng bộ tiến trình.');
+    requestStarted=true;
+    const r=await fetch(URL+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store'});
+    status=r.status;
+    const x=await r.json().catch(()=>({}));
+    if(!r.ok)throw Error(x.message||x.details||'Máy chủ chưa xử lý được thao tác.');
+    return x;
+  }catch(e){
+    if(requestStarted)reportError('rpc_failed',routeOverride||routeForRpc(name),status);
+    throw e;
+  }
+}
 async function load(){try{[data,clinics,doctorVisits,patientVisits,leaderboard]=await Promise.all([rpc('y_quan_dashboard_v1'),rpc('y_quan_clinics_v1'),rpc('y_quan_doctor_visits_v1'),rpc('y_quan_patient_visits_v1'),rpc('y_quan_leaderboard_v1',{p_limit:20})]);message=''}catch(e){message=e.message}render()}
 function starsView(visit){return visit.status==='completed'&&!visit.stars?'<div class="stars" data-visit="'+visit.visit_id+'">'+[1,2,3,4,5].map(n=>'<button data-star="'+n+'" aria-label="'+n+' sao">★</button>').join('')+' <button data-action="rate" data-id="'+visit.visit_id+'">Gửi đánh giá</button></div>':visit.stars?'<span class="pill">Đã đánh giá '+visit.stars+'/5</span>':''}
 function render(){if(!session?.accessToken){ROOT.innerHTML='<section class="panel"><h1>HIU Y Quán</h1><p>Cần đăng nhập thành viên để lưu ca và tín dụng lên máy chủ.</p><a href="https://hiutmc.com/?open=game-hub">Đăng nhập HIU TMC →</a></section>';return}
@@ -16,4 +74,6 @@ function patientHTML(){return '<section class="panel"><h1>Đăng ký khám tại
 function rankHTML(){return '<section class="panel"><h1>Bảng uy tín bác sĩ</h1><p>Xếp theo tổng tín dụng Y Quán và kinh nghiệm. Bệnh nhân là người chơi trực tiếp đánh giá bác sĩ sau lượt khám.</p>'+leaderboard.map(r=>'<div class="row"><span><b>#'+r.rank_no+' '+esc(r.display_name)+'</b><small>'+esc(r.doctor_avatar_id==='female'?'Bác sĩ nữ':'Bác sĩ nam')+' · '+r.experience+' XP · '+(r.average_stars||'—')+' ★ ('+r.rating_count+')</small></span><b>'+r.credits+' tín dụng</b></div>').join('')+'</section>'}
 ROOT.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;try{if(b.dataset.page){page=b.dataset.page;render();return}if(b.dataset.star){stars[b.closest('.stars').dataset.visit]=Number(b.dataset.star);b.closest('.stars').querySelectorAll('[data-star]').forEach(x=>x.style.opacity=Number(x.dataset.star)<=stars[b.closest('.stars').dataset.visit]?'1':'.35');return}if(b.dataset.action==='open')await rpc('y_quan_open_clinic_v1',{p_doctor_avatar_id:b.dataset.avatar});if(b.dataset.action==='close')await rpc('y_quan_close_clinic_v1');if(b.dataset.action==='register'){const x=await rpc('y_quan_register_patient_v1',{p_doctor_id:b.dataset.id});message='Đã gửi đăng ký khám cho '+new Date(x.scheduled_at).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Ho_Chi_Minh'})+'.'}if(b.dataset.action==='case'){ROOT.querySelector('#case-slot')?.remove();b.closest('.panel').insertAdjacentHTML('beforeend','<div id="case-slot">'+caseForm('',b.dataset.slot)+'</div>');return}if(b.dataset.action==='finish-visit'){ROOT.querySelector('#case-slot')?.remove();b.closest('.panel').insertAdjacentHTML('beforeend','<div id="case-slot">'+caseForm(b.dataset.id,'bệnh nhân')+'</div>');return}if(b.dataset.action==='rate'){const n=stars[b.dataset.id];if(!n)throw Error('Chọn số sao trước khi gửi.');await rpc('y_quan_rate_doctor_v1',{p_visit_id:b.dataset.id,p_stars:n});message='Đã gửi đánh giá và cộng tín dụng cho bác sĩ.'}await load()}catch(err){message=err.message;render()}});
 ROOT.addEventListener('submit',async e=>{const f=e.target.closest('form[data-form="case"]');if(!f)return;e.preventDefault();const fd=new FormData(f),domains=fd.getAll('domain').map(String),diagnosis=String(fd.get('diagnosis')||''),reasoning=String(fd.get('reasoning')||'');try{if(f.dataset.id)await rpc('y_quan_submit_case_v1',{p_visit_id:f.dataset.id,p_answered_domains:domains,p_diagnosis:diagnosis,p_reasoning:reasoning});else await rpc('y_quan_submit_daily_case_v1',{p_slot_no:Number(f.dataset.slot),p_answered_domains:domains,p_diagnosis:diagnosis,p_reasoning:reasoning});message='Ca đã được máy chủ chấm và lưu.';await load()}catch(err){message=err.message;render()}});
-try{session=getSession();if(session?.accessToken)await load();else render()}catch(e){message=e.message;render()}setInterval(()=>{if(session?.accessToken&&data?.doctor?.is_open)rpc('y_quan_open_clinic_v1',{p_doctor_avatar_id:data.doctor.doctor_avatar_id}).then(load).catch(()=>{})},60000);
+window.addEventListener('error',()=>reportError('client_uncaught','unknown'));
+window.addEventListener('unhandledrejection',()=>reportError('client_unhandled_rejection','unknown'));
+try{session=getSession();if(session?.accessToken)await load();else render()}catch(e){reportError('dashboard_load_failed','bootstrap');message=e.message;render()}setInterval(()=>{if(session?.accessToken&&data?.doctor?.is_open)rpc('y_quan_open_clinic_v1',{p_doctor_avatar_id:data.doctor.doctor_avatar_id},'background_refresh').then(load).catch(()=>{})},60000);
