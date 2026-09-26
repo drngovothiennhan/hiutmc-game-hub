@@ -136,7 +136,7 @@ function render() {
   attachLogout();
 }
 
-root.innerHTML = renderAccessGate({ loading: true });
+root.innerHTML = renderAccessGate({ loading: true, displayMode: displayModePreference, canInstall: !isStandalonePwa() });
 installGlobalErrorReporting(() => currentSession);
 bootstrapSession().then(async result => {
   currentMember = result.member;
