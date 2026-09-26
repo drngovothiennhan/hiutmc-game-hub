@@ -30,3 +30,25 @@ test('server schema isolates Y Quan credits and prevents direct table access', a
   assert.match(sql, /revoke all on all tables in schema y_quan_private from public,anon,authenticated/i);
   assert.match(sql, /grant execute on function public\.y_quan_rate_doctor_v1\(uuid,smallint\) to authenticated/i);
 });
+
+test('doctor and patient can open a per-visit chat from their visit lists', async () => {
+  const client = await read('../public/y-quan-live/game.js');
+  assert.match(client, /data-action="chat" data-id="'\+v\.visit_id/);
+  assert.match(client, /Chat với bác sĩ/);
+  assert.match(client, /Nhắn bệnh nhân/);
+  assert.match(client, /y_quan_visit_messages_v1/);
+  assert.match(client, /y_quan_send_message_v1/);
+  assert.match(client, /setInterval\(\(\)=>\{if\(activeChat\)refreshChat\(true\)\},5000\)/);
+  assert.match(client, /maxlength="1000"/);
+});
+
+test('Y Quan chat is private to visit participants and sends as the authenticated member', async () => {
+  const sql = await read('../supabase/migrations/20260926032644_y_quan_patient_doctor_chat_v1.sql');
+  assert.match(sql, /create table if not exists y_quan_private\.visit_messages/i);
+  assert.match(sql, /v\.doctor_id = mid or v\.patient_id = mid/);
+  assert.match(sql, /values \(p_visit_id, mid, clean_body\)/);
+  assert.match(sql, /limit 100/i);
+  assert.match(sql, /revoke all on function public\.y_quan_send_message_v1\(uuid, text\) from public, anon/i);
+  assert.match(sql, /grant execute on function public\.y_quan_visit_messages_v1\(uuid\) to authenticated/i);
+  assert.match(sql, /grant execute on function public\.y_quan_send_message_v1\(uuid, text\) to authenticated/i);
+});
