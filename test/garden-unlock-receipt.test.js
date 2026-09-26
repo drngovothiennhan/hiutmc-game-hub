@@ -56,8 +56,9 @@ test('only a server receipt with eligible result can open the extended Garden ru
   assert.equal(isVerifiedGardenUnlockReceipt({ eligible: true }), false);
 });
 
-test('Garden is available to any linked, authenticated member regardless of role', () => {
-  for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member', 'guest', '']) assert.equal(canAccessGardenBeta({ id: 'linked-member-id', role }), true);
+test('Garden beta is available only to linked admin, mod, and super_mod members', () => {
+  for (const role of ['admin', 'mod', 'super_mod']) assert.equal(canAccessGardenBeta({ id: 'linked-member-id', role }), true);
+  for (const role of ['leader', 'member', 'guest', '']) assert.equal(canAccessGardenBeta({ id: 'linked-member-id', role }), false);
   assert.equal(canAccessGardenBeta({ id: '', role: 'member' }), false);
   assert.equal(canAccessGardenBeta({ role: 'admin' }), false);
   assert.equal(canAccessGardenBeta(null), false);
@@ -66,12 +67,14 @@ test('Garden is available to any linked, authenticated member regardless of role
 });
 
 
-test('receipt migration keeps only the trusted approved-member gate', () => {
-  const migration = readFileSync(new URL('../supabase/migrations/20260926043000_garden_hub_member_access_v1.sql', import.meta.url), 'utf8');
+test('receipt migration enforces current staff authorization server-side', () => {
+  const migration = readFileSync(new URL('../supabase/migrations/20260926071400_garden_hub_staff_access_gate_v1.sql', import.meta.url), 'utf8');
   assert.ok(migration.includes('auth.uid()'));
   assert.match(migration, /app_metadata/);
   assert.ok(migration.includes('m.auth_user_id = v_auth_user_id'));
   assert.ok(migration.includes("m.status::text = 'approved'"));
   assert.ok(migration.includes('m.login_enabled is true'));
-  assert.doesNotMatch(migration, /role_restricted|prerequisite_incomplete|herb_garden_plots|v_member_role/);
+  assert.match(migration, /v_member_role not in \('admin', 'mod', 'super_mod'\)/);
+  assert.ok(migration.includes("'role_restricted'::text"));
+  assert.doesNotMatch(migration, /prerequisite_incomplete|herb_garden_plots/);
 });
