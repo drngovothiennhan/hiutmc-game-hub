@@ -86,6 +86,22 @@ test('role comes from the current server-side member record rather than a stale 
   assert.equal(mocks.calls.length, 2);
 });
 
+test('role lookup failures stay least-privileged and are reported instead of silently masking the failure', async t => {
+  const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
+  const mocks = installBrowserMocks(t, {
+    hash: `#ecosystem_sso=1&access_token=${accessToken}&refresh_token=${'r'.repeat(32)}`,
+    authUser: { id: 'auth-user-id', app_metadata: { member_id: 'trusted-member-id' } },
+    roleStatus: 404
+  });
+
+  const result = await bootstrapSession();
+
+  assert.equal(result.error, null);
+  assert.equal(result.member.role, 'member');
+  assert.equal(mocks.calls.length, 3);
+  assert.match(mocks.calls[2].url, /garden_hub_report_error_v1$/);
+});
+
 test('SSO bootstrap rejects a client-supplied member id without trusted app metadata', async t => {
   const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
   const mocks = installBrowserMocks(t, {

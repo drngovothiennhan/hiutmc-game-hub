@@ -1,7 +1,13 @@
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from '../config.js';
+import { reportGameHubError } from '../observability/error-reporting.js';
 
 export const SESSION_STORAGE_KEY = 'hiutmc-game-hub-session-v1';
 const BRIDGE_FLAG = 'ecosystem_sso';
+const REQUEST_TIMEOUT_MS = 12_000;
+
+function requestSignal() {
+  return AbortSignal.timeout(REQUEST_TIMEOUT_MS);
+}
 
 function decodeJwtPayload(token) {
   try {
@@ -89,7 +95,8 @@ async function refreshIfNeeded(session) {
     method: 'POST',
     headers: { apikey: SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ refresh_token: session.refreshToken }),
-    cache: 'no-store'
+    cache: 'no-store',
+    signal: requestSignal()
   });
   const body = await response.json().catch(() => ({}));
   if (!response.ok || !body.access_token || !body.refresh_token) throw new Error('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.');
@@ -103,7 +110,8 @@ async function refreshIfNeeded(session) {
 async function verifyMember(accessToken) {
   const authResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
     headers: { apikey: SUPABASE_PUBLISHABLE_KEY, Authorization: `Bearer ${accessToken}` },
-    cache: 'no-store'
+    cache: 'no-store',
+    signal: requestSignal()
   });
   const authUser = await authResponse.json().catch(() => ({}));
   if (!authResponse.ok || !authUser.id) throw new Error('Không xác minh được phiên thành viên. Hãy đăng nhập lại từ HIU TMC.');
@@ -123,15 +131,30 @@ async function verifyMember(accessToken) {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
-      body: '{}',
-      cache: 'no-store'
+        body: '{}',
+      cache: 'no-store',
+      signal: requestSignal()
     });
     if (roleResponse.ok) {
       const payload = await roleResponse.json().catch(() => []);
       const row = Array.isArray(payload) ? payload[0] : payload;
-      role = String(row?.role || 'member');
+      const currentRole = String(row?.role || '');
+      if (currentRole) role = currentRole;
+      else {
+        void reportGameHubError({ accessToken }, new Error('The current member role lookup returned no role.'), {
+          code: 'member_role_empty', area: 'access', operation: 'garden_hub_current_member_role_v1'
+        });
+      }
+    } else {
+      void reportGameHubError({ accessToken }, new Error('The current member role lookup failed.'), {
+        code: 'member_role_http', area: 'access', operation: 'garden_hub_current_member_role_v1', status: roleResponse.status
+      });
     }
-  } catch {}
+  } catch (error) {
+    void reportGameHubError({ accessToken }, error, {
+      code: 'member_role_network', area: 'access', operation: 'garden_hub_current_member_role_v1'
+    });
+  }
   return {
     id: memberId,
     displayName: 'Thành viên HIU TMC',

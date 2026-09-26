@@ -43,7 +43,7 @@ export default function HerbGardenGame({member}:{member:Member}){
     setPlots(rows);
     setSelectedSlot(current=>rows.find(x=>x.slot_no===current&&x.unlocked)?.slot_no||rows.find(x=>x.unlocked)?.slot_no||rows[0]?.slot_no||1);
   };
-  const refreshPlotState=async()=>{const {data,error}=await gardenSupabase.rpc('herb_garden_state_v3');if(!error)applyPlotRows((Array.isArray(data)?data:[]) as Plot[])};
+  const refreshPlotState=async()=>{const {data,error}=await gardenSupabase.rpc('herb_garden_state_v3');if(error){setMsg(error.message);return}if(!Array.isArray(data)){setMsg('Máy chủ Gia Viên trả về trạng thái không hợp lệ. Dữ liệu đang hiển thị được giữ nguyên.');return}applyPlotRows(data as Plot[])};
   const load=async(clearMessage=true)=>{
     setBusy(true);if(clearMessage)setMsg('');
     try{
@@ -51,11 +51,12 @@ export default function HerbGardenGame({member}:{member:Member}){
         gardenSupabase.rpc('herb_garden_state_v3'),gardenSupabase.rpc('herb_garden_inventory_v3'),gardenSupabase.rpc('herb_garden_visit_v2',{p_member_id:member.id}),gardenSupabase.rpc('herb_garden_seed_inventory_v1'),gardenSupabase.rpc('herb_garden_reward_status_v1'),gardenSupabase.rpc('herb_garden_wallet_v1')
       ]);
       for(const result of [state,stock,seedStock,rewardState,walletState])if(result.error)throw result.error;
-      applyPlotRows((Array.isArray(state.data)?state.data:[]) as Plot[]);
-      setInventory((Array.isArray(stock.data)?stock.data:[]) as Inventory[]);
-      setSeeds((Array.isArray(seedStock.data)?seedStock.data:[]) as SeedInventory[]);
-      setRewards((Array.isArray(rewardState.data)?rewardState.data:[]) as RewardRow[]);
-      setWallet(Number(walletState.data||0));
+      if(!Array.isArray(state.data)||!Array.isArray(stock.data)||!Array.isArray(seedStock.data)||!Array.isArray(rewardState.data)||!Number.isFinite(Number(walletState.data)))throw new Error('Máy chủ Gia Viên trả về dữ liệu không đầy đủ. Dữ liệu đang hiển thị được giữ nguyên; hãy thử làm mới lại.');
+      applyPlotRows(state.data as Plot[]);
+      setInventory(stock.data as Inventory[]);
+      setSeeds(seedStock.data as SeedInventory[]);
+      setRewards(rewardState.data as RewardRow[]);
+      setWallet(Number(walletState.data));
       if(!personalization.error&&personalization.data){const own=personalization.data as {theme?:string;decor?:string[]};setProfile({theme:own.theme||'bamboo',decor:Array.isArray(own.decor)?own.decor:[]})}
     }catch(e){setMsg((e as Error).message)}finally{setBusy(false)}
   };
