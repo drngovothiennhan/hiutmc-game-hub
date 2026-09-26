@@ -40,8 +40,8 @@ test('profile display escapes untrusted identity fields', () => {
   assert.equal(escapeHtml('<img src=x onerror=alert(1)>'), '&lt;img src=x onerror=alert(1)&gt;');
 });
 
-test('Hub stores its session under an app-specific key', () => {
-  assert.equal(SESSION_STORAGE_KEY, 'hiutmc-game-hub-session-v1');
+test('Hub shares the Eco session key for serialized refresh-token rotation', () => {
+  assert.equal(SESSION_STORAGE_KEY, 'hiutmc-member-session-v1');
 });
 
 test('route writes preserve a module path', () => {

@@ -1,4 +1,4 @@
-const URL='https://gzmpnsrwqjpsbklyflqr.supabase.co',KEY='sb_publishable_Y4hMhXROZ-aVgWoaQ5fFKQ_ZAcXuIzG',STORE='hiutmc-game-hub-session-v1',ROOT=document.querySelector('#yq');
+const URL='https://gzmpnsrwqjpsbklyflqr.supabase.co',KEY='sb_publishable_Y4hMhXROZ-aVgWoaQ5fFKQ_ZAcXuIzG',STORE='hiutmc-member-session-v1',SESSION_LOCK='hiutmc-supabase-session-refresh-v1',ROOT=document.querySelector('#yq');
 const AUTH_TIMEOUT_MS=12000,RPC_TIMEOUT_MS=15000;
 const DOMAINS=[['cold','Hàn – nhiệt'],['sweat','Mồ hôi'],['pain','Đau nhức'],['bowel','Đại tiểu tiện'],['food','Ăn uống'],['chest','Ngực bụng'],['senses','Tai mắt'],['thirst','Khát, nước uống'],['history','Bệnh cũ, thuốc dùng'],['course','Nguyên nhân, diễn tiến']];
 let session=null,data=null,clinics=[],doctorVisits=[],patientVisits=[],leaderboard=[],page='doctor',busy=false,message='',stars={},activeChat=null,chatMessages=[],chatNotice='',activeChatRequest=null,writeBusy=false,writeRecoveryRequired=readWriteRecoveryRequired(),loadSequence=0,chatRequestSequence=0;
@@ -37,20 +37,25 @@ function routeForRpc(name){
 
 function getSession(){try{return JSON.parse(localStorage.getItem(STORE)||'null')}catch{return null}}
 async function token(){
-  session=getSession();
-  if(!session?.accessToken)return'';
-  if(Number(session.expiresAt||0)-Date.now()>90000)return session.accessToken;
-  try{
-    const r=await fetch(URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refreshToken}),cache:'no-store',signal:AbortSignal.timeout(AUTH_TIMEOUT_MS)});
-    const b=await r.json().catch(()=>({}));
-    if(!r.ok||!b.access_token)throw Error('refresh_failed');
-    session={...session,accessToken:b.access_token,refreshToken:b.refresh_token,expiresAt:Number(b.expires_at)*1000};
-    localStorage.setItem(STORE,JSON.stringify(session));
-    return session.accessToken;
-  }catch{
-    reportError('session_refresh_failed','bootstrap');
-    throw Error('Phiên đăng nhập hết hạn. Hãy mở Game Hub lại từ HIU TMC.');
-  }
+  const refresh=async()=>{
+    session=getSession();
+    if(!session?.accessToken)return'';
+    if(Number(session.expiresAt||0)-Date.now()>90000)return session.accessToken;
+    try{
+      const r=await fetch(URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refreshToken}),cache:'no-store',signal:AbortSignal.timeout(AUTH_TIMEOUT_MS)});
+      const b=await r.json().catch(()=>({}));
+      if(!r.ok||!b.access_token)throw Error('refresh_failed');
+      session={...session,accessToken:b.access_token,refreshToken:b.refresh_token,expiresAt:Number(b.expires_at)*1000};
+      localStorage.setItem(STORE,JSON.stringify(session));
+      return session.accessToken;
+    }catch{
+      reportError('session_refresh_failed','bootstrap');
+      throw Error('Không thể làm mới phiên HIU TMC. Hãy thử lại khi kết nối ổn định.');
+    }
+  };
+  const hostname=location.hostname||'',onEcoOrigin=hostname==='hiutmc.com'||hostname.endsWith('.hiutmc.com');
+  if(onEcoOrigin&&navigator.locks?.request){let started=false;try{return await navigator.locks.request(SESSION_LOCK,()=>{started=true;return refresh()})}catch(error){if(started)throw error}}
+  return refresh();
 }
 async function rpc(name,body={},routeOverride=''){
   const isWrite=WRITE_RPCS.has(name);
@@ -62,7 +67,9 @@ async function rpc(name,body={},routeOverride=''){
     const t=await token();
     if(!t)throw Error('Hãy đăng nhập Game Hub bằng tài khoản HIU TMC để đồng bộ tiến trình.');
     requestStarted=true;
-    const r=await fetch(URL+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(RPC_TIMEOUT_MS)});
+    const requestName=isWrite?'y_quan_write_idempotent_v1':name;
+    const requestBody=isWrite?{p_idempotency_key:crypto.randomUUID(),p_operation:name,p_payload:body}:body;
+    const r=await fetch(URL+'/rest/v1/rpc/'+requestName,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(requestBody),cache:'no-store',signal:AbortSignal.timeout(RPC_TIMEOUT_MS)});
     status=r.status;
     const x=await r.json().catch(()=>({}));
     if(!r.ok)throw Error(x.message||x.details||'Máy chủ chưa xử lý được thao tác.');

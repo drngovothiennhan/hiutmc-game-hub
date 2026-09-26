@@ -24,6 +24,19 @@ test('Y Quan client sends patient ratings and simulated cases to authenticated c
   assert.match(client, /signal:AbortSignal\.timeout\(AUTH_TIMEOUT_MS\)/);
 });
 
+test('Y Quan writes send idempotency keys to the transactional server gateway', async () => {
+  const client = await read('../public/y-quan-live/game.js');
+  const migration = await read('../supabase/migrations/20260926100000_y_quan_write_idempotency_v1.sql');
+  assert.match(client, /requestName=isWrite\?'y_quan_write_idempotent_v1':name/);
+  assert.match(client, /p_idempotency_key:crypto\.randomUUID\(\),p_operation:name,p_payload:body/);
+  assert.match(migration, /primary key \(member_id, request_id\)/i);
+  assert.match(migration, /prior\.request_body <> body/);
+  assert.match(migration, /if prior\.response is not null then return prior\.response/i);
+  for (const operation of ['y_quan_submit_case_v1', 'y_quan_submit_daily_case_v1', 'y_quan_rate_doctor_v1', 'y_quan_send_message_v1']) {
+    assert.ok(migration.includes(`'${operation}'`));
+  }
+});
+
 test('server schema isolates Y Quan credits and prevents direct table access', async () => {
   const sql = await read('../supabase/migrations/20260925225700_y_quan_official_runtime_v1.sql');
   assert.match(sql, /schema if not exists y_quan_private/);

@@ -1,7 +1,10 @@
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from '../config.js';
 import { reportGameHubError } from '../observability/error-reporting.js';
 
-export const SESSION_STORAGE_KEY = 'hiutmc-game-hub-session-v1';
+// Same-origin Eco proxy lets both applications share one rotating Supabase
+// refresh token instead of keeping independently rotating copies.
+export const SESSION_STORAGE_KEY = 'hiutmc-member-session-v1';
+const SESSION_REFRESH_LOCK = 'hiutmc-supabase-session-refresh-v1';
 const BRIDGE_FLAG = 'ecosystem_sso';
 const REQUEST_TIMEOUT_MS = 12_000;
 
@@ -66,22 +69,26 @@ function authRequestError(message, status) {
   return error;
 }
 
-let validAccessTokenRequest;
+let validAccessTokenRequest = null;
 export function getValidAccessToken() {
-  if (!validAccessTokenRequest) {
-    validAccessTokenRequest = (async () => {
-      const session = readStoredSession();
-      if (!session) return '';
-      try {
-        const valid = await refreshIfNeeded(session);
-        if (valid !== session) saveSession({ ...session, ...valid });
-        return valid.accessToken;
-      } catch {
-        return '';
+  const session = readStoredSession();
+  if (!session) return Promise.resolve('');
+  if (validAccessTokenRequest?.refreshToken === session.refreshToken) return validAccessTokenRequest.promise;
+  const promise = (async () => {
+    try {
+      const valid = await refreshIfNeeded(session);
+      if (valid.accessToken !== session.accessToken || valid.refreshToken !== session.refreshToken) {
+        saveSession({ ...session, ...valid });
       }
-    })().finally(() => { validAccessTokenRequest = null; });
-  }
-  return validAccessTokenRequest;
+      return valid.accessToken;
+    } catch {
+      return '';
+    }
+  })().finally(() => {
+    if (validAccessTokenRequest?.promise === promise) validAccessTokenRequest = null;
+  });
+  validAccessTokenRequest = { refreshToken: session.refreshToken, promise };
+  return promise;
 }
 
 export function buildLegacySsoUrl(href, session) {
@@ -97,22 +104,44 @@ export function buildLegacySsoUrl(href, session) {
 }
 
 async function refreshIfNeeded(session) {
-  if (session.expiresAt - Date.now() > 90_000) return session;
-  const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
-    method: 'POST',
-    headers: { apikey: SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refresh_token: session.refreshToken }),
-    cache: 'no-store',
-    signal: requestSignal()
-  });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw authRequestError('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.', response.status);
-  if (!body.access_token || !body.refresh_token) throw new Error('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.');
-  return {
-    accessToken: body.access_token,
-    refreshToken: body.refresh_token,
-    expiresAt: Number(body.expires_at || 0) * 1000 || expiryFromToken(body.access_token)
+  const refresh = async () => {
+    // Another tab (or Eco) may have rotated the token while this request was
+    // waiting for the origin-wide Web Lock. Always use the latest stored pair.
+    const latest = readStoredSession() || session;
+    if (latest.expiresAt - Date.now() > 90_000) return latest;
+    const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: latest.refreshToken }),
+      cache: 'no-store',
+      signal: requestSignal()
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) throw authRequestError('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.', response.status);
+    if (!body.access_token || !body.refresh_token) throw new Error('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.');
+    return {
+      accessToken: body.access_token,
+      refreshToken: body.refresh_token,
+      expiresAt: Number(body.expires_at || 0) * 1000 || expiryFromToken(body.access_token),
+      member: latest.member
+    };
   };
+  const hostname = globalThis.window?.location?.hostname || '';
+  const onEcoOrigin = hostname === 'hiutmc.com' || hostname.endsWith('.hiutmc.com');
+  if (onEcoOrigin && navigator.locks?.request) {
+    let refreshStarted = false;
+    try {
+      return await navigator.locks.request(SESSION_REFRESH_LOCK, () => {
+        refreshStarted = true;
+        return refresh();
+      });
+    } catch (error) {
+      // Some embedded WebViews expose Web Locks but do not implement them.
+      // Fall back only if the callback never ran; never repeat a refresh.
+      if (refreshStarted) throw error;
+    }
+  }
+  return refresh();
 }
 
 async function verifyMember(accessToken) {
@@ -193,8 +222,8 @@ export async function bootstrapSession() {
 }
 
 export async function logout() {
-  // Game Hub borrows HIU TMC's Supabase session. Revoke only this app's copy;
-  // calling Auth signOut here would revoke the shared refresh token used by
-  // HIU TMC and break the user's return path into Game Hub.
+  // The same-origin proxy intentionally shares this key with Eco, so removing
+  // it signs this browser out of both apps. Eco remains the owner of explicit
+  // Supabase Auth revocation.
   localStorage.removeItem(SESSION_STORAGE_KEY);
 }
