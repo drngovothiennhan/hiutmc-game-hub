@@ -15,7 +15,8 @@ export const gardenSupabase = {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(args),
-        cache: 'no-store'
+        cache: 'no-store',
+        signal: AbortSignal.timeout(15_000)
       });
       const data = await response.json().catch(() => null);
       if (!response.ok) {

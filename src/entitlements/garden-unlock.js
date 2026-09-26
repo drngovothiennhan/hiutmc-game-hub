@@ -25,7 +25,8 @@ export async function claimOrGetGardenUnlockReceipt(session) {
         accept: 'application/json'
       },
       body: '{}',
-      cache: 'no-store'
+      cache: 'no-store',
+      signal: AbortSignal.timeout(15_000)
     });
     if (!response.ok) {
       void reportGameHubError(session, new Error('Garden beta verification request failed.'), {
