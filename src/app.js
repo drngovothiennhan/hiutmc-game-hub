@@ -1,12 +1,15 @@
 import { bootstrapSession, logout } from './auth/session.js';
 import { readRoute } from './game-engine/router.js';
-import { renderShell, renderAccessGate } from './components/shell.js';
+import { renderShell, renderAccessGate, renderDisplayModeToggle } from './components/shell.js';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './entitlements/garden-unlock.js';
 import { mountGarden, unmountGarden } from './games/garden-mount.js';
 import { canAccessGameHub } from './auth/garden-beta-access.js';
 import { installGlobalErrorReporting, reportGameHubError } from './observability/error-reporting.js';
+import { createDisplayModeController } from './ui/display-mode.js';
 
 const root = document.querySelector('#app');
+const displayMode = createDisplayModeController();
+displayMode.init();
 let currentMember = null;
 let currentSession = null;
 let currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
@@ -23,6 +26,29 @@ function attachLogout() {
   });
 }
 
+function attachDisplayModeToggle() {
+  root.querySelectorAll('[data-display-mode-toggle]').forEach(bindDisplayModeToggle);
+}
+
+function bindDisplayModeToggle(button) {
+  button.addEventListener('click', () => {
+    const replacement = document.createElement('template');
+    replacement.innerHTML = renderDisplayModeToggle(displayMode.cycle());
+    const nextButton = replacement.content.firstElementChild;
+    button.replaceWith(nextButton);
+    bindDisplayModeToggle(nextButton);
+    nextButton.focus({ preventScroll: true });
+  });
+}
+
+function setRootMarkup(markup) {
+  root.classList.remove('view-enter');
+  root.innerHTML = markup;
+  void root.offsetWidth;
+  root.classList.add('view-enter');
+  attachDisplayModeToggle();
+}
+
 async function retryBetaVerification() {
   if (!currentSession || !canAccessGameHub(currentMember)) return;
   currentEntitlement = { eligible: false, reason: 'checking' };
@@ -37,7 +63,7 @@ function attachRetry() {
 
 function render() {
   if (!canAccessGameHub(currentMember)) {
-    root.innerHTML = renderAccessGate({ member: currentMember, authError });
+    setRootMarkup(renderAccessGate({ member: currentMember, authError, displayMode: displayMode.snapshot() }));
     root.setAttribute('aria-busy', 'false');
     attachLogout();
     return;
@@ -50,12 +76,13 @@ function render() {
       : currentEntitlement.reason === 'unavailable'
         ? 'Chưa kết nối được máy chủ xác minh. Hãy thử lại sau.'
         : null;
-    root.innerHTML = renderAccessGate({
+    setRootMarkup(renderAccessGate({
       member: currentMember,
       loading: checking,
       authError: message,
-      canRetry: currentEntitlement.reason === 'unavailable'
-    });
+      canRetry: currentEntitlement.reason === 'unavailable',
+      displayMode: displayMode.snapshot()
+    }));
     root.setAttribute('aria-busy', checking ? 'true' : 'false');
     attachLogout();
     attachRetry();
@@ -68,14 +95,15 @@ function render() {
   const view = requestedView === 'garden-continuation' && isVerifiedGardenUnlockReceipt(currentEntitlement)
     ? 'garden-continuation'
     : requestedView === 'skills' || requestedView === 'achievements' ? requestedView : 'world';
-  root.innerHTML = renderShell({
+  setRootMarkup(renderShell({
     member: currentMember,
     session: currentSession,
     entitlement: currentEntitlement,
     gardenBetaEnabled,
     view,
-    authError
-  });
+    authError,
+    displayMode: displayMode.snapshot()
+  }));
   root.setAttribute('aria-busy', 'false');
   unmountGarden();
   const gardenRoot = root.querySelector('#garden-runtime-root');
@@ -84,7 +112,7 @@ function render() {
   attachLogout();
 }
 
-root.innerHTML = renderAccessGate({ loading: true });
+setRootMarkup(renderAccessGate({ loading: true, displayMode: displayMode.snapshot() }));
 installGlobalErrorReporting(() => currentSession);
 bootstrapSession().then(async result => {
   currentMember = result.member;
@@ -105,6 +133,9 @@ bootstrapSession().then(async result => {
 });
 
 window.addEventListener('hashchange', render);
-if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js').catch(error => {
-  void reportGameHubError(currentSession, error, { code: 'service_worker_register', area: 'runtime', operation: 'register' });
-}));
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker
+  .register('/service-worker.js', { updateViaCache: 'none' })
+  .then(registration => registration.update())
+  .catch(error => {
+    void reportGameHubError(currentSession, error, { code: 'service_worker_register', area: 'runtime', operation: 'register' });
+  }));

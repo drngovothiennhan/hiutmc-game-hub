@@ -3,9 +3,12 @@
   "name": "HIU TMC Game Hub — Y Học Đường",
   "short_name": "HIU Game Hub",
   "lang": "vi",
+  "description": "Vận dụng kiến thức Y học cổ truyền qua các trò chơi học thuật.",
   "start_url": "/",
   "scope": "/",
+  "display_override": ["standalone", "minimal-ui"],
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#f4f1e7",
   "theme_color": "#184c3b",
   "icons": [{ "src": "/icons/game-hub.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]

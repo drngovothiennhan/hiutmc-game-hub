@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test",
     "build": "node scripts/build.mjs",
-    "preview": "node scripts/preview.mjs"
+    "preview": "node scripts/preview.mjs",
+    "verify:pwa": "node scripts/validate-pwa-build.mjs"
   },
   "engines": {
     "node": ">=22"
