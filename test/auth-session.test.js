@@ -102,7 +102,7 @@ test('role lookup failures stay least-privileged and are reported instead of sil
   assert.match(mocks.calls[2].url, /garden_hub_report_error_v1$/);
 });
 
-test('SSO bootstrap rejects a client-supplied member id without trusted app metadata', async t => {
+test('SSO bootstrap rejects an unlinked identity without deleting an authenticated session', async t => {
   const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
   const mocks = installBrowserMocks(t, {
     hash: `#ecosystem_sso=1&access_token=${accessToken}&refresh_token=${'s'.repeat(32)}`,
@@ -114,7 +114,7 @@ test('SSO bootstrap rejects a client-supplied member id without trusted app meta
   assert.equal(result.member, null);
   assert.match(result.error, /chưa liên kết hồ sơ HIU TMC/);
   assert.equal(mocks.calls.length, 1);
-  assert.equal(mocks.values.has(SESSION_STORAGE_KEY), false);
+  assert.equal(mocks.values.has(SESSION_STORAGE_KEY), true);
 });
 
 test('SSO bridge rejects missing credentials, reports only field names, and clears the received fragment', async t => {
@@ -162,6 +162,21 @@ test('SSO bridge rejects an access token Auth will not verify and clears it', as
   assert.equal(mocks.getReplacedUrl(), '/?from=ecosystem');
   assert.equal(mocks.calls.length, 1);
   assert.equal(mocks.values.has(SESSION_STORAGE_KEY), false);
+});
+
+test('SSO bootstrap preserves the session for non-401 auth failures', async t => {
+  const accessToken = tokenWithExpiry(Math.floor(Date.now() / 1000) + 3600);
+  const mocks = installBrowserMocks(t, {
+    hash: `#ecosystem_sso=1&access_token=${accessToken}&refresh_token=still-valid`,
+    authStatus: 403,
+    authUser: { message: 'forbidden' }
+  });
+
+  const result = await bootstrapSession();
+
+  assert.equal(result.member, null);
+  assert.equal(mocks.values.has(SESSION_STORAGE_KEY), true);
+  assert.equal(JSON.parse(mocks.values.get(SESSION_STORAGE_KEY)).refreshToken, 'still-valid');
 });
 
 test('SSO bootstrap ignores an unrelated fragment without clearing it', async t => {

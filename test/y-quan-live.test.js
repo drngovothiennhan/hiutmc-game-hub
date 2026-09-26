@@ -20,6 +20,8 @@ test('Y Quan client sends patient ratings and simulated cases to authenticated c
   }
   assert.match(client, /Authorization:'Bearer '\+t/);
   assert.match(client, /patient_avatar_url/);
+  assert.match(client, /signal:AbortSignal\.timeout\(RPC_TIMEOUT_MS\)/);
+  assert.match(client, /signal:AbortSignal\.timeout\(AUTH_TIMEOUT_MS\)/);
 });
 
 test('server schema isolates Y Quan credits and prevents direct table access', async () => {
@@ -38,7 +40,10 @@ test('doctor and patient can open a per-visit chat from their visit lists', asyn
   assert.match(client, /Nhắn bệnh nhân/);
   assert.match(client, /y_quan_visit_messages_v1/);
   assert.match(client, /y_quan_send_message_v1/);
-  assert.match(client, /setInterval\(\(\)=>\{if\(activeChat\)refreshChat\(true\)\},5000\)/);
+  assert.match(client, /if\(writeRecoveryRequired\)\{if\(activeChat\)refreshChat\(true\)/);
+  assert.match(client, /setWriteRecoveryRequired\(true\)/);
+  assert.match(client, /RPC_OUTCOME_UNKNOWN/);
+  assert.match(client, /loadSequence/);
   assert.match(client, /maxlength="1000"/);
 });
 

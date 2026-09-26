@@ -59,6 +59,13 @@ function saveSession(session) {
   localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
 }
 
+function authRequestError(message, status) {
+  const error = new Error(message);
+  // Only an explicit Auth 401 proves this stored credential is invalid.
+  error.clearSession = status === 401;
+  return error;
+}
+
 let validAccessTokenRequest;
 export function getValidAccessToken() {
   if (!validAccessTokenRequest) {
@@ -99,7 +106,8 @@ async function refreshIfNeeded(session) {
     signal: requestSignal()
   });
   const body = await response.json().catch(() => ({}));
-  if (!response.ok || !body.access_token || !body.refresh_token) throw new Error('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.');
+  if (!response.ok) throw authRequestError('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.', response.status);
+  if (!body.access_token || !body.refresh_token) throw new Error('Không thể xác minh phiên đăng nhập. Hãy mở Game Hub lại từ HIU TMC.');
   return {
     accessToken: body.access_token,
     refreshToken: body.refresh_token,
@@ -114,7 +122,8 @@ async function verifyMember(accessToken) {
     signal: requestSignal()
   });
   const authUser = await authResponse.json().catch(() => ({}));
-  if (!authResponse.ok || !authUser.id) throw new Error('Không xác minh được phiên thành viên. Hãy đăng nhập lại từ HIU TMC.');
+  if (!authResponse.ok) throw authRequestError('Không xác minh được phiên thành viên. Hãy thử tải lại Game Hub.', authResponse.status);
+  if (!authUser.id) throw new Error('Không xác minh được phiên thành viên. Hãy đăng nhập lại từ HIU TMC.');
 
   // app_metadata is issued by the trusted HIU TMC auth service. It anchors the
   // account, while the current role is refreshed through a server-side RPC so
@@ -164,10 +173,12 @@ async function verifyMember(accessToken) {
 }
 
 export async function bootstrapSession() {
+  let session = null;
   try {
     const bridged = consumeIncomingBridge();
-    const session = bridged || readStoredSession();
+    session = bridged || readStoredSession();
     if (!session) return { member: null, session: null, error: null };
+    if (bridged) saveSession(bridged);
     // Validate the bridged access token without rotating its refresh token:
     // the Ecosystem still owns the stored session for a later return visit.
     const refreshed = await refreshIfNeeded(session);
@@ -176,7 +187,7 @@ export async function bootstrapSession() {
     saveSession(complete);
     return { member, session: complete, error: null };
   } catch (error) {
-    localStorage.removeItem(SESSION_STORAGE_KEY);
+    if (error?.clearSession === true) localStorage.removeItem(SESSION_STORAGE_KEY);
     return { member: null, session: null, error: error instanceof Error ? error.message : 'Không thể xác minh phiên HIU TMC.' };
   }
 }
