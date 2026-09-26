@@ -1,33 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cases, questions } from '../public/y-quan-live/interview/data.js';
-import { createQuestionPlan, scoreAttempt } from '../public/y-quan-live/interview/engine.js';
+import { questions, cases } from '../public/y-quan-live/interview/data.js';
+import { createQuestionPlan, scoreAttempt, starsForScore } from '../public/y-quan-live/interview/engine.js';
 
-test('Thap van plan is a reproducible 15-question set covering all ten core domains', () => {
-  const first = createQuestionPlan(731204);
-  const again = createQuestionPlan(731204);
-  assert.deepEqual(first.map(q => q.id), again.map(q => q.id));
-  assert.equal(first.length, 15);
-  assert.equal(new Set(first.map(q => q.id)).size, 15);
-  assert.equal(new Set(first.map(q => q.category)).size, 10);
-  assert.equal(first.filter(q => q.primary).length, 10);
-  assert.equal(first.filter(q => !q.primary).length, 5);
-  for (const category of new Set(questions.map(q => q.category))) {
-    assert.ok(first.some(q => q.category === category), `missing ${category}`);
+test('the Thap van question bank has 220 unique prompts evenly spread over ten domains', () => {
+  assert.equal(questions.length, 220);
+  assert.equal(new Set(questions.map(q => q.id)).size, 220);
+  const categories = [...new Set(questions.map(q => q.category))];
+  assert.equal(categories.length, 10);
+  for (const category of categories) {
+    assert.equal(questions.filter(q => q.category === category).length, 22, category);
   }
 });
 
-test('every case returns a fixed answer for every question bank entry', () => {
+test('every seeded case selects exactly ten different prompts, one per domain', () => {
+  const first = createQuestionPlan(731204);
+  const again = createQuestionPlan(731204);
+  assert.deepEqual(first.map(q => q.id), again.map(q => q.id));
+  assert.equal(first.length, 10);
+  assert.equal(new Set(first.map(q => q.id)).size, 10);
+  assert.equal(new Set(first.map(q => q.category)).size, 10);
+  assert.ok(createQuestionPlan(731205).some((q, i) => q.id !== first[i].id));
+});
+
+test('each case gives a coherent patient response for every selected domain', () => {
+  const categories = [...new Set(questions.map(q => q.category))];
   for (const caseFile of cases) {
-    assert.equal(Object.keys(caseFile.answers).length, questions.length, caseFile.id);
-    for (const question of questions) {
-      assert.ok(caseFile.answers[question.id]?.text, `${caseFile.id} missing ${question.id}`);
-      assert.ok(caseFile.answers[question.id]?.expression, `${caseFile.id} missing expression ${question.id}`);
+    assert.equal(Object.keys(caseFile.answersByCategory).length, 10, caseFile.id);
+    for (const category of categories) {
+      assert.ok(caseFile.answersByCategory[category]?.text, caseFile.id + ' missing ' + category);
+      assert.ok(caseFile.answersByCategory[category]?.expression, caseFile.id + ' missing expression ' + category);
     }
   }
 });
 
-test('rubric score is bounded and rewards case-consistent reasoning', () => {
+test('score is a bounded percentage and bot stars follow the score thresholds', () => {
   const caseFile = cases[0];
   const asked = createQuestionPlan(8);
   const good = scoreAttempt({
@@ -38,18 +45,25 @@ test('rubric score is bounded and rewards case-consistent reasoning', () => {
     asked, captured: [], selectedB8C: ['Biểu','Hàn'],
     selectedPattern: cases[1].id, selectedPrinciple: cases[1].principles[0], caseFile
   });
-  assert.ok(good <= 100 && good >= 0);
+  assert.equal(good, 100);
+  assert.equal(starsForScore(good), 5);
   assert.ok(weak >= 0 && weak <= 100);
   assert.ok(good > weak);
+  assert.equal(starsForScore(89), 4);
+  assert.equal(starsForScore(64), 2);
+  assert.equal(starsForScore(20), 1);
 });
 
-test('beta route is linked from authenticated Y Quan and is included in the static build', async () => {
+test('Y Quan defaults to the Thap van practice module with a one-time doctor introduction', async () => {
   const { readFile } = await import('node:fs/promises');
   const client = await readFile(new URL('../public/y-quan-live/game.js', import.meta.url), 'utf8');
   const page = await readFile(new URL('../public/y-quan-live/interview/index.html', import.meta.url), 'utf8');
   const build = await readFile(new URL('../scripts/build.mjs', import.meta.url), 'utf8');
-  assert.match(client, /Luyện Thập vấn · Beta/);
-  assert.match(client, /\/y-quan-live\/interview\//);
+  assert.match(client, /page='practice'/);
+  assert.match(client, /hiu-yquan-practice-welcome-v1/);
+  assert.match(client, /220 câu/);
+  assert.match(client, /tối thiểu 90 phút/);
+  assert.match(client, /interview\/\?embed=1/);
   assert.match(page, /interview\/app\.js/);
   assert.match(build, /cp\('public', 'dist', \{ recursive: true \}\)/);
 });

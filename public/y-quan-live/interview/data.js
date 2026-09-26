@@ -1,27 +1,10 @@
-export const questions = [
-  {id:'cold-1',category:'Hàn nhiệt',primary:true,text:'Gần đây bạn thấy sợ lạnh hay nóng trong người không? Khi nào rõ nhất?'},
-  {id:'cold-2',category:'Hàn nhiệt',tags:['cold','tidal-heat'],text:'Cảm giác lạnh/nóng có xảy ra liên tục hay từng lúc? Có sốt đo được không?'},
-  {id:'sweat-1',category:'Mồ hôi',primary:true,text:'Mồ hôi có ra bất thường không: ban ngày, khi ngủ hay khi vận động?'},
-  {id:'sweat-2',category:'Mồ hôi',tags:['night-sweat'],text:'Bạn có tỉnh giấc vì mồ hôi hoặc cảm thấy khô/nóng sau khi ngủ không?'},
-  {id:'head-1',category:'Đầu thân',primary:true,text:'Đầu, mình, lưng hoặc gối có đau mỏi không? Điều gì làm thay đổi cảm giác đó?'},
-  {id:'head-2',category:'Đầu thân',tags:['night-sweat','stress'],text:'Giấc ngủ và mức mệt mỏi có thay đổi cùng lúc với triệu chứng không?'},
-  {id:'bowel-1',category:'Đại tiểu tiện',primary:true,text:'Đại tiện và tiểu tiện gần đây thế nào? Có khác thường ngày không?'},
-  {id:'bowel-2',category:'Đại tiểu tiện',tags:['loose-stool'],text:'Phân lỏng hay táo bón xuất hiện bao lâu một lần? Có đau bụng kèm theo không?'},
-  {id:'diet-1',category:'Ẩm thực',primary:true,text:'Ăn uống và khẩu vị thay đổi ra sao? Bạn thường thích món nóng hay lạnh?'},
-  {id:'diet-2',category:'Ẩm thực',tags:['poor-appetite'],text:'Bạn ăn kém vì nhanh no, buồn nôn hay không thấy ngon miệng?'},
-  {id:'chest-1',category:'Hung sườn bụng',primary:true,text:'Ngực, hai bên sườn hoặc bụng có tức/đau không? Thở, nghỉ, xoa hay chườm ảnh hưởng thế nào?'},
-  {id:'hearing-1',category:'Tai nghe',primary:true,text:'Tai có ù hoặc nghe kém không? Tình trạng liên tục hay từng lúc?'},
-  {id:'thirst-1',category:'Khát',primary:true,text:'Có khát hoặc khô miệng/họng không? Bạn thường muốn uống ấm hay mát?'},
-  {id:'history-1',category:'Bệnh sử và thuốc',primary:true,text:'Trước đây bạn có bệnh gì đáng kể, và hiện đang dùng thuốc/thực phẩm bổ sung nào?'},
-  {id:'cause-1',category:'Nguyên nhân và kinh nguyệt khi phù hợp',primary:true,text:'Triệu chứng bắt đầu sau thay đổi sinh hoạt, ăn uống hay căng thẳng nào? Nếu phù hợp, chu kỳ có thay đổi không?'},
-  {id:'cause-2',category:'Nguyên nhân và kinh nguyệt khi phù hợp',tags:['stress','flank'],text:'Khi tâm trạng căng thẳng hoặc gần kỳ kinh, triệu chứng có tăng lên không? Bạn có thể bỏ qua phần riêng tư.'},
-  {id:'chest-2',category:'Hung sườn bụng',tags:['flank','warmth'],text:'Cảm giác đau âm ỉ hay dữ dội? Thích xoa/chườm hay thấy khó chịu hơn?'},
-  {id:'history-2',category:'Bệnh sử và thuốc',text:'Triệu chứng kéo dài bao lâu, tăng giảm theo thời điểm nào trong ngày?'},
-  {id:'thirst-2',category:'Khát',tags:['dry-throat'],text:'Khô họng có rõ hơn về đêm không? Bạn có phải thức dậy uống nước?'},
-  {id:'head-3',category:'Đầu thân',tags:['lumbar-weakness'],text:'Bạn có thấy lưng gối mỏi hoặc sức lực giảm kéo dài không?'}
-];
+import { questionBank } from './question-bank.js';
+
+export const questions = questionBank;
 
 const ans = (text, expression='neutral', findings=[]) => ({text, expression, findings});
+const domains = (...values) => Object.fromEntries(values);
+
 export const cases = [
   {
     id:'can-khi-uat-ket', title:'Ca A · Tức sườn khi áp lực', patient:'Minh Anh', avatar:'/assets/avatars/female_character_29944.jpg',
@@ -29,57 +12,37 @@ export const cases = [
     pattern:'Can khí uất kết', b8c:['Lý','Khí trệ thiên thực','Hàn nhiệt không nổi bật'],
     principles:['Sơ Can lý khí (nguyên tắc học thuật)','Hỏi đủ tứ chẩn trước khi kết luận'],
     keyFindings:['stress','flank','sighing','variable'],
-    answers:{
-      'cold-1':ans('Không rét run hay sốt; khi bực bội tôi thấy bứt rứt hơn.','concerned',['variable']),
-      'cold-2':ans('Cảm giác bứt rứt từng lúc, chưa ghi nhận sốt đo được.','neutral',['variable']),
-      'sweat-1':ans('Không thấy mồ hôi bất thường.','neutral'),
-      'sweat-2':ans('Tôi không tỉnh giấc vì mồ hôi.','neutral'),
-      'head-1':ans('Hai bên sườn đôi lúc tức, thường rõ hơn sau ngày nhiều áp lực.','uneasy',['flank','stress']),
-      'head-2':ans('Những hôm lo lắng tôi khó thư giãn để ngủ.','concerned',['stress']),
-      'bowel-1':ans('Đại tiện và tiểu tiện chưa thấy khác thường.','neutral'),
-      'bowel-2':ans('Không có thay đổi rõ về đại tiện.','neutral'),
-      'diet-1':ans('Khẩu vị giảm nhẹ vào lúc căng thẳng; không có sở thích nóng/lạnh rõ.','concerned',['stress']),
-      'diet-2':ans('Chủ yếu là không thấy ngon miệng khi tâm trạng không thoải mái.','concerned',['stress']),
-      'chest-1':ans('Ngực sườn đầy tức từng lúc; thở dài thì dễ chịu hơn.','uneasy',['flank','sighing','variable']),
-      'hearing-1':ans('Tai không ù, nghe vẫn bình thường.','neutral'),
-      'thirst-1':ans('Không khát nhiều, miệng không khô rõ.','neutral'),
-      'history-1':ans('Trước đây chưa có bệnh đáng kể; hiện không dùng thuốc thường xuyên.','neutral'),
-      'cause-1':ans('Triệu chứng rõ hơn trong giai đoạn áp lực. Nếu hỏi chu kỳ, tôi xin trả lời riêng.','guarded',['stress']),
-      'cause-2':ans('Lúc lo lắng cảm giác tức sườn tăng; chu kỳ đôi khi không đều.','guarded',['stress','flank']),
-      'chest-2':ans('Tức âm ỉ, không đau dữ dội; nghỉ và thở chậm thì đỡ.','relieved',['flank','variable']),
-      'history-2':ans('Vài tuần nay, nặng hơn vào những ngày áp lực.','concerned',['stress','variable']),
-      'thirst-2':ans('Không khô họng về đêm.','neutral'),
-      'head-3':ans('Không mỏi lưng gối kéo dài.','neutral')
-    }
+    answersByCategory:domains(
+      ['Hàn nhiệt',ans('Không rét run hay sốt; khi bực bội tôi thấy bứt rứt hơn.','concerned',['variable'])],
+      ['Mồ hôi',ans('Mồ hôi không có gì khác thường, cả ngày lẫn khi ngủ.','neutral')],
+      ['Đầu thân',ans('Hai bên sườn đôi lúc tức; những hôm áp lực tôi cũng khó thư giãn.','uneasy',['flank','stress'])],
+      ['Đại tiểu tiện',ans('Đại tiện và tiểu tiện chưa thấy khác thường.','neutral')],
+      ['Ẩm thực',ans('Khẩu vị giảm nhẹ khi căng thẳng; không có sở thích nóng lạnh rõ.','concerned',['stress'])],
+      ['Hung sườn bụng',ans('Ngực sườn đầy tức từng lúc; thở dài thì dễ chịu hơn.','uneasy',['flank','sighing','variable'])],
+      ['Tai nghe',ans('Tai không ù, nghe vẫn bình thường.','neutral')],
+      ['Khát',ans('Không khát nhiều, miệng không khô rõ.','neutral')],
+      ['Bệnh sử và thuốc',ans('Trước đây chưa có bệnh đáng kể; hiện không dùng thuốc thường xuyên.','neutral')],
+      ['Nguyên nhân và diễn tiến',ans('Triệu chứng rõ hơn trong giai đoạn áp lực; khi lo lắng cảm giác tức sườn tăng. Nếu hỏi chu kỳ, tôi xin trả lời riêng.','guarded',['stress','flank'])]
+    )
   },
   {
     id:'ty-vi-hu-han', title:'Ca B · Đau bụng thích chườm ấm', patient:'Quốc Bảo', avatar:'/assets/avatars/doctor_male_29945.jpg',
     complaint:'“Bụng tôi đau âm ỉ, ăn lạnh vào thì khó chịu hơn.”',
     pattern:'Tỳ vị hư hàn', b8c:['Lý','Hàn','Hư'],
-    principles:['Ôn trung kiện Tỳ (nguyên tắc học thuật)','Hỏi khả năng ăn uống và dấu hiệu mất nước'],
+    principles:['Ôn trung kiện Tỳ (nguyên tắc học thuật)','Hỏi đủ mức ăn uống và dấu hiệu mất nước'],
     keyFindings:['cold','warmth','poor-appetite','loose-stool'],
-    answers:{
-      'cold-1':ans('Tôi khá sợ lạnh, nhất là vùng bụng và tay chân.','tired',['cold']),
-      'cold-2':ans('Lạnh rõ hơn khi ở phòng lạnh; không sốt.','neutral',['cold']),
-      'sweat-1':ans('Không có mồ hôi trộm; vận động mới ra mồ hôi như thường.','neutral'),
-      'sweat-2':ans('Tôi không tỉnh giấc vì mồ hôi.','neutral'),
-      'head-1':ans('Người hơi mệt; bụng lạnh khó chịu, không đau đầu.','tired',['cold']),
-      'head-2':ans('Tôi mệt hơn vào những hôm ăn uống thất thường.','tired',['poor-appetite']),
-      'bowel-1':ans('Đại tiện thường lỏng; tiểu tiện không thay đổi rõ.','concerned',['loose-stool']),
-      'bowel-2':ans('Phân lỏng lặp lại, thường kèm bụng khó chịu sau bữa ăn lạnh.','concerned',['loose-stool']),
-      'diet-1':ans('Ăn kém, thích đồ ấm; ăn lạnh dễ khó chịu bụng.','concerned',['poor-appetite','cold']),
-      'diet-2':ans('Tôi ít muốn ăn vì không ngon miệng, đôi lúc nhanh no.','tired',['poor-appetite']),
-      'chest-1':ans('Đau âm ỉ vùng thượng vị; xoa hoặc chườm ấm thì dễ chịu.','uneasy',['warmth']),
-      'hearing-1':ans('Tai không ù, nghe bình thường.','neutral'),
-      'thirst-1':ans('Không khát nhiều; nếu uống thì thường chọn nước ấm.','neutral'),
-      'history-1':ans('Tình trạng lặp lại vài tháng; tôi không dùng thuốc đều đặn.','neutral'),
-      'cause-1':ans('Bữa ăn thất thường và đồ lạnh thường làm bụng khó chịu hơn.','concerned',['cold']),
-      'cause-2':ans('Căng thẳng không làm thay đổi nhiều; lạnh và bữa ăn liên quan rõ hơn.','neutral',['cold']),
-      'chest-2':ans('Đau âm ỉ, thích xoa và chườm ấm.','relieved',['warmth']),
-      'history-2':ans('Lặp lại vài tháng, nặng hơn sau khi ăn lạnh hoặc bỏ bữa.','concerned',['cold','poor-appetite']),
-      'thirst-2':ans('Không thấy khô họng về đêm.','neutral'),
-      'head-3':ans('Sức lực hơi giảm, không có mỏi lưng gối kéo dài.','tired',[])
-    }
+    answersByCategory:domains(
+      ['Hàn nhiệt',ans('Tôi khá sợ lạnh, nhất là vùng bụng và tay chân.','tired',['cold'])],
+      ['Mồ hôi',ans('Không có mồ hôi trộm; vận động mới ra mồ hôi như thường.','neutral')],
+      ['Đầu thân',ans('Người hơi mệt; bụng lạnh khó chịu, không đau đầu.','tired',['cold'])],
+      ['Đại tiểu tiện',ans('Đại tiện thường lỏng; tiểu tiện không thay đổi rõ.','concerned',['loose-stool'])],
+      ['Ẩm thực',ans('Ăn kém, thích đồ ấm; ăn lạnh dễ khó chịu bụng.','concerned',['poor-appetite','cold'])],
+      ['Hung sườn bụng',ans('Đau âm ỉ vùng thượng vị; xoa hoặc chườm ấm thì dễ chịu.','relieved',['warmth'])],
+      ['Tai nghe',ans('Tai không ù, nghe bình thường.','neutral')],
+      ['Khát',ans('Không khát nhiều; nếu uống thì thường chọn nước ấm.','neutral')],
+      ['Bệnh sử và thuốc',ans('Tình trạng lặp lại vài tháng; tôi không dùng thuốc đều đặn.','neutral')],
+      ['Nguyên nhân và diễn tiến',ans('Bữa ăn thất thường và đồ lạnh thường làm bụng khó chịu hơn; căng thẳng không làm thay đổi nhiều.','concerned',['cold'])]
+    )
   },
   {
     id:'am-hu-hoa-vuong', title:'Ca C · Nóng âm ỉ về chiều', patient:'Thu Hà', avatar:'/assets/avatars/female_character_29944.jpg',
@@ -87,27 +50,17 @@ export const cases = [
     pattern:'Âm hư hỏa vượng', b8c:['Lý','Nhiệt hư','Hư'],
     principles:['Tư âm thanh nhiệt (nguyên tắc học thuật)','Đánh giá nguyên nhân khác và hỏi đủ tứ chẩn'],
     keyFindings:['tidal-heat','night-sweat','dry-throat','tinnitus','lumbar-weakness'],
-    answers:{
-      'cold-1':ans('Chiều tối thường thấy nóng âm ỉ nhưng không rét run.','tired',['tidal-heat']),
-      'cold-2':ans('Nóng rõ về chiều tối, không ghi nhận sốt đo được.','neutral',['tidal-heat']),
-      'sweat-1':ans('Thỉnh thoảng ra mồ hôi lúc ngủ; ban ngày ít.','concerned',['night-sweat']),
-      'sweat-2':ans('Một vài đêm tôi tỉnh giấc vì mồ hôi.','concerned',['night-sweat']),
-      'head-1':ans('Lưng gối hơi mỏi và sức lực giảm.','tired',['lumbar-weakness']),
-      'head-2':ans('Giấc ngủ chập chờn hơn vào những đêm nóng và ra mồ hôi.','tired',['night-sweat']),
-      'bowel-1':ans('Đại tiểu tiện không đổi rõ; chưa táo bón đáng kể.','neutral'),
-      'bowel-2':ans('Đại tiện không thay đổi rõ.','neutral'),
-      'diet-1':ans('Ăn uống tương đối bình thường, đôi lúc khô miệng khó chịu.','neutral',['dry-throat']),
-      'diet-2':ans('Khẩu vị không thay đổi đáng kể.','neutral'),
-      'chest-1':ans('Không đau ngực hay bụng; chỉ bứt rứt nhẹ vào chiều tối.','concerned',['tidal-heat']),
-      'hearing-1':ans('Thỉnh thoảng ù tai nhẹ, không liên tục.','concerned',['tinnitus']),
-      'thirst-1':ans('Họng khô hơn về đêm, muốn nhấp từng ngụm nước.','tired',['dry-throat']),
-      'history-1':ans('Tình trạng kéo dài vài tháng; tôi chưa dùng thuốc đều.','neutral'),
-      'cause-1':ans('Gần đây ngủ muộn và làm việc kéo dài; triệu chứng rõ dần.','concerned',['tidal-heat']),
-      'cause-2':ans('Căng thẳng không phải yếu tố rõ nhất; thường nặng vào chiều tối.','neutral',['tidal-heat']),
-      'chest-2':ans('Không có đau vùng ngực sườn hoặc bụng.','neutral'),
-      'history-2':ans('Vài tháng nay, nóng và khô họng rõ hơn về chiều tối và lúc ngủ.','concerned',['tidal-heat','dry-throat']),
-      'thirst-2':ans('Có, họng khô hơn lúc ngủ và tôi hay nhấp nước.','tired',['dry-throat']),
-      'head-3':ans('Lưng gối mỏi âm ỉ đã kéo dài một thời gian.','tired',['lumbar-weakness'])
-    }
+    answersByCategory:domains(
+      ['Hàn nhiệt',ans('Chiều tối thường thấy nóng âm ỉ nhưng không rét run.','tired',['tidal-heat'])],
+      ['Mồ hôi',ans('Thỉnh thoảng tôi ra mồ hôi lúc ngủ; ban ngày thì ít.','concerned',['night-sweat'])],
+      ['Đầu thân',ans('Lưng gối hơi mỏi và sức lực giảm đã một thời gian.','tired',['lumbar-weakness'])],
+      ['Đại tiểu tiện',ans('Đại tiểu tiện không đổi rõ; chưa táo bón đáng kể.','neutral')],
+      ['Ẩm thực',ans('Ăn uống tương đối bình thường, đôi lúc khô miệng khó chịu.','neutral',['dry-throat'])],
+      ['Hung sườn bụng',ans('Không đau ngực hay bụng; chỉ bứt rứt nhẹ vào chiều tối.','concerned',['tidal-heat'])],
+      ['Tai nghe',ans('Thỉnh thoảng tôi ù tai nhẹ, không liên tục.','concerned',['tinnitus'])],
+      ['Khát',ans('Họng khô hơn về đêm, tôi thường nhấp từng ngụm nước.','tired',['dry-throat'])],
+      ['Bệnh sử và thuốc',ans('Tình trạng kéo dài vài tháng; tôi chưa dùng thuốc đều.','neutral')],
+      ['Nguyên nhân và diễn tiến',ans('Gần đây ngủ muộn và làm việc kéo dài; nóng và khô họng rõ hơn về chiều tối.','concerned',['tidal-heat','dry-throat'])]
+    )
   }
 ];

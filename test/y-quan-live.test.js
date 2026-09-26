@@ -24,6 +24,23 @@ test('Y Quan client sends patient ratings and simulated cases to authenticated c
   assert.match(client, /signal:AbortSignal\.timeout\(AUTH_TIMEOUT_MS\)/);
 });
 
+test('Thap van daily attempts use the server schedule and private case rubric for score and credits', async () => {
+  const migration = await read('../supabase/migrations/20260926120000_y_quan_thap_van_cases_v2.sql');
+  const client = await read('../public/y-quan-live/game.js');
+  const interview = await read('../public/y-quan-live/interview/app.js');
+  assert.match(migration, /add column if not exists case_profile_id text/i);
+  assert.match(migration, /generate_series\(1,5\)/i);
+  assert.match(migration, /\(n - 1\) \* 120/i);
+  assert.match(migration, /case_profile_id='can-khi-uat-ket'/);
+  assert.match(migration, /case_profile_id='ty-vi-hu-han'/);
+  assert.match(migration, /case_profile_id='am-hu-hoa-vuong'/);
+  assert.match(migration, /diagnosis_points\+b8c_points\+inquiry_points\+reasoning_points/);
+  assert.match(migration, /'bot_stars'/);
+  assert.match(client, /HIU_YQ_PRACTICE_SUBMIT/);
+  assert.match(client, /event\.origin!==location\.origin/);
+  assert.match(interview, /answered_domains:\[\.\.\.new Set\(asked\.map/);
+});
+
 test('Y Quan writes send idempotency keys to the transactional server gateway', async () => {
   const client = await read('../public/y-quan-live/game.js');
   const migration = await read('../supabase/migrations/20260926100000_y_quan_write_idempotency_v1.sql');
