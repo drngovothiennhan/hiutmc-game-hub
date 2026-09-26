@@ -5,12 +5,52 @@ import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './
 import { mountGarden, unmountGarden } from './games/garden-mount.js';
 import { canAccessGameHub } from './auth/garden-beta-access.js';
 import { installGlobalErrorReporting, reportGameHubError } from './observability/error-reporting.js';
+import { applyDisplayMode, readDisplayModePreference, saveDisplayModePreference } from './ui/display-mode.js';
 
 const root = document.querySelector('#app');
 let currentMember = null;
 let currentSession = null;
 let currentEntitlement = { eligible: false, reason: 'identity_unlinked' };
 let authError = null;
+let displayModePreference = readDisplayModePreference();
+let deferredInstallPrompt = null;
+
+function isStandalonePwa() {
+  return window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true;
+}
+
+function attachDisplayModeControl() {
+  const control = root.querySelector('#device-mode-select');
+  if (!control) return;
+  control.value = displayModePreference;
+  control.addEventListener('change', () => {
+    displayModePreference = saveDisplayModePreference(control.value);
+    applyDisplayMode(root, displayModePreference);
+  });
+}
+
+function attachInstallButton() {
+  root.querySelector('#install-app')?.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) {
+      root.querySelector('#install-help')?.showModal();
+      return;
+    }
+    const prompt = deferredInstallPrompt;
+    deferredInstallPrompt = null;
+    await prompt.prompt();
+    const choice = await prompt.userChoice;
+    if (choice?.outcome === 'accepted') render();
+  });
+}
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  render();
+});
 
 function attachLogout() {
   root.querySelector('#logout-button')?.addEventListener('click', async () => {
@@ -36,8 +76,12 @@ function attachRetry() {
 }
 
 function render() {
+  applyDisplayMode(root, displayModePreference);
+  const canInstall = !isStandalonePwa();
   if (!canAccessGameHub(currentMember)) {
-    root.innerHTML = renderAccessGate({ member: currentMember, authError });
+    root.innerHTML = renderAccessGate({ member: currentMember, authError, displayMode: displayModePreference, canInstall });
+    attachDisplayModeControl();
+    attachInstallButton();
     root.setAttribute('aria-busy', 'false');
     attachLogout();
     return;
@@ -54,8 +98,12 @@ function render() {
       member: currentMember,
       loading: checking,
       authError: message,
-      canRetry: currentEntitlement.reason === 'unavailable'
+      canRetry: currentEntitlement.reason === 'unavailable',
+      displayMode: displayModePreference,
+      canInstall
     });
+    attachDisplayModeControl();
+    attachInstallButton();
     root.setAttribute('aria-busy', checking ? 'true' : 'false');
     attachLogout();
     attachRetry();
@@ -74,8 +122,12 @@ function render() {
     entitlement: currentEntitlement,
     gardenBetaEnabled,
     view,
-    authError
+    authError,
+    displayMode: displayModePreference,
+    canInstall
   });
+  attachDisplayModeControl();
+  attachInstallButton();
   root.setAttribute('aria-busy', 'false');
   unmountGarden();
   const gardenRoot = root.querySelector('#garden-runtime-root');
@@ -104,7 +156,17 @@ bootstrapSession().then(async result => {
   render();
 });
 
-window.addEventListener('hashchange', render);
+window.addEventListener('resize', () => {
+  if (displayModePreference === 'auto') applyDisplayMode(root, displayModePreference);
+}, { passive: true });
+window.addEventListener('hashchange', () => {
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (document.startViewTransition && !reduceMotion) {
+    document.startViewTransition(() => render());
+  } else {
+    render();
+  }
+});
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js').catch(error => {
   void reportGameHubError(currentSession, error, { code: 'service_worker_register', area: 'runtime', operation: 'register' });
 }));
