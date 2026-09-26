@@ -1,7 +1,7 @@
 import { cases, questions } from './data.js';
 import { createQuestionPlan, scoreAttempt, starsForScore } from './engine.js';
 import { gameHubPath } from '../paths.js';
-const Y_QUAN_ROUTE_VERSION='20260926.1';
+const Y_QUAN_ROUTE_VERSION='20260926.2';
 
 const root = document.querySelector('#yq-interview');
 const scenes = [

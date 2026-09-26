@@ -1,1 +1,48 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#244f3e"><title>HIU Y Quán · Game Hub</title><script>const yQuanBase=location.pathname.match(/^(.*\/apps\/game-hub\/)/)?.[1]||'/';const yQuanStyle=document.createElement('link');yQuanStyle.rel='stylesheet';yQuanStyle.href=yQuanBase+'y-quan-live/game.css?v=20260926.1';document.head.append(yQuanStyle)</script></head><body><main id="yq"><p>Đang kết nối Y Quán…</p></main><script type="module">const base=location.pathname.match(/^(.*\/apps\/game-hub\/)/)?.[1]||'/';import(base+'y-quan-live/game.js?v=20260926.1').catch(error=>{console.error('[HIU Y Quán] module initialization failed '+JSON.stringify({path:location.pathname,name:error?.name||'Error',message:error?.message||String(error),stack:error?.stack||''}));const root=document.querySelector('#yq');if(root)root.innerHTML='<section class="panel"><h1>Y Quán chưa tải được</h1><p>Đã ghi nhận lỗi khởi tạo. Hãy tải lại trang hoặc quay về Game Hub.</p><button onclick="location.reload()">Tải lại</button><a href="'+base+'">Quay lại Game Hub</a></section>'})</script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#244f3e">
+  <title>HIU Y Quán · Game Hub</title>
+  <script>
+    const mount = location.pathname.indexOf('/apps/game-hub/');
+    const base = mount < 0 ? '/' : location.pathname.slice(0, mount + '/apps/game-hub/'.length);
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = base + 'y-quan-live/game.css?v=20260926.2';
+    document.head.append(style);
+  </script>
+</head>
+<body>
+  <main id="yq"><p>Đang kết nối Y Quán…</p></main>
+  <script type="module">
+    const mount = location.pathname.indexOf('/apps/game-hub/');
+    const base = mount < 0 ? '/' : location.pathname.slice(0, mount + '/apps/game-hub/'.length);
+    try {
+      await import(base + 'y-quan-live/game.js?v=20260926.2');
+    } catch (error) {
+      const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+      console.error('[HIU Y Quán] bootstrap failed', error);
+      const root = document.querySelector('#yq');
+      if (root) {
+        root.replaceChildren();
+        const panel = document.createElement('section');
+        panel.className = 'panel';
+        panel.innerHTML = '<h1>Y Quán chưa tải được</h1><p>Không thể khởi tạo phiên này. Hãy thử tải lại hoặc quay về Game Hub.</p>';
+        const diagnostic = document.createElement('p');
+        diagnostic.className = 'error';
+        diagnostic.textContent = `Mã lỗi: ${detail.slice(0, 240)}`;
+        const reload = document.createElement('button');
+        reload.textContent = 'Tải lại';
+        reload.addEventListener('click', () => location.reload());
+        const back = document.createElement('a');
+        back.href = base;
+        back.textContent = 'Quay lại Game Hub';
+        panel.append(diagnostic, reload, back);
+        root.append(panel);
+      }
+    }
+  </script>
+</body>
+</html>

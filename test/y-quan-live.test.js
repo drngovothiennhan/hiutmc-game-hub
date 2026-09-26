@@ -102,8 +102,9 @@ test('Y Quan paths stay inside both the Pages root and the production app mount'
   const interviewEntry = await read('../public/y-quan-live/interview/index.html');
   const interview = await read('../public/y-quan-live/interview/app.js');
   assert.ok(entry.includes("y-quan-live/game.css"));
-  assert.ok(entry.includes("import(base+'y-quan-live/game.js?v="));
+  assert.match(entry, /import\(base\s*\+\s*'y-quan-live\/game\.js\?v=/);
   assert.match(game, /new URL\(gameHubPath\('y-quan-live\/interview\/'\),location\.origin\)/);
+  assert.doesNotMatch(game, /\b(?:const|let|var)\s+URL\s*=/);
   assert.match(game, /gameHubPath\('assets\/avatars\//);
   assert.ok(interviewEntry.includes("'y-quan-live/game.css'"));
   assert.ok(interviewEntry.includes("'y-quan-live/interview/interview.css'"));
