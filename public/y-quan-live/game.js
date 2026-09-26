@@ -12,7 +12,7 @@ function reportError(code,route='unknown',status=null){
   try{
     const current=getSession();
     if(!current?.accessToken)return;
-    void fetch(URL+'/rest/v1/rpc/game_hub_record_error_v1',{
+    void fetch(URL+'/rest/v1/rpc/garden_hub_report_error_v1',{
       method:'POST',
       headers:{apikey:KEY,Authorization:'Bearer '+current.accessToken,'Content-Type':'application/json'},
       body:JSON.stringify({p_code:code,p_message:'Y Quan client operation failed.',p_route:'/y-quan-live/',p_context:{area:'y-quan-live',operation:route,status:status?String(status):null,errorType:code}}),
