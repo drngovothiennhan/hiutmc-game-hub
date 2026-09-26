@@ -11,13 +11,13 @@
     for (const path of ['y-quan-live/game.css','y-quan-live/interview/interview.css']) {
       const link=document.createElement('link');
       link.rel='stylesheet';
-      link.href=yQuanBase+path;
+      link.href=yQuanBase+path+'?v=20260926.1';
       document.head.append(link);
     }
   </script>
 </head>
 <body>
   <main id="yq-interview"><p>Đang mở phòng học…</p></main>
-  <script type="module">const base=location.pathname.match(/^(.*\/apps\/game-hub\/)/)?.[1]||'/';import(base+'y-quan-live/interview/app.js').catch(error=>{console.error('[HIU Y Quán][Thập vấn] module initialization failed '+JSON.stringify({path:location.pathname,name:error?.name||'Error',message:error?.message||String(error),stack:error?.stack||''}));const root=document.querySelector('#yq-interview');if(root)root.innerHTML='<section class="room-panel"><h1>Không tải được phòng luyện</h1><p>Đã ghi nhận lỗi khởi tạo. Hãy tải lại hoặc quay về Y Quán.</p><button onclick="location.reload()">Tải lại</button><a class="iq-secondary link-button" href="'+base+'y-quan-live/">Về Y Quán</a></section>';if(root){const detail=document.createElement('small');detail.textContent=(error?.name||'Error')+': '+(error?.message||String(error));root.append(detail)}})</script>
+  <script type="module">const base=location.pathname.match(/^(.*\/apps\/game-hub\/)/)?.[1]||'/';import(base+'y-quan-live/interview/app.js?v=20260926.1').catch(error=>{console.error('[HIU Y Quán][Thập vấn] module initialization failed '+JSON.stringify({path:location.pathname,name:error?.name||'Error',message:error?.message||String(error),stack:error?.stack||''}));const root=document.querySelector('#yq-interview');if(root)root.innerHTML='<section class="room-panel"><h1>Không tải được phòng luyện</h1><p>Đã ghi nhận lỗi khởi tạo. Hãy tải lại hoặc quay về Y Quán.</p><button onclick="location.reload()">Tải lại</button><a class="iq-secondary link-button" href="'+base+'y-quan-live/?v=20260926.1">Về Y Quán</a></section>';if(root){const detail=document.createElement('small');detail.textContent=(error?.name||'Error')+': '+(error?.message||String(error));root.append(detail)}})</script>
 </body>
 </html>
