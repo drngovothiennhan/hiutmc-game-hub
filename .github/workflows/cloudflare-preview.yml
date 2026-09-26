@@ -4,7 +4,7 @@ on:
   push:
     branches: [g2/game-hub-shell, g3/game-hub-intro-ux]
   pull_request:
-    branches: [g2/game-hub-shell]
+    branches: [main, g2/game-hub-shell]
   workflow_dispatch:
 
 permissions:
@@ -83,33 +83,27 @@ jobs:
           for (const [width, height] of [[320, 740], [390, 844], [711, 1000], [768, 1024], [1024, 900]]) {
             const page = await browser.newPage({ viewport: { width, height } });
             await page.goto(process.env.PREVIEW_URL, { waitUntil: "domcontentloaded", timeout: 60000 });
-            await page.getByRole("heading", { name: "BẢN ĐỒ HỌC THUẬT", level: 1 }).waitFor({ state: "visible", timeout: 15000 });
+            await page.getByRole("heading", { name: "Đăng nhập để tiếp tục", level: 1 }).waitFor({ state: "visible", timeout: 15000 });
             const checks = await page.evaluate(() => {
-              const title = document.querySelector(".world-intro h1");
-              const intro = document.querySelector(".world-intro p:not(.eyebrow)");
-              const map = document.querySelector(".place-grid");
+              const title = document.querySelector("h1");
+              const loginLink = document.querySelector('a[href*="open=game-hub"]');
               return {
                 viewport: document.documentElement.clientWidth,
                 pageWidth: document.documentElement.scrollWidth,
                 titleWidth: title?.clientWidth,
                 titleScrollWidth: title?.scrollWidth,
-                introWidth: intro?.clientWidth,
-                introScrollWidth: intro?.scrollWidth,
-                columns: getComputedStyle(map).gridTemplateColumns,
-                studyOsLabels: [...document.querySelectorAll(".tag-live")].map(node => node.textContent.trim()),
-                gardenHidden: !document.querySelector('[data-place-id="garden-continuation"]'),
+                loginHeading: title?.textContent.trim(),
+                loginLink: Boolean(loginLink),
+                gameMapVisible: Boolean(document.querySelector('[data-place-id="clinic"]')),
               };
             });
-            if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1 || checks.introScrollWidth > checks.introWidth + 1) {
-              throw new Error(`Game Hub content clips at ${width}px: ${JSON.stringify(checks)}`);
+            if (checks.pageWidth > checks.viewport + 1 || checks.titleScrollWidth > checks.titleWidth + 1) {
+              throw new Error(`Login gate clips at ${width}px: ${JSON.stringify(checks)}`);
             }
-            if (!checks.gardenHidden) {
-              throw new Error(`Game Hub Garden must stay hidden from guests and non-privileged visitors.`);
+            if (checks.loginHeading !== "Đăng nhập để tiếp tục" || !checks.loginLink || checks.gameMapVisible) {
+              throw new Error(`Unexpected guest access state at ${width}px: ${JSON.stringify(checks)}`);
             }
-            if (!checks.studyOsLabels.every(label => label === "Study OS · hiện tại")) {
-              throw new Error(`Legacy runtime labels are inaccurate: ${JSON.stringify(checks.studyOsLabels)}`);
-            }
-            await page.screenshot({ path: `qa-game-hub/home-${width}.png`, fullPage: true });
+            await page.screenshot({ path: `qa-game-hub/login-gate-${width}.png`, fullPage: true });
             await page.close();
           }
           await browser.close();
