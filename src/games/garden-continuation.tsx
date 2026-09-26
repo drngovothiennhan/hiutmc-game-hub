@@ -1,12 +1,12 @@
 import React,{useEffect,useMemo,useState} from 'react';
 import {CheckCircle2,ChevronDown,ChevronUp,Clock3,Coins,Droplets,Gift,Grid3X3,HeartHandshake,Leaf,LockKeyhole,MoveHorizontal,PackageOpen,RefreshCw,ShoppingBasket,Sparkles,Sprout} from 'lucide-react';
 import {gardenSupabase} from './garden-supabase.js';
-import {deriveGardenExpansion} from './garden-expansion-story.js';
+import {deriveGardenExpansion,isGardenAdminPreview} from './garden-expansion-story.js';
 import './herb-garden-v2.css';
 import './garden-v6.css';
 import './garden-rewards.css';
 import './garden-professional-v7.css';
-type Member={id:string};
+type Member={id:string;role?:string};
 
 type PlantStatus='growing'|'mature'|'dead'|'harvested';
 type Plot={slot_no:number;unlocked:boolean;initial_selected:boolean;harvest_count:number;initial_selection_complete:boolean;id?:string|null;planted_at?:string|null;matures_at?:string|null;expires_at?:string|null;status?:PlantStatus|null;water_count:number;fertilizer_count:number;required_water_count:number;required_fertilizer_count:number;last_watered_at?:string|null;last_fertilized_at?:string|null;next_water_at?:string|null;next_fertilizer_at?:string|null;can_water:boolean;can_fertilize:boolean;ready_for_harvest:boolean;missed_water_slots:number;missed_fertilizer_days:number;died_at?:string|null;death_reason?:string|null;name?:string|null;other_names?:string|null;botanical_name?:string|null;family?:string|null;used_part?:string|null;traditional_actions?:string|null;dosage?:string|null;caution?:string|null;source_ref?:string|null;source_page?:number|null;visual_variant?:number|null};
@@ -72,7 +72,8 @@ export default function HerbGardenGame({member}:{member:Member}){
   const initialComplete=Boolean(plots[0]?.initial_selection_complete);
   const unlockedCount=plots.filter(x=>x.unlocked).length;
   const harvestedPlots=plots.filter(x=>x.unlocked&&x.harvest_count>0).length;
-  const expansion=deriveGardenExpansion(plots);
+  const adminPreview=isGardenAdminPreview(member.role);
+  const expansion=deriveGardenExpansion(plots,{adminPreview});
   const [selectedExpansionStop,setSelectedExpansionStop]=useState<'pond'|'path'|'landscape'>('pond');
   const pendingFirstHarvests=initialComplete?plots.filter(x=>x.unlocked&&x.harvest_count===0).length:3;
   const nextLockedSlot=plots.find(x=>!x.unlocked)?.slot_no||null;
@@ -194,8 +195,19 @@ export default function HerbGardenGame({member}:{member:Member}){
       </aside>
     </div>
 
+    {adminPreview&&<section className="garden-admin-preview panel" aria-labelledby="garden-admin-preview-title" data-testid="garden-admin-preview">
+      <header><span className="garden-expansion-kicker"><Sparkles/> Chế độ quản trị · xem trước đầy đủ</span><h2 id="garden-admin-preview-title">Toàn bộ chặng và hình ảnh khu vườn</h2><p>Chế độ chỉ xem. Tiến trình thực tế hiện có {unlockedCount}/9 ô mở và {harvestedPlots}/9 ô đã thu hoạch; bản xem trước không mở ô, gieo cây hay cộng thưởng.</p><span className="garden-admin-preview-badge">{expansion.previewOnly?'Xem trước · chưa mở đủ 9 ô':'Đã mở đủ 9 ô'}</span></header>
+      <div className="garden-admin-stages">
+        <article><span className="garden-expansion-kicker">Chặng 1 · Vườn khởi đầu</span><h3>Gieo trồng và chăm cây</h3><p>Chọn 3 ô đầu tiên, gieo hạt, chăm theo chu kỳ 72 giờ rồi thu hoạch. Các ô tiếp theo chỉ mở theo xác nhận tiến trình từ máy chủ.</p><div className="garden-admin-stage-grid" aria-label="Hình minh họa chặng vườn khởi đầu">{Array.from({length:9},(_,i)=><span key={i} className={i<unlockedCount?'is-open':''}><i/>{i+1}</span>)}</div><small>Ảnh xem trước bố cục 3×3 · trạng thái ô vẫn lấy từ máy chủ.</small></article>
+        <article><span className="garden-expansion-kicker">Chặng 2 · Khu vườn mở rộng</span><h3>Cánh cổng tre và hành trình khảo sát</h3><p>Ba điểm truyện: bờ ao, lối dạo và vùng cảnh quan. Nhiệm vụ khảo sát chỉ tính các luống đã thu hoạch thật.</p><div className="garden-expansion-scene" role="img" aria-label="Ảnh xem trước chặng 2: ao sen, lối dạo và cổng tre"><span className="garden-scene-sun"/><span className="garden-scene-hill garden-scene-hill-back"/><span className="garden-scene-hill garden-scene-hill-front"/><span className="garden-scene-pond"/><span className="garden-scene-path"/><span className="garden-scene-gate">門</span><span className="garden-scene-label garden-scene-label-pond">Ao sen</span><span className="garden-scene-label garden-scene-label-path">Lối dạo</span><span className="garden-scene-label garden-scene-label-land">Cảnh quan</span></div>
+          <div className="garden-admin-story-stops"><article><b>01 · Bờ ao</b><p>Người giữ vườn dừng bên ao sen, chuẩn bị khảo sát khu vườn mới.</p></article><article><b>02 · Lối dạo</b><p>Kết nối các luống đã mở để xem cây, lịch chăm và dữ liệu đã lưu.</p></article><article><b>03 · Vùng cảnh quan</b><p>Tiếp tục mở rộng cảnh quan; quy tắc cây trồng vẫn do máy chủ quản lý.</p></article></div>
+        </article>
+      </div>
+      <div className="garden-admin-decor"><h3>Bộ hình trang trí đầy đủ</h3><div>{Object.entries(DECOR_LABEL).map(([name,label])=><article key={name}><DecorArt name={name}/><b>{label}</b></article>)}</div></div>
+    </section>}
+
     {expansion.available&&<section className="garden-expansion-chapter panel" aria-labelledby="garden-expansion-title" data-testid="garden-expansion-chapter">
-      <header className="garden-expansion-heading"><div><span className="garden-expansion-kicker"><Sparkles/> Chặng 2 · Khu vườn mở rộng</span><h2 id="garden-expansion-title">Cánh cổng tre đã mở</h2><p>Khi đủ chín luống, người giữ vườn bước ra lối cảnh quan mới: bờ ao, lối dạo và vùng mở rộng. Tiến trình cây, hạt giống và tín dụng vẫn theo dữ liệu vườn hiện có.</p></div><span className="garden-expansion-unlocked">9/9 luống</span></header>
+      <header className="garden-expansion-heading"><div><span className="garden-expansion-kicker"><Sparkles/> Chặng 2 · Khu vườn mở rộng</span><h2 id="garden-expansion-title">Cánh cổng tre đã mở</h2><p>{expansion.previewOnly?'Bản xem trước quản trị của chặng mở rộng. Các thao tác và tiến trình vườn thật vẫn tuân theo trạng thái do máy chủ trả về.':'Khi đủ chín luống, người giữ vườn bước ra lối cảnh quan mới: bờ ao, lối dạo và vùng mở rộng. Tiến trình cây, hạt giống và tín dụng vẫn theo dữ liệu vườn hiện có.'}</p></div><span className="garden-expansion-unlocked">{expansion.allNineOpen?'9/9 luống':`Xem trước · ${expansion.unlockedCount}/9`}</span></header>
       <div className="garden-expansion-scene" role="img" aria-label="Cảnh quan vườn với ao, lối dạo và vùng mở rộng"><span className="garden-scene-sun"/><span className="garden-scene-hill garden-scene-hill-back"/><span className="garden-scene-hill garden-scene-hill-front"/><span className="garden-scene-pond"/><span className="garden-scene-path"/><span className="garden-scene-gate">門</span><span className="garden-scene-label garden-scene-label-pond">Ao sen</span><span className="garden-scene-label garden-scene-label-path">Lối dạo</span><span className="garden-scene-label garden-scene-label-land">Vùng cảnh quan</span></div>
       <div className="garden-expansion-story-grid"><nav className="garden-expansion-stops" aria-label="Các điểm trong hành trình mới">
         <button type="button" aria-pressed={selectedExpansionStop==='pond'} onClick={()=>setSelectedExpansionStop('pond')}><span>01</span><b>Bờ ao</b><small>Bắt đầu chuyến khảo sát</small></button>
