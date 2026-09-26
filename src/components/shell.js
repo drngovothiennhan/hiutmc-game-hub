@@ -29,7 +29,7 @@ export function renderAccessGate({ member = null, loading = false, authError = n
   const message = loading
     ? 'Game Hub đang kiểm tra phiên HIU TMC của bạn.'
     : member
-      ? 'Phiên thành viên chưa liên kết hoặc tài khoản chưa được duyệt. Hãy đăng nhập lại qua HIU TMC.'
+      ? 'Bản thử nghiệm hiện chỉ dành cho Admin, Mod và Super Mod của HIU TMC.'
       : 'Hãy đăng nhập qua hệ sinh thái HIU TMC bằng tài khoản được cấp quyền.';
   const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
   const action = member

@@ -77,9 +77,9 @@ No G3 acceptance transaction was run during G1. The production database was not 
 The separate Game Hub repository has now been created. Its shell consumes an incoming HIU TMC Supabase session and uses the server-issued `app_metadata.member_id`; it does not query `club_members` directly or create Hub credentials. The existing Garden and Y Quán links remain outbound links to the current Study OS runtime, and no game state is read or written by the shell. SSO/CORS and member-session behavior remain unverified until a public preview can be exercised.
 
 
-## G3 member launch policy — 2026-09-26
+## G3 beta access policy — 2026-09-26
 
-- Game Hub and its Gia Viên continuation are available to any authenticated HIU TMC member whose linked `club_members` record is approved and login-enabled. No staff-role restriction or prior 9/9 Study OS plot prerequisite is used to enter.
-- The one-time receipt remains server-issued. Its RPC verifies `auth.uid()`, the trusted `app_metadata.member_id`, and the matching approved/login-enabled `club_members` row before granting.
-- Internal gameplay rules remain unchanged: choose three initial plots, then open later plots through valid harvest progression. Plant, care, harvest, inventory, rewards, and save/reload remain server-authoritative through the existing gameplay RPCs.
-- Existing player saves are not reset or directly modified by this access change.
+- The production beta is limited to linked, approved, login-enabled `admin`, `mod`, and `super_mod` members.
+- The browser role check only controls presentation. The one-time receipt RPC independently checks the current `club_members.role` in Postgres along with `auth.uid()`, trusted `app_metadata.member_id`, approval, and `login_enabled`; a client role claim alone cannot issue a receipt.
+- Nonstaff roles receive no beta route or unlock receipt. The private receipt table remains inaccessible to client roles, and the receipt RPC remains authenticated-only.
+- This access policy does not change gameplay progression or existing saves. A QA branch is required before exercising gameplay persistence; no member production Garden save is used for testing.

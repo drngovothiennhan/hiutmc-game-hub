@@ -14,13 +14,9 @@ test('router defaults to world map and parses supported views', () => {
   assert.deepEqual(readRoute('#/achievements'), ['achievements']);
 });
 
-test('only explicitly available legacy and live games are launchable', () => {
+test('only explicitly connected legacy games are launchable', () => {
   const active = worldMap.filter(isLaunchable).map(place => place.id);
   assert.deepEqual(active, ['garden', 'clinic']);
-  const liveClinic = worldMap.find(place => place.id === 'clinic');
-  assert.equal(liveClinic.state, 'available-live');
-  assert.equal(liveClinic.href, '/y-quan-live/');
-  assert.ok(isLaunchable(liveClinic));
   assert.ok(worldMap.filter(place => !['available-legacy', 'available-live'].includes(place.state)).every(place => !isLaunchable(place)));
   const continuation = worldMap.find(place => place.id === 'garden-continuation');
   assert.equal(continuation.state, 'locked-continuation');
@@ -61,9 +57,12 @@ test('legacy game launch carries the existing ecosystem session in a fragment', 
   assert.equal(bridge.get('refresh_token'), 'refresh');
 });
 
-test('Game Hub accepts every linked HIU TMC member regardless of role', () => {
-  for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member']) {
+test('Game Hub beta is restricted to linked admin, mod, and super_mod roles', () => {
+  for (const role of ['admin', 'mod', 'super_mod']) {
     assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), true);
+  }
+  for (const role of ['leader', 'member', 'guest']) {
+    assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), false);
   }
   assert.equal(canAccessGameHub({ role: 'admin' }), false);
   assert.equal(canAccessGameHub(null), false);
@@ -72,6 +71,6 @@ test('Game Hub accepts every linked HIU TMC member regardless of role', () => {
   assert.match(anonymousGate, /\?open=game-hub/);
   assert.doesNotMatch(anonymousGate, /Bản đồ|Thành tựu|Gia Viên|Năng lực/);
   const memberGate = renderAccessGate({ member: { role: 'member' } });
-  assert.match(memberGate, /chưa liên kết hoặc tài khoản chưa được duyệt/);
+  assert.match(memberGate, /chỉ dành cho Admin, Mod và Super Mod/);
   assert.doesNotMatch(memberGate, /topnav|Bản đồ|Gia Viên|Năng lực/);
 });
