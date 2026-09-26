@@ -79,5 +79,5 @@ test('open beta migration verifies approved members and records redacted reports
   assert.ok(migration.includes('garden_hub_report_error_v1'));
   assert.ok(migration.includes('public.ecosystem_audit_log'));
   assert.ok(migration.includes("'game_hub_error'"));
-  assert.ok(migration.includes('rate limit'));
+  assert.ok(migration.includes('v_recent_count >= 30'));
 });
