@@ -14,10 +14,14 @@ test('router defaults to world map and parses supported views', () => {
   assert.deepEqual(readRoute('#/achievements'), ['achievements']);
 });
 
-test('only explicitly connected legacy games are launchable', () => {
+test('only explicitly available legacy and live games are launchable', () => {
   const active = worldMap.filter(isLaunchable).map(place => place.id);
   assert.deepEqual(active, ['garden', 'clinic']);
-  assert.ok(worldMap.filter(place => place.state !== 'available-legacy').every(place => !isLaunchable(place)));
+  const liveClinic = worldMap.find(place => place.id === 'clinic');
+  assert.equal(liveClinic.state, 'available-live');
+  assert.equal(liveClinic.href, '/y-quan-live/');
+  assert.ok(isLaunchable(liveClinic));
+  assert.ok(worldMap.filter(place => !['available-legacy', 'available-live'].includes(place.state)).every(place => !isLaunchable(place)));
   const continuation = worldMap.find(place => place.id === 'garden-continuation');
   assert.equal(continuation.state, 'locked-continuation');
   assert.equal(continuation.href, '/garden-continuation');
