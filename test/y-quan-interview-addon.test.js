@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { questions, cases } from '../public/y-quan-live/interview/data.js';
 import { createQuestionPlan, scoreAttempt, starsForScore } from '../public/y-quan-live/interview/engine.js';
 
@@ -66,4 +67,10 @@ test('Y Quan defaults to the Thap van practice module with a one-time doctor int
   assert.match(client, /interview\/\?embed=1/);
   assert.match(page, /interview\/app\.js/);
   assert.match(build, /cp\('public', 'dist', \{ recursive: true \}\)/);
+});
+
+test('Thap van browser module parses as an ES module', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const app = await readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8');
+  assert.doesNotThrow(() => execFileSync(process.execPath, ['--input-type=module', '--check'], { input: app }));
 });
