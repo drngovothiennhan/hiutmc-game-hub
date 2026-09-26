@@ -101,13 +101,13 @@ test('Y Quan paths stay inside both the Pages root and the production app mount'
   const game = await read('../public/y-quan-live/game.js');
   const interviewEntry = await read('../public/y-quan-live/interview/index.html');
   const interview = await read('../public/y-quan-live/interview/app.js');
-  assert.match(entry, /href="game\.css"/);
-  assert.doesNotMatch(entry, /(?:href|src)="\/(?:y-quan-live|assets)\//);
+  assert.ok(entry.includes("y-quan-live/game.css"));
+  assert.ok(entry.includes("import(base+'y-quan-live/game.js')"));
   assert.match(game, /new URL\(gameHubPath\('y-quan-live\/interview\/'\),location\.origin\)/);
   assert.match(game, /gameHubPath\('assets\/avatars\//);
-  assert.match(interviewEntry, /href="\.\.\/game\.css"/);
-  assert.match(interviewEntry, /href="interview\.css"/);
-  assert.doesNotMatch(interviewEntry, /(?:href|src)="\/(?:y-quan-live|assets)\//);
+  assert.ok(interviewEntry.includes("'y-quan-live/game.css'"));
+  assert.ok(interviewEntry.includes("'y-quan-live/interview/interview.css'"));
+  assert.ok(interviewEntry.includes("import(base+'y-quan-live/interview/app.js')"));
   assert.match(interview, /import \{ gameHubPath \} from '\.\.\/paths\.js'/);
   assert.match(interview, /gameHubPath\('y-quan-live\/'\)/);
   assert.match(interview, /\[HIU Y Quán\]\[Thập vấn\] startup failed/);
