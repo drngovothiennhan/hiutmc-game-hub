@@ -25,7 +25,7 @@ if (!coreBlock) throw new Error('Could not read the service worker precache list
 const coreAssets = [...coreBlock.matchAll(/'([^']+)'/g)].map(([, asset]) => asset);
 await Promise.all(coreAssets.map(async asset => {
   try {
-    await access(`dist/${asset.replace(/^\\//, '')}`);
+    await access(`dist/${asset.slice(1)}`);
   } catch {
     throw new Error(`PWA precache asset is missing from the production build: ${asset}`);
   }
