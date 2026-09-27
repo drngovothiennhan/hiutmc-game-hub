@@ -77,6 +77,20 @@ test('doctor and patient can open a per-visit chat from their visit lists', asyn
   assert.match(client, /maxlength="1000"/);
 });
 
+test('daily cases and real-patient visits use the same ten-domain interview before diagnosis', async () => {
+  const client = await read('../public/y-quan-live/game.js');
+  const migration = await read('../supabase/migrations/20260927070000_y_quan_require_thap_van_before_case_submit_v1.sql');
+  assert.match(client, /if\(b\.dataset\.action==='case'\)\{selectedBotSlotNo=Number\(b\.dataset\.slot\);page='practice'/);
+  assert.match(client, /Number\(s\.slot_no\)===Number\(msg\.slot_no\)/);
+  assert.match(client, /b\.dataset\.action==='ask-domain'/);
+  assert.match(client, /y_quan_send_message_v1'.*p_body:b\.dataset\.question/s);
+  assert.match(client, /Đã nhận câu trả lời/);
+  assert.match(client, /draft\.answered\.length<10/);
+  assert.match(client, /y_quan_submit_case_v1/);
+  assert.match(migration, /if n <> 10 then\s+raise exception 'Complete all ten Thap van domains before submitting'/i);
+  assert.equal((migration.match(/if n <> 10 then/g)||[]).length, 2, 'both real-patient and daily bot submissions require all ten domains');
+});
+
 test('Y Quan chat is private to visit participants and sends as the authenticated member', async () => {
   const sql = await read('../supabase/migrations/20260926032644_y_quan_patient_doctor_chat_v1.sql');
   assert.match(sql, /create table if not exists y_quan_private\.visit_messages/i);
