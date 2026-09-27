@@ -1,6 +1,6 @@
 import { gameHubPath } from './paths.js';
 import { createQuestionPlan } from './interview/engine.js';
-const Y_QUAN_ROUTE_VERSION='20260926.2';
+const Y_QUAN_ROUTE_VERSION='20260927.1';
 const SUPABASE_URL='https://gzmpnsrwqjpsbklyflqr.supabase.co',KEY='sb_publishable_Y4hMhXROZ-aVgWoaQ5fFKQ_ZAcXuIzG',STORE='hiutmc-member-session-v1',SESSION_LOCK='hiutmc-supabase-session-refresh-v1',ROOT=document.querySelector('#yq');
 const AUTH_TIMEOUT_MS=12000,RPC_TIMEOUT_MS=15000;
 const DOMAINS=[['cold','Hàn – nhiệt'],['sweat','Mồ hôi'],['pain','Đau nhức'],['bowel','Đại tiểu tiện'],['food','Ăn uống'],['chest','Ngực bụng'],['senses','Tai mắt'],['thirst','Khát, nước uống'],['history','Bệnh cũ, thuốc dùng'],['course','Nguyên nhân, diễn tiến']];

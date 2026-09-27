@@ -66,9 +66,9 @@ test('Y Quan defaults to the Thap van practice module with a one-time doctor int
   assert.match(client, /tối thiểu 90 phút/);
   assert.ok(client.includes("gameHubPath('y-quan-live/interview/')"));
   assert.ok(client.includes("interviewUrl.searchParams.set('v',Y_QUAN_ROUTE_VERSION)"));
-  assert.ok(client.includes("const Y_QUAN_ROUTE_VERSION='20260926.2'"));
-  assert.ok(page.includes('app.js?v=20260926.2'));
-  assert.ok(page.includes('y-quan-live/?v=20260926.2'));
+  assert.ok(client.includes("const Y_QUAN_ROUTE_VERSION='20260927.1'"));
+  assert.ok(page.includes('app.js?v=20260927.1'));
+  assert.ok(page.includes('y-quan-live/?v=20260927.1'));
   assert.ok(page.includes("import(base+'y-quan-live/interview/app.js?v="));
   assert.match(build, /cp\('public', 'dist', \{ recursive: true \}\)/);
 });
@@ -77,4 +77,20 @@ test('Thap van browser module parses as an ES module', async () => {
   const { readFile } = await import('node:fs/promises');
   const app = await readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8');
   assert.doesNotThrow(() => execFileSync(process.execPath, ['--input-type=module', '--check'], { input: app }));
+});
+
+
+test('Y Quan has a one-case guest trial with no saved progress or parent submissions', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const app = await readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../public/y-quan-live/interview/interview.css', import.meta.url), 'utf8');
+  assert.match(app, /trialMode=new URLSearchParams\(location\.search\)\.get\('trial'\)==='1'/);
+  assert.match(app, /const index = trialMode \? 0 : Math\.floor\(Math\.random\(\) \* cases\.length\)/);
+  assert.match(app, /if \(!trialMode && !signedIn\(\)\)/);
+  assert.match(app, /if \(!trialMode && scheduledCase\?\.slot_no\)/);
+  assert.match(app, /if \(trialMode \|\| event\.origin!==location\.origin/);
+  assert.match(app, /Bản dùng thử — đăng nhập để lưu tiến độ/);
+  assert.doesNotMatch(app, /localStorage\.setItem|sessionStorage\.setItem/);
+  assert.match(css, /#yq-interview\{box-sizing:border-box;width:100%;min-width:0;overflow-x:clip\}/);
+  assert.match(css, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });

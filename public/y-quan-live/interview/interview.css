@@ -16,3 +16,14 @@ body{background:radial-gradient(ellipse at 20% 0%,#f9f0dc 0,#f2eddf 38%,#e5e5d6 
 @media(max-width:760px){.iq-header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.4rem .55rem}.iq-header .iq-back{grid-column:1/-1}.iq-header>div{min-width:0}.iq-header h1{font-size:clamp(1.25rem,5vw,1.6rem);overflow-wrap:normal}.beta-tag{align-self:center}}
 @media(max-width:760px){.lantern{width:48px;height:48px;right:4%;top:3%;opacity:.28;font-size:25px}.expression{animation:fade-in .22s ease both}}
 #clinical-reasoning{display:block;width:100%;min-height:95px;padding:.7rem;border:1px solid var(--iq-border);border-radius:10px;background:#fffdfb;color:var(--iq-deep);font:inherit}
+
+/* Keep the Thap van room within the viewport on narrow phones. */
+html,body{width:100%;max-width:100%;overflow-x:clip}
+#yq-interview{box-sizing:border-box;width:100%;min-width:0;overflow-x:clip}
+.iq-header,.scene-nav,.room-panel,.room-copy,.consultation-layout,.conversation,.stage,.character,.dialogue-card,.question-board,.question-group,.question-options{min-width:0}
+.scene-nav{max-width:100%}
+.question-groups{grid-template-columns:repeat(2,minmax(0,1fr))}
+.question-choice{max-width:100%;overflow-wrap:anywhere}
+.character>div:not(.expression){overflow-wrap:anywhere}
+.trial-banner{padding:.7rem .9rem;border:1px solid #d5be87;border-radius:12px;background:#fff3d6;color:#5f4c27;font-size:.82rem;font-weight:750;line-height:1.45}
+@media(max-width:420px){.question-groups{grid-template-columns:repeat(2,minmax(0,1fr))}.question-group,.category-button,.question-choice{min-width:0}.category-button{align-items:flex-start}.category-button span{overflow-wrap:anywhere}.question-choice{padding:.48rem;font-size:.72rem}.room-panel{padding:.8rem}.iq-header>div{min-width:0}}
