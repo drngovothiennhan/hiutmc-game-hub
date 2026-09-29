@@ -43,25 +43,6 @@ function render() {
     return;
   }
 
-  if (!isVerifiedGardenUnlockReceipt(currentEntitlement)) {
-    const checking = currentEntitlement.reason === 'checking';
-    const message = currentEntitlement.reason === 'identity_unlinked'
-      ? 'Tài khoản HIU TMC chưa được duyệt hoặc chưa bật đăng nhập.'
-      : currentEntitlement.reason === 'unavailable'
-        ? 'Chưa kết nối được máy chủ xác minh. Hãy thử lại sau.'
-        : null;
-    root.innerHTML = renderAccessGate({
-      member: currentMember,
-      loading: checking,
-      authError: message,
-      canRetry: currentEntitlement.reason === 'unavailable'
-    });
-    root.setAttribute('aria-busy', checking ? 'true' : 'false');
-    attachLogout();
-    attachRetry();
-    return;
-  }
-
   const route = readRoute();
   const requestedView = route[0];
   const gardenBetaEnabled = true;
@@ -91,6 +72,8 @@ bootstrapSession().then(async result => {
   currentSession = result.session;
   authError = result.error;
   if (currentMember && currentSession && canAccessGameHub(currentMember)) {
+    // Open the Hub immediately like the other HIU TMC apps. The Garden receipt
+    // is verified in the background and only gates the Garden card/route.
     currentEntitlement = { eligible: false, reason: 'checking' };
     render();
     currentEntitlement = await claimOrGetGardenUnlockReceipt(currentSession);
