@@ -34,3 +34,12 @@
 .place-action-button{display:inline-flex;align-self:flex-start;padding:0;border:0;background:transparent;font:inherit;text-align:left;cursor:pointer}.place-action-button:hover{text-decoration:underline}
 
 .access-gate{min-height:100vh;display:grid;place-items:center;padding:24px}.access-gate-card{width:min(520px,100%);padding:36px;border:1px solid var(--line);border-radius:24px;background:var(--paper);box-shadow:var(--shadow)}.access-gate-card h1{margin:.25rem 0 1rem;color:var(--green);font-size:clamp(1.6rem,4vw,2.2rem)}.access-gate-card p:not(.eyebrow){color:var(--muted);line-height:1.65}.access-gate-action{margin-top:24px}
+/* Match the HIU TMC ecosystem page-arrival effect (same origin via /apps/game-hub/). */
+@view-transition{navigation:auto}
+:root{--hiu-navigation-duration:1200ms}
+::view-transition-old(root),::view-transition-new(root){animation-duration:var(--hiu-navigation-duration);animation-timing-function:cubic-bezier(.22,.72,.24,1)}
+::view-transition-old(root){animation-name:hiu-page-out}
+::view-transition-new(root){animation-name:hiu-page-in}
+@keyframes hiu-page-out{to{opacity:0;transform:translateX(-1.25%)}}
+@keyframes hiu-page-in{from{opacity:0;transform:translateX(1.25%)}}
+@media(prefers-reduced-motion:reduce){:root{--hiu-navigation-duration:1ms}::view-transition-old(root),::view-transition-new(root){animation-duration:1ms!important}}
