@@ -5,7 +5,7 @@ import { isLaunchable, worldMap } from '../src/data/world-map.js';
 import { escapeHtml } from '../src/profile/profile.js';
 import { buildLegacySsoUrl, SESSION_STORAGE_KEY } from '../src/auth/session.js';
 import { renderWorldMap } from '../src/components/world-map.js';
-import { canAccessGameHub } from '../src/auth/garden-beta-access.js';
+import { canAccessGameHub } from '../src/auth/member-access.js';
 import { renderAccessGate } from '../src/components/shell.js';
 
 test('router defaults to world map and parses supported views', () => {
@@ -24,7 +24,7 @@ test('only explicitly connected legacy games are launchable', () => {
 });
 
 test('Garden continuation opens after server receipt proof without a 9/9 prerequisite', () => {
-  const waiting = renderWorldMap(null, null, true, true);
+  const waiting = renderWorldMap(null, null, true);
   assert.match(waiting, /Sẵn sàng sau xác minh thành viên/);
   assert.doesNotMatch(waiting, /href="#\/garden-continuation"/);
   const unlocked = renderWorldMap(null, {
@@ -57,7 +57,7 @@ test('legacy game launch carries the existing ecosystem session in a fragment', 
   assert.equal(bridge.get('refresh_token'), 'refresh');
 });
 
-test('Game Hub beta is available to every linked, verified member role', () => {
+test('Game Hub is available to every linked, verified member role', () => {
   for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member', 'guest']) {
     assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), true);
   }

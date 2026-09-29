@@ -1,11 +1,12 @@
 import { questionBank } from './question-bank.js';
+import { extraCases } from './cases-extra.js';
 
 export const questions = questionBank;
 
 const ans = (text, expression='neutral', findings=[]) => ({text, expression, findings});
 const domains = (...values) => Object.fromEntries(values);
 
-export const cases = [
+const baseCases = [
   {
     id:'can-khi-uat-ket', title:'Ca A · Tức sườn khi áp lực', patient:'Minh Anh', avatar:'/assets/avatars/female_character_29944.jpg',
     complaint:'“Gần đây tôi hay thấy tức ở hai bên sườn, lúc có lúc không.”',
@@ -64,3 +65,6 @@ export const cases = [
     )
   }
 ];
+
+// Ca A–C giữ nguyên thứ tự (ca dùng thử luôn là Ca A); Ca D–M là các bệnh cảnh mở rộng.
+export const cases = [...baseCases, ...extraCases];

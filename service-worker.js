@@ -1,6 +1,6 @@
 const BASE = new URL(self.registration.scope).pathname;
 const CACHE_PREFIX = 'hiutmc-game-hub-shell-' + encodeURIComponent(BASE);
-const CACHE_NAME = CACHE_PREFIX + '-v4';
+const CACHE_NAME = CACHE_PREFIX + '-v5';
 const CORE = [
   '/', '/manifest.webmanifest', '/service-worker.js', '/icons/game-hub.svg',
   '/assets/app.js', '/assets/app.css', '/src/styles.css', '/garden-decor-sprite.svg',

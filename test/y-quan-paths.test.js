@@ -17,8 +17,8 @@ test('Y Quan entry pages load mount-aware modules and the Thap van back link use
     readFile(new URL('../public/y-quan-live/interview/index.html', import.meta.url), 'utf8'),
     readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8')
   ]);
-  assert.match(entry, /import\(base\+'y-quan-live\/game\.js\?v=20260927\.1'\)/);
-  assert.match(interviewEntry, /import\(base\+'y-quan-live\/interview\/app\.js\?v=20260927\.1'\)/);
+  assert.match(entry, /import\(base\+'y-quan-live\/game\.js\?v=20260929\.1'\)/);
+  assert.match(interviewEntry, /import\(base\+'y-quan-live\/interview\/app\.js\?v=20260929\.1'\)/);
   assert.match(interview, /href="\$\{gameHubPath\('y-quan-live\/'\)\}\?v=\$\{Y_QUAN_ROUTE_VERSION\}"/);
   assert.doesNotMatch(interview, /href="\/y-quan-live\//);
 });

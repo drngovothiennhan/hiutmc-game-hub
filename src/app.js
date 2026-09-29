@@ -3,7 +3,7 @@ import { readRoute } from './game-engine/router.js';
 import { renderShell, renderAccessGate } from './components/shell.js';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from './entitlements/garden-unlock.js';
 import { mountGarden, unmountGarden } from './games/garden-mount.js';
-import { canAccessGameHub } from './auth/garden-beta-access.js';
+import { canAccessGameHub } from './auth/member-access.js';
 import { installGlobalErrorReporting, reportGameHubError } from './observability/error-reporting.js';
 
 const root = document.querySelector('#app');
@@ -23,7 +23,7 @@ function attachLogout() {
   });
 }
 
-async function retryBetaVerification() {
+async function retryAccessVerification() {
   if (!currentSession || !canAccessGameHub(currentMember)) return;
   currentEntitlement = { eligible: false, reason: 'checking' };
   render();
@@ -32,7 +32,7 @@ async function retryBetaVerification() {
 }
 
 function attachRetry() {
-  root.querySelector('#beta-retry')?.addEventListener('click', retryBetaVerification);
+  root.querySelector('#access-retry')?.addEventListener('click', retryAccessVerification);
 }
 
 function render() {
@@ -45,7 +45,6 @@ function render() {
 
   const route = readRoute();
   const requestedView = route[0];
-  const gardenBetaEnabled = true;
   const view = requestedView === 'garden-continuation' && isVerifiedGardenUnlockReceipt(currentEntitlement)
     ? 'garden-continuation'
     : requestedView === 'skills' || requestedView === 'achievements' ? requestedView : 'world';
@@ -53,7 +52,6 @@ function render() {
     member: currentMember,
     session: currentSession,
     entitlement: currentEntitlement,
-    gardenBetaEnabled,
     view,
     authError
   });
@@ -61,7 +59,7 @@ function render() {
   unmountGarden();
   const gardenRoot = root.querySelector('#garden-runtime-root');
   if (gardenRoot && currentMember && isVerifiedGardenUnlockReceipt(currentEntitlement)) mountGarden(gardenRoot, currentMember);
-  root.querySelector('#garden-unlock-retry')?.addEventListener('click', retryBetaVerification);
+  root.querySelector('#garden-unlock-retry')?.addEventListener('click', retryAccessVerification);
   attachLogout();
 }
 

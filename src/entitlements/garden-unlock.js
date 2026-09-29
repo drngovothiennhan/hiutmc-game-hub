@@ -29,8 +29,8 @@ export async function claimOrGetGardenUnlockReceipt(session) {
       signal: AbortSignal.timeout(15_000)
     });
     if (!response.ok) {
-      void reportGameHubError(session, new Error('Garden beta verification request failed.'), {
-        code: 'beta_receipt_http', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1', status: response.status
+      void reportGameHubError(session, new Error('Garden access verification request failed.'), {
+        code: 'access_receipt_http', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1', status: response.status
       });
       return { eligible: false, reason: 'unavailable' };
     }
@@ -45,21 +45,21 @@ export async function claimOrGetGardenUnlockReceipt(session) {
         reason: ALLOWED_REASONS.has(row.reason) ? row.reason : 'granted'
       };
       if (isVerifiedGardenUnlockReceipt(value)) return value;
-      void reportGameHubError(session, new Error('Garden beta verification returned an invalid receipt.'), {
-        code: 'beta_receipt_invalid', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1'
+      void reportGameHubError(session, new Error('Garden access verification returned an invalid receipt.'), {
+        code: 'access_receipt_invalid', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1'
       });
       return { eligible: false, reason: 'unavailable' };
     }
     const reason = ALLOWED_REASONS.has(row?.reason) ? row.reason : 'unavailable';
     if (reason === 'unavailable') {
-      void reportGameHubError(session, new Error('Garden beta verification returned an unexpected response.'), {
-        code: 'beta_receipt_response', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1'
+      void reportGameHubError(session, new Error('Garden access verification returned an unexpected response.'), {
+        code: 'access_receipt_response', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1'
       });
     }
     return { eligible: false, reason };
   } catch {
-    void reportGameHubError(session, new Error('Garden beta verification could not reach the server.'), {
-      code: 'beta_receipt_network', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1'
+    void reportGameHubError(session, new Error('Garden access verification could not reach the server.'), {
+      code: 'access_receipt_network', area: 'access', operation: 'garden_hub_claim_or_get_receipt_v1'
     });
     return { eligible: false, reason: 'unavailable' };
   }

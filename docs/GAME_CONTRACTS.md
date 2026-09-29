@@ -77,10 +77,10 @@ No G3 acceptance transaction was run during G1. The production database was not 
 The separate Game Hub repository has now been created. Its shell consumes an incoming HIU TMC Supabase session and uses the server-issued `app_metadata.member_id`; it does not query `club_members` directly or create Hub credentials. The existing Garden and Y Quán links remain outbound links to the current Study OS runtime, and no game state is read or written by the shell. SSO/CORS and member-session behavior remain unverified until a public preview can be exercised.
 
 
-## G3 beta access policy — 2026-09-26
+## G3 member access policy — 2026-09-26 (beta wording removed 2026-09-29)
 
-- The beta is available to every linked HIU TMC member whose current database record is approved and has login enabled, regardless of role.
+- Game Hub is available to every linked HIU TMC member whose current database record is approved and has login enabled, regardless of role.
 - The browser only uses the linked member ID to begin verification. The authenticated receipt RPC independently checks `auth.uid()`, trusted `app_metadata.member_id`, approval, and `login_enabled`; a role claim or client flag cannot issue a receipt.
-- Anonymous, unlinked, unapproved, and login-disabled accounts receive no beta route or unlock receipt. The private receipt table remains inaccessible to client roles, and the receipt RPC remains authenticated-only.
+- Anonymous, unlinked, unapproved, and login-disabled accounts receive no Game Hub route or unlock receipt. The private receipt table remains inaccessible to client roles, and the receipt RPC remains authenticated-only.
 - Game Hub runtime errors are sent to the authenticated `garden_hub_report_error_v1` RPC after sensitive values are removed and context is allowlisted. Reports are rate-limited and appear in Admin Center > Nhật ký from `ecosystem_audit_log`.
 - This access policy does not change gameplay progression or existing saves. Do not test gameplay persistence against member production saves.

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { claimOrGetGardenUnlockReceipt, isVerifiedGardenUnlockReceipt } from '../src/entitlements/garden-unlock.js';
-import { canAccessGardenBeta } from '../src/auth/garden-beta-access.js';
+import { canAccessGameHub } from '../src/auth/member-access.js';
 import { renderWorldMap } from '../src/components/world-map.js';
 
 function installRpcMock(t, { status = 200, payload = [] } = {}) {
@@ -56,19 +56,20 @@ test('only a server receipt with eligible result can open the extended Garden ru
   assert.equal(isVerifiedGardenUnlockReceipt({ eligible: true }), false);
 });
 
-test('Garden beta is available to every linked HIU TMC member, regardless of role', () => {
+test('Garden is available to every linked HIU TMC member, regardless of role', () => {
   for (const role of ['admin', 'mod', 'super_mod', 'leader', 'member', 'guest', '']) {
-    assert.equal(canAccessGardenBeta({ id: 'linked-member-id', role }), true);
+    assert.equal(canAccessGameHub({ id: 'linked-member-id', role }), true);
   }
-  assert.equal(canAccessGardenBeta({ id: '', role: 'member' }), false);
-  assert.equal(canAccessGardenBeta({ role: 'admin' }), false);
-  assert.equal(canAccessGardenBeta(null), false);
-  assert.equal(renderWorldMap(null, null, false, false).includes('data-place-id="garden-continuation"'), false);
-  assert.equal(renderWorldMap(null, null, true, true).includes('data-place-id="garden-continuation"'), true);
+  assert.equal(canAccessGameHub({ id: '', role: 'member' }), false);
+  assert.equal(canAccessGameHub({ role: 'admin' }), false);
+  assert.equal(canAccessGameHub(null), false);
+  assert.equal(renderWorldMap(null, null, false).includes('data-place-id="garden-continuation"'), true);
+  assert.match(renderWorldMap(null, null, false), /Đăng nhập HIU TMC để vào chơi/);
+  assert.equal(renderWorldMap(null, null, true).includes('data-place-id="garden-continuation"'), true);
 });
 
 
-test('open beta migration verifies approved members and records redacted reports for Admin Center', () => {
+test('member-access migration verifies approved members and records redacted reports for Admin Center', () => {
   const migration = readFileSync(new URL('../supabase/migrations/20260926080000_garden_hub_open_beta_error_reporting_v1.sql', import.meta.url), 'utf8');
   assert.ok(migration.includes('auth.uid()'));
   assert.match(migration, /app_metadata/);
