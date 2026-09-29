@@ -25,11 +25,11 @@ function escapeText(value) {
 }
 
 export function renderAccessGate({ member = null, loading = false, authError = null, canRetry = false } = {}) {
-  const heading = loading ? 'Đang xác minh quyền beta' : member ? 'Chưa thể vào beta' : 'Đăng nhập để tiếp tục';
+  const heading = loading ? 'Đang mở Game Hub' : member ? 'Chưa thể vào Game Hub' : 'Đăng nhập để tiếp tục';
   const message = loading
-    ? 'Game Hub đang xác minh tài khoản HIU TMC đã được duyệt và bật đăng nhập.'
+    ? 'Đang kết nối tài khoản HIU TMC của bạn…'
     : member
-      ? 'Beta dành cho mọi thành viên HIU TMC đã được duyệt và bật đăng nhập.'
+      ? 'Game Hub dành cho thành viên HIU TMC đã được duyệt và bật đăng nhập.'
       : 'Hãy đăng nhập qua hệ sinh thái HIU TMC bằng tài khoản thành viên.';
   const alert = authError ? `<div class="notice notice-error" role="alert">${escapeText(authError)}</div>` : '';
   const retry = canRetry ? '<button class="account-button" id="beta-retry" type="button">Thử xác minh lại</button>' : '';
