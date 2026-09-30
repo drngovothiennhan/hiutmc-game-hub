@@ -11,7 +11,7 @@ The approved landscape elements are the pond, garden path, and expanded scenery.
 ## Compatibility and reward boundary
 
 - Keep the Study OS save, current Garden RPCs, plot progression, seed bag, herb inventory, and credit wallet unchanged.
-- Add no tables, migrations, direct database writes, new reward, academic fact, treatment guidance, or achievement.
+- Chapter 2 itself adds no academic fact or treatment guidance. Rewards are now paid only through the server milestone RPCs in `docs/GARDEN_MILESTONE_REWARDS.md`; the browser never grants anything.
 - Present the survey as complete only when every opened slot has `harvest_count > 0`.
 - Do not mutate or test a real member's production save to simulate the nine-plot state.
 

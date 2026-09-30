@@ -1,7 +1,8 @@
 import React,{useEffect,useMemo,useState} from 'react';
-import {BookOpen,Compass,Footprints,MapPin,Trees,Waves,CheckCircle2,ChevronDown,ChevronUp,Clock3,Coins,Droplets,Gift,Grid3X3,HeartHandshake,Leaf,LockKeyhole,MoveHorizontal,PackageOpen,RefreshCw,ShoppingBasket,Sparkles,Sprout} from 'lucide-react';
+import {Award,BookOpen,Trophy,Compass,Footprints,MapPin,Trees,Waves,CheckCircle2,ChevronDown,ChevronUp,Clock3,Coins,Droplets,Gift,Grid3X3,HeartHandshake,Leaf,LockKeyhole,MoveHorizontal,PackageOpen,RefreshCw,ShoppingBasket,Sparkles,Sprout} from 'lucide-react';
 import {gardenSupabase} from './garden-supabase.js';
 import {deriveGardenExpansion,isGardenAdminPreview} from './garden-expansion-story.js';
+import {normalizeMilestones,summarizeJourney,describeClaim} from './garden-milestones.js';
 import {deriveSurveyMap,deriveHerbarium,sceneTimeOfDay} from './garden-expansion-survey.js';
 import './herb-garden-v2.css';
 import './garden-v6.css';
@@ -9,6 +10,7 @@ import './garden-rewards.css';
 import './garden-professional-v7.css';
 import './garden-prototype-bridge.css';
 import './garden-expansion-v8.css';
+import './garden-journey-v9.css';
 type Member={id:string;role?:string};
 
 type PlantStatus='growing'|'mature'|'dead'|'harvested';
@@ -16,6 +18,7 @@ type Plot={slot_no:number;unlocked:boolean;initial_selected:boolean;harvest_coun
 type Inventory={seed_key:string;name:string;botanical_name:string;quantity:number;updated_at:string};
 type SeedInventory={seed_key:string;name:string;botanical_name:string;quantity:number;visual_variant?:number|null};
 type RewardRow={slot_no:number;care_streak:number;best_care_streak:number;reward_credits:number;reward_seeds:number;wallet_balance:number;seed_total:number};
+type Milestone={key:string;chapter:number;sort:number;title:string;description:string;target:number;progress:number;credits:number;seeds:number;status:'locked'|'in_progress'|'claimable'|'claimed';claimedAt:string|null};
 type GardenProfile={theme:string;decor:string[]};
 type CareResult={ok?:boolean;applied?:boolean;watered?:boolean;fertilized?:boolean;message?:string;care_streak?:number;growth_index?:number;next_at?:string;reward?:{credits?:number;seeds?:number}};
 
@@ -42,12 +45,15 @@ export default function HerbGardenGame({member}:{member:Member}){
   const [msg,setMsg]=useState('');
   const [now,setNow]=useState(Date.now());
   const [plotDeckOpen,setPlotDeckOpen]=useState(true);
+  const [milestones,setMilestones]=useState<Milestone[]|null>(null);
+  const [claimingKey,setClaimingKey]=useState<string|null>(null);
 
   const applyPlotRows=(rows:Plot[])=>{
     setPlots(rows);
     setSelectedSlot(current=>rows.find(x=>x.slot_no===current&&x.unlocked)?.slot_no||rows.find(x=>x.unlocked)?.slot_no||rows[0]?.slot_no||1);
   };
-  const refreshPlotState=async()=>{const {data,error}=await gardenSupabase.rpc('herb_garden_state_v3');if(error){setMsg(error.message);return}if(!Array.isArray(data)){setMsg('Máy chủ Gia Viên trả về trạng thái không hợp lệ. Dữ liệu đang hiển thị được giữ nguyên.');return}applyPlotRows(data as Plot[])};
+  const loadMilestones=async()=>{const {data,error}=await gardenSupabase.rpc('herb_garden_milestones_v1');if(error)return;const items=normalizeMilestones(data);if(items)setMilestones(items)};
+  const refreshPlotState=async()=>{const {data,error}=await gardenSupabase.rpc('herb_garden_state_v3');if(error){setMsg(error.message);return}if(!Array.isArray(data)){setMsg('Máy chủ Gia Viên trả về trạng thái không hợp lệ. Dữ liệu đang hiển thị được giữ nguyên.');return}applyPlotRows(data as Plot[]);void loadMilestones()};
   const load=async(clearMessage=true)=>{
     setBusy(true);if(clearMessage)setMsg('');
     try{
@@ -62,6 +68,7 @@ export default function HerbGardenGame({member}:{member:Member}){
       setRewards(rewardState.data as RewardRow[]);
       setWallet(Number(walletState.data));
       if(!personalization.error&&personalization.data){const own=personalization.data as {theme?:string;decor?:string[]};setProfile({theme:own.theme||'bamboo',decor:Array.isArray(own.decor)?own.decor:[]})}
+      void loadMilestones();
       setNeedsReconciliation(false);return true;
     }catch(e){setMsg((e as Error).message);return false}finally{setBusy(false)}
   };
@@ -95,6 +102,8 @@ export default function HerbGardenGame({member}:{member:Member}){
   const selectedStart=selected?.id?Date.parse(selected.planted_at||''):NaN;
   const currentWaterSlot=Number.isFinite(selectedStart)?Math.max(0,Math.min(11,Math.floor(Math.max(0,now-selectedStart)/21600000))):0;
 
+  const claimMilestone=async(key:string)=>{if(claimingKey||busy||needsReconciliation)return;setClaimingKey(key);try{const {data,error}=await gardenSupabase.rpc('herb_garden_claim_milestone_v1',{p_key:key});if(error){setMsg(error.message);if(error.code==='GARDEN_RPC_TRANSPORT')setNeedsReconciliation(true);return}setMsg(describeClaim(data));await load(false)}finally{setClaimingKey(null)}};
+  const journey=useMemo(()=>milestones?summarizeJourney(milestones):null,[milestones]);
   const toggleInitial=(slot:number)=>{if(initialComplete||busy)return;setInitialChoice(xs=>xs.includes(slot)?xs.filter(x=>x!==slot):xs.length<3?[...xs,slot]:xs)};
   const choosePlot=(plot:Plot)=>{if(!initialComplete){toggleInitial(plot.slot_no);return}if(plot.unlocked)setSelectedSlot(plot.slot_no)};
   const focusLivePlot=(slot:number)=>{const plot=plots.find(x=>x.slot_no===slot);if(!plot||busy||(initialComplete&&!plot.unlocked))return;choosePlot(plot);window.requestAnimationFrame(()=>document.getElementById('garden-live-board')?.scrollIntoView({behavior:'smooth',block:'center'}))};
@@ -149,6 +158,22 @@ export default function HerbGardenGame({member}:{member:Member}){
 
     {msg&&<div className="ai-note garden-pro-message" role="status" aria-live="polite">{msg}</div>}
 
+    {journey&&<section className="garden-journey panel" aria-labelledby="garden-journey-title" data-testid="garden-journey">
+      <header className="garden-journey-head"><div><span className="garden-expansion-kicker"><Trophy/> Hành trình Gia Viên</span><h2 id="garden-journey-title">Hai chương, một hành trình</h2><p>Hoàn thành mốc để nhận thưởng. Máy chủ tự kiểm tra tiến độ và chỉ trả mỗi mốc một lần.</p></div>{journey.claimableCount>0&&<span className="garden-journey-badge"><Gift/>{journey.claimableCount} thưởng chờ nhận</span>}</header>
+      <div className="garden-journey-rail">{journey.chapters.map((ch,i)=>{const locked=ch.chapter===2&&!journey.chapter2Reached;return <article key={ch.chapter} className={`garden-journey-chapter ${ch.complete?'is-complete':''} ${locked?'is-locked':''}`}>
+        <header><span className="garden-journey-step">{ch.complete?<CheckCircle2/>:locked?<LockKeyhole/>:ch.chapter}</span><span><b>Chương {ch.chapter} · {ch.chapter===1?'Vườn khởi đầu':'Khu vườn mở rộng'}</b><small>{ch.claimed}/{ch.total} mốc · nhận {ch.creditsEarned}/{ch.creditsTotal} tín dụng, {ch.seedsEarned}/{ch.seedsTotal} hạt</small></span></header>
+        <div className="progress-track"><i style={{width:`${ch.total?ch.claimed/ch.total*100:0}%`}}/></div>
+        <ul className="garden-milestone-list">{ch.items.map(m=><li key={m.key} className={`is-${m.status}`}>
+          <span className="garden-milestone-mark">{m.status==='claimed'?<CheckCircle2/>:m.status==='claimable'?<Award/>:<Clock3/>}</span>
+          <span className="garden-milestone-body"><b>{m.title}</b><small>{m.description}</small><span className="garden-milestone-bar"><i style={{width:`${m.progress/m.target*100}%`}}/></span><small className="garden-milestone-count">{m.progress}/{m.target}</small></span>
+          <span className="garden-milestone-reward"><em><Coins/>+{m.credits}</em>{m.seeds>0&&<em><Gift/>+{m.seeds}</em>}</span>
+          {m.status==='claimable'?<button type="button" disabled={Boolean(claimingKey)||busy||needsReconciliation} onClick={()=>void claimMilestone(m.key)}>{claimingKey===m.key?'Đang nhận…':'Nhận thưởng'}</button>:<span className="garden-milestone-state">{m.status==='claimed'?'Đã nhận':m.status==='in_progress'?'Đang làm':'Chưa bắt đầu'}</span>}
+        </li>)}</ul>
+        {i===0&&journey.chapter2Reached&&<a className="garden-journey-go" href="#garden-expansion-title" onClick={e=>{e.preventDefault();document.getElementById('garden-expansion-title')?.scrollIntoView({behavior:'smooth',block:'start'})}}>Đến Chương 2 <MapPin/></a>}
+      </article>})}</div>
+      {journey.next&&<p className="garden-journey-next"><Compass/><span><b>Mốc tiếp theo:</b> {journey.next.title} — {journey.next.progress}/{journey.next.target}</span></p>}
+    </section>}
+
     {adminPreview&&<section className="garden-admin-preview panel" aria-labelledby="garden-admin-preview-title" data-testid="garden-admin-preview">
       <header><span className="garden-expansion-kicker"><Sparkles/> Chế độ quản trị · xem trước đầy đủ</span><h2 id="garden-admin-preview-title">Toàn bộ chặng và hình ảnh khu vườn</h2><p>Chế độ chỉ xem. Tiến trình thực tế hiện có {unlockedCount}/9 ô mở và {harvestedPlots}/9 ô đã thu hoạch; bản xem trước không mở ô, gieo cây hay cộng thưởng.</p><span className="garden-admin-preview-badge">{expansion.previewOnly?'Xem trước · chưa mở đủ 9 ô':'Đã mở đủ 9 ô'}</span></header>
       <div className="garden-admin-stages">
@@ -167,7 +192,7 @@ export default function HerbGardenGame({member}:{member:Member}){
         {!initialComplete&&<div className="garden-v3-initial-note"><b>Chọn 3 ô khởi đầu</b><p>Chạm đúng 3 ô bất kỳ. Ba ô đầu tiên phải được thu hoạch thành công ít nhất 1 lần/ô. Khi đủ 3 ô, hệ thống mở 1 ô kế tiếp; từ đó mỗi ô mới thu hoạch lần đầu sẽ mở tiếp 1 ô theo thứ tự cho đến đủ 9 ô.</p><div className="garden-v3-initial-actions"><span>{initialChoice.length}/3 ô đã chọn</span><button disabled={busy||initialChoice.length!==3} onClick={()=>void confirmInitial()}><CheckCircle2/>Xác nhận</button></div></div>}
         <div id="garden-plot-deck" className={`garden-plot-viewport ${plotDeckOpen?'is-open':'is-collapsed'}`} aria-hidden={!plotDeckOpen}>
           <div className="garden-plot-scroll-hint"><MoveHorizontal/>Vuốt/kéo riêng khối 9 ô</div>
-          <div className="garden-nine-grid">{plots.map(plot=>{const progress=growth(plot,now),chosen=initialChoice.includes(plot.slot_no);return <button type="button" key={plot.slot_no} onClick={()=>choosePlot(plot)} disabled={busy||initialComplete&&!plot.unlocked} className={`garden-cell ${!plot.unlocked?'is-locked':''} ${selectedSlot===plot.slot_no&&initialComplete?'is-selected':''} ${chosen?'is-initial-choice':''} ${plot.status?`stage-${plot.status}`:''}`} aria-label={`Ô ${plot.slot_no}${plot.id?`, tiến độ ${progress}%`:plot.unlocked?', ô trống':', đang khóa'}`}><span className="garden-cell-top"><i className="garden-cell-index">{plot.slot_no}</i>{plot.id&&<i className="garden-cell-status">{plot.status==='mature'?'Thu hoạch':`${progress}%`}</i>}</span><span className="garden-cell-soil"/>{plot.id?<span className="garden-cell-plant"><i/><i/><i/></span>:plot.unlocked?<span className="garden-cell-empty"><Sprout/><small>Ô trống</small></span>:<span className="garden-lock"><LockKeyhole/><small>{!initialComplete?'Chọn ô':'Chưa mở'}</small></span>}{plot.harvest_count>0&&<span className="garden-harvest-badge">×{plot.harvest_count}</span>}</button>})}</div>
+          <div className="garden-nine-grid">{plots.map(plot=>{const progress=growth(plot,now),chosen=initialChoice.includes(plot.slot_no);return <button type="button" key={plot.slot_no} onClick={()=>choosePlot(plot)} disabled={busy||initialComplete&&!plot.unlocked} className={`garden-cell ${!plot.unlocked?'is-locked':''} ${selectedSlot===plot.slot_no&&initialComplete?'is-selected':''} ${chosen?'is-initial-choice':''} ${plot.status?`stage-${plot.status}`:''} ${plot.id?`grow-${progress>=100?'full':progress>=66?'late':progress>=33?'mid':'early'}`:''} ${plot.can_water||plot.can_fertilize?'needs-care':''}`} aria-label={`Ô ${plot.slot_no}${plot.id?`, tiến độ ${progress}%`:plot.unlocked?', ô trống':', đang khóa'}`}><span className="garden-cell-top"><i className="garden-cell-index">{plot.slot_no}</i>{plot.id&&<i className="garden-cell-status">{plot.status==='mature'?'Thu hoạch':`${progress}%`}</i>}</span><span className="garden-cell-soil"/>{plot.id?<span className="garden-cell-plant"><i/><i/><i/></span>:plot.unlocked?<span className="garden-cell-empty"><Sprout/><small>Ô trống</small></span>:<span className="garden-lock"><LockKeyhole/><small>{!initialComplete?'Chọn ô':'Chưa mở'}</small></span>}{plot.id&&<span className="garden-cell-meter" aria-hidden="true"><i style={{width:`${progress}%`}}/></span>}{plot.id&&plot.status==='growing'&&<span className="garden-cell-cues">{plot.can_water&&<i className="cue-water" title="Có thể tưới"><Droplets/></i>}{plot.can_fertilize&&<i className="cue-feed" title="Có thể bón phân"><Leaf/></i>}</span>}{plot.harvest_count>0&&<span className="garden-harvest-badge">×{plot.harvest_count}</span>}</button>})}</div>
         </div>
       </section>
 
@@ -223,8 +248,10 @@ export default function HerbGardenGame({member}:{member:Member}){
       <div className={`garden-expansion-scene garden-scene-${sceneTime}`} role="img" aria-label="Cảnh quan vườn với ao, lối dạo và vùng mở rộng"><span className="garden-scene-sun"/><span className="garden-scene-hill garden-scene-hill-back"/><span className="garden-scene-hill garden-scene-hill-front"/><span className="garden-scene-pond"/><span className="garden-scene-path"/><span className="garden-scene-gate">門</span><span className="garden-scene-fly garden-scene-fly-a"/><span className="garden-scene-fly garden-scene-fly-b"/><span className="garden-scene-fly garden-scene-fly-c"/><span className="garden-scene-label garden-scene-label-pond">Ao sen</span><span className="garden-scene-label garden-scene-label-path">Lối dạo</span><span className="garden-scene-label garden-scene-label-land">Vùng cảnh quan</span></div>
       <div className="garden-survey-map" data-testid="garden-survey-map">
         <div className="garden-survey-head"><span className="garden-expansion-kicker"><Compass/> Bản đồ khảo sát</span><strong>{survey.surveyedTotal}/9 luống đã ghi nhận</strong></div>
+        <p className="garden-chapter-link">Chương 2 nối tiếp Chương 1: cổng tre chỉ mở khi đủ 9 ô ở Chương 1. <a href="#garden-live-board" onClick={e=>{e.preventDefault();document.getElementById('garden-live-board')?.scrollIntoView({behavior:'smooth',block:'center'})}}>Quay lại luống trồng</a></p>
         <div className="garden-survey-zones">{survey.zones.map(zone=>{const Icon=zone.id==='pond'?Waves:zone.id==='path'?Footprints:Trees;return <article key={zone.id} className={`garden-survey-zone is-${zone.status}`} aria-current={zone.status==='active'?'step':undefined}>
           <header><Icon/><span><b>{zone.label}</b><small>{zone.hint} · {zone.surveyed}/{zone.total}</small></span>{zone.complete&&<CheckCircle2 className="garden-survey-check" aria-label="Đã hoàn tất"/>}</header>
+          {(()=>{const m=milestones?.find(x=>x.key===(zone.id==='pond'?'c2_zone_pond':zone.id==='path'?'c2_zone_path':'c2_zone_landscape'));return m?<div className={`garden-zone-reward is-${m.status}`}><Trophy/><span>+{m.credits} tín dụng{m.seeds>0?` · +${m.seeds} hạt`:''}</span>{m.status==='claimable'?<button type="button" disabled={Boolean(claimingKey)||busy||needsReconciliation} onClick={()=>void claimMilestone(m.key)}>Nhận</button>:<small>{m.status==='claimed'?'Đã nhận':'Khi khảo sát đủ 3 luống'}</small>}</div>:null})()}
           <div className="garden-survey-nodes">{zone.nodes.map(node=><button key={node.slot} type="button" className={`garden-survey-node is-${node.state}`} disabled={busy||node.state==='locked'} onClick={()=>focusLivePlot(node.slot)} aria-label={`Luống ${node.slot}: ${node.state==='surveyed'?'đã khảo sát':node.state==='ready'?'đã chín, chờ thu hoạch':node.state==='growing'?'đang lớn':node.state==='open'?'còn trống':'chưa mở'}`}><span>{node.slot}</span><small>{node.state==='surveyed'?'Đã ghi':node.state==='ready'?'Chín':node.state==='growing'?'Đang lớn':node.state==='open'?'Trống':'Khóa'}</small></button>)}</div>
         </article>})}</div>
         {survey.nextPlot?<div className="garden-survey-next"><MapPin/><span><b>Việc tiếp theo</b><small>{survey.nextPlot.hint}</small></span><button type="button" disabled={busy} onClick={()=>focusLivePlot(survey.nextPlot!.slot)}>Đến luống {survey.nextPlot.slot}</button></div>:<div className="garden-survey-next is-done"><CheckCircle2/><span><b>{expansion.surveyComplete?'Bản đồ khảo sát đã đủ':'Chưa có việc khảo sát tiếp theo'}</b><small>{expansion.surveyComplete?'Cả chín luống đều đã có ít nhất một vụ thu hoạch.':'Mở đủ luống để tiếp tục khảo sát.'}</small></span></div>}
