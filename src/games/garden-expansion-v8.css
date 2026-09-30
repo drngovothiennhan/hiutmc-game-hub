@@ -1,0 +1,30 @@
+/* Chapter 2 upgrade: time-of-day light, ambient motion, survey map, herbarium.
+   Presentation only — no rewards, no writes. Motion respects prefers-reduced-motion. */
+.garden-expansion-scene::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;transition:background .8s ease;background:transparent}
+.garden-expansion-scene.garden-scene-dawn::after{background:linear-gradient(180deg,rgba(255,196,150,.26),rgba(255,231,190,.08) 55%,transparent)}
+.garden-expansion-scene.garden-scene-dusk::after{background:linear-gradient(180deg,rgba(236,120,80,.28),rgba(120,70,120,.16) 60%,rgba(40,30,70,.12))}
+.garden-expansion-scene.garden-scene-night::after{background:linear-gradient(180deg,rgba(12,24,58,.58),rgba(16,32,52,.42))}
+.garden-expansion-scene .garden-scene-label,.garden-expansion-scene .garden-scene-gate{z-index:2}
+.garden-scene-fly{position:absolute;z-index:1;width:6px;height:6px;border-radius:50%;pointer-events:none;opacity:0;background:#fff7b0;box-shadow:0 0 10px 4px rgba(255,240,140,.7)}
+.garden-scene-dusk .garden-scene-fly,.garden-scene-night .garden-scene-fly{opacity:.9;animation:garden-fly 7s ease-in-out infinite}
+.garden-scene-day .garden-scene-fly,.garden-scene-dawn .garden-scene-fly{width:5px;height:3px;border-radius:50% 50% 50% 50%/70% 70% 30% 30%;background:#fff;box-shadow:none;opacity:.75;animation:garden-flutter 9s ease-in-out infinite}
+.garden-scene-fly-a{left:24%;top:46%}.garden-scene-fly-b{left:56%;top:38%;animation-delay:-3s!important;animation-duration:10s!important}.garden-scene-fly-c{left:76%;top:56%;animation-delay:-5s!important}
+@keyframes garden-fly{0%,100%{transform:translate(0,0);opacity:.3}25%{transform:translate(14px,-10px);opacity:1}50%{transform:translate(-8px,-18px);opacity:.5}75%{transform:translate(10px,-4px);opacity:1}}
+@keyframes garden-flutter{0%,100%{transform:translate(0,0) rotate(0)}30%{transform:translate(24px,-12px) rotate(12deg)}60%{transform:translate(-14px,-22px) rotate(-10deg)}}
+.garden-survey-map,.garden-herbarium{display:grid;gap:12px;padding:14px;border:1px solid var(--garden-line);border-radius:16px;background:var(--surface)}
+.garden-survey-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.garden-survey-head strong{font-variant-numeric:tabular-nums}
+.garden-survey-zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.garden-survey-zone{display:grid;gap:10px;padding:11px;border:1px solid var(--garden-line);border-radius:14px;background:color-mix(in srgb,var(--garden-card) 80%,transparent)}
+.garden-survey-zone>header{display:flex;align-items:center;gap:9px}.garden-survey-zone>header>svg{width:20px;height:20px;flex:0 0 auto;color:var(--garden-accent)}.garden-survey-zone>header span{display:grid;min-width:0}.garden-survey-zone small{color:var(--garden-muted)}.garden-survey-check{margin-left:auto;color:#2f6b4f}
+.garden-survey-zone.is-active{border-color:#c59b3f;box-shadow:0 0 0 3px rgba(197,155,63,.16)}.garden-survey-zone.is-complete{border-color:#56836888;background:color-mix(in srgb,#e6f1e4 70%,var(--surface))}.garden-survey-zone.is-pending{opacity:.78}
+.garden-survey-nodes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.garden-survey-node{display:grid;justify-items:center;gap:1px;min-height:52px;padding:6px 4px;border:1px solid var(--garden-line);border-radius:12px;background:var(--surface);color:var(--garden-ink);cursor:pointer;transition:transform .14s ease,box-shadow .14s ease}
+.garden-survey-node span{font-weight:850;font-size:1.05rem;font-variant-numeric:tabular-nums}.garden-survey-node small{font-size:.72rem;white-space:nowrap}
+.garden-survey-node:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 14px rgba(31,54,42,.14)}.garden-survey-node:disabled{cursor:not-allowed;opacity:.55}
+.garden-survey-node.is-surveyed{background:#e2f0e2;border-color:#4f8a63;color:#25553a}.garden-survey-node.is-ready{background:#fff3cf;border-color:#c59b3f;animation:garden-ready 2.2s ease-in-out infinite}.garden-survey-node.is-growing{background:#eef6e6;border-color:#8fb37c}.garden-survey-node.is-locked{background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(0,0,0,.04) 6px 12px)}
+@keyframes garden-ready{0%,100%{box-shadow:0 0 0 0 rgba(197,155,63,.4)}50%{box-shadow:0 0 0 5px rgba(197,155,63,0)}}
+.garden-survey-next{display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid color-mix(in srgb,#c39b3e 42%,var(--garden-line));border-radius:14px;background:rgba(202,166,79,.09)}.garden-survey-next>svg{flex:0 0 22px;width:22px;height:22px;color:#a8801f}.garden-survey-next span{display:grid;gap:2px;min-width:0}.garden-survey-next small{color:var(--garden-muted);line-height:1.4}.garden-survey-next button{margin-left:auto;padding:0 14px;border:0;border-radius:12px;background:var(--garden-accent);color:#fff;font-weight:800;cursor:pointer;white-space:nowrap}.garden-survey-next button:disabled{opacity:.55;cursor:not-allowed}
+.garden-survey-next.is-done{border-color:#56836888;background:#e6f1e4}.garden-survey-next.is-done>svg{color:#2f6b4f}
+.garden-herbarium ul{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:0;padding:0;list-style:none}.garden-herbarium li{display:grid;gap:2px;padding:9px 11px;border:1px solid var(--garden-line);border-radius:12px;background:color-mix(in srgb,var(--garden-card) 80%,transparent)}.garden-herbarium li small{color:var(--garden-muted);font-style:italic}.garden-herbarium p{margin:0}
+@media(max-width:760px){.garden-survey-zones{grid-template-columns:1fr}.garden-survey-next{flex-wrap:wrap}.garden-survey-next button{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){.garden-scene-fly,.garden-survey-node.is-ready{animation:none!important}.garden-survey-node{transition:none}.garden-expansion-scene::after{transition:none}}

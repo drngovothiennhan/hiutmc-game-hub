@@ -1,12 +1,14 @@
 import React,{useEffect,useMemo,useState} from 'react';
-import {CheckCircle2,ChevronDown,ChevronUp,Clock3,Coins,Droplets,Gift,Grid3X3,HeartHandshake,Leaf,LockKeyhole,MoveHorizontal,PackageOpen,RefreshCw,ShoppingBasket,Sparkles,Sprout} from 'lucide-react';
+import {BookOpen,Compass,Footprints,MapPin,Trees,Waves,CheckCircle2,ChevronDown,ChevronUp,Clock3,Coins,Droplets,Gift,Grid3X3,HeartHandshake,Leaf,LockKeyhole,MoveHorizontal,PackageOpen,RefreshCw,ShoppingBasket,Sparkles,Sprout} from 'lucide-react';
 import {gardenSupabase} from './garden-supabase.js';
 import {deriveGardenExpansion,isGardenAdminPreview} from './garden-expansion-story.js';
+import {deriveSurveyMap,deriveHerbarium,sceneTimeOfDay} from './garden-expansion-survey.js';
 import './herb-garden-v2.css';
 import './garden-v6.css';
 import './garden-rewards.css';
 import './garden-professional-v7.css';
 import './garden-prototype-bridge.css';
+import './garden-expansion-v8.css';
 type Member={id:string;role?:string};
 
 type PlantStatus='growing'|'mature'|'dead'|'harvested';
@@ -78,6 +80,9 @@ export default function HerbGardenGame({member}:{member:Member}){
   const harvestedPlots=plots.filter(x=>x.unlocked&&x.harvest_count>0).length;
   const adminPreview=isGardenAdminPreview(member.role);
   const expansion=deriveGardenExpansion(plots,{adminPreview});
+  const survey=useMemo(()=>deriveSurveyMap(plots),[plots]);
+  const herbarium=useMemo(()=>deriveHerbarium(inventory),[inventory]);
+  const sceneTime=sceneTimeOfDay(new Date(now).getHours());
   const [selectedExpansionStop,setSelectedExpansionStop]=useState<'pond'|'path'|'landscape'>('pond');
   const pendingFirstHarvests=initialComplete?plots.filter(x=>x.unlocked&&x.harvest_count===0).length:3;
   const nextLockedSlot=plots.find(x=>!x.unlocked)?.slot_no||null;
@@ -215,12 +220,21 @@ export default function HerbGardenGame({member}:{member:Member}){
 
     {expansion.available&&<section className="garden-expansion-chapter panel" aria-labelledby="garden-expansion-title" data-testid="garden-expansion-chapter">
       <header className="garden-expansion-heading"><div><span className="garden-expansion-kicker"><Sparkles/> Chặng 2 · Khu vườn mở rộng</span><h2 id="garden-expansion-title">Cánh cổng tre đã mở</h2><p>{expansion.previewOnly?'Bản xem trước quản trị của chặng mở rộng. Các thao tác và tiến trình vườn thật vẫn tuân theo trạng thái do máy chủ trả về.':'Khi đủ chín luống, người giữ vườn bước ra lối cảnh quan mới: bờ ao, lối dạo và vùng mở rộng. Tiến trình cây, hạt giống và tín dụng vẫn theo dữ liệu vườn hiện có.'}</p></div><span className="garden-expansion-unlocked">{expansion.allNineOpen?'9/9 luống':`Xem trước · ${expansion.unlockedCount}/9`}</span></header>
-      <div className="garden-expansion-scene" role="img" aria-label="Cảnh quan vườn với ao, lối dạo và vùng mở rộng"><span className="garden-scene-sun"/><span className="garden-scene-hill garden-scene-hill-back"/><span className="garden-scene-hill garden-scene-hill-front"/><span className="garden-scene-pond"/><span className="garden-scene-path"/><span className="garden-scene-gate">門</span><span className="garden-scene-label garden-scene-label-pond">Ao sen</span><span className="garden-scene-label garden-scene-label-path">Lối dạo</span><span className="garden-scene-label garden-scene-label-land">Vùng cảnh quan</span></div>
+      <div className={`garden-expansion-scene garden-scene-${sceneTime}`} role="img" aria-label="Cảnh quan vườn với ao, lối dạo và vùng mở rộng"><span className="garden-scene-sun"/><span className="garden-scene-hill garden-scene-hill-back"/><span className="garden-scene-hill garden-scene-hill-front"/><span className="garden-scene-pond"/><span className="garden-scene-path"/><span className="garden-scene-gate">門</span><span className="garden-scene-fly garden-scene-fly-a"/><span className="garden-scene-fly garden-scene-fly-b"/><span className="garden-scene-fly garden-scene-fly-c"/><span className="garden-scene-label garden-scene-label-pond">Ao sen</span><span className="garden-scene-label garden-scene-label-path">Lối dạo</span><span className="garden-scene-label garden-scene-label-land">Vùng cảnh quan</span></div>
+      <div className="garden-survey-map" data-testid="garden-survey-map">
+        <div className="garden-survey-head"><span className="garden-expansion-kicker"><Compass/> Bản đồ khảo sát</span><strong>{survey.surveyedTotal}/9 luống đã ghi nhận</strong></div>
+        <div className="garden-survey-zones">{survey.zones.map(zone=>{const Icon=zone.id==='pond'?Waves:zone.id==='path'?Footprints:Trees;return <article key={zone.id} className={`garden-survey-zone is-${zone.status}`} aria-current={zone.status==='active'?'step':undefined}>
+          <header><Icon/><span><b>{zone.label}</b><small>{zone.hint} · {zone.surveyed}/{zone.total}</small></span>{zone.complete&&<CheckCircle2 className="garden-survey-check" aria-label="Đã hoàn tất"/>}</header>
+          <div className="garden-survey-nodes">{zone.nodes.map(node=><button key={node.slot} type="button" className={`garden-survey-node is-${node.state}`} disabled={busy||node.state==='locked'} onClick={()=>focusLivePlot(node.slot)} aria-label={`Luống ${node.slot}: ${node.state==='surveyed'?'đã khảo sát':node.state==='ready'?'đã chín, chờ thu hoạch':node.state==='growing'?'đang lớn':node.state==='open'?'còn trống':'chưa mở'}`}><span>{node.slot}</span><small>{node.state==='surveyed'?'Đã ghi':node.state==='ready'?'Chín':node.state==='growing'?'Đang lớn':node.state==='open'?'Trống':'Khóa'}</small></button>)}</div>
+        </article>})}</div>
+        {survey.nextPlot?<div className="garden-survey-next"><MapPin/><span><b>Việc tiếp theo</b><small>{survey.nextPlot.hint}</small></span><button type="button" disabled={busy} onClick={()=>focusLivePlot(survey.nextPlot!.slot)}>Đến luống {survey.nextPlot.slot}</button></div>:<div className="garden-survey-next is-done"><CheckCircle2/><span><b>{expansion.surveyComplete?'Bản đồ khảo sát đã đủ':'Chưa có việc khảo sát tiếp theo'}</b><small>{expansion.surveyComplete?'Cả chín luống đều đã có ít nhất một vụ thu hoạch.':'Mở đủ luống để tiếp tục khảo sát.'}</small></span></div>}
+      </div>
       <div className="garden-expansion-story-grid"><nav className="garden-expansion-stops" aria-label="Các điểm trong hành trình mới">
-        <button type="button" aria-pressed={selectedExpansionStop==='pond'} onClick={()=>setSelectedExpansionStop('pond')}><span>01</span><b>Bờ ao</b><small>Bắt đầu chuyến khảo sát</small></button>
-        <button type="button" aria-pressed={selectedExpansionStop==='path'} onClick={()=>setSelectedExpansionStop('path')}><span>02</span><b>Lối dạo</b><small>Kết nối các luống đã mở</small></button>
-        <button type="button" aria-pressed={selectedExpansionStop==='landscape'} onClick={()=>setSelectedExpansionStop('landscape')}><span>03</span><b>Vùng cảnh quan</b><small>Tiếp tục trong khu vườn</small></button>
+        <button type="button" aria-pressed={selectedExpansionStop==='pond'} onClick={()=>setSelectedExpansionStop('pond')}><span>01</span><b>Bờ ao</b><small>{survey.zones[0].complete?'Đã khảo sát xong':'Bắt đầu chuyến khảo sát'}</small></button>
+        <button type="button" aria-pressed={selectedExpansionStop==='path'} onClick={()=>setSelectedExpansionStop('path')}><span>02</span><b>Lối dạo</b><small>{survey.zones[1].complete?'Đã khảo sát xong':'Kết nối các luống đã mở'}</small></button>
+        <button type="button" aria-pressed={selectedExpansionStop==='landscape'} onClick={()=>setSelectedExpansionStop('landscape')}><span>03</span><b>Vùng cảnh quan</b><small>{survey.zones[2].complete?'Đã khảo sát xong':'Tiếp tục trong khu vườn'}</small></button>
       </nav><article className="garden-expansion-story" aria-live="polite"><span className="garden-expansion-kicker">Kịch bản · {selectedExpansionStop==='pond'?'Bờ ao':selectedExpansionStop==='path'?'Lối dạo':'Vùng cảnh quan'}</span><p>{selectedExpansionStop==='pond'?'Chín luống đã khai mở. Người giữ vườn dừng bên ao sen, chuẩn bị khảo sát toàn khu vườn mới.':selectedExpansionStop==='path'?'Theo lối dạo, bạn có thể quay lại từng luống để xem cây, lịch chăm và dữ liệu đã lưu.': 'Vùng cảnh quan mở rộng nối tiếp khu vườn hiện tại; những thay đổi cây trồng vẫn đi qua các quy tắc máy chủ đang dùng.'}</p><div className="garden-expansion-mission"><div className="between"><b>Nhiệm vụ khảo sát</b><strong>{expansion.firstHarvests}/{expansion.totalPlots}</strong></div><p>{expansion.surveyComplete?'Đã ghi nhận ít nhất một vụ thu hoạch ở cả chín luống. Chặng khảo sát hoàn tất.':'Ghi nhận ít nhất một vụ thu hoạch ở từng luống để hoàn thành bản đồ vườn.'}</p><div className="progress-track"><i style={{width:`${expansion.firstHarvests/expansion.totalPlots*100}%`}}/></div><small>Tiến độ lấy từ số vụ thu hoạch từng luống; không cộng thưởng hoặc thay đổi tín dụng.</small></div></article></div>
+      <div className="garden-herbarium" data-testid="garden-herbarium"><div className="garden-survey-head"><span className="garden-expansion-kicker"><BookOpen/> Sổ dược thảo</span><strong>{herbarium.length} loài đã thu hoạch</strong></div>{herbarium.length?<ul>{herbarium.map(h=><li key={h.key}><b>{h.name}</b><small>{h.botanical}</small></li>)}</ul>:<p className="muted">Thu hoạch dược liệu để ghi loài đầu tiên vào sổ. Sổ chỉ liệt kê tên từ kho dược thảo của bạn, phục vụ học tập.</p>}</div>
     </section>}
 
     <section className="garden-pro-guide panel"><div><HeartHandshake/><span><b>Cách chơi đã đồng bộ</b><small>Tự chăm và “Giúp chăm” đều tiêu thụ cùng một lượt. Nếu bạn bè đã bón phân trong ngày sinh trưởng hiện tại, chủ vườn không cần và không thể bón lại.</small></span></div><div><Grid3X3/><span><b>Mở ô theo tiến độ thật</b><small>Thu hoạch lần đầu đủ 3 ô khởi đầu để mở ô thứ 4. Sau đó, mỗi ô mới được thu hoạch lần đầu sẽ mở tiếp đúng 1 ô cho đến đủ 9 ô.</small></span></div><div><Gift/><span><b>Thưởng có biên nhận máy chủ</b><small>Game chỉ báo tín dụng và hạt giống sau khi máy chủ trả về số lượng xác nhận; không còn dùng số thưởng mặc định khi giao dịch lỗi.</small></span></div></section>
