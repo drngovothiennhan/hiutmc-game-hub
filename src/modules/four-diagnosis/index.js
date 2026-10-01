@@ -1,1 +1,1 @@
-export const fourDiagnosisModule = { id: 'four-diagnosis', title: 'Tứ Chẩn Các', state: 'planned' };
+export const fourDiagnosisModule = { id: 'four-diagnosis', title: 'VIỆN THỰC HÀNH - TMC', state: 'available-live' };

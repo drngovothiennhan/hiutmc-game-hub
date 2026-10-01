@@ -1,4 +1,4 @@
-<title>Trực Tứ Chẩn</title>
+<title>Viện Thực Hành - TMC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Noto+Serif:wght@600;700&display=swap">
 <style>
@@ -388,7 +388,7 @@ function scene() {
   return `<svg viewBox="0 0 400 300" role="img" aria-label="${esc(S.c.name)} tại ${esc(S.c.place || SETTINGS[S.c.setting])}">${f(n)}</svg>`;
 }
 
-/* ===== Trực Tứ Chẩn: logic trò chơi và ngân hàng ca mở ===== */
+/* ===== Viện Thực Hành - TMC (Trực Tứ Chẩn): logic trò chơi và ngân hàng ca mở ===== */
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -406,7 +406,8 @@ const BASE = (() => { try { return JSON.parse($('#bank-data').textContent); } ca
 let LOCAL = lsGet('tuchan-local-bank', []);
 let SHARED = {};
 let DB = null, CAN_SHARE = false, UID = null;
-const HS = { group: '', q: '', pending: null };
+const HUB = (() => { const p = location.pathname, i = p.indexOf('/tu-chan/'); return i < 0 ? '' : p.slice(0, i + 1); })();
+const HS = { group: '', mode: '', q: '', pending: null };
 
 function bank() {
   const m = new Map();
@@ -424,9 +425,13 @@ function home() {
   all.forEach(c => { counts[c.group || ''] = (counts[c.group || ''] || 0) + 1; });
   $('#home').innerHTML = `
   <div class="hero">
+    ${HUB ? `<p style="margin:0 0 8px"><a href="${esc(HUB)}">← Về Game Hub</a></p>` : ''}
     <div class="eyebrow">Mô phỏng lâm sàng YHCT kết hợp Đông Tây y</div>
-    <h1>Trực Tứ Chẩn</h1>
-    <p>Bạn là bác sĩ trực. Hỏi bệnh, khám, chỉ định cận lâm sàng, biện chứng luận trị và xử trí. Mỗi quyết định tốn thời gian, và ở phòng cấp cứu bệnh nhân không chờ bạn.</p>
+    <h1>Viện Thực Hành - TMC</h1>
+    <p>Ca trực và cấp cứu: xử trí theo nội, ngoại khoa y đa khoa. Ca khám và châm cứu: biện chứng luận trị theo YHCT. Mỗi quyết định tốn thời gian, và ở phòng cấp cứu bệnh nhân không chờ bạn.</p>
+  </div>
+  <div class="filters" role="group" aria-label="Lọc theo loại ca">
+    ${[['', 'Mọi loại', all.length], ['tay', 'Cấp cứu và trực · YHHĐ', all.filter(TAY).length], ['dong', 'Khám và châm cứu · YHCT', all.filter(c => !TAY(c)).length]].map(([k, n, v]) => `<button class="fchip" data-mode="${k}" aria-pressed="${HS.mode === k}">${n} <span class="mono">${v}</span></button>`).join('')}
   </div>
   <div class="filters" role="group" aria-label="Lọc theo nhóm">
     <button class="fchip" data-group="" aria-pressed="${HS.group === ''}">Tất cả <span class="mono">${all.length}</span></button>
@@ -459,7 +464,7 @@ function home() {
 function renderList() {
   const el = $('#caselist'); if (!el) return;
   const b = best(), q = HS.q.trim().toLowerCase();
-  const items = bank().filter(c => (!HS.group || c.group === HS.group) && (!q || [c.title, c.name, c.kind, c.teach, (c.opt && c.opt.ydx || []).join(' '), (c.opt && c.opt.bd || []).join(' ')].join(' ').toLowerCase().includes(q)));
+  const items = bank().filter(c => (!HS.group || c.group === HS.group) && (!HS.mode || (HS.mode === 'tay') === TAY(c)) && (!q || [c.title, c.name, c.kind, c.teach, (c.opt && c.opt.ydx || []).join(' '), (c.opt && c.opt.bd || []).join(' ')].join(' ').toLowerCase().includes(q)));
   if (!items.length) { el.innerHTML = '<p class="muted">Không có ca phù hợp.</p>'; return; }
   el.innerHTML = items.map(c => `
     <button class="case" data-start="${esc(c.id)}">
@@ -696,6 +701,7 @@ document.addEventListener('click', e => {
   const d = b.dataset;
   if (d.start !== undefined) return start(d.start);
   if (b.hasAttribute('data-home')) { S = null; return home(); }
+  if (d.mode !== undefined) { HS.mode = d.mode; HS.open = $('#manage') && $('#manage').open; return home(); }
   if (d.group !== undefined) { HS.group = d.group; HS.open = $('#manage') && $('#manage').open; return home(); }
   if (b.hasAttribute('data-chk')) return checkImport();
   if (b.hasAttribute('data-savel')) return saveImport('local');
