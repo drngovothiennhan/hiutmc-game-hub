@@ -77,6 +77,14 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--jade);outline
 .opt:hover:not(:disabled){border-color:var(--jade)}
 .opt .t{overflow-wrap:anywhere}
 .opt .c{font-family:var(--f-mono);font-size:12px;color:var(--muted);align-self:start}
+.tclock,.trep{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 4px}
+.tclock>div,.trep>div{background:var(--card,#fff);border:1px solid var(--line);border-radius:10px;padding:6px 8px;text-align:center}
+.tclock span,.trep span{display:block;font-size:11px;color:var(--muted);line-height:1.2}
+.tclock b,.trep b{font-family:var(--f-mono);font-size:15px}
+.tclock .w b{color:var(--warn)} .tclock .c b{color:var(--alert)}
+.tnote{font-size:12px;color:var(--muted);line-height:1.45;margin:2px 0 8px}
+.opt .c.fatal{color:var(--alert);font-weight:700}
+
 .opt.used{background:var(--bg);color:var(--muted)}
 .opt .r{grid-column:1/-1;font-size:14px;color:var(--ink);margin-top:4px;padding-top:6px;border-top:1px dashed var(--line)}
 .opt.bad{border-color:var(--alert);background:var(--alert-soft)}
@@ -863,18 +871,33 @@ async function initCaps() {
 /* ---------- Bắt đầu ca ---------- */
 function start(id, shift, room) {
   const c = bank().find(x => x.id === id); if (!c) return;
-  S = { shift: shift || null, room: room || (TAY(c) ? 'capcuu' : 'kham'), trial: !shift && !room, av: (shift && shift.doctor_avatar_id) || (PSTATE === 'ok' && PROFILE && PROFILE.doctor_avatar_id) || null, c, t: 0, stab: c.stab0, mult: 1, asked: {}, ex: {}, ts: {}, ac: {}, tab: 'ask', ans: { huyet: [] }, over: false,
+  S = { shift: shift || null, room: room || (TAY(c) ? 'capcuu' : 'kham'), trial: !shift && !room, av: (shift && shift.doctor_avatar_id) || (PSTATE === 'ok' && PROFILE && PROFILE.doctor_avatar_id) || null, c, t: 0, t0: Date.now(), log: [], warn: null, stab: c.stab0, mult: 1, asked: {}, ex: {}, ts: {}, ac: {}, tab: 'ask', ans: { huyet: [] }, over: false,
     bubble: { who: 'Tình huống', txt: c.intro }, opts: {} };
   for (const k of Object.keys(c.opt)) S.opts[k] = shuffle(c.opt[k].map(po));
   S.actOrder = shuffle(c.actions.map((_, j) => j));
-  show('play'); draw();
+  show('play'); draw(); rtStart();
 }
 
 /* ---------- Thời gian và độ ổn định ---------- */
-function tick(m) {
-  S.t += m;
+const TL = { ask: 'Hỏi bệnh', ex: 'Khám', test: 'Cận lâm sàng', act: 'Xử trí' };
+function tick(m, kind, name) {
+  S.t += m; S.log.push({ k: kind || 'ask', n: name || '', m });
   if (S.c.rate > 0) S.stab = Math.max(0, S.stab - S.c.rate * m * S.mult);
   if (S.c.rate > 0 && S.stab <= 0) finish(true);
+}
+/* Đồng hồ thực (giây thật người chơi đã dùng) tách biệt với phút trong ca (mô phỏng) */
+let RT = null;
+const fmtRT = ms => { const s = Math.floor(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+function rtStart() { clearInterval(RT); RT = setInterval(() => { if (!S || S.over) { clearInterval(RT); return; } const v = fmtRT(Date.now() - S.t0); document.querySelectorAll('[data-rt]').forEach(e => { e.textContent = v; }); }, 1000); }
+const lossOf = m => S.c.rate > 0 ? S.c.rate * m * S.mult : 0;
+const costTag = m => { const l = Math.round(lossOf(m)); const fatal = S.c.rate > 0 && S.stab - lossOf(m) <= 0; return `<span class="c ${fatal ? 'fatal' : ''}">${m} phút trong ca${S.c.rate > 0 && l > 0 ? ` · −${l}% ổn định` : ''}${fatal ? ' · KHÔNG KỊP' : ''}</span>`; };
+/* Bước có thể làm bệnh nhân ngừng tuần hoàn: bấm lần 1 để cảnh báo, lần 2 để thực hiện */
+function guard(key, m, run) {
+  if (S.c.rate > 0 && S.stab - lossOf(m) <= 0 && S.warn !== key) {
+    S.warn = key; S.bubble = { who: 'Cảnh báo', txt: `Mục này mất ${m} phút trong ca, bệnh nhân chỉ còn kịp khoảng ${Math.floor(S.stab / (S.c.rate * S.mult))} phút. Nếu làm bây giờ bệnh nhân có thể ngừng tuần hoàn. Hãy xử trí cấp cứu trước. Bấm lần nữa nếu vẫn muốn làm.` };
+    return draw();
+  }
+  S.warn = null; run();
 }
 function vitals() {
   const v = S.c.vitals, d = S.stab - S.c.stab0, k = S.c.rate > 0 ? d : 0;
@@ -901,15 +924,17 @@ const GRP = { V: 'Vọng (nhìn)', M: 'Văn (nghe, ngửi)', T: 'Thiết (mạch
 
 function draw() {
   if (!S || S.over) return;
-  const y = scrollY, c = S.c, er = c.rate > 0, st = Math.round(S.stab);
+  const y = scrollY, c = S.c, er = c.rate > 0, st = Math.round(S.stab), left = er ? Math.max(0, Math.floor(S.stab / (c.rate * S.mult))) : 0;
   const sc = st < 35 ? 'c' : st < 60 ? 'w' : '';
   $('#play').innerHTML = `
-  <div class="top"><button class="iconbtn" data-home>Thoát</button><h2>${esc(c.title)}</h2><span class="clock">T+${S.t} phút</span></div>
+  <div class="top"><button class="iconbtn" data-home>Thoát</button><h2>${esc(c.title)}</h2><span class="clock" title="Thời gian thực bạn đã chơi">⏱ <b data-rt>${fmtRT(Date.now() - S.t0)}</b></span></div>
   <div class="pl"><div class="pl-l">
   <div class="stage">${scene()}${mon()}</div>
   <div class="place"><span>${esc(c.place || SETTINGS[c.setting])}</span><span class="mono">${nowStr()}${isNight() ? ' · Trực đêm' : ''}</span></div>
+  <div class="tclock"><div><span>Thời gian thực</span><b data-rt>${fmtRT(Date.now() - S.t0)}</b></div><div><span>Giờ trong ca</span><b>${S.t} phút</b></div>${er ? `<div class="${left <= 5 ? 'c' : left <= 12 ? 'w' : ''}"><span>Bệnh nhân còn kịp</span><b>~${left} phút</b></div>` : `<div><span>Giới hạn</span><b>Không</b></div>`}</div>
   ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
+  <div class="tnote">${er ? 'Phút trong ca là thời gian mô phỏng trong bệnh viện, không phải thời gian bạn chơi. Mỗi thao tác tốn vài phút trong ca và bệnh nhân xấu đi theo đó. Bạn nghĩ bao lâu cũng được, bệnh nhân không đổi.' : 'Phút trong ca chỉ để ghi nhận. Ca khám không giới hạn thời gian, bạn cứ thong thả.'}</div>
   <div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>
   </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
@@ -919,22 +944,22 @@ function draw() {
 
 function panel() {
   const c = S.c;
-  if (S.tab === 'ask') return `<div class="muted">Mỗi câu hỏi tốn 1 phút. Chọn những câu thật cần.</div>` +
-    c.ask.map((a, i) => `<button class="opt ${S.asked[i] ? 'used' : ''}" data-ask="${i}"><span class="t">${esc(a[0])}</span><span class="c">1 phút</span>${S.asked[i] ? `<div class="r">${esc(a[1])}</div>` : ''}</button>`).join('');
+  if (S.tab === 'ask') return `<div class="muted">Mỗi câu hỏi tốn 1 phút trong ca. Chọn những câu thật cần.</div>` +
+    c.ask.map((a, i) => `<button class="opt ${S.asked[i] ? 'used' : ''}" data-ask="${i}"><span class="t">${esc(a[0])}</span>${costTag(1)}${S.asked[i] ? `<div class="r">${esc(a[1])}</div>` : ''}</button>`).join('');
   if (S.tab === 'exam') {
-    let h = `<div class="muted">Mỗi mục khám tốn 1 phút.</div>`;
+    let h = `<div class="muted">Mỗi mục khám tốn 1 phút trong ca.</div>`;
     for (const g of ['V', 'M', 'T', 'K']) {
       const items = c.exam.map((e, i) => [e, i]).filter(([e]) => e[0] === g);
       if (!items.length) continue;
-      h += `<div class="grp">${GRP[g]}</div>` + items.map(([e, i]) => `<button class="opt ${S.ex[i] ? 'used' : ''}" data-ex="${i}"><span class="t">${esc(e[1])}</span><span class="c">1 phút</span>${S.ex[i] ? `<div class="r">${esc(e[2])}</div>` : ''}</button>`).join('');
+      h += `<div class="grp">${GRP[g]}</div>` + items.map(([e, i]) => `<button class="opt ${S.ex[i] ? 'used' : ''}" data-ex="${i}"><span class="t">${esc(e[1])}</span>${costTag(1)}${S.ex[i] ? `<div class="r">${esc(e[2])}</div>` : ''}</button>`).join('');
     }
     return h;
   }
   if (S.tab === 'test') return `<div class="muted">Xét nghiệm và chẩn đoán hình ảnh tốn thời gian. Chỉ định có chọn lọc.</div>` +
-    c.tests.map((t, i) => `<button class="opt ${S.ts[i] ? 'used' : ''}" data-test="${i}"><span class="t">${esc(t[0])}</span><span class="c">${t[1]} phút</span>${S.ts[i] ? `<div class="r">${esc(t[2])}</div>` : ''}</button>`).join('');
+    c.tests.map((t, i) => `<button class="opt ${S.ts[i] ? 'used' : ''}" data-test="${i}"><span class="t">${esc(t[0])}</span>${costTag(t[1])}${S.ts[i] ? `<div class="r">${esc(t[2])}</div>` : ''}</button>`).join('');
   if (S.tab === 'act') return `<div class="muted">Xử trí thực hiện ngay trên bệnh nhân. Cẩn trọng với những việc không thể rút lại.</div>` +
     S.actOrder.map(i => { const a = pa(c.actions[i]), d = S.ac[i];
-      return `<button class="opt ${d ? (a.k === '!' ? 'bad' : 'used') : ''}" data-act="${i}"><span class="t">${esc(a.n)}</span><span class="c">${a.min} phút</span>${d ? `<div class="r">${esc(a.why)}</div>` : ''}</button>`; }).join('');
+      return `<button class="opt ${d ? (a.k === '!' ? 'bad' : 'used') : ''}" data-act="${i}"><span class="t">${esc(a.n)}</span>${costTag(a.min)}${d ? `<div class="r">${esc(a.why)}</div>` : ''}</button>`; }).join('');
   if (S.tab === 'dx') return dxForm();
   return chart();
 }
@@ -983,18 +1008,26 @@ function score(dead) {
   const mX = tay ? 30 : 15; add('Xử trí', Math.max(0, mX * gD / gT - 5 * harm - 2 * wasteA), mX, `Làm được ${gD}/${gT} điểm xử trí cần thiết.` + (missA.length ? ' Bỏ sót việc bắt buộc: ' + missA.join('; ') + '.' : '') + (harm ? ' Chỉ định nguy hại: ' + harmList.join('; ') + '.' : ''));
   let total = Math.round(Math.min(100, Math.max(0, tot))), note = '';
   if (harm) { total = Math.min(total, 69); note = 'Có chỉ định nguy hại cho bệnh nhân nên điểm bị giới hạn ở mức 69. An toàn người bệnh được xét trước.'; }
-  if (dead) { total = Math.min(total, 40); note = 'Bệnh nhân ngừng tuần hoàn trong lúc bạn đang xử trí. Ở phòng cấp cứu, việc cứu sống phải đi trước biện chứng.'; }
+  if (dead) { total = Math.min(total, 40); note = 'Bệnh nhân ngừng tuần hoàn sau ' + S.t + ' phút trong ca (thời gian mô phỏng, không phải thời gian thực bạn chơi) vì các xét nghiệm và thao tác tốn nhiều phút trong khi chưa xử trí cấp cứu. Ở phòng cấp cứu, việc cứu sống phải đi trước: ổn định, hạ nhiệt, truyền dịch rồi mới làm xét nghiệm chậm.'; }
   return { total, rows, note };
 }
 
+function timeReport() {
+  const c = S.c, real = fmtRT(Date.now() - S.t0), by = {};
+  S.log.forEach(x => { by[x.k] = (by[x.k] || 0) + x.m; });
+  const top = S.log.slice().sort((a, b) => b.m - a.m).filter(x => x.m >= 3).slice(0, 3);
+  return `<div class="trep"><div><span>Thời gian thực bạn chơi</span><b>${real}</b></div><div><span>Phút trong ca (mô phỏng)</span><b>${S.t}</b></div>${c.rate > 0 ? `<div><span>Độ ổn định cuối</span><b>${Math.round(S.stab)}%</b></div>` : ''}</div>
+  <p class="muted" style="font-size:13px;margin:6px 0">Phút trong ca là thời gian trong bệnh viện mô phỏng, tính theo từng thao tác: ${Object.keys(by).map(k => TL[k] + ' ' + by[k] + ' phút').join(', ') || 'chưa có thao tác'}.${c.rate > 0 && top.length ? ` Tốn nhiều nhất: ${top.map(x => x.n + ' (' + x.m + ' phút)').join('; ')}.` : ''}</p>`;
+}
 function finish(dead) {
+  clearInterval(RT);
   if (!S || S.over) return; S.over = true;
   const r = score(dead), c = S.c; saveBest(c.id, r.total); S.res = { total: r.total, dead: !!dead };
   const g = r.total >= 85 ? 'Xuất sắc' : r.total >= 70 ? 'Đạt' : r.total >= 50 ? 'Cần cải thiện' : 'Chưa đạt';
   $('#result').innerHTML = `
   <div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
   <div class="score"><span class="n">${r.total}</span><span class="muted">/ 100</span><span class="grade">${g}</span></div>
-  <div class="muted">Thời gian đã dùng: ${S.t} phút${c.rate > 0 ? `. Độ ổn định cuối: ${Math.round(S.stab)}%` : ''}.</div>
+  ${timeReport()}
   ${r.note ? `<div class="fail">${esc(r.note)}</div>` : ''}
   <div class="rows">${r.rows.map(x => `<div class="row ${x.tone}"><b>${esc(x.title)}</b><span class="v">${x.v}</span><span class="sub">${esc(x.sub)}</span></div>`).join('')}</div>
   <div class="teach"><h3>Điều rút ra</h3>${esc(c.teach)}${c.ref ? `<p class="muted" style="margin:8px 0 0;font-size:13px">Cơ sở tham khảo: ${esc(c.ref)}</p>` : ''}</div>
@@ -1030,19 +1063,20 @@ document.addEventListener('click', e => {
   if (!S || S.over) return;
   const c = S.c;
   if (d.tab) { S.tab = d.tab; return draw(); }
-  if (d.ask !== undefined) { const i = +d.ask; if (!S.asked[i]) { S.asked[i] = 1; S.bubble = { who: c.name, txt: c.ask[i][1] }; tick(1); } return draw(); }
-  if (d.ex !== undefined) { const i = +d.ex; if (!S.ex[i]) { S.ex[i] = 1; S.bubble = { who: 'Kết quả khám', txt: c.exam[i][2] }; tick(1); } return draw(); }
-  if (d.test !== undefined) { const i = +d.test; if (!S.ts[i]) { S.ts[i] = 1; S.bubble = { who: 'Kết quả', txt: c.tests[i][2] }; tick(c.tests[i][1]); } return draw(); }
+  if (d.ask !== undefined) { const i = +d.ask; if (!S.asked[i]) return guard('a' + i, 1, () => { S.asked[i] = 1; S.bubble = { who: c.name, txt: c.ask[i][1] }; tick(1, 'ask', c.ask[i][0]); if (!S.over) draw(); }); return draw(); }
+  if (d.ex !== undefined) { const i = +d.ex; if (!S.ex[i]) return guard('e' + i, 1, () => { S.ex[i] = 1; S.bubble = { who: 'Kết quả khám', txt: c.exam[i][2] }; tick(1, 'ex', c.exam[i][1]); if (!S.over) draw(); }); return draw(); }
+  if (d.test !== undefined) { const i = +d.test; if (!S.ts[i]) return guard('t' + i, c.tests[i][1], () => { S.ts[i] = 1; S.bubble = { who: 'Kết quả', txt: c.tests[i][2] }; tick(c.tests[i][1], 'test', c.tests[i][0]); if (!S.over) draw(); }); return draw(); }
   if (d.act !== undefined) {
     const i = +d.act, a = pa(c.actions[i]);
+    if (!S.ac[i] && a.k !== '++' && S.warn !== 'x' + i && c.rate > 0 && S.stab - lossOf(a.min) <= 0) { S.warn = 'x' + i; S.bubble = { who: 'Cảnh báo', txt: 'Việc này mất ' + a.min + ' phút trong ca, bệnh nhân có thể không kịp. Bấm lần nữa nếu vẫn muốn làm.' }; return draw(); }
     if (!S.ac[i]) {
-      S.ac[i] = 1; S.bubble = { who: 'Xử trí', txt: a.why };
+      S.warn = null; S.ac[i] = 1; S.bubble = { who: 'Xử trí', txt: a.why };
       if (c.rate > 0) {
         if (a.k === '++') { S.stab = Math.min(100, S.stab + 8); S.mult = Math.max(0.25, S.mult - 0.25); }
         else if (a.k === '+') S.stab = Math.min(100, S.stab + 3);
         else if (a.k === '!') S.stab = Math.max(0, S.stab - 18);
       }
-      tick(a.min);
+      tick(a.min, 'act', a.n);
       if (c.rate > 0 && S.stab <= 0) return finish(true);
     }
     return draw();
