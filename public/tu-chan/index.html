@@ -199,15 +199,18 @@ function lintCase(c) {
   const ex = Array.isArray(c.exam) ? c.exam : [];
   ex.forEach((a, i) => { if (!Array.isArray(a) || a.length < 4 || !['V', 'M', 'T', 'K'].includes(a[0]) || !['e', 'n'].includes(a[3])) e(`exam[${i}] cần dạng [V|M|T|K, mục, kết quả, e|n]`); });
   if (ex.filter(a => a[3] === 'e').length < 3) e('Cần ít nhất 3 mục khám then chốt (e)');
+  const tay = c.setting === 'capcuu' || c.setting === 'giuong';
+  if (!tay) {
   if (!ex.some(a => a[0] === 'V' && /lưỡi/i.test(a[1]))) e('Thiếu mục khám lưỡi (nhóm V)');
   if (!ex.some(a => a[0] === 'T' && /mạch/i.test(a[1]))) e('Thiếu mục khám mạch (nhóm T)');
+  }
   const ts = Array.isArray(c.tests) ? c.tests : [];
   ts.forEach((a, i) => { if (!Array.isArray(a) || a.length < 4 || typeof a[1] !== 'number' || !['e', 'n', 'w'].includes(a[3])) e(`tests[${i}] cần dạng [tên, số phút, kết quả, e|n|w]`); });
   if (ts.length < 4) w('Nên có ít nhất 4 xét nghiệm trong danh sách');
   if (!ts.some(a => a[3] === 'w')) e('Cần ít nhất 1 chỉ định thừa (w) để luyện chỉ định hợp lý');
 
   const opt = c.opt || {};
-  for (const k of ['ydx', 'bd', 'bc', 'the', 'phap', 'phuong', 'huyet']) {
+  for (const k of (tay ? ['ydx'] : ['ydx', 'bd', 'bc', 'the', 'phap', 'phuong', 'huyet'])) {
     const o = Array.isArray(opt[k]) ? opt[k] : [];
     if (o.length < 4) e(`opt.${k} cần ít nhất 4 lựa chọn`);
     if (!o.some(s => /^[+~]/.test(s))) e(`opt.${k} chưa có đáp án đúng (đánh dấu + hoặc ~ ở đầu)`);
@@ -215,9 +218,11 @@ function lintCase(c) {
     const names = o.map(s => s.replace(/^[+~]/, '').trim().toLowerCase());
     if (new Set(names).size !== names.length) e(`opt.${k} có lựa chọn trùng nhau`);
   }
+  if (!tay) {
   const hn = (opt.huyet || []).filter(s => /^\+/.test(s)).length;
   if (hn < 3 || hn > 6) e('Số huyệt đúng phải từ 3 đến 6');
   if ((opt.huyet || []).filter(s => !/^[+~]/.test(s)).length < 3) w('Nên có ít nhất 3 huyệt sai hợp lý');
+  }
 
   const acts = (Array.isArray(c.actions) ? c.actions : []).map(a => Array.isArray(a) ? a[0] : a);
   const kinds = acts.map((a, i) => { const m = /^(\+\+|\+|-|!)(.+)\|(\d+)\|(.+)$/.exec(String(a)); if (!m) { e(`actions[${i}] cần dạng "++Tên|số phút|lý do"`); return ''; } return m[1]; });
@@ -462,6 +467,7 @@ function renderList() {
       <div class="done">${b[c.id] != null ? b[c.id] + '/100' : ''}</div>
       <div class="meta">
         <span class="chip ${c.setting === 'capcuu' ? 'er' : ''}">${esc(SETTINGS[c.setting] || c.setting)}</span>
+        <span class="chip neutral">${TAY(c) ? 'Trực · YHHĐ' : 'Khám · YHCT'}</span>
         <span class="chip neutral">${esc(c.kind)}</span>
         <span class="chip neutral">Mức ${esc(c.level)}</span>
         <span class="chip neutral">${esc(c.name)}, ${c.age} tuổi</span>
@@ -578,6 +584,7 @@ function mon() {
 }
 
 /* ---------- Vẽ màn chơi ---------- */
+const TAY = c => c.setting === 'capcuu' || c.setting === 'giuong'; /* trực: điều trị theo nội/ngoại YHHĐ; khám ngoại trú, châm cứu: theo YHCT */
 const TABS = [['ask', 'Vấn'], ['exam', 'Khám'], ['test', 'Cận lâm sàng'], ['act', 'Xử trí'], ['dx', 'Chẩn đoán'], ['chart', 'Bệnh án']];
 const GRP = { V: 'Vọng (nhìn)', M: 'Văn (nghe, ngửi)', T: 'Thiết (mạch, sờ nắn)', K: 'Khám lâm sàng' };
 
@@ -631,6 +638,7 @@ function chart() {
 }
 
 function dxForm() {
+  if (TAY(S.c)) return `<div class="muted" style="margin-bottom:10px">Ca trực: chẩn đoán và xử trí theo nội, ngoại khoa y đa khoa. Y học cổ truyền chỉ hỗ trợ sau khi bệnh nhân ổn định.</div><div class="field"><label for="sel-ydx">Chẩn đoán YHHĐ</label><select id="sel-ydx" data-sel="ydx"><option value="">Chọn</option>${S.opts.ydx.map((o, j) => `<option value="${j}" ${S.ans.ydx === String(j) ? 'selected' : ''}>${esc(o.t)}</option>`).join('')}</select></div><div class="sticky-sub"><button class="btn" data-finish style="width:100%">Hoàn tất ca và xem điểm</button></div>`;
   const F = [['ydx', 'Chẩn đoán YHHĐ'], ['bd', 'Bệnh danh YHCT'], ['bc', 'Bát cương'], ['the', 'Thể bệnh (chứng hậu)'], ['phap', 'Pháp trị'], ['phuong', 'Phương dược']];
   return F.map(([k, n]) => `<div class="field"><label for="sel-${k}">${n}</label><select id="sel-${k}" data-sel="${k}"><option value="">Chọn</option>${S.opts[k].map((o, j) => `<option value="${j}" ${S.ans[k] === String(j) ? 'selected' : ''}>${esc(o.t)}</option>`).join('')}</select></div>`).join('') +
     `<div class="field"><div class="lab">Huyệt châm cứu (chọn nhiều)</div><div class="checks">${S.opts.huyet.map((o, j) => `<label><input type="checkbox" data-hu="${j}" ${S.ans.huyet.includes(j) ? 'checked' : ''}>${esc(o.t)}</label>`).join('')}</div></div>
@@ -641,24 +649,25 @@ function dxForm() {
 function score(dead) {
   const c = S.c, rows = []; let tot = 0;
   const add = (title, got, max, sub, tone) => { tot += got; rows.push({ title, v: got.toFixed(1).replace('.0', '') + '/' + max, sub, tone: tone || (got >= max * .85 ? 'ok' : got >= max * .5 ? 'mid' : 'no') }); };
-  const ratio = (arr, done, fi) => { const idx = arr.map((x, i) => i).filter(i => arr[i][fi] === 'e'); const got = idx.filter(i => done[i]).length; return { got, n: idx.length, miss: idx.filter(i => !done[i]) }; };
+  const ratio = (arr, done, fi, ok) => { const idx = arr.map((x, i) => i).filter(i => arr[i][fi] === 'e' && (!ok || ok(arr[i]))); const got = idx.filter(i => done[i]).length; return { got, n: idx.length, miss: idx.filter(i => !done[i]) }; };
+  const tay = TAY(c);
   const A = ratio(c.ask, S.asked, 2); add('Hỏi bệnh', 15 * A.got / A.n, 15, `Đủ ${A.got}/${A.n} câu then chốt.` + (A.miss.length ? ' Bỏ sót: ' + A.miss.map(i => c.ask[i][0]).join('; ') : ''));
-  const E = ratio(c.exam, S.ex, 3); add('Khám tứ chẩn', 15 * E.got / E.n, 15, `Đủ ${E.got}/${E.n} mục then chốt.` + (E.miss.length ? ' Bỏ sót: ' + E.miss.map(i => c.exam[i][1]).join('; ') : ''));
+  const E = ratio(c.exam, S.ex, 3, tay ? x => !/lưỡi/i.test(x[1]) : null); add(tay ? 'Khám lâm sàng' : 'Khám tứ chẩn', 15 * E.got / E.n, 15, `Đủ ${E.got}/${E.n} mục then chốt.` + (E.miss.length ? ' Bỏ sót: ' + E.miss.map(i => c.exam[i][1]).join('; ') : ''));
   const T = ratio(c.tests, S.ts, 3), waste = c.tests.filter((t, i) => t[3] === 'w' && S.ts[i]).length;
-  add('Cận lâm sàng', Math.max(0, 15 * (T.n ? T.got / T.n : 1) - 5 * waste), 15, (T.n ? `Đủ ${T.got}/${T.n} xét nghiệm cần thiết.` : 'Ca này không bắt buộc xét nghiệm nào.') + (waste ? ` Chỉ định thừa: ${waste}.` : '') + (T.miss.length ? ' Bỏ sót: ' + T.miss.map(i => c.tests[i][0]).join('; ') : ''));
-  const W = { ydx: 5, bd: 5, bc: 3, the: 8, phap: 4, phuong: 5 }, N = { ydx: 'Chẩn đoán YHHĐ', bd: 'Bệnh danh', bc: 'Bát cương', the: 'Thể bệnh', phap: 'Pháp trị', phuong: 'Phương dược' };
+  const mT = tay ? 20 : 15; add('Cận lâm sàng', Math.max(0, mT * (T.n ? T.got / T.n : 1) - 5 * waste), mT, (T.n ? `Đủ ${T.got}/${T.n} xét nghiệm cần thiết.` : 'Ca này không bắt buộc xét nghiệm nào.') + (waste ? ` Chỉ định thừa: ${waste}.` : '') + (T.miss.length ? ' Bỏ sót: ' + T.miss.map(i => c.tests[i][0]).join('; ') : ''));
+  const W = tay ? { ydx: 20 } : { ydx: 5, bd: 5, bc: 3, the: 8, phap: 4, phuong: 5 }, N = { ydx: 'Chẩn đoán YHHĐ', bd: 'Bệnh danh', bc: 'Bát cương', the: 'Thể bệnh', phap: 'Pháp trị', phuong: 'Phương dược' };
   for (const k of Object.keys(W)) {
     const sel = S.ans[k] === undefined || S.ans[k] === '' ? null : S.opts[k][+S.ans[k]];
     const g = sel ? (sel.k === '+' ? 1 : sel.k === '~' ? 0.5 : 0) : 0;
     const right = S.opts[k].filter(o => o.k === '+').map(o => o.t).join(' hoặc ');
     add(N[k], W[k] * g, W[k], `Bạn chọn: ${sel ? sel.t : 'chưa chọn'}.` + (g < 1 ? ` Đáp án: ${right}.` : ''), g === 1 ? 'ok' : g > 0 ? 'mid' : 'no');
   }
-  const hOk = S.opts.huyet.filter(o => o.k === '+'), picked = S.ans.huyet.map(j => S.opts.huyet[j]);
+  const HU = S.opts.huyet || [], hOk = HU.filter(o => o.k === '+'), picked = S.ans.huyet.map(j => HU[j]);
   const r = picked.filter(o => o.k === '+').length, w = picked.length - r;
-  add('Huyệt châm cứu', 10 * Math.max(0, r - 0.5 * w) / hOk.length, 10, `Đúng ${r}/${hOk.length}, chọn sai ${w}. Gợi ý đúng: ${hOk.map(o => o.t).join(', ')}.`);
+  if (!tay) add('Huyệt châm cứu', 10 * Math.max(0, r - 0.5 * w) / hOk.length, 10, `Đúng ${r}/${hOk.length}, chọn sai ${w}. Gợi ý đúng: ${hOk.map(o => o.t).join(', ')}.`);
   const acts = c.actions.map(pa); let gT = 0, gD = 0, harm = 0, wasteA = 0, harmList = [], missA = [];
   acts.forEach((a, i) => { const wt = a.k === '++' ? 2 : a.k === '+' ? 1 : 0; gT += wt; if (S.ac[i]) { gD += wt; if (a.k === '!') { harm++; harmList.push(a.n); } if (a.k === '-') wasteA++; } else if (wt === 2) missA.push(a.n); });
-  add('Xử trí', Math.max(0, 15 * gD / gT - 5 * harm - 2 * wasteA), 15, `Làm được ${gD}/${gT} điểm xử trí cần thiết.` + (missA.length ? ' Bỏ sót việc bắt buộc: ' + missA.join('; ') + '.' : '') + (harm ? ' Chỉ định nguy hại: ' + harmList.join('; ') + '.' : ''));
+  const mX = tay ? 30 : 15; add('Xử trí', Math.max(0, mX * gD / gT - 5 * harm - 2 * wasteA), mX, `Làm được ${gD}/${gT} điểm xử trí cần thiết.` + (missA.length ? ' Bỏ sót việc bắt buộc: ' + missA.join('; ') + '.' : '') + (harm ? ' Chỉ định nguy hại: ' + harmList.join('; ') + '.' : ''));
   let total = Math.round(Math.min(100, Math.max(0, tot))), note = '';
   if (harm) { total = Math.min(total, 69); note = 'Có chỉ định nguy hại cho bệnh nhân nên điểm bị giới hạn ở mức 69. An toàn người bệnh được xét trước.'; }
   if (dead) { total = Math.min(total, 40); note = 'Bệnh nhân ngừng tuần hoàn trong lúc bạn đang xử trí. Ở phòng cấp cứu, việc cứu sống phải đi trước biện chứng.'; }
