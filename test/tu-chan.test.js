@@ -46,3 +46,25 @@ test('Case bank management is hidden unless the member is verified as admin', as
   assert.match(html, /garden_hub_current_member_role_v1/);
   assert.match(html, /=== 'admin'\) setAdmin\(true\)/);
 });
+
+test('Duty rooms: random server-issued cases and EXP wired to the shared Y Quan doctor profile', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  for (const rpc of ['tu_chan_profile_v1', 'tu_chan_start_shift_v1', 'tu_chan_finish_shift_v1', 'tu_chan_register_cases_v1']) assert.ok(html.includes(rpc), 'client missing ' + rpc);
+  assert.match(html, /data-duty="\$\{k\}"/);
+  const sql = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
+  assert.match(sql, /enable row level security/);
+  assert.match(sql, /experience = experience \+ gain/);
+  assert.match(sql, /revoke all on function public\.tu_chan_profile_v1\(\), public\.tu_chan_start_shift_v1\(text\)[^;]*from public, anon;/);
+  assert.match(sql, /tu_chan_shifts_one_open_idx/);
+});
+
+test('Catalog seeded on the server matches the embedded bank: 40 cases, 20 per room', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(bank.length, 40);
+  const room = c => (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham';
+  assert.equal(bank.filter(c => room(c) === 'capcuu').length, 20);
+  assert.equal(bank.filter(c => room(c) === 'kham').length, 20);
+  const sql = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
+  for (const c of bank) assert.ok(sql.includes(`('${c.id}','${room(c)}'`), 'catalog missing ' + c.id);
+});
