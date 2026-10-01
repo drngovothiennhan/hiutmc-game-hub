@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0A2B25">
 <title>Viện Thực Hành - TMC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Noto+Serif:wght@600;700&display=swap">
@@ -394,7 +396,7 @@ function hallArt() {
   const motes = [[60, 40, 0], [110, 22, 1.2], [300, 52, 0.6], [350, 30, 1.8], [250, 18, 2.4], [30, 80, 0.9]].map(([x, y, d]) => `<circle class="mote" style="animation-delay:${d}s" cx="${x}" cy="${y}" r="1.6" fill="#F3D98B"/>`).join('');
   const stars = [[40, 18], [88, 10], [150, 14], [246, 8], [370, 14], [212, 22]].map(([x, y], i) => `<circle class="tw" style="animation-delay:${i * .5}s" cx="${x}" cy="${y}" r="1" fill="#fff"/>`).join('');
   const lantern = x => `<g class="swing" style="transform-origin:${x}px 84px"><line x1="${x}" y1="84" x2="${x}" y2="92" stroke="#E8C26A" stroke-width="1.2"/><circle cx="${x}" cy="102" r="14" fill="#FF9A3C" opacity=".22"/><ellipse cx="${x}" cy="102" rx="7" ry="9" fill="#D9382A" stroke="#E8C26A" stroke-width="1"/><path d="M${x - 5} 95H${x + 5}M${x - 6} 102H${x + 6}M${x - 5} 109H${x + 5}" stroke="#F3D98B" stroke-width=".8" opacity=".7"/><rect x="${x - 4}" y="92" width="8" height="2.5" fill="#E8C26A"/><path d="M${x} 111v7" stroke="#E8C26A" stroke-width="1.2"/><circle cx="${x}" cy="119" r="1.6" fill="#E8C26A"/></g>`;
-  return `<svg class="hall-art" viewBox="0 0 400 156" role="img" aria-label="Cổng Viện Thực Hành TMC với đèn lồng, biểu tượng âm dương và cây thuốc">
+  return `<svg class="hall-art" viewBox="0 0 400 156" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Cổng Viện Thực Hành TMC với đèn lồng, biểu tượng âm dương và cây thuốc">
   <defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A2B25"/><stop offset=".6" stop-color="#145C4C"/><stop offset="1" stop-color="#1B7A62"/></linearGradient>
   <radialGradient id="hm"><stop offset="0" stop-color="#FFF3C9"/><stop offset="1" stop-color="#FFF3C9" stop-opacity="0"/></radialGradient>
   <radialGradient id="hd"><stop offset="0" stop-color="#FFD27A"/><stop offset="1" stop-color="#FF9A3C"/></radialGradient></defs>
@@ -464,7 +466,50 @@ const HALL_CSS = `
 @keyframes fg{50%{transform:skewY(3deg)}}.flag{animation:fg 2.6s ease-in-out infinite;transform-origin:348px 62px;transform-box:view-box}
 @media (prefers-reduced-motion:reduce){.swing,.tw,.mote,.halo,.flag{animation:none!important}}
 `;
-(function () { const s = document.createElement('style'); s.textContent = HALL_CSS; document.head.appendChild(s); })();
+const RESP_CSS = `
+/* ===== Bố cục theo màn hình: điện thoại, máy tính bảng, máy tính ===== */
+body{font-size:16px;padding-inline:12px}
+.wrap{max-width:none}
+.btn,.iconbtn,.fchip{min-height:44px}
+.opt{padding:13px 14px}
+.tab{padding:13px 14px;font-size:15px}
+.hall-art{width:100%}
+.pl-l,.pl-r{min-width:0}
+#result{max-width:820px;margin-inline:auto}
+@media (min-width:720px){
+  body{padding-inline:24px;padding-block:20px 40px}
+  .wrap{max-width:1040px}
+  .hall h1{font-size:32px}
+  .hall p{font-size:15px}
+  .case h3{font-size:15.5px!important}
+  .cases{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .wing{padding:14px 16px}.wing b{font-size:16px}.wing span:not(.wi){font-size:13px}.wing .wi{width:46px;height:46px}
+  .opt{padding:14px 16px}
+}
+@media (min-width:980px){
+  body{font-size:16.5px;padding-inline:32px}
+  .wrap{max-width:1240px}
+  .hall{display:grid;grid-template-columns:1.35fr 1fr;align-items:stretch;border-radius:20px}
+  .hall-art{height:100%;object-fit:cover}
+  .hall-txt{display:flex;flex-direction:column;justify-content:center;text-align:left;padding:28px 32px;background:linear-gradient(90deg,#0B332B,#0A2B25)}
+  .hall-txt .orn{justify-content:flex-start}.hall-txt .orn i:first-child{display:none}
+  .hall h1{font-size:38px}.hall h1 small{font-size:15px}
+  .hall p{margin-inline:0;font-size:15.5px;max-width:42ch}
+  .stats{justify-content:flex-start}.stat b{font-size:24px}.stat{padding:8px 16px}
+  .wings{gap:16px;margin-top:20px}
+  .tools{grid-template-columns:minmax(0,260px) minmax(0,420px);margin-top:18px}
+  .cases{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+  .case{padding:14px 16px 14px 20px!important}.case h3{font-size:16.5px!important}
+  .top h2{font-size:20px}
+  .pl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;align-items:start}
+  .pl-l{position:sticky;top:16px}
+  .pl-r .tabs{margin-top:0}
+  .panel{padding-top:14px}
+  .checks{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:1600px){ .wrap{max-width:1480px} .cases{grid-template-columns:repeat(4,minmax(0,1fr))!important} }
+`;
+(function () { const s = document.createElement('style'); s.textContent = HALL_CSS + RESP_CSS; document.head.appendChild(s); })();
 
 /* ===== Viện Thực Hành - TMC (Trực Tứ Chẩn): logic trò chơi và ngân hàng ca mở ===== */
 const $ = s => document.querySelector(s);
@@ -522,7 +567,7 @@ function home() {
   </div>
   <div class="tools">
     <select id="grp" aria-label="Chuyên khoa"><option value="">Chuyên khoa</option>${Object.keys(GROUPS).filter(g => counts[g]).map(g => `<option value="${g}" ${HS.group === g ? 'selected' : ''}>${esc(GROUPS[g])} (${counts[g]})</option>`).join('')}</select>
-    <input id="q" class="search" type="search" placeholder="Tìm triệu chứng, bệnh, tên" value="${esc(HS.q)}" aria-label="Tìm ca">
+    <input id="q" class="search" type="search" placeholder="Tìm ca bệnh" value="${esc(HS.q)}" aria-label="Tìm ca">
   </div>
   <div class="cases" id="caselist"></div>
   <details class="manage" id="manage" ${HS.open ? 'open' : ''}>
@@ -685,13 +730,15 @@ function draw() {
   const sc = st < 35 ? 'c' : st < 60 ? 'w' : '';
   $('#play').innerHTML = `
   <div class="top"><button class="iconbtn" data-home>Thoát</button><h2>${esc(c.title)}</h2><span class="clock">T+${S.t} phút</span></div>
+  <div class="pl"><div class="pl-l">
   <div class="stage">${scene()}${mon()}</div>
   <div class="place"><span>${esc(c.place || SETTINGS[c.setting])}</span><span class="mono">${nowStr()}${isNight() ? ' · Trực đêm' : ''}</span></div>
-  ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="tools" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
+  ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>
+  </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
-  <div class="panel">${panel()}</div>`;
+  <div class="panel">${panel()}</div></div></div>`;
   scrollTo(0, y);
 }
 
@@ -834,3 +881,5 @@ home();
 initCaps();
 
 </script>
+
+</body></html>
