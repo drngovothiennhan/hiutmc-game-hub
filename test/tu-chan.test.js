@@ -39,3 +39,10 @@ test('Vien Thuc Hanh page declares doctype and a mobile viewport so phones do no
   assert.match(html, /<meta name="viewport" content="width=device-width,initial-scale=1/);
   assert.match(html, /min-width:980px/);
 });
+
+test('Case bank management is hidden unless the member is verified as admin', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /id="manage" \$\{ADMIN \? '' : 'hidden'\}/);
+  assert.match(html, /garden_hub_current_member_role_v1/);
+  assert.match(html, /=== 'admin'\) setAdmin\(true\)/);
+});

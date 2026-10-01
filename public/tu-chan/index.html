@@ -528,7 +528,19 @@ let S = null;
 const BASE = (() => { try { return JSON.parse($('#bank-data').textContent); } catch (e) { return []; } })();
 let LOCAL = lsGet('tuchan-local-bank', []);
 let SHARED = {};
-let DB = null, CAN_SHARE = false, UID = null;
+let DB = null, CAN_SHARE = false, UID = null, ADMIN = false;
+function setAdmin(v) { ADMIN = !!v; const m = document.getElementById('manage'); if (m) m.hidden = !ADMIN; }
+/* Quản lý ngân hàng ca chỉ hiện cho quản trị: chủ trang trong Claude, hoặc tài khoản có vai trò admin trên Game Hub (kiểm tra bằng máy chủ). */
+async function initHubAdmin() {
+  try {
+    const s = JSON.parse(localStorage.getItem('hiutmc-member-session-v1') || 'null');
+    if (!s || !s.accessToken) return;
+    const r = await fetch('https://gzmpnsrwqjpsbklyflqr.supabase.co/rest/v1/rpc/garden_hub_current_member_role_v1', { method: 'POST', headers: { apikey: 'sb_publishable_Y4hMhXROZ-aVgWoaQ5fFKQ_ZAcXuIzG', Authorization: 'Bearer ' + s.accessToken, 'Content-Type': 'application/json', Accept: 'application/json' }, body: '{}', cache: 'no-store', signal: AbortSignal.timeout(8000) });
+    if (!r.ok) return;
+    const p = await r.json().catch(() => []); const row = Array.isArray(p) ? p[0] : p;
+    if (String((row && row.role) || '').trim().toLowerCase() === 'admin') setAdmin(true);
+  } catch (e) { }
+}
 const HUB = (() => { const p = location.pathname, i = p.indexOf('/tu-chan/'); return i < 0 ? '' : p.slice(0, i + 1); })();
 const HS = { n: 6, group: '', mode: '', q: '', pending: null };
 
@@ -570,7 +582,7 @@ function home() {
     <input id="q" class="search" type="search" placeholder="Tìm ca bệnh" value="${esc(HS.q)}" aria-label="Tìm ca">
   </div>
   <div class="cases" id="caselist"></div>
-  <details class="manage" id="manage" ${HS.open ? 'open' : ''}>
+  <details class="manage" id="manage" ${ADMIN ? '' : 'hidden'} ${HS.open ? 'open' : ''}>
     <summary>Quản lý ngân hàng ca</summary>
     <div class="manage-body">
       <p class="muted">Dán JSON một ca hoặc một mảng ca (từ ChatGPT hoặc Claude), hoặc chọn tệp .json. Ca được kiểm tra tự động trước khi lưu.</p>
@@ -682,6 +694,7 @@ async function initCaps() {
       if (!$('#home').hidden) { const hb = $('[data-saves]'); if (hb) hb.hidden = !CAN_SHARE; renderList(); renderMine(); }
     }, () => { });
     const hb = $('[data-saves]'); if (hb) hb.hidden = !CAN_SHARE;
+    if (CAN_SHARE) setAdmin(true);
   } catch (e) { }
 }
 
@@ -879,6 +892,7 @@ document.addEventListener('input', e => { if (e.target.id === 'q') { HS.q = e.ta
 document.addEventListener('change', e => { if (e.target.id === 'grp') { HS.group = e.target.value; HS.n = 6; renderList(); } });
 home();
 initCaps();
+initHubAdmin();
 
 </script>
 
