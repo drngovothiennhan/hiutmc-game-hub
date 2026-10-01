@@ -32,3 +32,10 @@ test('Vien Thuc Hanh card uses its own action label and a unique bank', async ()
   const ids = bank.map(c => c.id);
   assert.equal(new Set(ids).size, ids.length, 'case ids must be unique');
 });
+
+test('Vien Thuc Hanh page declares doctype and a mobile viewport so phones do not shrink it', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /^<!doctype html>/i);
+  assert.match(html, /<meta name="viewport" content="width=device-width,initial-scale=1/);
+  assert.match(html, /min-width:980px/);
+});
