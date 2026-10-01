@@ -388,6 +388,84 @@ function scene() {
   return `<svg viewBox="0 0 400 300" role="img" aria-label="${esc(S.c.name)} tại ${esc(S.c.place || SETTINGS[S.c.setting])}">${f(n)}</svg>`;
 }
 
+/* Màn mở đầu: Viện Thực Hành - TMC (tranh vector, không cần ảnh ngoài) */
+function hallArt() {
+  const leaf = (x, y, r, c) => `<ellipse cx="${x}" cy="${y}" rx="3.2" ry="9" transform="rotate(${r} ${x} ${y})" fill="${c}"/>`;
+  const motes = [[60, 40, 0], [110, 22, 1.2], [300, 52, 0.6], [350, 30, 1.8], [250, 18, 2.4], [30, 80, 0.9]].map(([x, y, d]) => `<circle class="mote" style="animation-delay:${d}s" cx="${x}" cy="${y}" r="1.6" fill="#F3D98B"/>`).join('');
+  const stars = [[40, 18], [88, 10], [150, 14], [246, 8], [370, 14], [212, 22]].map(([x, y], i) => `<circle class="tw" style="animation-delay:${i * .5}s" cx="${x}" cy="${y}" r="1" fill="#fff"/>`).join('');
+  const lantern = x => `<g class="swing" style="transform-origin:${x}px 84px"><line x1="${x}" y1="84" x2="${x}" y2="92" stroke="#E8C26A" stroke-width="1.2"/><circle cx="${x}" cy="102" r="14" fill="#FF9A3C" opacity=".22"/><ellipse cx="${x}" cy="102" rx="7" ry="9" fill="#D9382A" stroke="#E8C26A" stroke-width="1"/><path d="M${x - 5} 95H${x + 5}M${x - 6} 102H${x + 6}M${x - 5} 109H${x + 5}" stroke="#F3D98B" stroke-width=".8" opacity=".7"/><rect x="${x - 4}" y="92" width="8" height="2.5" fill="#E8C26A"/><path d="M${x} 111v7" stroke="#E8C26A" stroke-width="1.2"/><circle cx="${x}" cy="119" r="1.6" fill="#E8C26A"/></g>`;
+  return `<svg class="hall-art" viewBox="0 0 400 156" role="img" aria-label="Cổng Viện Thực Hành TMC với đèn lồng, biểu tượng âm dương và cây thuốc">
+  <defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A2B25"/><stop offset=".6" stop-color="#145C4C"/><stop offset="1" stop-color="#1B7A62"/></linearGradient>
+  <radialGradient id="hm"><stop offset="0" stop-color="#FFF3C9"/><stop offset="1" stop-color="#FFF3C9" stop-opacity="0"/></radialGradient>
+  <radialGradient id="hd"><stop offset="0" stop-color="#FFD27A"/><stop offset="1" stop-color="#FF9A3C"/></radialGradient></defs>
+  <rect width="400" height="156" fill="url(#hs)"/>${stars}
+  <circle cx="332" cy="36" r="34" fill="url(#hm)" opacity=".55"/><circle cx="332" cy="36" r="15" fill="#FFF1C2"/><circle cx="337" cy="32" r="13" fill="#145C4C" opacity=".0"/>
+  <path d="M0 112L44 70L78 98L122 56L170 104L230 62L282 100L330 66L372 96L400 78V132H0Z" fill="#0F4A3D" opacity=".75"/>
+  <path d="M0 122L56 88L100 112L156 82L214 116L270 84L330 114L376 92L400 104V136H0Z" fill="#0B3A30"/>
+  <rect y="128" width="400" height="28" fill="#082A22"/><path d="M0 128H400" stroke="#E8C26A" stroke-width=".8" opacity=".5"/>
+  <path d="M160 156L182 128H218L240 156Z" fill="#E7D3A0"/><path d="M168 156L186 128M232 156L214 128" stroke="#C8A24A" stroke-width=".8" opacity=".6"/>
+  <g>
+   <rect x="110" y="122" width="180" height="6" fill="#BFA46A"/><rect x="120" y="118" width="160" height="5" fill="#D8C08A"/>
+   <rect x="136" y="84" width="128" height="34" fill="#F3E7C8"/>
+   <rect x="182" y="92" width="36" height="26" rx="2" fill="url(#hd)"/><rect x="199" y="92" width="2" height="26" fill="#8C3B1F"/><rect x="182" y="92" width="36" height="26" rx="2" fill="none" stroke="#7A2E20" stroke-width="2"/>
+   ${[142, 166, 228, 252].map(x => `<rect x="${x}" y="84" width="6" height="34" fill="#A33D2B"/><rect x="${x - 1}" y="116" width="8" height="3" fill="#7A2E20"/>`).join('')}
+   <rect x="132" y="79" width="136" height="6" fill="#7A2E20"/><path d="M132 82H268" stroke="#E8C26A" stroke-width="1"/>
+   <path d="M100 82Q124 80 140 66L260 66Q276 80 300 82Q200 72 100 82Z" fill="#1E4B41" stroke="#E8C26A" stroke-width="1.2"/>
+   <path d="M100 82Q96 80 92 74M300 82Q304 80 308 74" stroke="#E8C26A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+   <rect x="160" y="52" width="80" height="14" fill="#F3E7C8"/>
+   <rect x="176" y="55" width="48" height="9" rx="1.5" fill="#E8C26A" stroke="#7A2E20" stroke-width=".8"/>
+   <text x="200" y="62.2" text-anchor="middle" font-size="7.4" font-weight="800" fill="#7A2E20" font-family="Georgia,serif" letter-spacing=".6">HIU · TMC</text>
+   <path d="M148 54Q170 52 180 40L220 40Q230 52 252 54Q200 48 148 54Z" fill="#1E4B41" stroke="#E8C26A" stroke-width="1.2"/>
+   <path d="M148 54Q144 52 140 46M252 54Q256 52 260 46" stroke="#E8C26A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+  <g class="halo"><circle cx="200" cy="24" r="17" fill="#F3D98B" opacity=".18"/><circle cx="200" cy="24" r="12" fill="#fff" stroke="#E8C26A" stroke-width="1.6"/><path d="M200 12A12 12 0 0 1 200 36A6 6 0 0 1 200 24A6 6 0 0 0 200 12Z" fill="#14201C"/><circle cx="200" cy="18" r="1.7" fill="#14201C"/><circle cx="200" cy="30" r="1.7" fill="#fff"/></g>
+  ${lantern(118)}${lantern(282)}
+  <g><path d="M46 128C44 112 42 98 46 84M58 128C58 108 62 94 70 80M34 128C30 112 26 100 20 90" stroke="#3E8F6B" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+   ${leaf(46, 90, -20, '#58B88A')}${leaf(52, 104, 24, '#3E8F6B')}${leaf(43, 112, -26, '#58B88A')}${leaf(70, 84, 22, '#58B88A')}${leaf(62, 100, -20, '#3E8F6B')}${leaf(24, 94, -34, '#58B88A')}${leaf(30, 108, 18, '#3E8F6B')}
+   <rect x="28" y="124" width="36" height="6" rx="2" fill="#B5733A"/></g>
+  <g><rect x="346" y="60" width="2.4" height="70" fill="#E8C26A"/><path class="flag" d="M348 62H378V92H348Z" fill="#F7F0DC" stroke="#E8C26A" stroke-width="1"/><path d="M360 68h6v6h6v6h-6v6h-6v-6h-6v-6h6Z" fill="#D9382A"/><circle cx="347" cy="59" r="2.6" fill="#E8C26A"/></g>
+  <g fill="#E8C26A" opacity=".9"><path d="M92 140l3-5l3 5l-3 5z"/><path d="M302 140l3-5l3 5l-3 5z"/></g>${motes}
+  </svg>`;
+}
+const HALL_CSS = `
+.hall{border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#145C4C,#0A2B25 70%);color:#F6EBCB;border:1.5px solid #C8A24A;box-shadow:0 0 0 3px #0A2B25,0 0 0 4.5px #C8A24A66,0 14px 28px -14px #000;position:relative}
+.hall-art{display:block;width:100%;height:auto}
+.hall-txt{padding:12px 16px 16px;text-align:center;position:relative;background:linear-gradient(180deg,#082A22,#0A2B25)}
+.hall-txt .orn{display:flex;align-items:center;justify-content:center;gap:8px;color:#E8C26A;font-size:11px;letter-spacing:.2em;font-weight:700}
+.hall-txt .orn i{height:1px;width:34px;background:linear-gradient(90deg,transparent,#E8C26A)} .hall-txt .orn i:last-child{transform:scaleX(-1)}
+.hall h1{font-size:25px;letter-spacing:.05em;color:#FBE9B7;margin:6px 0 2px;text-shadow:0 2px 10px #00000066}
+.hall h1 small{display:block;font-size:13px;letter-spacing:.32em;color:#E8C26A;margin-top:3px;font-family:var(--f-body);font-weight:700}
+.hall p{color:#CFE0D8;margin:8px auto 0;max-width:44ch;font-size:13.5px}
+.stats{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.stat{background:#ffffff12;border:1px solid #E8C26A66;border-radius:10px;padding:5px 12px;min-width:76px}
+.stat b{display:block;font-family:var(--f-mono);font-size:19px;color:#FBE9B7;line-height:1.2}.stat span{font-size:11px;color:#CFE0D8}
+.hubback{position:absolute;left:10px;top:8px;font-size:12px;color:#F6EBCB;background:#0A2B2599;border:1px solid #E8C26A66;border-radius:999px;padding:3px 10px;text-decoration:none;z-index:2}
+.wings{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.wing{display:grid;grid-template-columns:auto 1fr;gap:1px 10px;align-items:center;align-content:center;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;color:var(--ink);cursor:pointer}
+.wing .wi{grid-row:1/3;width:38px;height:38px;border-radius:10px;display:grid;place-items:center}
+.wing b{font-family:var(--f-display);font-size:14px;line-height:1.2;align-self:end}.wing span:not(.wi){font-size:11.5px;color:var(--muted);line-height:1.3;align-self:start}
+.wing.er .wi{background:var(--alert-soft);color:var(--alert)}.wing.dg .wi{background:var(--jade-soft);color:var(--jade)}
+.wing[aria-pressed="true"].er{border-color:var(--alert);box-shadow:0 0 0 2px var(--alert-soft)}
+.wing[aria-pressed="true"].dg{border-color:var(--jade);box-shadow:0 0 0 2px var(--jade-soft)}
+.tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:12px}
+.tools select{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 8px;font:inherit;font-size:14px;min-width:0}
+.cases{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))!important;gap:8px!important}
+.case{display:block!important;position:relative;padding:10px 12px 10px 15px!important;border-radius:10px!important;overflow:hidden}
+.case::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--jade)} .case.er::before{background:var(--alert)}
+.case h3{font-size:14.5px!important;line-height:1.3;padding-right:46px}
+.case .done{position:absolute;right:10px;top:9px;font-size:12px!important}
+.case .sub{font-size:12px;color:var(--muted);margin-top:3px}
+.case .meta{margin-top:6px!important;gap:5px!important}
+.more{display:block;margin:12px auto 0}
+@keyframes sway{50%{transform:rotate(5deg)}}.swing{animation:sway 3.6s ease-in-out infinite;transform-box:view-box}
+@keyframes tw{50%{opacity:.2}}.tw{animation:tw 3s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-6px);opacity:.4}}.mote{animation:fl 4s ease-in-out infinite}
+@keyframes hl{50%{opacity:.6}}.halo{animation:hl 3.2s ease-in-out infinite}
+@keyframes fg{50%{transform:skewY(3deg)}}.flag{animation:fg 2.6s ease-in-out infinite;transform-origin:348px 62px;transform-box:view-box}
+@media (prefers-reduced-motion:reduce){.swing,.tw,.mote,.halo,.flag{animation:none!important}}
+`;
+(function () { const s = document.createElement('style'); s.textContent = HALL_CSS; document.head.appendChild(s); })();
+
 /* ===== Viện Thực Hành - TMC (Trực Tứ Chẩn): logic trò chơi và ngân hàng ca mở ===== */
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -407,7 +485,7 @@ let LOCAL = lsGet('tuchan-local-bank', []);
 let SHARED = {};
 let DB = null, CAN_SHARE = false, UID = null;
 const HUB = (() => { const p = location.pathname, i = p.indexOf('/tu-chan/'); return i < 0 ? '' : p.slice(0, i + 1); })();
-const HS = { group: '', mode: '', q: '', pending: null };
+const HS = { n: 6, group: '', mode: '', q: '', pending: null };
 
 function bank() {
   const m = new Map();
@@ -423,21 +501,29 @@ const clean = c => { const o = { ...c }; delete o.src; return o; };
 function home() {
   const all = bank(), counts = {};
   all.forEach(c => { counts[c.group || ''] = (counts[c.group || ''] || 0) + 1; });
+  const nT = all.filter(TAY).length, nD = all.length - nT;
+  const ico = {
+    er: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>',
+    dg: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c8 0 14-6 14-14C11 5 5 11 5 19Z"/><path d="M5 19 14 10"/></svg>' };
   $('#home').innerHTML = `
-  <div class="hero">
-    ${HUB ? `<p style="margin:0 0 8px"><a href="${esc(HUB)}">← Về Game Hub</a></p>` : ''}
-    <div class="eyebrow">Mô phỏng lâm sàng YHCT kết hợp Đông Tây y</div>
-    <h1>Viện Thực Hành - TMC</h1>
-    <p>Ca trực và cấp cứu: xử trí theo nội, ngoại khoa y đa khoa. Ca khám và châm cứu: biện chứng luận trị theo YHCT. Mỗi quyết định tốn thời gian, và ở phòng cấp cứu bệnh nhân không chờ bạn.</p>
+  <header class="hall">
+    ${HUB ? `<a class="hubback" href="${esc(HUB)}">← Game Hub</a>` : ''}
+    ${hallArt()}
+    <div class="hall-txt">
+      <div class="orn"><i></i>HIU TMC<i></i></div>
+      <h1>VIỆN THỰC HÀNH<small>TMC</small></h1>
+      <p>Làm bác sĩ trực và bác sĩ điều trị. Hỏi bệnh, khám, chỉ định cận lâm sàng, chẩn đoán và xử trí. Mỗi quyết định tốn thời gian.</p>
+      <div class="stats"><div class="stat"><b>${all.length}</b><span>ca bệnh</span></div><div class="stat"><b>${nT}</b><span>cấp cứu, trực</span></div><div class="stat"><b>${nD}</b><span>khám, châm cứu</span></div></div>
+    </div>
+  </header>
+  <div class="wings" role="group" aria-label="Chọn khu vực">
+    <button class="wing er" data-mode="tay" aria-pressed="${HS.mode === 'tay'}"><span class="wi">${ico.er}</span><b>Khoa Cấp cứu và Trực</b><span>Xử trí theo y đa khoa · ${nT} ca</span></button>
+    <button class="wing dg" data-mode="dong" aria-pressed="${HS.mode === 'dong'}"><span class="wi">${ico.dg}</span><b>Phòng Khám và Châm cứu</b><span>Luận trị theo YHCT · ${nD} ca</span></button>
   </div>
-  <div class="filters" role="group" aria-label="Lọc theo loại ca">
-    ${[['', 'Mọi loại', all.length], ['tay', 'Cấp cứu và trực · YHHĐ', all.filter(TAY).length], ['dong', 'Khám và châm cứu · YHCT', all.filter(c => !TAY(c)).length]].map(([k, n, v]) => `<button class="fchip" data-mode="${k}" aria-pressed="${HS.mode === k}">${n} <span class="mono">${v}</span></button>`).join('')}
+  <div class="tools">
+    <select id="grp" aria-label="Chuyên khoa"><option value="">Chuyên khoa</option>${Object.keys(GROUPS).filter(g => counts[g]).map(g => `<option value="${g}" ${HS.group === g ? 'selected' : ''}>${esc(GROUPS[g])} (${counts[g]})</option>`).join('')}</select>
+    <input id="q" class="search" type="search" placeholder="Tìm triệu chứng, bệnh, tên" value="${esc(HS.q)}" aria-label="Tìm ca">
   </div>
-  <div class="filters" role="group" aria-label="Lọc theo nhóm">
-    <button class="fchip" data-group="" aria-pressed="${HS.group === ''}">Tất cả <span class="mono">${all.length}</span></button>
-    ${Object.keys(GROUPS).filter(g => counts[g]).map(g => `<button class="fchip" data-group="${g}" aria-pressed="${HS.group === g}">${esc(GROUPS[g])} <span class="mono">${counts[g]}</span></button>`).join('')}
-  </div>
-  <input id="q" class="search" type="search" placeholder="Tìm theo triệu chứng, bệnh, tên bệnh nhân" value="${esc(HS.q)}" aria-label="Tìm ca">
   <div class="cases" id="caselist"></div>
   <details class="manage" id="manage" ${HS.open ? 'open' : ''}>
     <summary>Quản lý ngân hàng ca</summary>
@@ -457,7 +543,7 @@ function home() {
       <p class="muted" style="font-size:12px">Ca lưu riêng nằm trong trình duyệt của bạn. Ca chia sẻ cho cả lớp cần trang được chia sẻ với quyền Contributor trở lên. Ca có sẵn do người quản trị cập nhật.</p>
     </div>
   </details>
-  <p class="note">Các ca là tình huống mô phỏng cho học tập, cần giảng viên thẩm định trước khi dùng giảng dạy chính thức. Không dùng để quyết định điều trị cho người bệnh thật.</p>`;
+  <p class="note">Các ca chưa ghi "Đã duyệt" là bản nháp. Đây là tình huống mô phỏng cho học tập, cần giảng viên thẩm định trước khi dùng giảng dạy chính thức. Không dùng để quyết định điều trị cho người bệnh thật.</p>`;
   renderList(); renderMine(); show('home');
 }
 
@@ -466,20 +552,20 @@ function renderList() {
   const b = best(), q = HS.q.trim().toLowerCase();
   const items = bank().filter(c => (!HS.group || c.group === HS.group) && (!HS.mode || (HS.mode === 'tay') === TAY(c)) && (!q || [c.title, c.name, c.kind, c.teach, (c.opt && c.opt.ydx || []).join(' '), (c.opt && c.opt.bd || []).join(' ')].join(' ').toLowerCase().includes(q)));
   if (!items.length) { el.innerHTML = '<p class="muted">Không có ca phù hợp.</p>'; return; }
-  el.innerHTML = items.map(c => `
-    <button class="case" data-start="${esc(c.id)}">
+  const shown = items.slice(0, HS.n);
+  el.innerHTML = shown.map(c => `
+    <button class="case ${TAY(c) ? 'er' : ''}" data-start="${esc(c.id)}">
       <h3>${esc(c.title)}</h3>
       <div class="done">${b[c.id] != null ? b[c.id] + '/100' : ''}</div>
+      <div class="sub">${esc(c.name)}, ${c.age} tuổi · ${esc(SETTINGS[c.setting] || c.setting)}</div>
       <div class="meta">
-        <span class="chip ${c.setting === 'capcuu' ? 'er' : ''}">${esc(SETTINGS[c.setting] || c.setting)}</span>
-        <span class="chip neutral">${TAY(c) ? 'Trực · YHHĐ' : 'Khám · YHCT'}</span>
+        <span class="chip ${TAY(c) ? 'er' : ''}">${TAY(c) ? 'Trực · YHHĐ' : 'Khám · YHCT'}</span>
         <span class="chip neutral">${esc(c.kind)}</span>
-        <span class="chip neutral">Mức ${esc(c.level)}</span>
-        <span class="chip neutral">${esc(c.name)}, ${c.age} tuổi</span>
-        ${c.status === 'reviewed' ? '<span class="chip">Đã duyệt</span>' : '<span class="chip neutral">Bản nháp chờ thẩm định</span>'}
+        <span class="chip neutral">${esc(c.level)}</span>
+        ${c.status === 'reviewed' ? '<span class="chip">Đã duyệt</span>' : ''}
         ${c.src === 'local' ? '<span class="chip neutral">Của tôi</span>' : c.src === 'class' ? '<span class="chip neutral">Của lớp</span>' : ''}
       </div>
-    </button>`).join('');
+    </button>`).join('') + (items.length > shown.length ? `<button class="btn ghost more" data-more style="grid-column:1/-1">Xem thêm ${Math.min(6, items.length - shown.length)} ca (còn ${items.length - shown.length})</button>` : '');
 }
 
 function renderMine() {
@@ -601,7 +687,7 @@ function draw() {
   <div class="top"><button class="iconbtn" data-home>Thoát</button><h2>${esc(c.title)}</h2><span class="clock">T+${S.t} phút</span></div>
   <div class="stage">${scene()}${mon()}</div>
   <div class="place"><span>${esc(c.place || SETTINGS[c.setting])}</span><span class="mono">${nowStr()}${isNight() ? ' · Trực đêm' : ''}</span></div>
-  ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
+  ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="tools" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
@@ -701,7 +787,8 @@ document.addEventListener('click', e => {
   const d = b.dataset;
   if (d.start !== undefined) return start(d.start);
   if (b.hasAttribute('data-home')) { S = null; return home(); }
-  if (d.mode !== undefined) { HS.mode = d.mode; HS.open = $('#manage') && $('#manage').open; return home(); }
+  if (d.mode !== undefined) { HS.mode = HS.mode === d.mode ? '' : d.mode; HS.n = 6; HS.open = $('#manage') && $('#manage').open; return home(); }
+  if (b.hasAttribute('data-more')) { HS.n += 6; return renderList(); }
   if (d.group !== undefined) { HS.group = d.group; HS.open = $('#manage') && $('#manage').open; return home(); }
   if (b.hasAttribute('data-chk')) return checkImport();
   if (b.hasAttribute('data-savel')) return saveImport('local');
@@ -741,7 +828,8 @@ document.addEventListener('change', e => {
   if (t.dataset.sel) S.ans[t.dataset.sel] = t.value;
   if (t.dataset.hu !== undefined) { const j = +t.dataset.hu, h = S.ans.huyet; if (t.checked) { if (!h.includes(j)) h.push(j); } else S.ans.huyet = h.filter(x => x !== j); }
 });
-document.addEventListener('input', e => { if (e.target.id === 'q') { HS.q = e.target.value; renderList(); } });
+document.addEventListener('input', e => { if (e.target.id === 'q') { HS.q = e.target.value; HS.n = 6; renderList(); } });
+document.addEventListener('change', e => { if (e.target.id === 'grp') { HS.group = e.target.value; HS.n = 6; renderList(); } });
 home();
 initCaps();
 
