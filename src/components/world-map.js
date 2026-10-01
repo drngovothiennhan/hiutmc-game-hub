@@ -18,7 +18,7 @@ function placeCard(place, session, entitlement, authenticated) {
       : lockedContinuation ? pending ? 'Đang xác minh quyền vào' : 'Sẵn sàng sau xác minh thành viên' : 'Sắp mở';
   const href = live ? place.href : isLaunchable(place) ? buildLegacySsoUrl(place.href, session) : '';
   const action = live
-    ? `<a class="place-action" href="${escapeHtml(href)}">Vào HIU Y Quán <span aria-hidden="true">→</span></a>`
+    ? `<a class="place-action" href="${escapeHtml(href)}">${escapeHtml(place.actionLabel || 'Vào HIU Y Quán')} <span aria-hidden="true">→</span></a>`
     : isLaunchable(place)
     ? `<a class="place-action" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">Mở runtime Study OS <span aria-hidden="true">↗</span></a>`
     : continuationUnlocked
