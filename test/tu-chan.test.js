@@ -8,8 +8,9 @@ test('Vien Thuc Hanh is its own hub and is no longer listed inside the Game Hub 
   const map = await read('../src/data/world-map.js');
   assert.doesNotMatch(map, /four-diagnosis/);
   const hub = await read('../public/vien-thuc-hanh/index.html');
-  assert.match(hub, /href="\.\.\/phong-hoc\/"/);
-  assert.match(hub, /href="\.\.\/tu-chan\/"/);
+  assert.match(hub, /href="\/phong-hoc\/"/);
+  assert.match(hub, /href="\/tu-chan\/"/);
+  assert.doesNotMatch(hub + (await read('../public/phong-hoc/index.html')).slice(0, 200000), /href="\.\.\//, 'relative ../ links break behind the Eco <base> tag');
 });
 
 test('Tu Chan page embeds the case bank and does not need a network or secret', async () => {

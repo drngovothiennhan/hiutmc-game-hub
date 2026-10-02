@@ -70,7 +70,7 @@ a:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
   <g><rect x="346" y="60" width="2.4" height="70" fill="#E8C26A"/><path class="flag" d="M348 62H378V92H348Z" fill="#F7F0DC" stroke="#E8C26A" stroke-width="1"/><path d="M360 68h6v6h6v6h-6v6h-6v-6h-6v-6h6Z" fill="#D9382A"/><circle cx="347" cy="59" r="2.6" fill="#E8C26A"/></g>
   <g fill="#E8C26A" opacity=".9"><path d="M92 140l3-5l3 5l-3 5z"/><path d="M302 140l3-5l3 5l-3 5z"/></g><circle class="mote" style="animation-delay:0s" cx="60" cy="40" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:1.2s" cx="110" cy="22" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:0.6s" cx="300" cy="52" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:1.8s" cx="350" cy="30" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:2.4s" cx="250" cy="18" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:0.9s" cx="30" cy="80" r="1.6" fill="#F3D98B"/>
   </svg>
-<a class="back" href="/">‹ Trang chủ</a>
+<a class="back" id="back" href="https://hiutmc.com/">‹ Trang chủ</a>
 </div>
 <div class="head">
 <div class="eyebrow">HIU TMC</div>
@@ -78,15 +78,16 @@ a:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
 <div class="sub">Học, thi rồi vào trực. Cùng một ngân hàng ca.</div>
 </div>
 <div class="choices">
-<a class="card learn" href="../phong-hoc/"><span class="k">BƯỚC 1 · 2</span><h2>Mô phỏng học thi lâm sàng</h2><p>Học theo bệnh án mẫu, rồi thi vấn đáp trắc nghiệm.</p><span class="go">Vào học và thi</span></a>
-<a class="card duty" href="../tu-chan/"><span class="k">BƯỚC 3</span><h2>Trực ở Viện Thực Hành</h2><p>Gặp bệnh nhân mô phỏng: khám, xét nghiệm, xử trí.</p><span class="go">Vào trực</span></a>
+<a class="card learn" href="/phong-hoc/"><span class="k">BƯỚC 1 · 2</span><h2>Mô phỏng học thi lâm sàng</h2><p>Học theo bệnh án mẫu, rồi thi vấn đáp trắc nghiệm.</p><span class="go">Vào học và thi</span></a>
+<a class="card duty" href="/tu-chan/"><span class="k">BƯỚC 3</span><h2>Trực ở Viện Thực Hành</h2><p>Gặp bệnh nhân mô phỏng: khám, xét nghiệm, xử trí.</p><span class="go">Vào trực</span></a>
 </div>
 <div class="flow"><span>Học</span><i>›</i><span>Thi</span><i>›</i><span>Trực</span></div>
 <nav class="tracks" aria-label="Chọn mục">
-<a class="t" href="../phong-hoc/?muc=noi"><b>Nội</b><span>Y học hiện đại</span></a>
-<a class="t" href="../phong-hoc/?muc=ngoai"><b>Ngoại</b><span>Y học hiện đại</span></a>
-<a class="t" href="../phong-hoc/?muc=yhct"><b>Y học cổ truyền</b><span>Đông – Tây y kết hợp</span></a>
+<a class="t" href="/phong-hoc/?muc=noi"><b>Nội</b><span>Y học hiện đại</span></a>
+<a class="t" href="/phong-hoc/?muc=ngoai"><b>Ngoại</b><span>Y học hiện đại</span></a>
+<a class="t" href="/phong-hoc/?muc=yhct"><b>Y học cổ truyền</b><span>Đông – Tây y kết hợp</span></a>
 </nav>
 </div>
+<script>document.getElementById("back").href=location.origin+"/";</script>
 </body>
 </html>
