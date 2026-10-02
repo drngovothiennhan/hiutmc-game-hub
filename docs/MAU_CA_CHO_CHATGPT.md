@@ -20,9 +20,9 @@ Yêu cầu:
 3. Không dùng tên, địa chỉ hay chi tiết của người thật.
 4. Nếu không chắc một chi tiết chuyên môn, ghi vào `can_doi_chieu` thay vì đoán.
 5. Mục Nội và Ngoại: bỏ hẳn các khóa YHCT (`bd`, `bc`, `the`, `phap`, `phuong`, `huyet`) và các dòng khám có mã V, M, T. Mục YHCT: bắt buộc có đủ.
-6. Mỗi câu hỏi bệnh sử/khám có cờ: `e` = thiết yếu, `n` = trung tính. Xét nghiệm có cờ `e` (nên làm), `n` (trung tính), `w` (lãng phí/không có chỉ định). Đáp án đúng trong `opt` đặt dấu `+` ở đầu; đáp án đúng một phần dùng `~`.
+6. Mỗi câu hỏi bệnh sử/khám có cờ: `e` = thiết yếu, `n` = trung tính. Mỗi xét nghiệm dùng cấu trúc `[tên, số_phút_mô_phỏng, kết_quả, cờ]`; số thứ hai là **thời gian mô phỏng thực sự được trừ trong ca**, không phải chi phí tiền. Cờ xét nghiệm: `e` (thiết yếu/nên làm), `n` (hợp lý nhưng không bắt buộc), `w` (lãng phí/không có chỉ định). Đáp án đúng trong `opt` đặt dấu `+` ở đầu; đáp án đúng một phần dùng `~`.
 7. Mỗi nhóm lựa chọn có 4 đáp án (riêng `phuong`, `huyet` có thể nhiều hơn, nhiều đáp án đúng).
-8. Trả về **một mảng JSON duy nhất**, không thêm chữ nào bên ngoài.
+8. `actions` dùng dạng `"++|+|-|!Tên hành động|số_phút_mô_phỏng|lý do"`; số phút cũng làm trôi thời gian ca. `++` = bắt buộc/ưu tiên cao, `+` = đúng, `-` = thừa/ít giá trị, `!` = nguy hại.\n9. Trả về **một mảng JSON duy nhất**, không thêm chữ nào bên ngoài.
 
 Mẫu một ca:
 
@@ -47,13 +47,20 @@ Mẫu một ca:
   "actions": ["+Hướng dẫn ăn chín, ấm, chia nhỏ bữa|2|Giải thích ngắn tại sao đúng."],
   "teach": "Bài học chính của ca trong 2 đến 3 câu.",
   "hbu": {
+    "hanh_chinh": "...",
     "ly_do_vao_vien": "...",
     "benh_su": "...",
     "tien_su": "...",
+    "luoc_qua_co_quan": "...",
+    "kham_hien_tai": "...",
+    "can_lam_sang": "...",
     "tom_tat": "...",
+    "dat_van_de": "...",
+    "chan_doan_so_bo": "...",
     "bien_luan": "...",
     "sinh_ly_benh": "...",
     "chan_doan_phan_biet": "...",
+    "chan_doan_xac_dinh": "...",
     "dieu_tri": "...",
     "tien_luong": "...",
     "du_phong": "..."
