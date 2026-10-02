@@ -105,7 +105,7 @@ details summary{cursor:pointer;font-weight:600}
 
 <div class="wrap">
   <header class="top">
-    <div class="crumb"><a href="../vien-thuc-hanh/" style="color:inherit">‹ HIU TMC · Viện Thực Hành</a></div>
+    <div class="crumb"><a href="/vien-thuc-hanh/" style="color:inherit">‹ HIU TMC · Viện Thực Hành</a></div>
     <h1>Phòng học lâm sàng</h1>
     <span class="demo">Bản thử · 40 ca của Viện Thực Hành + 1 ca mẫu · luyện phản xạ, chưa đối chiếu nguồn, chưa duyệt chuyên môn</span>
   </header>
@@ -240,7 +240,7 @@ function learnList(){
   $("#panel").innerHTML=`<section class="card"><div class="code">Chọn bệnh án</div><h2>Học theo bệnh án</h2>${trackChips()}
   <div class="list">${list.map(d=>`<button class="q" data-v="lcase" data-id="${esc(d.id)}" type="button"><span><b>${esc(d.title)}</b></span><span class="a" style="display:block;color:var(--muted);font-size:13px">${esc(TRACKS[d.track])} · ${esc(d.level)}${d.id==="demo"?" · học đủ các mục bệnh án":""}</span></button>`).join("")}</div>
   ${list.length?"":`<div class="lock">Mục này chưa có ca. Ca mới đang được bổ sung.</div>`}
-  <a class="btn ghost" href="../tu-chan/" style="text-align:center;text-decoration:none">Học xong? Vào trực ở Viện Thực Hành</a></section>`;
+  <a class="btn ghost" href="/tu-chan/" style="text-align:center;text-decoration:none">Học xong? Vào trực ở Viện Thực Hành</a></section>`;
 }
 const HBU_SECS=[["tom_tat","Tóm tắt bệnh án"],["dat_van_de","Đặt vấn đề"],["chan_doan_so_bo","Chẩn đoán sơ bộ"],["bien_luan","Biện luận"],["sinh_ly_benh","Sinh lý bệnh"],["chan_doan_phan_biet","Chẩn đoán phân biệt"],["chan_doan_xac_dinh","Chẩn đoán xác định"],["dieu_tri","Điều trị"],["tien_luong","Tiên lượng"],["du_phong","Dự phòng"]];
 function hbuBlock(c){
