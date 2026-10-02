@@ -1,13 +1,13 @@
 const BASE = new URL(self.registration.scope).pathname;
 const CACHE_PREFIX = 'hiutmc-game-hub-shell-' + encodeURIComponent(BASE);
-const CACHE_NAME = CACHE_PREFIX + '-v6';
+const CACHE_NAME = CACHE_PREFIX + '-v7';
 const CORE = [
   '/', '/manifest.webmanifest', '/service-worker.js', '/icons/game-hub.svg',
   '/assets/app.js', '/assets/app.css', '/src/styles.css', '/garden-decor-sprite.svg',
   '/y-quan-live/index.html', '/y-quan-live/game.js', '/y-quan-live/game.css',
   '/y-quan-live/interview/index.html', '/y-quan-live/interview/app.js',
   '/y-quan-live/interview/interview.css',
-  '/tu-chan/index.html'
+  '/tu-chan/index.html', '/vien-thuc-hanh/index.html', '/phong-hoc/index.html'
 ];
 
 self.addEventListener('install', event => {
