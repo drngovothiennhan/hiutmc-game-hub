@@ -4,12 +4,12 @@ import { readFile } from 'node:fs/promises';
 
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 
-test('Vien Thuc Hanh - TMC is launched from the world map as its own self-contained game', async () => {
+test('Vien Thuc Hanh is its own hub and is no longer listed inside the Game Hub world map', async () => {
   const map = await read('../src/data/world-map.js');
-  const entry = map.match(/\{ id: 'four-diagnosis',[^\n]+/);
-  assert.ok(entry);
-  assert.match(entry[0], /state: 'available-live'/);
-  assert.match(entry[0], /href: '\/vien-thuc-hanh\/'/);
+  assert.doesNotMatch(map, /four-diagnosis/);
+  const hub = await read('../public/vien-thuc-hanh/index.html');
+  assert.match(hub, /href="\.\.\/phong-hoc\/"/);
+  assert.match(hub, /href="\.\.\/tu-chan\/"/);
 });
 
 test('Tu Chan page embeds the case bank and does not need a network or secret', async () => {
@@ -23,11 +23,8 @@ test('Tu Chan page embeds the case bank and does not need a network or secret', 
   assert.doesNotMatch(html, /service[_-]?role|secret|password/i);
 });
 
-test('Vien Thuc Hanh card uses its own action label and a unique bank', async () => {
+test('Vien Thuc Hanh bank has unique case ids', async () => {
   const html = await read('../public/tu-chan/index.html');
-  const map = await read('../src/data/world-map.js');
-  assert.match(map, /title: 'VIỆN THỰC HÀNH - TMC'/);
-  assert.match(map, /actionLabel: 'Vào Viện Thực Hành'/);
   const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
   const ids = bank.map(c => c.id);
   assert.equal(new Set(ids).size, ids.length, 'case ids must be unique');
@@ -58,9 +55,9 @@ test('Duty rooms: random server-issued cases and EXP wired to the shared Y Quan 
   assert.match(sql, /tu_chan_shifts_one_open_idx/);
 });
 
-test('Catalog seeded on the server matches the embedded bank: 40 cases, 20 per room', async () => {
+test('Catalog seeded on the server matches the reviewed bank: 40 cases, 20 per room (draft cases wait for admin sync)', async () => {
   const html = await read('../public/tu-chan/index.html');
-  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]).filter(c => c.status !== 'nhap');
   assert.equal(bank.length, 40);
   const room = c => (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham';
   assert.equal(bank.filter(c => room(c) === 'capcuu').length, 20);
