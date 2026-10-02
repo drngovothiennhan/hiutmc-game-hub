@@ -107,7 +107,6 @@ details summary{cursor:pointer;font-weight:600}
   <header class="top">
     <div class="crumb"><a href="/vien-thuc-hanh/" style="color:inherit">‹ HIU TMC · Viện Thực Hành</a></div>
     <h1>Phòng học lâm sàng</h1>
-    <span class="demo">Bản thử · 40 ca của Viện Thực Hành + 1 ca mẫu · luyện phản xạ, chưa đối chiếu nguồn, chưa duyệt chuyên môn</span>
   </header>
 
   <div class="bar">
@@ -247,7 +246,7 @@ function hbuBlock(c){
   if(!c.hbu) return "";
   const body=HBU_SECS.filter(x=>c.hbu[x[0]]).map(x=>`<h3>${x[1]}</h3><p style="margin:0 0 8px">${esc(c.hbu[x[0]])}</p>`).join("");
   const src=(c.nguon&&c.nguon.length)?`<p style="margin:8px 0 0;color:var(--muted);font-size:13px">Nguồn tham khảo: ${c.nguon.map(esc).join(" ; ")}</p>`:"";
-  return `<div class="why"><h3 style="margin-top:0">Phân tích theo mẫu bệnh án</h3>${body}${src}<p style="margin:8px 0 0;color:var(--muted);font-size:13px">Ca mô phỏng tự soạn để luyện phản xạ, chưa duyệt chuyên môn.</p></div>`;
+  return `<div class="why"><h3 style="margin-top:0">Phân tích theo mẫu bệnh án</h3>${body}${src}</div>`;
 }
 function bankStudy(def){
   const c=BANK.find(x=>x.id===def.id), yh=trackOf(c)==="yhct"; S.view="bank"; $("#steps").hidden=true;
@@ -278,7 +277,7 @@ function render(){
   else if(st.type==="pick3") body=renderPick3(st);
   else body=renderFinal(st);
   const first=S.cur===0, last=S.cur===STEPS.length-1;
-  $("#panel").innerHTML = `<section class="card"><button class="btn ghost" data-v="lback" type="button">‹ Danh sách ca</button>${head}${S.cur===0?`<div class="intro"><b>Ca mẫu: Đau thượng vị cấp sau bữa nhậu.</b> ${esc(CASE.intro)}</div><div class="vitals">${CASE.vitals.map(v=>`<div>${esc(v[0])}<b>${esc(v[1])}</b>${esc(v[2])}</div>`).join("")}</div>`:""}${body}${whyBlock(st)}
+  $("#panel").innerHTML = `<section class="card"><button class="btn ghost" data-v="lback" type="button">‹ Danh sách ca</button>${head}${S.cur===0?`<div class="intro"><b>Đau thượng vị cấp sau bữa nhậu.</b> ${esc(CASE.intro)}</div><div class="vitals">${CASE.vitals.map(v=>`<div>${esc(v[0])}<b>${esc(v[1])}</b>${esc(v[2])}</div>`).join("")}</div>`:""}${body}${whyBlock(st)}
     <div class="nav"><button class="btn ghost" data-nav="-1" ${first?"disabled":""} type="button">Mục trước</button>${last?`<button class="btn" id="submit" type="button">${S.mode==="exam"&&!S.submitted?"Nộp bài":"Xem điểm tự đánh giá"}</button>`:`<button class="btn" data-nav="1" type="button">Mục tiếp</button>`}</div></section>`;
 }
 function renderAsk(st){
@@ -502,15 +501,14 @@ function setupBlock(def){
   <ul class="tight"><li>Đọc bệnh án tối thiểu <b>2 phút</b>, tối đa <b>5 phút</b>; hết 2 phút bạn tự quyết định vào thi.</li>
   <li>Giám khảo hỏi trắc nghiệm theo thứ tự các mục, mỗi câu 4 đáp án, <b>${V.n} câu = ${V.n} phút</b>. Không quay lại câu trước.</li>
   <li>Ca này có ${pn} câu trong ngân hàng; mỗi lượt rút ngẫu nhiên, câu chưa gặp được ưu tiên.</li></ul>
-  ${def.id==="demo"?"":`<span style="color:var(--muted);font-size:13px">Ca luyện phản xạ, soạn theo giáo trình chung, chưa đối chiếu nguồn cụ thể.</span>`}</div>
+  ${def.id==="demo"?"":`<span style="color:var(--muted);font-size:13px">Ca mô phỏng để luyện phản xạ lâm sàng.</span>`}</div>
   <label class="check"><span>Số câu:</span><select id="v-n" aria-label="Số câu">${opts.map(x=>`<option value="${x}" ${x===V.n?"selected":""}>${x} câu · ${x} phút</option>`).join("")}</select></label>
   <label class="check"><input type="checkbox" id="v-closed" ${V.closed?"checked":""}><span>Đóng sách khi thi (bệnh án ẩn, giống thi thật)</span></label>
-  <label class="check"><input type="checkbox" id="v-fast" ${V.fast?"checked":""}><span>Chạy thử nhanh (đọc 10 giây, thi 3 phút) — chỉ để xem thử</span></label>
   <button class="btn" data-v="start" type="button">Vào phòng đọc bệnh án</button>`;
 }
 function vivaRead(){
   V.phase="read"; V.elapsed=0; clearInterval(V.timer);
-  const minS=V.fast?10:120, maxS=V.fast?30:300;
+  const minS=120, maxS=300;
   const draw=()=>{
     const btn=$("#v-go"), lab=$("#timer"); if(!btn) return;
     if(V.elapsed<minS){ lab.textContent="Đọc tối thiểu: còn "+mmss(minS-V.elapsed); btn.disabled=true; }
@@ -522,7 +520,7 @@ function vivaRead(){
 }
 function vivaStart(){
   clearInterval(V.timer);
-  V.phase="exam"; V.qs=drawQuestions(V.def,V.n); V.i=0; V.pickd=-1; V.ans=[]; V.left=V.fast?180:V.qs.length*60; V.total=V.left;
+  V.phase="exam"; V.qs=drawQuestions(V.def,V.n); V.i=0; V.pickd=-1; V.ans=[]; V.left=V.qs.length*60; V.total=V.left;
   V.timer=setInterval(()=>{ V.left--; $("#timer").textContent="Còn "+mmss(Math.max(0,V.left)); if(V.left<=0) vivaFinish(); },1000);
   $("#timer").textContent="Còn "+mmss(V.left); vivaQ();
 }
@@ -562,7 +560,7 @@ function vivaClick(t){
   if(a==="lreveal"){ S.lreveal=true; return bankStudy(CASEDEFS.find(x=>x.id===S.lid)); }
   if(a==="lback") return learnList();
   if(a==="case"){ V.def=CASEDEFS.find(d=>d.id===t.dataset.id); vivaPick(); const s=$("#v-n"); return s&&s.scrollIntoView({block:"center"}); }
-  if(a==="start"){ V.n=+$("#v-n").value; V.closed=$("#v-closed").checked; V.fast=$("#v-fast").checked; return vivaRead(); }
+  if(a==="start"){ V.n=+$("#v-n").value; V.closed=$("#v-closed").checked; return vivaRead(); }
   if(a==="go") return vivaStart();
   if(a==="opt"){ V.pickd=+t.dataset.k; return vivaQ(); }
   if(a==="next"){ V.ans[V.i]=V.pickd; V.pickd=-1; if(V.i>=V.qs.length-1) return vivaFinish(); V.i++; vivaQ(); return window.scrollTo({top:0}); }

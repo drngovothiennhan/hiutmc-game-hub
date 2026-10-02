@@ -24,6 +24,6 @@ Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng c
 
 ## Hub Viện Thực Hành Lâm Sàng (`/vien-thuc-hanh/`)
 - Cổng vào mới từ Game Hub: tranh cổng chào, hai lối vào ngang hàng: **Mô phỏng học thi lâm sàng** (`/phong-hoc/`, bước 1–2) và **Trực ở Viện Thực Hành** (`/tu-chan/`, bước 3). Lộ trình Học › Thi › Trực.
-- `/phong-hoc/`: chế độ Học (mẫu bệnh án nội, hiện có 1 ca mẫu) và Thi vấn đáp trắc nghiệm sinh từ ngân hàng 40 ca (không dùng AI, câu hỏi không lặp trong cùng máy). Bản thử, chưa duyệt chuyên môn.
+- `/phong-hoc/`: chế độ Học (mẫu bệnh án nội, hiện có 1 ca) và Thi vấn đáp trắc nghiệm sinh từ ngân hàng 40 ca (không dùng AI, câu hỏi không lặp trong cùng máy). Bản thử, chưa duyệt chuyên môn.
 - Quy ước ba mục: Nội và Ngoại chỉ có bệnh án y học hiện đại; chỉ Y học cổ truyền kết hợp Đông – Tây y trong một bệnh án. Việc xếp 40 ca vào ba mục và bổ sung đủ khoảng 100 ca là bước kế tiếp.
 - Chế độ học và thi chưa cộng EXP xếp hạng của game.
