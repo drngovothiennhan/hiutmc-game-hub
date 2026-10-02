@@ -677,7 +677,8 @@ function renderDoc() {
 async function regServer() {
   const out = $('#impout'); if (!out) return;
   try {
-    const n = await sbRpc('tu_chan_register_cases_v1', { p_cases: BASE.map(c => ({ id: c.id, room: TAY(c) ? 'capcuu' : 'kham', level: c.level })) });
+    const eligible = BASE.filter(c => c.status !== 'nhap');
+    const n = await sbRpc('tu_chan_register_cases_v1', { p_cases: eligible.map(c => ({ id: c.id, room: (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham', level: c.level, status: c.status || 'draft' })) });
     out.innerHTML = `<div class="rep ok">Đã đồng bộ ${n} ca lên máy chủ. Ca mới sẽ được phát ngẫu nhiên.</div>`;
   } catch (e) { out.innerHTML = `<div class="rep no">Chưa đồng bộ được: ${esc(e.message || 'lỗi')}. Cần tài khoản admin đang đăng nhập.</div>`; }
 }
