@@ -8,7 +8,7 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#082A22;color:#F6EBCB;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-size:15px;line-height:1.5}
-.wrap{max-width:560px;margin:0 auto;padding-bottom:40px}
+.wrap{max-width:560px;margin:0 auto;padding-bottom:28px}
 .art{position:relative;height:230px;overflow:hidden}
 .art svg{display:block;width:100%;height:100%}
 .back{position:absolute;left:14px;top:12px;font-size:13px;color:#F6EBCB;background:#0A2B2599;border:1px solid #E8C26A66;border-radius:99px;padding:6px 12px;text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
@@ -26,8 +26,8 @@ h1{margin:4px 0 0;font-family:'Noto Serif',Georgia,serif;font-size:28px;line-hei
 .duty{background:#145C4C;color:#F6EBCB}.duty .k{color:#E8C26A}.duty p{color:#CFE0D8}.duty .go{background:#C9A44C;color:#3A1017}
 .flow{margin-top:14px;display:flex;justify-content:center;gap:8px;font-weight:600;font-size:13px;color:#E8C26A}
 .flow i{font-style:normal;opacity:.6}
-.tracks{margin:12px 20px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.t{border:1px solid #E8C26A66;background:#ffffff12;border-radius:12px;padding:10px 8px;text-align:center}
+.tracks{margin:14px 20px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.t{border:1px solid #E8C26A66;background:#ffffff12;border-radius:12px;padding:12px 8px;text-align:center;text-decoration:none;color:#F6EBCB;min-height:64px;display:block}
 .t b{display:block;font-size:13px}.t span{display:block;font-size:11.5px;color:#CFE0D8;margin-top:2px;line-height:1.3}
 .note{margin:12px 20px 0;font-size:12px;color:#9FB8AE;text-align:center}
 @keyframes sway{50%{transform:rotate(5deg)}}@keyframes tw{50%{opacity:.3}}
@@ -82,12 +82,11 @@ a:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
 <a class="card duty" href="../tu-chan/"><span class="k">BƯỚC 3</span><h2>Trực ở Viện Thực Hành</h2><p>Gặp bệnh nhân trong game: khám, xét nghiệm, xử trí.</p><span class="go">Vào trực</span></a>
 </div>
 <div class="flow"><span>Học</span><i>›</i><span>Thi</span><i>›</i><span>Trực</span></div>
-<div class="tracks">
-<div class="t"><b>Nội</b><span>Y học hiện đại</span></div>
-<div class="t"><b>Ngoại</b><span>Y học hiện đại</span></div>
-<div class="t"><b>Y học cổ truyền</b><span>Đông – Tây y kết hợp</span></div>
-</div>
-<p class="note">Bản thử: ngân hàng ca đang bổ sung; ca chưa đối chiếu nguồn, dùng để luyện phản xạ.</p>
+<nav class="tracks" aria-label="Chọn mục">
+<a class="t" href="../phong-hoc/?muc=noi"><b>Nội</b><span>Y học hiện đại</span></a>
+<a class="t" href="../phong-hoc/?muc=ngoai"><b>Ngoại</b><span>Y học hiện đại</span></a>
+<a class="t" href="../phong-hoc/?muc=yhct"><b>Y học cổ truyền</b><span>Đông – Tây y kết hợp</span></a>
+</nav>
 </div>
 <script>
 (function(){var p=location.pathname,i=p.indexOf('/vien-thuc-hanh/');document.getElementById('back').href=i<0?'/':p.slice(0,i+1);})();
