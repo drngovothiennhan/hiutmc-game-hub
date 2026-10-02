@@ -66,3 +66,24 @@ test('Catalog seeded on the server matches the reviewed bank: 40 cases, 20 per r
   const sql = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
   for (const c of bank) assert.ok(sql.includes(`('${c.id}','${room(c)}'`), 'catalog missing ' + c.id);
 });
+
+
+test('Intake cases cannot be synced into the random duty catalog', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /BASE\.filter\(c => c\.status !== 'nhap'\)/);
+  assert.match(html, /c\.setting === 'capcuu' \|\| c\.setting === 'giuong'/);
+  assert.match(html, /status: c\.status \|\| 'draft'/);
+
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  const intake = bank.filter(c => c.status === 'nhap');
+  assert.equal(intake.length, 10);
+  assert.ok(intake.every(c => Array.isArray(c.nguon) && c.nguon.length > 0), 'intake cases must carry sources before review');
+  const requiredHbu = ['ly_do_vao_vien','benh_su','tien_su','luoc_qua_co_quan','tom_tat','bien_luan','sinh_ly_benh','chan_doan_phan_biet','dieu_tri','tien_luong','du_phong'];
+  for (const item of intake) {
+    for (const key of requiredHbu) assert.ok(item.hbu && String(item.hbu[key] || '').trim(), item.id + ' missing hbu.' + key);
+  }
+
+  const guard = await read('../supabase/migrations/20261002194500_vien_thuc_hanh_case_release_guard.sql');
+  assert.match(guard, /when r\.status = 'nhap' then false/);
+  assert.match(guard, /coalesce\(v_active, false\)/);
+});
