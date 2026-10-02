@@ -20,10 +20,10 @@ Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng c
 
 ## Thêm ca mới
 1. Đưa tệp ca vào `bank/` của game, khai báo trong `index.json`, dựng lại `tutchan.standalone.html` và chép vào `public/tu-chan/index.html`.
-2. Admin mở mục "Quản trị ngân hàng ca" trong game, bấm "Đồng bộ danh mục ca lên máy chủ" để ca mới được phát ngẫu nhiên.
+2. Admin mở mục "Quản trị ngân hàng ca" trong game, bấm "Đồng bộ danh mục ca lên máy chủ". Client chỉ gửi các ca không ở trạng thái `nhap`; RPC máy chủ cũng fail-closed với ca `nhap` hoặc ca mới thiếu trạng thái hợp lệ. Việc đồng bộ không đồng nghĩa với duyệt chuyên môn.
 
 ## Hub Viện Thực Hành Lâm Sàng (`/vien-thuc-hanh/`)
 - Cổng vào mới từ Game Hub: tranh cổng chào, hai lối vào ngang hàng: **Mô phỏng học thi lâm sàng** (`/phong-hoc/`, bước 1–2) và **Trực ở Viện Thực Hành** (`/tu-chan/`, bước 3). Lộ trình Học › Thi › Trực.
-- `/phong-hoc/`: chế độ Học (mẫu bệnh án nội, hiện có 1 ca) và Thi vấn đáp trắc nghiệm sinh từ ngân hàng 40 ca (không dùng AI, câu hỏi không lặp trong cùng máy). Bản thử, chưa duyệt chuyên môn.
-- Quy ước ba mục: Nội và Ngoại chỉ có bệnh án y học hiện đại; chỉ Y học cổ truyền kết hợp Đông – Tây y trong một bệnh án. Việc xếp 40 ca vào ba mục và bổ sung đủ khoảng 100 ca là bước kế tiếp.
+- `/phong-hoc/`: chế độ Học và Thi vấn đáp sinh câu hỏi từ ngân hàng nhúng. Tại đợt kiểm tra 02/10/2026 có 50 ca trong gói: 40 ca thuộc tập đang phát cho ca trực và 10 ca Nội tiêu hóa trạng thái `nhap` đang chờ rà chuyên môn. Ca `nhap` không được phép vào danh mục phát ngẫu nhiên trên máy chủ.
+- Quy ước ba mục: Nội và Ngoại chỉ có bệnh án y học hiện đại; chỉ Y học cổ truyền kết hợp Đông – Tây y trong một bệnh án. Kiểm tra 02/10/2026 còn nợ chuẩn hóa dữ liệu cũ: 16 ca mới bổ sung một phần bệnh án nhưng còn thiếu 4 trường HBU; 24 ca cũ chưa có `nguon` và chưa có bộ HBU đầy đủ; 6 ca y học hiện đại còn dùng nhãn khám V/M/T kiểu YHCT. Xem `VIEN_THUC_HANH_CASE_AUDIT_2026-10-02.md`.
 - Chế độ học và thi chưa cộng EXP xếp hạng của game.
