@@ -40,8 +40,8 @@ Cần quyết định rõ: chuyển các dòng này sang khám y học hiện đ
 
 ## Lệch schema
 
-- Mẫu ca mới yêu cầu `setting`, `nguon`, `can_doi_chieu`; dữ liệu Phòng học cũ chưa đồng nhất với schema này.
-- Toàn bộ ngân hàng hiện chưa có khóa `can_doi_chieu` một cách nhất quán.
+- Mẫu ca mới yêu cầu `setting`, `nguon`, `can_doi_chieu`; dữ liệu Phòng học cũ chưa đồng nhất với schema này. Sau kiểm tra runtime ngày 02/10/2026, `tests[][1]` và số phút trong `actions` được xác nhận là **phút mô phỏng thực sự làm trôi thời gian ca**, không phải trường chi phí hay trường chưa định nghĩa.
+- Ngân hàng hiện chưa có khóa `can_doi_chieu` một cách nhất quán ở các ca cũ. Các ghi chú kỹ thuật sai về `tests[][1]` trong 10 ca Nội tiêu hóa đã được loại bỏ; `can_doi_chieu` chỉ nên giữ nội dung thực sự cần rà chuyên môn/nguồn.
 - Nhiều nhóm `opt` cũ có 5 lựa chọn, trong khi mẫu mới quy định 4 lựa chọn (trừ `phuong`/`huyet`). Runtime vẫn xử lý được nhưng schema và tài liệu đang lệch nhau.
 - Phòng học tự sinh câu hỏi/đáp án từ `opt`, `tests`, `actions`, `teach`; vì vậy sai dữ kiện trong ngân hàng sẽ trực tiếp biến thành đáp án chấm điểm sai.
 
@@ -54,3 +54,11 @@ Cần quyết định rõ: chuyển các dòng này sang khám y học hiện đ
 5. Chuẩn hóa 6 ca lai YHHĐ/YHCT và chuẩn hóa schema toàn ngân hàng.
 
 Không đổi ca sang trạng thái “đã duyệt chuyên môn” chỉ dựa trên kiểm tra kỹ thuật.
+
+
+## Chuẩn schema mới đã chốt
+
+- Bệnh án HBU cho ca mới dùng đủ 17 mục: `hanh_chinh`, `ly_do_vao_vien`, `benh_su`, `tien_su`, `luoc_qua_co_quan`, `kham_hien_tai`, `can_lam_sang`, `tom_tat`, `dat_van_de`, `chan_doan_so_bo`, `bien_luan`, `sinh_ly_benh`, `chan_doan_phan_biet`, `chan_doan_xac_dinh`, `dieu_tri`, `tien_luong`, `du_phong`.
+- `tests`: `[tên, số_phút_mô_phỏng, kết_quả, e|n|w]`.
+- `actions`: `++|+|-|!Tên|số_phút_mô_phỏng|lý do`.
+- Các trường phút mô phỏng tác động trực tiếp đến đồng hồ và độ ổn định của bệnh nhân trong game, nên phải được cân chỉnh như một phần logic ca, không chỉ là metadata.

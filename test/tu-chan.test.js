@@ -78,7 +78,7 @@ test('Intake cases cannot be synced into the random duty catalog', async () => {
   const intake = bank.filter(c => c.status === 'nhap');
   assert.equal(intake.length, 10);
   assert.ok(intake.every(c => Array.isArray(c.nguon) && c.nguon.length > 0), 'intake cases must carry sources before review');
-  const requiredHbu = ['ly_do_vao_vien','benh_su','tien_su','luoc_qua_co_quan','tom_tat','bien_luan','sinh_ly_benh','chan_doan_phan_biet','dieu_tri','tien_luong','du_phong'];
+  const requiredHbu = ['hanh_chinh','ly_do_vao_vien','benh_su','tien_su','luoc_qua_co_quan','kham_hien_tai','can_lam_sang','tom_tat','dat_van_de','chan_doan_so_bo','bien_luan','sinh_ly_benh','chan_doan_phan_biet','chan_doan_xac_dinh','dieu_tri','tien_luong','du_phong'];
   for (const item of intake) {
     for (const key of requiredHbu) assert.ok(item.hbu && String(item.hbu[key] || '').trim(), item.id + ' missing hbu.' + key);
   }
@@ -86,4 +86,21 @@ test('Intake cases cannot be synced into the random duty catalog', async () => {
   const guard = await read('../supabase/migrations/20261002194500_vien_thuc_hanh_case_release_guard.sql');
   assert.match(guard, /when r\.status = 'nhap' then false/);
   assert.match(guard, /coalesce\(v_active, false\)/);
+});
+
+
+test('Clinical case schema documents simulated minutes and the full 17-section HIU chart', async () => {
+  const doc = await read('../docs/MAU_CA_CHO_CHATGPT.md');
+  assert.match(doc, /số_phút_mô_phỏng/);
+  for (const key of ['hanh_chinh','luoc_qua_co_quan','kham_hien_tai','can_lam_sang','dat_van_de','chan_doan_so_bo','chan_doan_xac_dinh']) {
+    assert.match(doc, new RegExp('"' + key + '"'));
+  }
+
+  const html = await read('../public/tu-chan/index.html');
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  const intake = bank.filter(c => c.status === 'nhap');
+  for (const item of intake) {
+    assert.ok((item.can_doi_chieu || []).every(x => !/Số 0 trong/i.test(String(x))), item.id + ' has stale timing caveat');
+    for (const t of item.tests || []) assert.ok(Number.isFinite(t[1]) && t[1] >= 0, item.id + ' test time must be simulated minutes');
+  }
 });
