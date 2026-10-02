@@ -260,7 +260,7 @@ function bankStudy(def){
   ${sec("VIII","Đặt vấn đề",P(H.dat_van_de))}
   ${sec("IX","Chẩn đoán sơ bộ",P(H.chan_doan_so_bo)||(dd.length?P(dd.join("; ")):""))}
   ${sec("X","Chẩn đoán phân biệt",P(H.chan_doan_phan_biet)||(diff.length?P(diff.join("; ")):""))}
-  ${sec("XI","Biện luận và sinh lý bệnh",P(H.bien_luan)+P(H.sinh_ly_benh))}
+  ${sec("XI","Biện luận và sinh lý bệnh",`<p style="margin:6px 0 2px"><b>Biện luận</b></p>${P(H.bien_luan)||EMPTY}<p style="margin:8px 0 2px"><b>Sinh lý bệnh: vì sao?</b></p>${P(H.sinh_ly_benh)||EMPTY}`)}
   ${sec("XII","Đề nghị cận lâm sàng",tl(es.map(t=>[t[0],""]))+(c.tests.some(t=>t[3]==="w")?`<p style="margin:6px 0 0"><b>Không có chỉ định:</b> ${esc(c.tests.filter(t=>t[3]==="w").map(t=>t[0]).join("; "))}</p>`:""))}
   ${sec("XIII","Kết quả cận lâm sàng",P(H.can_lam_sang)||tl(es))}
   ${sec("XIV","Chẩn đoán xác định",P(H.chan_doan_xac_dinh)+(dd.length?cdx:""))}
