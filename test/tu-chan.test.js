@@ -9,7 +9,7 @@ test('Vien Thuc Hanh - TMC is launched from the world map as its own self-contai
   const entry = map.match(/\{ id: 'four-diagnosis',[^\n]+/);
   assert.ok(entry);
   assert.match(entry[0], /state: 'available-live'/);
-  assert.match(entry[0], /href: '\/tu-chan\/'/);
+  assert.match(entry[0], /href: '\/vien-thuc-hanh\/'/);
 });
 
 test('Tu Chan page embeds the case bank and does not need a network or secret', async () => {
