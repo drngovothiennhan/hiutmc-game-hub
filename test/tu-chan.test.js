@@ -122,9 +122,14 @@ test('Learning room lists cases five at a time', async () => {
 
 test('Weekly tournament: same cases for everyone, first attempt counts, leaderboard is real data only', async () => {
   const html = await read('../public/tu-chan/index.html');
-  assert.match(html, /tu_chan_challenge_v1/);
+  const hub = await read('../public/vien-thuc-hanh/index.html');
   assert.match(html, /tu_chan_start_challenge_v1/);
-  assert.match(html, /Chưa có ai hoàn tất ca nào trong tuần này/, 'honest empty state, no invented leaderboard');
+  assert.match(html, /get\('arena'\)/, 'duty page starts the event case from the hub link');
+  assert.doesNotMatch(html, /id="arena"/, 'the event lives in the gate pop-up, not inside the duty hall');
+  assert.match(hub, /<dialog class="ev"/);
+  assert.match(hub, /tu_chan_challenge_v1/);
+  assert.match(hub, /Chưa có ai hoàn tất ca nào trong tuần này/, 'honest empty state, no invented leaderboard');
+  assert.doesNotMatch(hub, /r\.n\b/, 'leaderboard must not show how many cases a doctor did');
   const sql = await read('../supabase/migrations/20261003220000_vien_thuc_hanh_giai_dau_v1.sql');
   assert.match(sql, /enable row level security/);
   assert.match(sql, /interval '60 seconds'/, 'very fast submissions earn no points');
@@ -134,9 +139,11 @@ test('Weekly tournament: same cases for everyone, first attempt counts, leaderbo
 });
 
 test('Personalization is unlocked by level and enforced on the server', async () => {
+  const yq = await read('../public/y-quan-live/game.js');
+  assert.match(yq, /tu_chan_personalize_v1/, 'personalization lives in HIU Y Quan (Game Hub)');
+  assert.match(yq, /tu_chan_personal_v1/);
   const html = await read('../public/tu-chan/index.html');
-  assert.match(html, /tu_chan_personalize_v1/);
-  assert.match(html, /tu_chan_personal_v1/);
+  assert.doesNotMatch(html, /tu_chan_personalize_v1/, 'no personalization form inside the Vien Thuc Hanh duty hall');
   const sql = await read('../supabase/migrations/20261003230000_vien_thuc_hanh_ca_nhan_hoa_v1.sql');
   for (const k of ['locked:rename:4', 'locked:outfit:%', 'locked:theme:%', 'locked:frame:%']) assert.ok(sql.includes(k), 'missing gate ' + k);
   assert.match(sql, /not in \('male','female'\)|clean_outfit not in/);
@@ -153,4 +160,13 @@ test('Gameplay additions: events from monitor values, combo, SBAR handover, badg
   assert.match(html, /function badgeList/);
   assert.match(html, /p_limit: 50/);
   assert.doesNotMatch(html, /leaderboard\s*=\s*\[\s*\{/i, 'no hard-coded leaderboard');
+});
+
+test('Duty profile is collapsed and private: no case counts, cases only for the owner to review', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /<details id="hist-d"/);
+  assert.match(html, /Chỉ mình bạn xem được/);
+  assert.match(html, /data-review=/);
+  assert.doesNotMatch(html, /<span>Ca trực<\/span>/, 'case count is hidden');
+  assert.doesNotMatch(html, /tu_chan_showcase/, 'no public showcase of cases');
 });

@@ -107,6 +107,30 @@ async function rpc(name,body={},routeOverride=''){
     if(isWrite)writeBusy=false;
   }
 }
+
+/* Cá nhân hóa y quán theo cấp (cấp tính từ EXP trực ca ở Viện Thực Hành). Quyền mở khóa được kiểm tra ở máy chủ. */
+let pers=null,persMsg='';
+const PERS_THEMES={ngoc:'Ngọc bích',dao:'Hoa đào',cham:'Chàm',muc:'Mực nho',vang:'Vàng Danh y'},PERS_FRAMES={none:'Không khung',tre:'Khung trúc',sen:'Khung sen',rong:'Khung rồng'},PERS_OUTFITS={classic:'Cổ điển',academy:'Học viện',master:'Tông sư'};
+async function loadPers(){try{pers=await rpc('tu_chan_personal_v1');}catch{pers=null}render()}
+function persErr(e){const m=String(e?.message||''),k=/locked:(\w+):(\d+)/.exec(m);if(k)return'Cần đạt cấp '+k[2]+' để dùng mục này.';if(m.includes('invalid_name'))return'Tên phải từ 2 đến 40 ký tự và không chứa < > &.';if(m.includes('invalid_motto'))return'Lời chào tối đa 60 ký tự và không chứa < > &.';if(m.includes('Cần đạt cấp')||m.includes('cấp cao hơn'))return m;return'Chưa lưu được: '+(m||'lỗi kết nối')}
+function personHTML(){
+  if(!pers||!pers.has_profile)return'';
+  const L=pers.level,U=pers.unlock,lock=n=>L<n,opts=(need,cur,names)=>Object.keys(names).map(k=>'<option value="'+k+'"'+(k===cur?' selected':'')+(lock(need[k])&&k!==cur?' disabled':'')+'>'+names[k]+(lock(need[k])?' (mở ở cấp '+need[k]+')':'')+'</option>').join('');
+  return '<section class="panel yq-pers th-'+esc(pers.theme)+'"><h2>Cá nhân hóa y quán</h2><p>Cấp hiện tại: <b>'+L+'</b> (tính từ kinh nghiệm trực ca ở Viện Thực Hành). Lên cấp để mở thêm tên riêng, màu, khung và trang phục.</p>'
+   +'<label>Tên hiển thị'+(lock(U.rename)?' <small>(mở ở cấp '+U.rename+')</small>':'')+'<input id="yq-pf-name" maxlength="40" value="'+esc(pers.display_name||'')+'"'+(lock(U.rename)?' disabled':'')+'></label>'
+   +'<label>Lời chào'+(lock(U.motto)?' <small>(mở ở cấp '+U.motto+')</small>':'')+'<input id="yq-pf-motto" maxlength="60" value="'+esc(pers.motto||'')+'"'+(lock(U.motto)?' disabled':'')+' placeholder="Ví dụ: Chữa bệnh trước hết là hiểu người bệnh"></label>'
+   +'<div class="yq-pf-g"><label>Màu y quán<select id="yq-pf-theme">'+opts(U.themes,pers.theme,PERS_THEMES)+'</select></label><label>Khung ảnh<select id="yq-pf-frame">'+opts(U.frames,pers.frame,PERS_FRAMES)+'</select></label><label>Trang phục<select id="yq-pf-outfit">'+opts(U.outfits,pers.outfit,PERS_OUTFITS)+'</select></label></div>'
+   +'<p class="muted"><small>Cấp 4: đổi tên, lời chào, màu Hoa đào và Chàm, khung trúc. Cấp 5: màu Mực nho, khung sen, trang phục Học viện. Cấp 6: khung rồng, trang phục Tông sư. Cấp 7: màu Vàng Danh y.</small></p>'
+   +'<button type="button" data-action="pers-save">Lưu cá nhân hóa</button>'+(persMsg?'<p class="warn" role="status">'+esc(persMsg)+'</p>':'')+'</section>';
+}
+ROOT.addEventListener('click',async e=>{
+  const b=e.target.closest('button[data-action="pers-save"]');if(!b)return;
+  e.stopPropagation();
+  const g=id=>document.getElementById(id)?.value,body={p_display_name:g('yq-pf-name'),p_motto:g('yq-pf-motto'),p_theme:g('yq-pf-theme'),p_frame:g('yq-pf-frame'),p_outfit:g('yq-pf-outfit')};
+  persMsg='Đang lưu…';render();
+  try{pers=await rpc('tu_chan_personalize_v1',body);persMsg='Đã lưu. Tên mới hiện ở Game Hub và bảng xếp hạng.';await load()}catch(err){persMsg=persErr(err)}
+  render();
+},true);
 async function load(){
   const request=++loadSequence;
   try{
@@ -131,6 +155,7 @@ async function load(){
     message=failed.length?'Chưa tải được: '+failed.map(index=>labels[index]).join(', ')+'. Phần còn lại vẫn dùng được.':'';
     if(!failed.length)setWriteRecoveryRequired(false);
     render();
+    void loadPers();
     return !failed.length;
   }catch(e){
     if(request!==loadSequence)return false;
@@ -145,7 +170,7 @@ function starsView(visit){return visit.status==='completed'&&!visit.stars?'<div 
 const art=name=>gameHubPath('y-quan-live/art/'+name+'.webp');
 function heroHTML(){
   const d=data||{},open=Boolean(d.doctor?.is_open);
-  return '<header class="yq-hero"><div class="yq-hero-main"><a class="yq-back" href="'+gameHubPath('')+'">← Quay lại Game Hub</a><h1 class="yq-title"><img src="'+art('banner')+'" width="900" height="198" alt="HIU Y Quán · Chăm sóc bằng y đức, an lành từ thảo dược"></h1><p class="yq-motto">Nhỏ một thảo dược, lớn một niềm tin.</p><ul class="yq-stats" aria-label="Chỉ số bác sĩ"><li><b>'+Number(d.credits||0)+'</b><span>Tín dụng</span></li><li><b>'+Number(d.experience||0)+'</b><span>Kinh nghiệm</span></li><li><b>'+esc(d.average_stars??'—')+'</b><span>Điểm sao</span></li><li><b class="'+(open?'on':'off')+'">'+(open?'Đang trực':'Đang vắng')+'</b><span>Y quán</span></li></ul></div><img class="yq-shopfront" src="'+art('shopfront')+'" width="800" height="497" alt="Mặt tiền HIU Y Quán"></header>';
+  return '<header class="yq-hero th-'+esc(pers?.theme||'ngoc')+'"><div class="yq-hero-main"><a class="yq-back" href="'+gameHubPath('')+'">← Quay lại Game Hub</a><h1 class="yq-title"><img src="'+art('banner')+'" width="900" height="198" alt="HIU Y Quán · Chăm sóc bằng y đức, an lành từ thảo dược"></h1><p class="yq-motto">Nhỏ một thảo dược, lớn một niềm tin.</p>'+(pers?.motto?'<p class="yq-me">“'+esc(pers.motto)+'”</p>':'')+'<ul class="yq-stats" aria-label="Chỉ số bác sĩ"><li><b>'+Number(d.credits||0)+'</b><span>Tín dụng</span></li><li><b>'+Number(d.experience||0)+'</b><span>Kinh nghiệm</span></li><li><b>'+esc(d.average_stars??'—')+'</b><span>Điểm sao</span></li><li><b class="'+(open?'on':'off')+'">'+(open?'Đang trực':'Đang vắng')+'</b><span>Y quán</span></li></ul></div><img class="yq-shopfront" src="'+art('shopfront')+'" width="800" height="497" alt="Mặt tiền HIU Y Quán"></header>';
 }
 function navHTML(){
   const items=[['practice','脈','Luyện Thập vấn'],['doctor','藥','Y quán của tôi'],['patient','診','Đi khám y quán khác'],['rank','★','Uy tín bác sĩ']];
@@ -179,7 +204,7 @@ function doctorHTML(){
   const d=data||{},profile=d.doctor,activeVisit=doctorVisits.find(v=>v.visit_id===activeCaseVisitId);
   const slots=(d.slots||[]).map(s=>`<div class="slot"><div><b>Ca ${s.slot_no} · ${new Date(s.starts_at).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Ho_Chi_Minh'})}</b><small>${esc(s.status)} · bot ${s.bot_score}% · ${botRating(s.bot_score)} · +${s.experience} XP</small></div>${s.status==='completed'?'<span class="pill">Đã xong</span>':`<button data-action="case" data-slot="${s.slot_no}">Làm ca</button>`}</div>`).join('');
   const visits=doctorVisits.map(v=>`<div class="visit">${v.patient_avatar_url?`<img class="profile-avatar" src="${esc(v.patient_avatar_url)}" alt="Ảnh đại diện bệnh nhân">`:''}<div><b>${esc(v.patient_name)}</b><small>Ca ${v.slot_no} · ${esc(v.status)} · bot ${v.bot_score}/100</small></div><div class="visit-actions"><button data-action="chat" data-id="${v.visit_id}">Nhắn bệnh nhân</button>${v.status==='completed'?`<span class="pill">${v.stars?v.stars+' sao':'Chờ bệnh nhân chấm'}</span>`:`<button data-action="finish-visit" data-id="${v.visit_id}">Mở vấn chẩn</button>`}</div></div>`).join('');
-  return `${roomsHTML()}${doctorPickerHTML()}<section class="panel"><h2>Ca mô phỏng hôm nay</h2><p class="warn">Mở “Làm ca” để vào phòng Thập vấn: bác sĩ hỏi đủ 10 nội dung, ghi nhận câu trả lời, chẩn đoán rồi nộp bot chấm.</p>${slots||'<p>Chọn bác sĩ để mở y quán và tạo lịch hôm nay.</p>'}</section><section class="panel"><h2>Bệnh nhân đã đăng ký</h2><p>Hỏi và nhận trả lời đủ 10 mục qua chat, xác nhận từng mục rồi mới gửi nhận định; bệnh nhân sẽ đánh giá lượt khám sau khi hoàn tất.</p>${visits||'<p>Chưa có bệnh nhân đăng ký. Khi có lượt khám, bác sĩ có thể mở chat ngay tại đây.</p>'}</section>${activeVisit&&activeVisit.status!=='completed'?caseForm(activeVisit.visit_id,activeVisit.slot_no):''}`;
+  return `${roomsHTML()}${doctorPickerHTML()}${personHTML()}<section class="panel"><h2>Ca mô phỏng hôm nay</h2><p class="warn">Mở “Làm ca” để vào phòng Thập vấn: bác sĩ hỏi đủ 10 nội dung, ghi nhận câu trả lời, chẩn đoán rồi nộp bot chấm.</p>${slots||'<p>Chọn bác sĩ để mở y quán và tạo lịch hôm nay.</p>'}</section><section class="panel"><h2>Bệnh nhân đã đăng ký</h2><p>Hỏi và nhận trả lời đủ 10 mục qua chat, xác nhận từng mục rồi mới gửi nhận định; bệnh nhân sẽ đánh giá lượt khám sau khi hoàn tất.</p>${visits||'<p>Chưa có bệnh nhân đăng ký. Khi có lượt khám, bác sĩ có thể mở chat ngay tại đây.</p>'}</section>${activeVisit&&activeVisit.status!=='completed'?caseForm(activeVisit.visit_id,activeVisit.slot_no):''}`;
 }
 function draftFor(visitId){let draft=interviewDrafts.get(visitId);if(!draft){try{draft=JSON.parse(sessionStorage.getItem('hiu-yquan-intake-'+visitId)||'null')}catch{}if(!draft||!Array.isArray(draft.plan)||!Array.isArray(draft.answered))draft={plan:createQuestionPlan(crypto.getRandomValues(new Uint32Array(1))[0]),answered:[]};interviewDrafts.set(visitId,draft)}return draft}
 function saveDraft(visitId,draft){interviewDrafts.set(visitId,draft);try{sessionStorage.setItem('hiu-yquan-intake-'+visitId,JSON.stringify(draft))}catch{}}

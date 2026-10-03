@@ -32,7 +32,31 @@ h1{margin:4px 0 0;font-family:'Noto Serif',Georgia,serif;font-size:28px;line-hei
 .note{margin:12px 20px 0;font-size:12px;color:#9FB8AE;text-align:center}
 @keyframes sway{50%{transform:rotate(5deg)}}@keyframes tw{50%{opacity:.3}}
 @media (prefers-reduced-motion:no-preference){.tw{animation:tw 3s ease-in-out infinite}.swing{animation:sway 3.6s ease-in-out infinite;transform-box:view-box}}
-a:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
+
+.evbtn{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 14px;border-radius:99px;border:1.5px solid #E8C26A;background:#7A1F2Acc;color:#FBE9B7;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.evbtn i{width:8px;height:8px;border-radius:50%;background:#FFD27A;display:none}
+.evbtn.new i{display:inline-block}
+dialog.ev{width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 32px);overflow:auto;border:2px solid #C9A44C;border-radius:18px;background:#0E3A30;color:#F6EBCB;padding:16px 16px 18px}
+dialog.ev::backdrop{background:#000a}
+.ev h2{margin:0;font-family:'Noto Serif',Georgia,serif;font-size:21px;color:#FBE9B7}
+.ev .esub{font-size:13px;color:#CFE0D8;margin:2px 0 10px}
+.ev .x{position:absolute;right:10px;top:10px;min-width:36px;min-height:36px;border-radius:50%;border:1px solid #E8C26A66;background:transparent;color:#F6EBCB;font-size:18px;cursor:pointer}
+.ev .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.ev .tab{border:1.5px solid #E8C26A66;background:transparent;color:#F6EBCB;border-radius:99px;padding:6px 14px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;min-height:36px}
+.ev .tab[aria-pressed="true"]{background:#C9A44C;color:#3A1017;border-color:#C9A44C}
+.ev .cs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ev .c{border:1.5px solid #E8C26A55;border-radius:12px;padding:8px 10px;font-size:13px;background:#ffffff10}
+.ev .c b{display:block;font-size:15px}
+.ev .c.d{border-color:#58B88A;background:#58B88A22}
+.ev .go{display:flex;align-items:center;justify-content:center;margin-top:12px;min-height:46px;border-radius:12px;background:#C9A44C;color:#3A1017;font-weight:700;text-decoration:none}
+.ev .go.off{opacity:.5;pointer-events:none}
+.ev table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.ev td{padding:6px 4px;border-top:1px solid #E8C26A33}
+.ev td:first-child{width:32px}.ev td:last-child{text-align:right}
+.ev tr.me{font-weight:700;background:#ffffff14}
+.ev .rule{font-size:12px;color:#9FB8AE;margin-top:10px}
+@media (max-width:480px){.ev .cs{grid-template-columns:1fr}}
+a:focus-visible,button:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -71,6 +95,7 @@ a:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
   <g fill="#E8C26A" opacity=".9"><path d="M92 140l3-5l3 5l-3 5z"/><path d="M302 140l3-5l3 5l-3 5z"/></g><circle class="mote" style="animation-delay:0s" cx="60" cy="40" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:1.2s" cx="110" cy="22" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:0.6s" cx="300" cy="52" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:1.8s" cx="350" cy="30" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:2.4s" cx="250" cy="18" r="1.6" fill="#F3D98B"/><circle class="mote" style="animation-delay:0.9s" cx="30" cy="80" r="1.6" fill="#F3D98B"/>
   </svg>
 <a class="back" id="back" href="https://hiutmc.com/">‹ Trang chủ</a>
+<button class="evbtn" id="evbtn" type="button" aria-haspopup="dialog">Sự kiện tuần <i aria-hidden="true"></i></button>
 </div>
 <div class="head">
 <div class="eyebrow">HIU TMC</div>
@@ -88,6 +113,68 @@ a:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
 <a class="t" href="/phong-hoc/?muc=yhct"><b>Y học cổ truyền</b><span>Đông – Tây y kết hợp</span></a>
 </nav>
 </div>
+<dialog class="ev" id="ev" aria-labelledby="evt"><button class="x" type="button" id="evx" aria-label="Đóng">×</button><h2 id="evt">Sự kiện tuần: Giải đấu lâm sàng</h2><div id="evb"></div></dialog>
+<script>
+(function(){
+var SB={url:'https://gzmpnsrwqjpsbklyflqr.supabase.co',key:'sb_publishable_Y4hMhXROZ-aVgWoaQ5fFKQ_ZAcXuIzG',store:'hiutmc-member-session-v1',lock:'hiutmc-supabase-session-refresh-v1'};
+var NAMES={noi:'Nội',ngoai:'Ngoại',yhct:'Y học cổ truyền'},CH={},TR='noi',loaded=false,busy=false;
+var $=function(i){return document.getElementById(i)};
+function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function sess(){try{return JSON.parse(localStorage.getItem(SB.store)||'null')}catch(e){return null}}
+async function token(force,rejected){
+  var refresh=async function(){var s=sess();if(!s||!s.accessToken)return'';var fresh=Number(s.expiresAt||0)-Date.now()>90000;
+    if(!force&&fresh)return s.accessToken;if(force&&fresh&&s.accessToken!==rejected)return s.accessToken;
+    var r=await fetch(SB.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB.key,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:s.refreshToken}),cache:'no-store'});
+    var b=await r.json().catch(function(){return{}});if(!r.ok||!b.access_token)throw Error('session');
+    var n=Object.assign({},s,{accessToken:b.access_token,refreshToken:b.refresh_token,expiresAt:Number(b.expires_at)*1000});try{localStorage.setItem(SB.store,JSON.stringify(n))}catch(e){}return n.accessToken};
+  var h=location.hostname||'';
+  if((h==='hiutmc.com'||h.slice(-11)==='.hiutmc.com')&&navigator.locks&&navigator.locks.request){var started=false;try{return await navigator.locks.request(SB.lock,function(){started=true;return refresh()})}catch(e){if(started)throw e}}
+  return refresh();
+}
+async function rpc(name,body){
+  var t=await token();if(!t)throw Error('no_session');
+  for(var a=0;a<2;a++){
+    var r=await fetch(SB.url+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:SB.key,Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body||{}),cache:'no-store'});
+    var x=await r.json().catch(function(){return{}});if(r.ok)return x;
+    if(r.status===401&&a===0){var n=await token(true,t);if(n){t=n;continue}}
+    throw Error(x.message||'error');
+  }
+}
+var dutyHref=function(){return document.querySelector('a.duty').href};
+function render(){
+  var box=$('evb');
+  if(!sess()){box.innerHTML='<p class="esub">Đăng nhập từ Game Hub bằng tài khoản HIU TMC đã duyệt để xem và tham gia sự kiện.</p>';return}
+  var tabs=Object.keys(NAMES).map(function(k){return '<button type="button" class="tab" aria-pressed="'+(k===TR)+'" data-t="'+k+'">'+NAMES[k]+'</button>'}).join('');
+  var X=CH[TR],body;
+  if(!loaded)body='<p class="esub">Đang tải sự kiện…</p>';
+  else if(!X||X.error)body='<p class="esub">Chưa tải được sự kiện. Hãy thử lại sau ít phút.</p>';
+  else if(!X.n_cases)body='<p class="esub">Khoa này chưa có ca đang hoạt động nên sự kiện chưa mở.</p>';
+  else{
+    var left=Math.max(0,Math.ceil((new Date(X.ends_at)-Date.now())/86400000)),done=X.cases.filter(function(c){return c.my_done}).length;
+    var cs=X.cases.map(function(c,i){return '<div class="c'+(c.my_done?' d':'')+'"><span>Ca '+(i+1)+' · '+esc(c.level||'')+'</span><b>'+(c.my_done?c.my_score+' điểm':'Chưa thi')+'</b></div>'}).join('');
+    var rows=X.board.map(function(r){return '<tr class="'+(r.me?'me':'')+'"><td>'+r.rank+'</td><td>'+esc(r.name)+'</td><td>'+r.total+' điểm</td></tr>'}).join('');
+    body='<p class="esub">Tuần '+esc(X.week.replace('-',' '))+' · còn '+left+' ngày · '+X.players+' bác sĩ đã thi</p><div class="cs">'+cs+'</div>'
+      +(X.me?'<p class="esub" style="margin-top:8px">Thứ hạng của bạn: <b>'+X.me.rank+'</b> · '+X.me.total+' điểm</p>':'')
+      +'<a class="go'+(done>=X.n_cases?' off':'')+'" href="'+esc(dutyHref())+'?arena='+TR+'">'+(done>=X.n_cases?'Bạn đã hoàn tất sự kiện tuần này':done?'Thi ca kế tiếp':'Vào thi đấu')+'</a>'
+      +(rows?'<table><tbody>'+rows+'</tbody></table>':'<p class="esub" style="margin-top:12px">Chưa có ai hoàn tất ca nào trong tuần này. Hãy là người đầu tiên.</p>')
+      +'<p class="rule">Mọi người thi cùng bộ ca. Mỗi ca chỉ tính điểm lượt hoàn tất đầu tiên, lượt dưới 60 giây không có điểm. Bảng chỉ hiện tên và tổng điểm, không hiện số ca hay ca đã làm. Điểm do ứng dụng gửi lên nên bảng để luyện tập và thi đua, chưa dùng để trao giải.</p>';
+  }
+  box.innerHTML='<div class="tabs">'+tabs+'</div>'+body;
+}
+async function load(){
+  if(!sess()||busy)return;busy=true;
+  await Promise.all(Object.keys(NAMES).map(async function(k){try{CH[k]=await rpc('tu_chan_challenge_v1',{p_track:k})}catch(e){CH[k]={error:true}}}));
+  loaded=true;busy=false;
+  var any=Object.keys(CH).some(function(k){var x=CH[k];return x&&!x.error&&x.n_cases&&x.cases.some(function(c){return!c.my_done})});
+  $('evbtn').classList.toggle('new',any);
+  if($('ev').open)render();
+}
+$('evbtn').addEventListener('click',function(){render();$('ev').showModal();if(!loaded)load()});
+$('evx').addEventListener('click',function(){$('ev').close()});
+$('ev').addEventListener('click',function(e){if(e.target===$('ev'))$('ev').close();var b=e.target.closest&&e.target.closest('[data-t]');if(b){TR=b.getAttribute('data-t');render()}});
+load();
+})();
+</script>
 <script>document.getElementById("back").href=location.origin+"/";</script>
 </body>
 </html>
