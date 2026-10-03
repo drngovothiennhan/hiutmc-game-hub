@@ -178,5 +178,13 @@ test('doctor portrait uses the pose and expression sheets and they exist', async
   assert.match(html, /DOCBASE \+ g \+ '-' \+ kind \+ '\.webp'/);
   assert.match(html, /tu_chan_abandon_v1/);
   assert.doesNotMatch(html, /url\((['"]?)\.\.\//);
-  for (const f of ['nam-bieucam', 'nu-bieucam', 'nam-dongtac', 'nu-dongtac']) await access(new URL(`../public/tu-chan/bacsi/${f}.webp`, import.meta.url));
+  for (const f of ['nam-bieucam', 'nu-bieucam', 'nam-dongtac', 'nu-dongtac', 'nam-di', 'nu-di', 'nam-chay', 'nu-chay']) await access(new URL(`../public/tu-chan/bacsi/${f}.webp`, import.meta.url));
+});
+
+test('story illustrations exist and open and close each case', async () => {
+  const { access } = await import('node:fs/promises');
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /function storyStart/);
+  assert.match(html, /function runner/);
+  for (const k of ['01', '02', '03', '04', '05', '06']) await access(new URL(`../public/tu-chan/tranh/${k}.webp`, import.meta.url));
 });

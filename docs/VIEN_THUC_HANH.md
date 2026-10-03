@@ -49,3 +49,9 @@ Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng c
 ## Gói 1 đồ họa bác sĩ (03/10/2026)
 Đã dùng: `public/tu-chan/bacsi/{nam,nu}-bieucam.webp` (6 biểu cảm) và `{nam,nu}-dongtac.webp` (12 tư thế nửa người), đã cắt, canh đáy, nén WebP. Trong ca trực, ảnh bác sĩ cạnh khung thoại đổi theo thao tác vừa làm (nghe tim phổi, huyết áp, bắt mạch, khám bụng, hồi sức, chỉ định xét nghiệm, hội chẩn) và theo độ ổn định, trực đêm; màn kết quả hiện biểu cảm theo điểm.
 Chưa dùng vì ảnh lỗi: ô 3/4 sau của `goc`, toàn bộ `di` và `chay` (mất chân, hình vỡ). Cần ChatGPT vẽ lại 3 tệp này. `nghi` nam dùng được, chưa gắn.
+
+## Bộ đồ họa mới (04/10/2026)
+Thay toàn bộ gói 1 bằng bộ PNG nền trong suốt mới (bác sĩ nam tóc đen, nữ tóc nâu buộc cao, phong cách chibi): `public/tu-chan/bacsi/{nam,nu}-{bieucam,dongtac,di,chay}.webp`. Thêm 6 tranh `public/tu-chan/tranh/01..06.webp` (960×540).
+- Mở đầu ca: tranh theo loại ca (01 vào cấp cứu, 03 khám bụng khi ca liên quan bụng, 02 hỏi bệnh bên giường), ẩn sau thao tác đầu tiên; bác sĩ chạy vào (ca cấp cứu, bệnh nhân không ổn định) hoặc đi vào (ca ổn định) ngang sân khấu.
+- Kết quả: tranh 06 bàn giao ca khi đạt từ 70 điểm, 04 xem lại kết quả khi chưa đạt, 05 cấp cứu khi bệnh nhân tử vong.
+- Chưa dùng: góc nhìn `goc`, `nghi` (giữ trong bản gốc, chưa cắt).

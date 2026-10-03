@@ -60,6 +60,11 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--jade);outline
 .clock{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
 .stage{position:relative;border-radius:10px;overflow:hidden;background:var(--room);border:1px solid var(--line)}
 .stage>svg{display:block;width:100%;height:auto}
+.story{margin:0 0 10px;border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;background:var(--surface)}.story img{display:block;width:100%;height:100%;object-fit:cover}
+.story.res{margin-bottom:12px}
+.runner{position:absolute;bottom:26%;left:-30%;width:var(--w);height:var(--h);background-repeat:no-repeat;background-size:calc(var(--w) * var(--n)) var(--h);pointer-events:none;opacity:0}
+@keyframes rx{0%{left:-30%;opacity:1}90%{opacity:1}100%{left:105%;opacity:0}}@keyframes rf{to{background-position-x:calc(var(--w) * var(--n) * -1)}}
+@media (prefers-reduced-motion:no-preference){.runner.chay{animation:rx 1.9s linear forwards,rf .55s steps(var(--n)) infinite}.runner.di{animation:rx 3.6s linear forwards,rf .9s steps(var(--n)) infinite}}
 .monitor{position:static;background:var(--mon-bg);border-radius:0;padding:7px 12px;display:grid;grid-template-columns:auto 1fr auto 1fr auto 1fr;gap:2px 8px;font-family:var(--f-mono);font-size:12px;line-height:1.35;border:2px solid #243732}
 .monitor b{color:var(--mon-green);font-weight:600}
 .monitor .w{color:var(--mon-amber)} .monitor .c{color:var(--mon-red)}
@@ -69,7 +74,7 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--jade);outline
 .bar i{display:block;height:100%;background:var(--jade);transition:width .4s,background .4s}
 .bar i.w{background:var(--warn)} .bar i.c{background:var(--alert)}
 .docrow{display:flex;gap:10px;align-items:flex-end;margin-block:8px}.docrow .bubble{flex:1;margin-block:0}
-.docp{flex:none;text-align:center;width:92px}.docp i{display:block;margin:0 auto;background-repeat:no-repeat}.docp span{display:block;font-size:11px;color:var(--muted,#667);line-height:1.25;margin-top:2px}
+.docp{flex:none;text-align:center;min-width:84px;max-width:110px}.docp i{display:block;margin:0 auto;background-repeat:no-repeat}.docp span{display:block;font-size:11px;color:var(--muted,#667);line-height:1.25;margin-top:2px}
 .bubble{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-block:8px;min-height:60px}
 .bubble .who{font-size:12px;font-weight:600;color:var(--jade)}
 .tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin-top:10px;scrollbar-width:none}
@@ -1044,7 +1049,7 @@ function start(id, shift, room) {
 }
 
 /* ---------- Bác sĩ (ảnh gói 1: biểu cảm và tư thế) ---------- */
-const DOCSHEET = { 'nam-bieucam': [6, 94, 169], 'nu-bieucam': [6, 133, 169], 'nam-dongtac': [12, 144, 190], 'nu-dongtac': [12, 144, 196] };
+const DOCSHEET = { 'nam-bieucam': [6, 94, 124], 'nam-dongtac': [12, 100, 231], 'nam-di': [8, 70, 165], 'nam-chay': [6, 81, 142], 'nu-bieucam': [6, 110, 116], 'nu-dongtac': [12, 101, 215], 'nu-di': [8, 77, 139], 'nu-chay': [6, 82, 134] };
 const EXPR = ['Bình thường', 'Chăm chú nghe', 'Lo lắng', 'Nghiêm túc quyết định', 'Trấn an', 'Mệt mỏi, trực đêm'];
 const POSE = ['Cầm bệnh án', 'Ghi bệnh án', 'Nghe tim phổi', 'Đo huyết áp', 'Bắt mạch', 'Khám bụng', 'Ra hiệu', 'Gọi điện', 'Xem giờ', 'Hồi sức tim phổi', 'Chỉ định xét nghiệm', 'Chào, trấn an'];
 function docPick() {
@@ -1079,6 +1084,22 @@ function docPortrait(kind, i, H) {
   const url = DOCBASE + g + '-' + kind + '.webp'; if (!docImgOk(url)) return '';
   const k = H / m[2], w = Math.round(m[1] * k), cap = (kind === 'dongtac' ? POSE : EXPR)[i];
   return `<div class="docp" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(${url});background-size:${w * m[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${cap}</span></div>`;
+}
+
+const STORYBASE = DOCBASE.replace(/bacsi\/$/, 'tranh/');
+function storyStart(c) {
+  if (c.rate > 0 && (TAY(c) || c.setting === 'capcuu')) return '01';
+  if (/bụng|ruột|dạ dày|gan|mật|tụy|tiêu hóa/i.test([c.title, c.intro].join(' '))) return '03';
+  return '02';
+}
+const storyImg = (k, cls) => `<figure class="story ${cls || ''}"><img src="${STORYBASE}${k}.webp" alt="" loading="lazy" onerror="this.parentNode.remove()"></figure>`;
+function runner() {
+  if (S.introShown || S.log.length || Date.now() - S.t0 > 5000) return '';
+  const g = docKey() === 'dfF' ? 'nu' : 'nam', run = S.c.rate > 0 && (TAY(S.c) || S.stab < 65), kind = run ? 'chay' : 'di', m = DOCSHEET[g + '-' + kind];
+  const u = DOCBASE + g + '-' + kind + '.webp'; if (!m || !docImgOk(u)) return '';
+  S.introShown = true;
+  const H = 120, w = Math.round(m[1] * H / m[2]);
+  return `<div class="runner ${kind}" aria-hidden="true" style="--w:${w}px;--h:${H}px;--n:${m[0]};background-image:url(${u})"></div>`;
 }
 
 /* ---------- Thời gian và độ ổn định ---------- */
@@ -1145,13 +1166,13 @@ function draw() {
   $('#play').innerHTML = `
   <div class="top"><button class="iconbtn" data-home>Thoát</button><h2>${esc(c.title)}</h2><span class="clock" title="Thời gian thực bạn đã chơi">⏱ <b data-rt>${fmtRT(Date.now() - S.t0)}</b></span></div>
   <div class="pl"><div class="pl-l">
-  <div class="stage">${scene()}${mon()}</div>
+  ${S.log.length ? '' : storyImg(storyStart(c), 'open')}<div class="stage">${scene()}${mon()}${runner()}</div>
   <div class="place"><span>${esc(c.place || SETTINGS[c.setting])}</span><span class="mono">${nowStr()}${isNight() ? ' · Trực đêm' : ''}</span></div>
   <div class="tclock"><div><span>Thời gian thực</span><b data-rt>${fmtRT(Date.now() - S.t0)}</b></div><div><span>Giờ trong ca</span><b>${S.t} phút</b></div>${er ? `<div class="${left <= 5 ? 'c' : left <= 12 ? 'w' : ''}"><span>Bệnh nhân còn kịp</span><b>~${left} phút</b></div>` : `<div><span>Giới hạn</span><b>Không</b></div>`}</div>
   ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="tnote">${er ? 'Phút trong ca là thời gian mô phỏng trong bệnh viện, không phải thời gian bạn chơi. Mỗi thao tác tốn vài phút trong ca và bệnh nhân xấu đi theo đó. Bạn nghĩ bao lâu cũng được, bệnh nhân không đổi.' : 'Phút trong ca chỉ để ghi nhận. Ca khám không giới hạn thời gian, bạn cứ thong thả.'}</div>
-  <div class="docrow">${(([kd, i]) => docPortrait(kd, i, 112))(docPick())}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div></div>${evlog()}
+  <div class="docrow">${(([kd, i]) => docPortrait(kd, i, kd === 'dongtac' ? 150 : 96))(docPick())}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div></div>${evlog()}
   </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
   <div class="panel">${panel()}</div></div></div>`;
@@ -1247,7 +1268,7 @@ function finish(dead) {
   S.sbar = buildSbar(c);
   const g = r.total >= 85 ? 'Xuất sắc' : r.total >= 70 ? 'Đạt' : r.total >= 50 ? 'Cần cải thiện' : 'Chưa đạt';
   $('#result').innerHTML = `
-  <div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
+  ${storyImg(dead ? '05' : r.total >= 70 ? '06' : '04', 'res')}<div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
   <div style="display:flex;justify-content:center;margin:4px 0">${docPortrait("bieucam", dead ? 5 : r.total >= 70 ? 4 : r.total >= 50 ? 1 : 2, 120)}</div>
   <div class="score"><span class="n">${r.total}</span><span class="muted">/ 100</span><span class="grade">${g}</span></div>
   ${timeReport()}
