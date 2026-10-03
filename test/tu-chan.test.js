@@ -47,7 +47,7 @@ test('Case bank management is hidden unless the member is verified as admin', as
 
 test('Duty rooms: random server-issued cases and EXP wired to the shared Y Quan doctor profile', async () => {
   const html = await read('../public/tu-chan/index.html');
-  for (const rpc of ['tu_chan_profile_v1', 'tu_chan_start_shift_v1', 'tu_chan_finish_shift_v1', 'tu_chan_register_cases_v1']) assert.ok(html.includes(rpc), 'client missing ' + rpc);
+  for (const rpc of ['tu_chan_profile_v1', 'tu_chan_start_shift_v2', 'tu_chan_finish_shift_v1', 'tu_chan_register_cases_v1']) assert.ok(html.includes(rpc), 'client missing ' + rpc);
   assert.match(html, /data-duty="\$\{k\}"/);
   const sql = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
   assert.match(sql, /enable row level security/);
@@ -86,4 +86,18 @@ test('Intake cases cannot be synced into the random duty catalog', async () => {
   const guard = await read('../supabase/migrations/20261002194500_vien_thuc_hanh_case_release_guard.sql');
   assert.match(guard, /when r\.status = 'nhap' then false/);
   assert.match(guard, /coalesce\(v_active, false\)/);
+});
+
+test('Duty is filtered by the three tracks: noi, ngoai, yhct (server picks only inside the chosen track)', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /const TRACKS = \{\s*noi:[\s\S]*ngoai:[\s\S]*yhct:/);
+  assert.match(html, /tu_chan_start_shift_v2', \{ p_track: track \}/);
+  const sql = await read('../supabase/migrations/20261003180000_vien_thuc_hanh_tracks_v1.sql');
+  assert.match(sql, /k\.active and k\.track = p_track/);
+  assert.match(sql, /revoke all on function public\.tu_chan_start_shift_v2\(text\) from public, anon;/);
+  assert.doesNotMatch(sql, /drop\s|delete\s+from|truncate/i, 'additive migration only');
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  const t = c => (c.opt && c.opt.bd) ? 'yhct' : ((c.group === 'ngoai' || c.id === 'thai-ngoai-tu-cung-vo') ? 'ngoai' : 'noi');
+  for (const k of ['noi', 'ngoai', 'yhct']) assert.ok(bank.some(c => t(c) === k), 'no case in track ' + k);
+  for (const c of bank.filter(c => t(c) !== 'yhct')) assert.ok(!c.opt || !c.opt.bd, c.id + ' modern track must not carry YHCT diagnosis');
 });

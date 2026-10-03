@@ -3,8 +3,8 @@
 Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng ca nhúng sẵn).
 
 ## Luồng chơi
-- Người chơi chọn phòng trực: **Trực Cấp cứu** hoặc **Trực Phòng khám**. Ca bệnh do máy chủ phát ngẫu nhiên, người chơi không chọn và không biết trước.
-- Ca dở được giữ lại 3 giờ: vào lại cùng phòng sẽ gặp đúng ca đó (không đổi ca bằng cách thoát).
+- Người chơi chọn khoa trực: **Nội**, **Ngoại** (chỉ y học hiện đại) hoặc **Y học cổ truyền** (kết hợp Đông Tây y). Chỉ phát ca thuộc khoa đã chọn. Ca bệnh do máy chủ phát ngẫu nhiên, người chơi không chọn và không biết trước.
+- Ca dở được giữ lại 3 giờ: bấm vào khoa bất kỳ sẽ gặp lại đúng ca đó (không đổi ca bằng cách thoát).
 - Ca trực (cấp cứu, nội trú) chấm theo y đa khoa. Ca phòng khám và châm cứu chấm theo YHCT.
 
 ## Hồ sơ bác sĩ dùng chung với HIU Y Quán
@@ -14,8 +14,8 @@ Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng c
 - Hạng: Y sinh thực hành (0), Bác sĩ trực tập sự (100), Bác sĩ trực (300), Bác sĩ điều trị (700), Bác sĩ chính (1500), Chuyên gia (3000), Danh y (6000).
 
 ## Máy chủ (migration `20261001160000_vien_thuc_hanh_shifts_v1.sql`)
-- Bảng `y_quan_private.tu_chan_catalog` (danh mục ca và phòng) và `tu_chan_shifts` (lượt trực). RLS bật, không cấp quyền trực tiếp.
-- RPC: `tu_chan_profile_v1`, `tu_chan_start_shift_v1(p_room)`, `tu_chan_finish_shift_v1(p_shift_id, p_score, p_died)`, `tu_chan_register_cases_v1(p_cases)` (chỉ admin).
+- Bảng `y_quan_private.tu_chan_catalog` (danh mục ca, phòng và khoa `track`) và `tu_chan_shifts` (lượt trực). RLS bật, không cấp quyền trực tiếp.
+- RPC: `tu_chan_profile_v1`, `tu_chan_start_shift_v2(p_track)` (noi|ngoai|yhct; v1 theo phòng còn giữ cho bản cũ), `tu_chan_finish_shift_v1(p_shift_id, p_score, p_died)`, `tu_chan_register_cases_v1(p_cases)` (chỉ admin).
 - Điểm do trình duyệt tính và gửi lên; máy chủ giới hạn bằng trần EXP, thời gian tối thiểu và một lượt trực chỉ ghi một lần. Nội dung ca nằm trong gói trang nên chưa bí mật tuyệt đối. Muốn chống xem trước ca cần chuyển nội dung ca về máy chủ.
 
 ## Thêm ca mới
