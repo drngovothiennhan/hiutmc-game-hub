@@ -524,6 +524,52 @@ const DOC_CSS = `
 .expbox.no{border-color:var(--alert);background:var(--alert-soft)}.expbox.off{color:var(--muted);font-size:13px}
 .manage-body .wings{margin-top:6px}
 @media (max-width:760px){.rooms{grid-template-columns:1fr}}
+
+.doc[class*="th-"]:not(.th-ngoc){background:color-mix(in srgb,var(--ac) 12%,var(--surface));border-color:var(--ac)}
+.th-dao{--ac:#B3476A}.th-cham{--ac:#2F4B8F}.th-muc{--ac:#4A4742}.th-vang{--ac:#9A6B00}
+.fr-tre{border-color:#4E8F3A!important;box-shadow:0 0 0 3px #CFE8C3,0 0 0 5px #4E8F3A}
+.fr-sen{border-color:#C25B84!important;box-shadow:0 0 0 3px #F6D3E0,0 0 0 5px #C25B84}
+.fr-rong{border-color:#C8A24A!important;box-shadow:0 0 0 3px #FBE9B7,0 0 0 5px #C8A24A,0 0 0 7px #7A5A12}
+.motto{font-size:13px;color:var(--muted);font-style:italic;margin:0 0 2px}
+.arena,.perso{margin-top:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px}
+.arena:empty,.perso:empty{display:none}
+.ar-h{font-family:var(--f-display);font-size:18px;font-weight:700;margin-bottom:2px}
+.ar-sub{font-size:13px;color:var(--muted);margin:0 0 10px}
+.ar-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.ar-tab{border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600}
+.ar-tab[aria-pressed="true"]{background:var(--jade);color:var(--jade-ink);border-color:var(--jade)}
+.ar-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.ar-case{border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;font-size:13px;background:var(--bg)}
+.ar-case b{display:block;font-size:15px}
+.ar-case.done{border-color:var(--jade);background:var(--jade-soft)}
+.ar-board{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+.ar-board td{padding:6px 4px;border-top:1px solid var(--line)}
+.ar-board tr.me{font-weight:700;background:var(--jade-soft)}
+.ar-board td:first-child{width:34px;font-family:var(--f-mono)}
+.ar-board td:last-child{text-align:right;font-family:var(--f-mono)}
+.ar-rule{font-size:12.5px;color:var(--muted);margin-top:8px}
+.badges{margin-top:14px}
+.bdg-l{display:flex;flex-wrap:wrap;gap:8px}
+.bdg{border:1.5px solid var(--line);border-radius:12px;padding:6px 10px;font-size:13px;background:var(--bg);max-width:260px}
+.bdg b{display:block}
+.bdg span{color:var(--muted);font-size:12px}
+.bdg.got{border-color:#C8A24A;background:#FBF1D5;color:#3A2D0B}
+.bdg.got span{color:#6B5520}
+.bdg.lock{opacity:.6}
+.evlog{margin-top:8px;border-left:3px solid var(--alert);background:var(--alert-soft);border-radius:8px;padding:6px 10px;font-size:13px}
+.evlog div+div{margin-top:4px}
+.evlog .tm{font-family:var(--f-mono);font-weight:600;margin-right:6px}
+.combo{display:inline-block;margin:0 0 8px;background:var(--jade-soft);color:var(--jade);border-radius:999px;padding:3px 12px;font-size:12.5px;font-weight:700}
+.sbar .sq{margin-top:10px}
+.sbar .opt.sb-ok{border-color:var(--jade);background:var(--jade-soft)}
+.sbar .opt.sb-no{border-color:var(--alert);background:var(--alert-soft)}
+.perso label{display:block;font-size:13px;font-weight:600;margin-top:10px}
+.perso input,.perso select{width:100%;margin-top:4px;padding:9px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.perso input:disabled{opacity:.6}
+.pf-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pf-lv{font-size:13px;margin:4px 0 0;color:var(--muted)}
+.pf-ul{font-size:12.5px;color:var(--muted);margin:8px 0 0;padding-left:18px}
+@media (max-width:520px){.ar-cases{grid-template-columns:1fr}.pf-g{grid-template-columns:1fr}}
 @media (max-width:520px){.rooms{grid-template-columns:1fr}.room{min-height:0}.doc{align-items:flex-start}.doc-av{width:60px;height:60px}.dstats b{font-size:15px}}
 @media (min-width:980px){.rooms{gap:18px}.room{padding:22px;min-height:190px}.room b{font-size:21px}.room span:not(.ri){font-size:14.5px}.doc{padding:18px 22px}.doc-av{width:96px;height:96px}.doc-main h2{font-size:22px}}
 `;
@@ -661,7 +707,7 @@ const TRACK_NAMES = { noi: 'Nội', ngoai: 'Ngoại', yhct: 'Y học cổ truy�
 let HIST = null;
 async function loadHistory() {
   if (PSTATE !== 'ok') { HIST = null; return renderHist(); }
-  try { HIST = await sbRpc('tu_chan_history_v1', { p_limit: 10 }); } catch (e) { HIST = { error: true }; }
+  try { HIST = await sbRpc('tu_chan_history_v1', { p_limit: 50 }); } catch (e) { HIST = { error: true }; }
   renderHist();
 }
 function renderHist() {
@@ -675,11 +721,11 @@ function renderHist() {
   const bars = has ? keys.filter(k => sk[k] !== undefined).map(k => `<div class="sk"><span>${SKILL_NAMES[k]}</span><div class="skbar"><i style="width:${sk[k]}%" class="${sk[k] >= 85 ? 'ok' : sk[k] >= 60 ? 'mid' : 'no'}"></i></div><b>${sk[k]}</b></div>`).join('') : '<p class="xpnote">Chưa có điểm kỹ năng. Hoàn tất một ca trực để bắt đầu.</p>';
   const weak = has ? keys.filter(k => sk[k] !== undefined).sort((a, b) => sk[a] - sk[b])[0] : null;
   const trs = Object.keys(tr).map(k => `<span class="chip">${esc(TRACK_NAMES[k] || k)}: ${tr[k].n} ca, TB ${tr[k].avg}</span>`).join('');
-  const rec = (HIST.recent || []).map(r => { const c = byId[r.case_id]; const d = r.at ? new Date(r.at).toLocaleDateString('vi-VN') : '';
+  const rec = (HIST.recent || []).slice(0, 10).map(r => { const c = byId[r.case_id]; const d = r.at ? new Date(r.at).toLocaleDateString('vi-VN') : '';
     return `<li><span class="rt">${esc(c ? c.title : r.case_id)}</span><span class="rm">${esc(TRACK_NAMES[r.track] || '')} · ${d}${r.died ? ' · tử vong' : ''}</span><b>${r.score}</b></li>`; }).join('');
   el.innerHTML = `<div class="hist-h">Hồ sơ trực</div>
   <div class="hist-grid"><div><div class="hist-s">Điểm theo kỹ năng${HIST.skills_n ? ` (${HIST.skills_n} ca gần nhất)` : ''}</div>${bars}${weak && sk[weak] < 85 ? `<p class="xpnote">Nên luyện thêm: <b>${SKILL_NAMES[weak]}</b>.</p>` : ''}</div>
-  <div><div class="hist-s">Theo khoa</div><div class="chips">${trs || '<span class="xpnote">Chưa có ca nào.</span>'}</div><div class="hist-s" style="margin-top:12px">Ca gần đây</div><ul class="hist-l">${rec || '<li class="xpnote">Chưa có ca nào.</li>'}</ul></div></div>`;
+  <div><div class="hist-s">Theo khoa</div><div class="chips">${trs || '<span class="xpnote">Chưa có ca nào.</span>'}</div><div class="hist-s" style="margin-top:12px">Ca gần đây</div><ul class="hist-l">${rec || '<li class="xpnote">Chưa có ca nào.</li>'}</ul></div></div>${badgesHtml()}`;
 }
 async function loadProfile() {
   if (!sbSession()) { PSTATE = 'nosession'; PROFILE = null; return renderDoc(); }
@@ -688,6 +734,8 @@ async function loadProfile() {
   catch (e) { PROFILE = null; PSTATE = e.code === 'no_session' ? 'nosession' : 'error'; }
   renderDoc();
   loadHistory();
+  loadChallenges();
+  loadPersonal();
 }
 const TRACKS = {
   noi: { name: 'Trực khoa Nội', cls: 'capcuu', sub: 'Bệnh nhân nội khoa và cấp cứu nội. Chẩn đoán và xử trí theo y học hiện đại.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>' },
@@ -701,8 +749,8 @@ function renderDoc() {
   let h = '';
   if (PSTATE === 'ok' && P) {
     const t = tierOf(P.experience), key = P.doctor_avatar_id === 'female' ? 'dfF' : 'dmF', img = SPR[key] ? SPR[key].src : '';
-    h = `<div class="doc-av">${img ? `<img src="${img}" alt="">` : ''}</div>
-    <div class="doc-main"><div class="doc-top"><div><div class="eyebrow">Bác sĩ HIU Y Quán</div><h2>${esc(P.display_name || 'Bác sĩ')}</h2></div><span class="rank">${esc(t.name)}</span></div>
+    h = `<div class="doc-av fr-${PERS ? esc(PERS.frame) : 'none'}">${img ? `<img src="${img}" alt="">` : ''}</div>
+    <div class="doc-main"><div class="doc-top"><div><div class="eyebrow">Bác sĩ HIU Y Quán</div><h2>${esc(P.display_name || 'Bác sĩ')}</h2>${PERS && PERS.motto ? `<div class="motto">“${esc(PERS.motto)}”</div>` : ''}</div><span class="rank">Cấp ${t.idx + 1} · ${esc(t.name)}</span></div>
       <div class="xpbar" role="progressbar" aria-valuenow="${t.pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${t.pct}%"></i></div>
       <div class="xpnote">${t.next ? `Còn ${t.need} EXP để lên ${esc(t.next)}` : 'Hạng cao nhất'}</div>
       <div class="dstats"><div><b>${P.experience}</b><span>EXP</span></div><div><b>${P.credits}</b><span>Tín dụng</span></div><div><b>${P.average_stars != null ? P.average_stars : '–'}</b><span>Sao TB</span></div><div><b>${P.shifts_done}</b><span>Ca trực</span></div></div>
@@ -712,6 +760,7 @@ function renderDoc() {
   else if (PSTATE === 'error') h = '<div class="doc-main"><div class="eyebrow">Hồ sơ bác sĩ</div><p class="xpnote">Chưa tải được hồ sơ từ máy chủ. Bạn vẫn trực được nhưng chưa tính EXP.</p><button class="btn ghost" data-reload-profile>Tải lại hồ sơ</button></div>';
   else h = `<div class="doc-main"><div class="eyebrow">Chế độ khách</div><h2>Đăng nhập để tích EXP</h2><p class="xpnote">Ca vẫn được phát ngẫu nhiên, nhưng EXP chỉ cộng dồn khi bạn vào từ Game Hub bằng tài khoản HIU TMC đã duyệt.</p>${HUB ? `<a class="btn" href="${esc(HUB)}">Về Game Hub</a>` : ''}</div>`;
   doc.innerHTML = h;
+  doc.className = 'doc th-' + (PERS && PSTATE === 'ok' ? PERS.theme : 'ngoc');
   const open = P && P.open_room ? true : null;
   duty.innerHTML = (open ? `<div class="resume">Bạn có một ca đang dở. Bấm vào một khoa bất kỳ để tiếp tục đúng ca đó.</div>` : '') +
     `<div class="rooms">${Object.keys(TRACKS).map(k => `<button class="room ${TRACKS[k].cls}" data-duty="${k}" ${DUTY_BUSY ? 'disabled' : ''}><span class="ri">${TRACKS[k].ico}</span><b>${TRACKS[k].name}</b><span>${TRACKS[k].sub}</span><em>${open ? 'Tiếp tục ca dở' : 'Nhận ca ngẫu nhiên'} →</em></button>`).join('')}</div>` +
@@ -732,24 +781,25 @@ function localPick(track) {
   lsSet('tuchan-recent', [c.id].concat(recent).slice(0, Math.max(3, Math.min(10, pool.length - 1))));
   return c;
 }
-async function startDuty(track) {
+async function startDuty(track, challenge) {
   if (DUTY_BUSY || !TRACKS[track]) return;
   DUTY_BUSY = true; DUTY_MSG = PSTATE === 'ok' ? 'Đang nhận ca từ máy chủ…' : 'Đang chọn ca ngẫu nhiên…'; renderDoc();
   try {
     let c, shift = null;
     if (PSTATE === 'ok') {
-      shift = await sbRpc('tu_chan_start_shift_v2', { p_track: track });
+      shift = await sbRpc(challenge ? 'tu_chan_start_challenge_v1' : 'tu_chan_start_shift_v2', { p_track: track });
       c = bank().find(x => x.id === shift.case_id);
       if (!c) throw Object.assign(Error('Ca này chưa có trong phiên bản game của bạn. Hãy tải lại trang rồi thử lại.'), { code: 'missing_case' });
     } else c = localPick(track);
-    DUTY_MSG = ''; DUTY_BUSY = false;
+    DUTY_MSG = ''; ARENA_MSG = ''; DUTY_BUSY = false;
     return start(c.id, shift, shift ? shift.room : (TAY(c) ? 'capcuu' : 'kham'));
   } catch (e) {
     const m = String((e && e.code) || (e && e.message) || '');
-    DUTY_MSG = m.includes('daily_limit') ? 'Hôm nay bạn đã trực đủ 40 ca. Hẹn bạn ngày mai.' : m.includes('clinic_required') ? 'Bạn cần mở HIU Y Quán trước.' : m.includes('no_case') ? 'Khoa này chưa có ca nào.' : ('Chưa nhận được ca: ' + ((e && e.message) || 'lỗi kết nối') + '. Thử lại sau ít phút.');
+    if (challenge) ARENA_MSG = m.includes('challenge_done') ? 'Bạn đã hoàn tất cả ba ca của giải tuần này. Hẹn bạn tuần sau.' : m.includes('no_case') ? 'Khoa này chưa có ca đang hoạt động nên giải tuần chưa mở.' : '';
+    DUTY_MSG = challenge && ARENA_MSG ? '' : m.includes('daily_limit') ? 'Hôm nay bạn đã trực đủ 40 ca. Hẹn bạn ngày mai.' : m.includes('clinic_required') ? 'Bạn cần mở HIU Y Quán trước.' : m.includes('no_case') ? 'Khoa này chưa có ca nào.' : ('Chưa nhận được ca: ' + ((e && e.message) || 'lỗi kết nối') + '. Thử lại sau ít phút.');
     if (m.includes('clinic_required')) PSTATE = 'noclinic';
   }
-  DUTY_BUSY = false; renderDoc();
+  DUTY_BUSY = false; renderDoc(); renderArena();
 }
 async function submitShift() {
   const box = $('#expbox'); if (!box || !S || !S.shift || !S.res) return;
@@ -757,11 +807,141 @@ async function submitShift() {
   try {
     const x = await sbRpc('tu_chan_finish_shift_v2', { p_shift_id: S.shift.shift_id, p_score: S.res.total, p_died: !!S.res.dead, p_skills: S.res.skills });
     const was = tierOf(x.experience - x.exp_awarded), now = tierOf(x.experience);
-    loadHistory();
+    loadHistory(); loadChallenges();
     if (PROFILE) { PROFILE.experience = x.experience; if (!x.already) { PROFILE.shifts_done++; PROFILE.today_exp += x.exp_awarded; PROFILE.open_room = null; } }
     box.className = 'expbox ok';
     box.innerHTML = `<b>+${x.exp_awarded} EXP</b> · tổng ${x.experience} EXP · ${esc(now.name)}${now.idx > was.idx ? ' <b>· Thăng hạng!</b>' : ''}${x.first_time && x.exp_awarded ? ' · ca mới' : ''}${x.exp_awarded === 0 ? '<div class="xpnote">Không cộng EXP: đã hết trần 400 EXP hôm nay hoặc ca kết thúc quá nhanh.</div>' : ''}`;
   } catch (e) { box.className = 'expbox no'; box.innerHTML = 'Chưa ghi được EXP: ' + esc(e.message || 'lỗi kết nối') + ' <button class="btn ghost" data-retry>Thử lại</button>'; }
+}
+
+
+/* ---------- Giải đấu tuần ---------- */
+const CH = {}; let ARENA_TRACK = 'noi', ARENA_MSG = '';
+async function loadChallenges() {
+  if (PSTATE !== 'ok') { Object.keys(CH).forEach(k => delete CH[k]); return renderArena(); }
+  await Promise.all(Object.keys(TRACKS).map(async k => { try { CH[k] = await sbRpc('tu_chan_challenge_v1', { p_track: k }); } catch (e) { CH[k] = { error: true }; } }));
+  renderArena();
+}
+function renderArena() {
+  const el = $('#arena'); if (!el) return;
+  if (PSTATE !== 'ok') { el.innerHTML = ''; return; }
+  const X = CH[ARENA_TRACK], byId = Object.fromEntries(bank().map(c => [c.id, c]));
+  const tabs = Object.keys(TRACKS).map(k => `<button class="ar-tab" aria-pressed="${k === ARENA_TRACK}" data-arena="${k}">${esc(TRACK_NAMES[k])}</button>`).join('');
+  let body;
+  if (!X) body = '<p class="xpnote">Đang tải giải đấu…</p>';
+  else if (X.error) body = '<p class="xpnote">Chưa tải được giải đấu. Thử lại sau ít phút.</p>';
+  else if (!X.n_cases) body = '<p class="xpnote">Khoa này chưa có ca đang hoạt động nên giải tuần chưa mở.</p>';
+  else {
+    const left = Math.max(0, Math.ceil((new Date(X.ends_at) - Date.now()) / 86400000)), done = X.cases.filter(c => c.my_done).length;
+    const cases = X.cases.map((c, i) => `<div class="ar-case ${c.my_done ? 'done' : ''}"><span>Ca ${i + 1} · ${esc(c.level || '')}</span><b>${c.my_done ? c.my_score + ' điểm' : 'Chưa thi'}</b></div>`).join('');
+    const rows = X.board.map(r => `<tr class="${r.me ? 'me' : ''}"><td>${r.rank}</td><td>${esc(r.name)}</td><td>${r.total} đ · ${r.n} ca</td></tr>`).join('');
+    body = `<p class="ar-sub">Tuần ${esc(X.week.replace('-', ' '))} · còn ${left} ngày · ${X.players} người đã thi</p>
+      <div class="ar-cases">${cases}</div>
+      ${X.me ? `<p class="xpnote">Thứ hạng của bạn: <b>${X.me.rank}</b> · ${X.me.total} điểm sau ${X.me.n}/${X.n_cases} ca.</p>` : ''}
+      <button class="btn" data-arena-go="${ARENA_TRACK}" ${DUTY_BUSY || done >= X.n_cases ? 'disabled' : ''}>${done >= X.n_cases ? 'Bạn đã hoàn tất giải tuần này' : done ? 'Thi ca kế tiếp' : 'Vào thi đấu'}</button>
+      ${ARENA_MSG ? `<div class="dmsg" role="status">${esc(ARENA_MSG)}</div>` : ''}
+      ${rows ? `<table class="ar-board"><tbody>${rows}</tbody></table>` : '<p class="xpnote">Chưa có ai hoàn tất ca nào trong tuần này. Hãy là người đầu tiên.</p>'}
+      <p class="ar-rule">Mỗi ca chỉ tính điểm lượt hoàn tất đầu tiên. Lượt dưới 60 giây không có điểm. Điểm do ứng dụng gửi lên nên bảng này để luyện tập và thi đua, chưa dùng để trao giải.</p>`;
+  }
+  el.innerHTML = `<div class="ar-h">Giải đấu tuần</div><div class="ar-tabs">${tabs}</div>${body}`;
+}
+
+/* ---------- Huy hiệu (tính từ lịch sử thật, 50 ca gần nhất) ---------- */
+function badgeList() {
+  const rec = (HIST && HIST.recent) || [], byId = Object.fromEntries(bank().map(c => [c.id, c])), tr = (HIST && HIST.tracks) || {};
+  const ok = r => !r.died && r.score >= 70;
+  let streak = 0; for (const r of rec) { if (ok(r)) streak++; else break; }
+  const last10 = rec.slice(0, 10);
+  return { streak, list: [
+    { n: 'Chuỗi 5 ca đạt', d: '5 ca gần nhất đều từ 70 điểm, không tử vong', got: rec.length >= 5 && rec.slice(0, 5).every(ok) },
+    { n: 'Tay vững', d: '10 ca gần nhất không có chỉ định nguy hại', got: last10.length >= 10 && last10.every(r => r.skills && r.skills.an_toan === 100) },
+    { n: 'Đủ ba khoa', d: 'Đã trực cả Nội, Ngoại và Y học cổ truyền', got: ['noi', 'ngoai', 'yhct'].every(k => tr[k] && tr[k].n > 0) },
+    { n: 'Cấp cứu kịp thời', d: 'Từ 85 điểm ở một ca cấp cứu', got: rec.some(r => { const c = byId[r.case_id]; return c && c.setting === 'capcuu' && !r.died && r.score >= 85; }) },
+    { n: 'Điểm tuyệt đối', d: 'Từ 95 điểm ở một ca', got: rec.some(r => r.score >= 95) },
+    { n: 'Trực đều tay', d: 'Hoàn tất 25 ca trực', got: !!(PROFILE && PROFILE.shifts_done >= 25) }
+  ] };
+}
+function badgesHtml() {
+  if (!HIST || HIST.error) return '';
+  const B = badgeList();
+  return `<div class="badges"><div class="hist-s">Huy hiệu · chuỗi ca đạt hiện tại: <b>${B.streak}</b></div><div class="bdg-l">${B.list.map(b => `<div class="bdg ${b.got ? 'got' : 'lock'}"><b>${esc(b.n)}</b><span>${b.got ? 'Đã đạt' : 'Chưa đạt'}: ${esc(b.d)}</span></div>`).join('')}</div></div>`;
+}
+
+/* ---------- Bàn giao ca (SBAR), luyện tập không tính điểm ---------- */
+const clip = (t, n) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1) + '…' : t; };
+function buildSbar(c) {
+  const tk = trackOf(c), qs = [];
+  /* A: chẩn đoán. Ưu tiên các phương án chẩn đoán đã soạn sẵn của chính ca (đáp án nhiễu cùng bệnh cảnh). */
+  const dx = (c.opt && c.opt.ydx || []).map(po), okDx = dx.find(o => o.k === '+'), badDx = dx.filter(o => o.k === '').map(o => clip(o.t, 200));
+  if (okDx && badDx.length >= 2) qs.push({ lab: 'A — Đánh giá', q: 'Bạn bàn giao chẩn đoán xác định nào cho ca sau?', pick: null, opts: shuffle([{ t: clip(okDx.t, 200), ok: true }].concat(shuffle(badDx).slice(0, 3).map(t => ({ t, ok: false })))) });
+  /* R: kế hoạch điều trị, đáp án nhiễu lấy từ ca khác cùng khoa. */
+  const right = c.hbu && c.hbu.dieu_tri;
+  if (typeof right === 'string' && right.length >= 10) {
+    const seen = new Set([clip(right, 200)]), wrong = [];
+    for (const x of shuffle(bank().filter(x => x.id !== c.id && trackOf(x) === tk && x.hbu && typeof x.hbu.dieu_tri === 'string' && x.hbu.dieu_tri.length >= 10))) {
+      const t = clip(x.hbu.dieu_tri, 200); if (!seen.has(t)) { seen.add(t); wrong.push(t); } if (wrong.length === 3) break;
+    }
+    if (wrong.length >= 2) qs.push({ lab: 'R — Đề nghị', q: 'Bạn đề nghị kế hoạch điều trị nào cho ca sau?', pick: null, opts: shuffle([{ t: clip(right, 200), ok: true }].concat(wrong.map(t => ({ t, ok: false })))) });
+  }
+  return qs.length ? { qs } : null;
+}
+function sbarHtml() {
+  if (!S || !S.sbar) return '';
+  return `<div class="teach sbar"><h3>Bàn giao ca (SBAR)</h3><p class="muted" style="font-size:13px;margin:0">Luyện tập, không tính điểm. Hãy bàn giao ca vừa trực cho bác sĩ ca sau.</p>` + S.sbar.qs.map((q, qi) => `<div class="sq"><b>${q.lab}</b> ${esc(q.q)}` + q.opts.map((o, oi) => `<button class="opt ${q.pick === null ? '' : o.ok ? 'sb-ok' : q.pick === oi ? 'sb-no' : ''}" data-sb="${qi}:${oi}" ${q.pick !== null ? 'disabled' : ''}><span class="t">${esc(o.t)}</span></button>`).join('') + (q.pick !== null ? `<div class="xpnote">${q.opts[q.pick].ok ? 'Bàn giao đúng.' : 'Chưa đúng. Phương án đúng được tô xanh.'}</div>` : '') + '</div>').join('') + '</div>';
+}
+function decisionNote() {
+  if (!S || !S.first) return '';
+  const er = S.c.rate > 0, f = S.first;
+  return `<p class="muted" style="font-size:13px;margin:6px 0">${er ? `Việc đầu tiên bạn làm: <b>${esc(f.n)}</b> (${f.good ? 'đúng ưu tiên cấp cứu' : 'chưa phải ưu tiên cấp cứu cao nhất'}). ` : ''}${S.bestCombo > 1 ? `Chuỗi xử trí chuẩn dài nhất: ${S.bestCombo}.` : ''}</p>`;
+}
+
+/* ---------- Cá nhân hóa HIU Y Quán (mở khóa theo cấp, kiểm tra ở máy chủ) ---------- */
+let PERS = null;
+const THEME_N = { ngoc: 'Ngọc bích', dao: 'Hoa đào', cham: 'Chàm', muc: 'Mực nho', vang: 'Vàng Danh y' };
+const FRAME_N = { none: 'Không khung', tre: 'Khung trúc', sen: 'Khung sen', rong: 'Khung rồng' };
+const OUTFIT_N = { classic: 'Cổ điển', academy: 'Học viện', master: 'Tông sư' };
+async function loadPersonal() {
+  if (PSTATE !== 'ok') { PERS = null; return renderPerso(); }
+  try { PERS = await sbRpc('tu_chan_personal_v1', {}); } catch (e) { PERS = null; }
+  renderDoc(); renderPerso();
+}
+function persoErr(e) {
+  const m = String((e && e.message) || (e && e.code) || ''), k = /locked:(\w+):(\d+)/.exec(m);
+  if (k) return `Cần đạt cấp ${k[2]} để dùng mục này.`;
+  if (m.includes('invalid_name')) return 'Tên phải từ 2 đến 40 ký tự và không chứa < > &.';
+  if (m.includes('invalid_motto')) return 'Lời chào tối đa 60 ký tự và không chứa < > &.';
+  if (m.includes('profile_required')) return 'Bạn cần kích hoạt nhân vật HIU Y Quán trước.';
+  return 'Chưa lưu được: ' + (m || 'lỗi kết nối');
+}
+let PERSO_MSG = '';
+function renderPerso() {
+  const el = $('#perso'); if (!el) return;
+  if (PSTATE !== 'ok' || !PERS || !PERS.has_profile) { el.innerHTML = ''; return; }
+  const L = PERS.level, U = PERS.unlock, lock = n => L < n;
+  const opt = (map, need, cur, names) => Object.keys(names).map(k => `<option value="${k}" ${k === cur ? 'selected' : ''} ${lock(need[k]) && k !== cur ? 'disabled' : ''}>${names[k]}${lock(need[k]) ? ` (mở ở cấp ${need[k]})` : ''}</option>`).join('');
+  el.innerHTML = `<div class="ar-h">Cá nhân hóa HIU Y Quán</div>
+  <p class="pf-lv">Bạn đang ở cấp <b>${L}</b>. Cấp tăng theo EXP trực ca.</p>
+  <label>Tên hiển thị ${lock(U.rename) ? `<span class="xpnote">(mở ở cấp ${U.rename})</span>` : ''}<input id="pf-name" maxlength="40" value="${esc(PERS.display_name || '')}" ${lock(U.rename) ? 'disabled' : ''}></label>
+  <label>Lời chào trên hồ sơ ${lock(U.motto) ? `<span class="xpnote">(mở ở cấp ${U.motto})</span>` : ''}<input id="pf-motto" maxlength="60" value="${esc(PERS.motto || '')}" ${lock(U.motto) ? 'disabled' : ''} placeholder="Ví dụ: Học để hiểu người bệnh"></label>
+  <div class="pf-g">
+    <label>Màu hồ sơ<select id="pf-theme">${opt(0, U.themes, PERS.theme, THEME_N)}</select></label>
+    <label>Khung ảnh<select id="pf-frame">${opt(0, U.frames, PERS.frame, FRAME_N)}</select></label>
+    <label>Trang phục<select id="pf-outfit">${opt(0, U.outfits, PERS.outfit, OUTFIT_N)}</select></label>
+  </div>
+  <ul class="pf-ul"><li>Cấp 4: đổi tên, lời chào, màu Hoa đào và Chàm, khung trúc.</li><li>Cấp 5: màu Mực nho, khung sen, trang phục Học viện.</li><li>Cấp 6: khung rồng, trang phục Tông sư.</li><li>Cấp 7: màu Vàng Danh y.</li></ul>
+  <div style="margin-top:12px"><button class="btn" data-pf-save>Lưu cá nhân hóa</button></div>
+  <div class="dmsg" role="status">${esc(PERSO_MSG)}</div>`;
+}
+async function savePersonal() {
+  const g = id => { const e = document.getElementById(id); return e ? e.value : null; };
+  const body = { p_display_name: g('pf-name'), p_motto: g('pf-motto'), p_theme: g('pf-theme'), p_frame: g('pf-frame'), p_outfit: g('pf-outfit') };
+  PERSO_MSG = 'Đang lưu…'; renderPerso();
+  try {
+    PERS = await sbRpc('tu_chan_personalize_v1', body);
+    if (PROFILE) PROFILE.display_name = PERS.display_name;
+    PERSO_MSG = 'Đã lưu. Tên mới cũng hiện trên bảng xếp hạng và HIU Y Quán.'; renderDoc(); loadChallenges();
+  } catch (e) { PERSO_MSG = persoErr(e); }
+  renderPerso();
 }
 
 /* ---------- Màn hình chọn ca ---------- */
@@ -785,6 +965,8 @@ function home() {
   </header>
   <section id="doc" class="doc" aria-live="polite"></section>
   <section id="duty" class="duty" aria-label="Chọn phòng trực"></section>
+  <section id="arena" class="arena" aria-label="Giải đấu tuần"></section>
+  <section id="perso" class="perso" aria-label="Cá nhân hóa HIU Y Quán"></section>
   <section id="hist" class="hist" aria-label="Hồ sơ trực"></section>
   <details class="manage" id="manage" ${ADMIN ? '' : 'hidden'} ${HS.open ? 'open' : ''}>
     <summary>Quản trị ngân hàng ca</summary>
@@ -917,7 +1099,7 @@ async function initCaps() {
 function start(id, shift, room) {
   const c = bank().find(x => x.id === id); if (!c) return;
   S = { shift: shift || null, room: room || (TAY(c) ? 'capcuu' : 'kham'), trial: !shift && !room, av: (shift && shift.doctor_avatar_id) || (PSTATE === 'ok' && PROFILE && PROFILE.doctor_avatar_id) || null, c, t: 0, t0: Date.now(), log: [], warn: null, stab: c.stab0, mult: 1, asked: {}, ex: {}, ts: {}, ac: {}, tab: 'ask', ans: { huyet: [] }, over: false,
-    bubble: { who: 'Tình huống', txt: c.intro }, opts: {} };
+    bubble: { who: 'Tình huống', txt: c.intro }, opts: {}, challenge: !!(shift && shift.challenge), events: [], combo: 0, bestCombo: 0, first: null };
   for (const k of Object.keys(c.opt)) S.opts[k] = shuffle(c.opt[k].map(po));
   S.actOrder = shuffle(c.actions.map((_, j) => j));
   show('play'); draw(); rtStart();
@@ -927,9 +1109,22 @@ function start(id, shift, room) {
 const TL = { ask: 'Hỏi bệnh', ex: 'Khám', test: 'Cận lâm sàng', act: 'Xử trí' };
 function tick(m, kind, name) {
   S.t += m; S.log.push({ k: kind || 'ask', n: name || '', m });
+  if (!S.first) S.first = { k: kind || 'ask', n: name || '', good: kind === 'act' && !!S._ok };
+  S._ok = false;
+  const before = S.stab;
   if (S.c.rate > 0) S.stab = Math.max(0, S.stab - S.c.rate * m * S.mult);
+  if (S.c.rate > 0 && S.stab > 0) EV_STEPS.forEach((th, i) => { if (before > th && S.stab <= th) pushEvent(i); });
   if (S.c.rate > 0 && S.stab <= 0) finish(true);
 }
+/* Diễn biến: điều dưỡng báo khi bệnh nhân xấu đi qua các ngưỡng ổn định. Số liệu lấy từ monitor tại thời điểm đó. */
+const EV_STEPS = [65, 45, 25];
+function pushEvent(i) {
+  const v = vitals(), nums = `Mạch ${v.hr}/ph, HA ${v.sbp}/${v.dbp}, SpO2 ${v.spo2}%, nhịp thở ${v.rr}.`;
+  const txt = [`Điều dưỡng báo: bệnh nhân vã mồ hôi, da lạnh dần. ${nums}`, `Điều dưỡng báo gấp: bệnh nhân li bì, đáp ứng chậm. ${nums}`, `Báo động: bệnh nhân đáp ứng rất kém, chuẩn bị hồi sức. ${nums}`][i];
+  S.events.push({ t: nowStr(), txt });
+}
+const evlog = () => S.events && S.events.length ? `<div class="evlog" role="alert">${S.events.slice(-3).map(e => `<div><span class="tm">${e.t}</span>${esc(e.txt)}</div>`).join('')}</div>` : '';
+const comboChip = () => S.combo > 1 ? `<div class="combo">Chuỗi xử trí chuẩn: ${S.combo}</div>` : '';
 /* Đồng hồ thực (giây thật người chơi đã dùng) tách biệt với phút trong ca (mô phỏng) */
 let RT = null;
 const fmtRT = ms => { const s = Math.floor(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
@@ -980,7 +1175,7 @@ function draw() {
   ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="tnote">${er ? 'Phút trong ca là thời gian mô phỏng trong bệnh viện, không phải thời gian bạn chơi. Mỗi thao tác tốn vài phút trong ca và bệnh nhân xấu đi theo đó. Bạn nghĩ bao lâu cũng được, bệnh nhân không đổi.' : 'Phút trong ca chỉ để ghi nhận. Ca khám không giới hạn thời gian, bạn cứ thong thả.'}</div>
-  <div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>
+  <div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>${evlog()}
   </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
   <div class="panel">${panel()}</div></div></div>`;
@@ -1002,7 +1197,7 @@ function panel() {
   }
   if (S.tab === 'test') return `<div class="muted">Xét nghiệm và chẩn đoán hình ảnh tốn thời gian. Chỉ định có chọn lọc.</div>` +
     c.tests.map((t, i) => `<button class="opt ${S.ts[i] ? 'used' : ''}" data-test="${i}"><span class="t">${esc(t[0])}</span>${costTag(t[1])}${S.ts[i] ? `<div class="r">${esc(t[2])}</div>` : ''}</button>`).join('');
-  if (S.tab === 'act') return `<div class="muted">Xử trí thực hiện ngay trên bệnh nhân. Cẩn trọng với những việc không thể rút lại.</div>` +
+  if (S.tab === 'act') return `<div class="muted">Xử trí thực hiện ngay trên bệnh nhân. Cẩn trọng với những việc không thể rút lại.</div>${comboChip()}` +
     S.actOrder.map(i => { const a = pa(c.actions[i]), d = S.ac[i];
       return `<button class="opt ${d ? (a.k === '!' ? 'bad' : 'used') : ''}" data-act="${i}"><span class="t">${esc(a.n)}</span>${costTag(a.min)}${d ? `<div class="r">${esc(a.why)}</div>` : ''}</button>`; }).join('');
   if (S.tab === 'dx') return dxForm();
@@ -1073,16 +1268,20 @@ function finish(dead) {
   clearInterval(RT);
   if (!S || S.over) return; S.over = true;
   const r = score(dead), c = S.c; saveBest(c.id, r.total); S.res = { total: r.total, dead: !!dead, skills: r.skills };
+  S.sbar = buildSbar(c);
   const g = r.total >= 85 ? 'Xuất sắc' : r.total >= 70 ? 'Đạt' : r.total >= 50 ? 'Cần cải thiện' : 'Chưa đạt';
   $('#result').innerHTML = `
   <div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
   <div class="score"><span class="n">${r.total}</span><span class="muted">/ 100</span><span class="grade">${g}</span></div>
   ${timeReport()}
+  ${decisionNote()}
+  ${S.challenge ? '<div class="expbox">Ca giải đấu tuần: điểm lượt đầu tiên của ca này được tính vào bảng xếp hạng.</div>' : ''}
   ${r.note ? `<div class="fail">${esc(r.note)}</div>` : ''}
   <div class="rows">${r.rows.map(x => `<div class="row ${x.tone}"><b>${esc(x.title)}</b><span class="v">${x.v}</span><span class="sub">${esc(x.sub)}</span></div>`).join('')}</div>
   <div class="teach"><h3>Điều rút ra</h3>${esc(c.teach)}${c.ref ? `<p class="muted" style="margin:8px 0 0;font-size:13px">Cơ sở tham khảo: ${esc(c.ref)}</p>` : ''}</div>
+  <div id="sbar">${sbarHtml()}</div>
   <div id="expbox" class="expbox ${S.shift ? '' : 'off'}">${S.shift ? 'Đang ghi EXP vào hồ sơ bác sĩ…' : S.trial ? 'Ca chơi thử của quản trị: không tính EXP.' : 'Chế độ khách: không tính EXP. Đăng nhập từ Game Hub để tích EXP.'}</div>
-  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">${S.trial ? `<button class="btn" data-start="${esc(c.id)}">Chơi lại ca này</button>` : `<button class="btn" data-duty="${esc(trackOf(S.c))}">Nhận ca tiếp theo</button>`}<button class="btn ghost" data-home>Về sảnh</button></div>
+  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">${S.trial ? `<button class="btn" data-start="${esc(c.id)}">Chơi lại ca này</button>` : S.challenge ? `<button class="btn" data-arena-go="${esc(trackOf(S.c))}">Ca giải tiếp theo</button>` : `<button class="btn" data-duty="${esc(trackOf(S.c))}">Nhận ca tiếp theo</button>`}<button class="btn ghost" data-home>Về sảnh</button></div>
   <p class="disc">Mô phỏng phục vụ học tập, không thay thế phác đồ và hướng dẫn chuyên môn hiện hành.</p>`;
   show('result');
   if (S.shift) submitShift();
@@ -1093,6 +1292,10 @@ document.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const d = b.dataset;
   if (d.duty !== undefined) { if (S && S.over) { S = null; home(); } return startDuty(d.duty); }
+  if (d.arenaGo !== undefined) { if (S && S.over) { S = null; home(); } return startDuty(d.arenaGo, true); }
+  if (d.arena !== undefined) { ARENA_TRACK = d.arena; return renderArena(); }
+  if (d.sb !== undefined) { if (!S || !S.sbar) return; const [qi, oi] = d.sb.split(':').map(Number), q = S.sbar.qs[qi]; if (q && q.pick === null) { q.pick = oi; const el = $('#sbar'); if (el) el.innerHTML = sbarHtml(); } return; }
+  if (b.hasAttribute('data-pf-save')) return savePersonal();
   if (d.start !== undefined) return start(d.start);
   if (b.hasAttribute('data-retry')) return submitShift();
   if (b.hasAttribute('data-reload-profile')) return loadProfile();
@@ -1121,7 +1324,8 @@ document.addEventListener('click', e => {
     const i = +d.act, a = pa(c.actions[i]);
     if (!S.ac[i] && a.k !== '++' && S.warn !== 'x' + i && c.rate > 0 && S.stab - lossOf(a.min) <= 0) { S.warn = 'x' + i; S.bubble = { who: 'Cảnh báo', txt: 'Việc này mất ' + a.min + ' phút trong ca, bệnh nhân có thể không kịp. Bấm lần nữa nếu vẫn muốn làm.' }; return draw(); }
     if (!S.ac[i]) {
-      S.warn = null; S.ac[i] = 1; S.bubble = { who: 'Xử trí', txt: a.why };
+      S.warn = null; S.ac[i] = 1; S.bubble = { who: 'Xử trí', txt: a.why }; S._ok = a.k === '++';
+      if (a.k === '++' || a.k === '+') { S.combo++; S.bestCombo = Math.max(S.bestCombo, S.combo); } else if (a.k === '-' || a.k === '!') S.combo = 0;
       if (c.rate > 0) {
         if (a.k === '++') { S.stab = Math.min(100, S.stab + 8); S.mult = Math.max(0.25, S.mult - 0.25); }
         else if (a.k === '+') S.stab = Math.min(100, S.stab + 3);
@@ -1136,6 +1340,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (t.id === 'pf-theme') { const d = $('#doc'); if (d) d.className = 'doc th-' + t.value; return; }
   if (t.id === 'impf' && t.files && t.files[0]) { const fr = new FileReader(); fr.onload = () => { $('#imp').value = String(fr.result || ''); checkImport(); }; fr.readAsText(t.files[0]); return; }
   if (!S || S.over) return;
   if (t.dataset.sel) S.ans[t.dataset.sel] = t.value;
