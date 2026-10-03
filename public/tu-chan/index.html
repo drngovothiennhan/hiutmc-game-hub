@@ -77,10 +77,10 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--jade);outline
 .tab{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px;font-weight:600;color:var(--muted);white-space:nowrap}
 .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--jade)}
 .panel{padding-block:12px;display:grid;gap:8px}
-.opt{display:grid;grid-template-columns:1fr auto;gap:2px 10px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%;min-width:0}
+.opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%;min-width:0}
 .opt:hover:not(:disabled){border-color:var(--jade)}
-.opt .t{overflow-wrap:anywhere}
-.opt .c{font-family:var(--f-mono);font-size:12px;color:var(--muted);align-self:start}
+.opt .t{overflow-wrap:break-word;word-break:normal;min-width:0}
+.opt .c{font-family:var(--f-mono);font-size:12px;color:var(--muted);align-self:start;max-width:11rem;text-align:right;line-height:1.35}
 .tclock,.trep{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 4px}
 .tclock>div,.trep>div{background:var(--card,#fff);border:1px solid var(--line);border-radius:10px;padding:6px 8px;text-align:center}
 .tclock span,.trep span{display:block;font-size:11px;color:var(--muted);line-height:1.2}
@@ -1065,10 +1065,17 @@ function docPick() {
   if (er && st < 65) return ['bieucam', 1];
   return ['bieucam', 0];
 }
+const DOCBASE = (() => { const p = location.pathname.replace(/index\.html$/, ''); return (p.endsWith('/') ? p : p + '/') + 'bacsi/'; })();
+const DOCIMG = {};
+function docImgOk(u) {
+  if (DOCIMG[u] === undefined) { DOCIMG[u] = false; const im = new Image(); im.onload = () => { DOCIMG[u] = true; if (S && !S.over && typeof draw === 'function') draw(); }; im.src = u; }
+  return DOCIMG[u];
+}
 function docPortrait(kind, i, H) {
   const g = docKey() === 'dfF' ? 'nu' : 'nam', m = DOCSHEET[g + '-' + kind]; if (!m) return '';
+  const url = DOCBASE + g + '-' + kind + '.webp'; if (!docImgOk(url)) return '';
   const k = H / m[2], w = Math.round(m[1] * k), cap = (kind === 'dongtac' ? POSE : EXPR)[i];
-  return `<div class="docp" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(bacsi/${g}-${kind}.webp);background-size:${w * m[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${cap}</span></div>`;
+  return `<div class="docp" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(${url});background-size:${w * m[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${cap}</span></div>`;
 }
 
 /* ---------- Thời gian và độ ổn định ---------- */
@@ -1267,7 +1274,7 @@ document.addEventListener('click', e => {
   if (b.hasAttribute('data-reload-profile')) return loadProfile();
   if (b.hasAttribute('data-reload-hist')) return loadHistory();
   if (b.hasAttribute('data-regsrv')) return regServer();
-  if (b.hasAttribute('data-home')) { const had = S && S.shift; S = null; home(); if (had) loadProfile(); return; }
+  if (b.hasAttribute('data-home')) { const had = S && S.shift, open = had && !S.over; S = null; home(); if (open) { sbRpc('tu_chan_abandon_v1', {}).catch(() => {}).then(() => loadProfile()); } else if (had) loadProfile(); return; }
   if (d.mode !== undefined) { HS.mode = HS.mode === d.mode ? '' : d.mode; HS.n = 6; HS.open = $('#manage') && $('#manage').open; return home(); }
   if (b.hasAttribute('data-more')) { HS.n += 6; return renderList(); }
   if (d.group !== undefined) { HS.group = d.group; HS.open = $('#manage') && $('#manage').open; return home(); }
