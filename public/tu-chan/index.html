@@ -483,6 +483,7 @@ const DOC_CSS = `
 .doc{display:flex;gap:14px;align-items:center;margin-top:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px}
 .doc:empty{display:none}
 .doc-av{flex:none;width:76px;height:76px;border-radius:50%;overflow:hidden;background:linear-gradient(180deg,var(--jade-soft),var(--bg));border:2px solid #C8A24A}
+.doc-av .face{display:block;width:100%;height:100%;background-repeat:no-repeat;background-color:#F6EFE0}
 .doc-av img{width:100%;height:100%;object-fit:cover;object-position:50% 6%}
 .doc-main{min-width:0;flex:1}
 .doc-main h2{font-size:18px;margin:2px 0}
@@ -759,7 +760,9 @@ function renderDoc() {
   let h = '';
   if (PSTATE === 'ok' && P) {
     const t = tierOf(P.experience), key = P.doctor_avatar_id === 'female' ? 'dfF' : 'dmF', img = SPR[key] ? SPR[key].src : '';
-    h = `<div class="doc-av fr-${PERS ? esc(PERS.frame) : 'none'}">${img ? `<img src="${img}" alt="">` : ''}</div>
+    const gg = P.doctor_avatar_id === 'female' ? 'nu' : 'nam', pu = DOCBASE + gg + '-bieucam.webp', pm = DOCSHEET[gg + '-bieucam'];
+    const face = docImgOk(pu) ? `<i class="face" style="background-image:url(${pu});background-size:${pm[0] * 100}% auto;background-position:${4 / (pm[0] - 1) * 100}% 0"></i>` : (img ? `<img src="${img}" alt="">` : '');
+    h = `<div class="doc-av fr-${PERS ? esc(PERS.frame) : 'none'}">${face}</div>
     <div class="doc-main"><div class="doc-top"><div><div class="eyebrow">Bác sĩ HIU Y Quán</div><h2>${esc(P.display_name || 'Bác sĩ')}</h2>${PERS && PERS.motto ? `<div class="motto">“${esc(PERS.motto)}”</div>` : ''}</div><span class="rank">Cấp ${t.idx + 1} · ${esc(t.name)}</span></div>
       <div class="xpbar" role="progressbar" aria-valuenow="${t.pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${t.pct}%"></i></div>
       <div class="xpnote">${t.next ? `Còn ${t.need} EXP để lên ${esc(t.next)}` : 'Hạng cao nhất'}</div>
@@ -1068,7 +1071,7 @@ function docPick() {
 const DOCBASE = (() => { const p = location.pathname.replace(/index\.html$/, ''); return (p.endsWith('/') ? p : p + '/') + 'bacsi/'; })();
 const DOCIMG = {};
 function docImgOk(u) {
-  if (DOCIMG[u] === undefined) { DOCIMG[u] = false; const im = new Image(); im.onload = () => { DOCIMG[u] = true; if (S && !S.over && typeof draw === 'function') draw(); }; im.src = u; }
+  if (DOCIMG[u] === undefined) { DOCIMG[u] = false; const im = new Image(); im.onload = () => { DOCIMG[u] = true; if (S && !S.over) draw(); else if (!S) renderDoc(); }; im.src = u; }
   return DOCIMG[u];
 }
 function docPortrait(kind, i, H) {
