@@ -68,6 +68,8 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--jade);outline
 .bar{flex:1;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .bar i{display:block;height:100%;background:var(--jade);transition:width .4s,background .4s}
 .bar i.w{background:var(--warn)} .bar i.c{background:var(--alert)}
+.docrow{display:flex;gap:10px;align-items:flex-end;margin-block:8px}.docrow .bubble{flex:1;margin-block:0}
+.docp{flex:none;text-align:center;width:92px}.docp i{display:block;margin:0 auto;background-repeat:no-repeat}.docp span{display:block;font-size:11px;color:var(--muted,#667);line-height:1.25;margin-top:2px}
 .bubble{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-block:8px;min-height:60px}
 .bubble .who{font-size:12px;font-weight:600;color:var(--jade)}
 .tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin-top:10px;scrollbar-width:none}
@@ -1038,6 +1040,37 @@ function start(id, shift, room) {
   show('play'); draw(); rtStart();
 }
 
+/* ---------- Bác sĩ (ảnh gói 1: biểu cảm và tư thế) ---------- */
+const DOCSHEET = { 'nam-bieucam': [6, 94, 169], 'nu-bieucam': [6, 133, 169], 'nam-dongtac': [12, 144, 190], 'nu-dongtac': [12, 144, 196] };
+const EXPR = ['Bình thường', 'Chăm chú nghe', 'Lo lắng', 'Nghiêm túc quyết định', 'Trấn an', 'Mệt mỏi, trực đêm'];
+const POSE = ['Cầm bệnh án', 'Ghi bệnh án', 'Nghe tim phổi', 'Đo huyết áp', 'Bắt mạch', 'Khám bụng', 'Ra hiệu', 'Gọi điện', 'Xem giờ', 'Hồi sức tim phổi', 'Chỉ định xét nghiệm', 'Chào, trấn an'];
+function docPick() {
+  const l = S.log && S.log[S.log.length - 1], er = S.c.rate > 0, st = S.stab;
+  if (l) {
+    const n = (l.n || '').toLowerCase();
+    if (/hồi sinh|ép tim|sốc điện|ngừng tim|cpr/.test(n)) return ['dongtac', 9];
+    if (/nghe tim|nghe phổi|ống nghe/.test(n)) return ['dongtac', 2];
+    if (/huyết áp/.test(n)) return ['dongtac', 3];
+    if (/mạch|thiết/.test(n)) return ['dongtac', 4];
+    if (/bụng|sờ|ấn|gõ|nắn/.test(n)) return ['dongtac', 5];
+    if (/gọi|hội chẩn|liên hệ|chuyển/.test(n)) return ['dongtac', 7];
+    if (l.k === 'test') return ['dongtac', 10];
+    if (l.k === 'ex') return ['dongtac', 5];
+    if (l.k === 'act') return ['dongtac', 6];
+    if (l.k === 'ask' && er && st >= 65) return ['bieucam', 1];
+  }
+  if (er && st < 25) return ['bieucam', 3];
+  if (er && st < 45) return ['bieucam', 2];
+  if (isNight() && !(er && st < 65)) return ['bieucam', 5];
+  if (er && st < 65) return ['bieucam', 1];
+  return ['bieucam', 0];
+}
+function docPortrait(kind, i, H) {
+  const g = docKey() === 'dfF' ? 'nu' : 'nam', m = DOCSHEET[g + '-' + kind]; if (!m) return '';
+  const k = H / m[2], w = Math.round(m[1] * k), cap = (kind === 'dongtac' ? POSE : EXPR)[i];
+  return `<div class="docp" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(bacsi/${g}-${kind}.webp);background-size:${w * m[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${cap}</span></div>`;
+}
+
 /* ---------- Thời gian và độ ổn định ---------- */
 const TL = { ask: 'Hỏi bệnh', ex: 'Khám', test: 'Cận lâm sàng', act: 'Xử trí' };
 function tick(m, kind, name) {
@@ -1108,7 +1141,7 @@ function draw() {
   ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="tnote">${er ? 'Phút trong ca là thời gian mô phỏng trong bệnh viện, không phải thời gian bạn chơi. Mỗi thao tác tốn vài phút trong ca và bệnh nhân xấu đi theo đó. Bạn nghĩ bao lâu cũng được, bệnh nhân không đổi.' : 'Phút trong ca chỉ để ghi nhận. Ca khám không giới hạn thời gian, bạn cứ thong thả.'}</div>
-  <div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>${evlog()}
+  <div class="docrow">${(([kd, i]) => docPortrait(kd, i, 112))(docPick())}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div></div>${evlog()}
   </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
   <div class="panel">${panel()}</div></div></div>`;
@@ -1205,6 +1238,7 @@ function finish(dead) {
   const g = r.total >= 85 ? 'Xuất sắc' : r.total >= 70 ? 'Đạt' : r.total >= 50 ? 'Cần cải thiện' : 'Chưa đạt';
   $('#result').innerHTML = `
   <div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
+  <div style="display:flex;justify-content:center;margin:4px 0">${docPortrait("bieucam", dead ? 5 : r.total >= 70 ? 4 : r.total >= 50 ? 1 : 2, 120)}</div>
   <div class="score"><span class="n">${r.total}</span><span class="muted">/ 100</span><span class="grade">${g}</span></div>
   ${timeReport()}
   ${decisionNote()}
