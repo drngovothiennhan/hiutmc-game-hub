@@ -188,3 +188,12 @@ test('story illustrations exist and open and close each case', async () => {
   assert.match(html, /function runner/);
   for (const k of ['01', '02', '03', '04', '05', '06']) await access(new URL(`../public/tu-chan/tranh/${k}.webp`, import.meta.url));
 });
+
+test('patient state sheets and prop icons exist', async () => {
+  const { access } = await import('node:fs/promises');
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /function patPortrait/);
+  assert.match(html, /function propIcon/);
+  for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) await access(new URL(`../public/tu-chan/benhnhan/${v}-trangthai.webp`, import.meta.url));
+  for (const k of ['huyet_ap', 'phim_xquang', 'bb_stethoscope', 'soc_dien', 'phieu_xn', 'truyen_dich']) await access(new URL(`../public/tu-chan/vat/${k}.webp`, import.meta.url));
+});

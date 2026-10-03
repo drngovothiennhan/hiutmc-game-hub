@@ -85,6 +85,9 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--jade);outline
 .opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%;min-width:0}
 .opt:hover:not(:disabled){border-color:var(--jade)}
 .opt .t{overflow-wrap:break-word;word-break:normal;min-width:0}
+.opt .t .pi{width:30px;height:30px;object-fit:contain;float:left;margin:0 10px 2px 0}
+.docp.pat{min-width:72px;max-width:96px}
+@media (max-width:560px){.docrow{flex-wrap:wrap;justify-content:space-between}.docrow .bubble{order:3;flex:1 1 100%}.docrow .docp.pat{order:2}}
 .opt .c{font-family:var(--f-mono);font-size:12px;color:var(--muted);align-self:start;max-width:11rem;text-align:right;line-height:1.35}
 .tclock,.trep{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 4px}
 .tclock>div,.trep>div{background:var(--card,#fff);border:1px solid var(--line);border-radius:10px;padding:6px 8px;text-align:center}
@@ -1082,6 +1085,33 @@ function docPortrait(kind, i, H) {
   return `<div class="docp" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(${url});background-size:${w * m[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${cap}</span></div>`;
 }
 
+/* ---------- Bệnh nhân (gói 2) và đạo cụ (gói 3) ---------- */
+const PATSHEET = [10, 94, 112];
+const PATCAP = ['Bình thường', 'Đau nhẹ', 'Đau, nhăn mặt', 'Đau ngực', 'Khó thở, ho', 'Li bì', 'Chóng mặt, vã mồ hôi', 'Mê man', 'Sợ hãi', 'Nhẹ nhõm'];
+const patVariant = c => (c.sex === 'nữ' ? 'nu' : 'nam') + '_' + (c.age >= 50 ? 'gia' : 'tre');
+function patPick() {
+  const c = S.c, er = c.rate > 0, st = S.stab, txt = [c.title, c.intro].join(' ').toLowerCase();
+  let base = 0;
+  if (/đau ngực|nhồi máu|đau thắt/.test(txt)) base = 3; else if (/khó thở|suyễn|hen |co thắt|ngạt/.test(txt)) base = 4; else if (/đau|co giật|chấn thương/.test(txt)) base = 2;
+  if (!er) return base ? 1 : 0;
+  if (st <= 15) return 7; if (st < 35) return 5; if (st < 60) return 6; if (st < 85 && base) return base;
+  return S.log && S.log.length > 3 && st >= 80 ? 9 : base;
+}
+function patPortrait(i, H) {
+  const v = patVariant(S.c), u = DOCBASE.replace(/bacsi\/$/, 'benhnhan/') + v + '-trangthai.webp'; if (!docImgOk(u)) return '';
+  const k = H / PATSHEET[2], w = Math.round(PATSHEET[1] * k);
+  return `<div class="docp pat" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(${u});background-size:${w * PATSHEET[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${PATCAP[i]}</span></div>`;
+}
+const PROPS = [[/sốc điện|rung thất/, 'soc_dien'], [/thở máy|nội khí quản|đặt ống/, 'may_tho'], [/hút/, 'may_hut_dich'], [/oxy|mặt nạ|khí dung/, 'binh_oxy'], [/truyền|đường truyền|bù dịch|dịch tinh thể/, 'truyen_dich'],
+  [/huyết áp/, 'huyet_ap'], [/nhiệt độ|hạ sốt|nhiệt/, 'nhiet_ke'], [/x-?quang|ct\b|ct |siêu âm|chụp|mri|nội soi|phim/, 'phim_xquang'], [/điện tâm|điện tim|monitor|ecg|holter/, 'monitor'],
+  [/công thức máu|nước tiểu|xét nghiệm|crp|khí máu|đường huyết|calprotectin|dịch não tủy|nhóm máu|lactate|troponin|men |ure|creatinin|cấy|test nhanh/, 'phieu_xn'],
+  [/tim phổi|nghe phổi|nghe tim|phổi|tim mạch|tim\b|tuần hoàn|hô hấp|tiếng thở|nhu động|gõ và nghe/, 'bb_stethoscope'],
+  [/hội chẩn|bệnh án|tư vấn|giải thích/, 'bang_kep'], [/băng|khâu|cầm máu|thủ thuật|rạch|nẹp|bất động|chọc dò/, 'bo_dung_cu'], [/chuyển|cáng|vận chuyển/, 'cang'],
+  [/thuốc|aspirin|tiêm|uống|giảm đau|kháng|chống|corticoid|insulin|atropin|adrenalin/, 'tu_thuoc'], [/đồng tử|phản xạ ánh sáng|tri giác|thần kinh/, 'den_kham']];
+function propIcon(name) {
+  const n = String(name || '').toLowerCase(), p = PROPS.find(([re]) => re.test(n)); if (!p) return '';
+  return `<img class="pi" src="${DOCBASE.replace(/bacsi\/$/, 'vat/')}${p[1]}.webp" alt="" loading="lazy" onerror="this.remove()">`;
+}
 const STORYBASE = DOCBASE.replace(/bacsi\/$/, 'tranh/');
 function storyStart(c) {
   if (c.rate > 0 && (TAY(c) || c.setting === 'capcuu')) return '01';
@@ -1168,7 +1198,7 @@ function draw() {
   ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="tnote">${er ? 'Phút trong ca là thời gian mô phỏng trong bệnh viện, không phải thời gian bạn chơi. Mỗi thao tác tốn vài phút trong ca và bệnh nhân xấu đi theo đó. Bạn nghĩ bao lâu cũng được, bệnh nhân không đổi.' : 'Phút trong ca chỉ để ghi nhận. Ca khám không giới hạn thời gian, bạn cứ thong thả.'}</div>
-  <div class="docrow">${(([kd, i]) => docPortrait(kd, i, kd === 'dongtac' ? 150 : 96))(docPick())}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div></div>${evlog()}
+  <div class="docrow">${(([kd, i]) => docPortrait(kd, i, kd === 'dongtac' ? 150 : 96))(docPick())}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>${patPortrait(patPick(), 92)}</div>${evlog()}
   </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
   <div class="panel">${panel()}</div></div></div>`;
@@ -1184,15 +1214,15 @@ function panel() {
     for (const g of ['V', 'M', 'T', 'K']) {
       const items = c.exam.map((e, i) => [e, i]).filter(([e]) => e[0] === g);
       if (!items.length) continue;
-      h += `<div class="grp">${GRP[g]}</div>` + items.map(([e, i]) => `<button class="opt ${S.ex[i] ? 'used' : ''}" data-ex="${i}"><span class="t">${esc(e[1])}</span>${costTag(1)}${S.ex[i] ? `<div class="r">${esc(e[2])}</div>` : ''}</button>`).join('');
+      h += `<div class="grp">${GRP[g]}</div>` + items.map(([e, i]) => `<button class="opt ${S.ex[i] ? 'used' : ''}" data-ex="${i}"><span class="t">${propIcon(e[1])}${esc(e[1])}</span>${costTag(1)}${S.ex[i] ? `<div class="r">${esc(e[2])}</div>` : ''}</button>`).join('');
     }
     return h;
   }
   if (S.tab === 'test') return `<div class="muted">Xét nghiệm và chẩn đoán hình ảnh tốn thời gian. Chỉ định có chọn lọc.</div>` +
-    c.tests.map((t, i) => `<button class="opt ${S.ts[i] ? 'used' : ''}" data-test="${i}"><span class="t">${esc(t[0])}</span>${costTag(t[1])}${S.ts[i] ? `<div class="r">${esc(t[2])}</div>` : ''}</button>`).join('');
+    c.tests.map((t, i) => `<button class="opt ${S.ts[i] ? 'used' : ''}" data-test="${i}"><span class="t">${propIcon(t[0])}${esc(t[0])}</span>${costTag(t[1])}${S.ts[i] ? `<div class="r">${esc(t[2])}</div>` : ''}</button>`).join('');
   if (S.tab === 'act') return `<div class="muted">Xử trí thực hiện ngay trên bệnh nhân. Cẩn trọng với những việc không thể rút lại.</div>${comboChip()}` +
     S.actOrder.map(i => { const a = pa(c.actions[i]), d = S.ac[i];
-      return `<button class="opt ${d ? (a.k === '!' ? 'bad' : 'used') : ''}" data-act="${i}"><span class="t">${esc(a.n)}</span>${costTag(a.min)}${d ? `<div class="r">${esc(a.why)}</div>` : ''}</button>`; }).join('');
+      return `<button class="opt ${d ? (a.k === '!' ? 'bad' : 'used') : ''}" data-act="${i}"><span class="t">${propIcon(a.n)}${esc(a.n)}</span>${costTag(a.min)}${d ? `<div class="r">${esc(a.why)}</div>` : ''}</button>`; }).join('');
   if (S.tab === 'dx') return dxForm();
   return chart();
 }
@@ -1264,7 +1294,7 @@ function finish(dead) {
   S.sbar = buildSbar(c);
   const g = r.total >= 85 ? 'Xuất sắc' : r.total >= 70 ? 'Đạt' : r.total >= 50 ? 'Cần cải thiện' : 'Chưa đạt';
   $('#result').innerHTML = `
-  ${storyImg(dead ? '05' : r.total >= 70 ? '06' : '04', 'res')}<div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
+  ${storyImg(dead ? '05' : r.total >= 70 ? '06' : '04', 'res')}<div style="display:flex;justify-content:center;gap:14px;margin:4px 0">${patPortrait(dead ? 7 : r.total >= 70 ? 9 : r.total >= 50 ? 8 : 2, 110)}</div><div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
   <div style="display:flex;justify-content:center;margin:4px 0">${docPortrait("bieucam", dead ? 5 : r.total >= 70 ? 4 : r.total >= 50 ? 1 : 2, 120)}</div>
   <div class="score"><span class="n">${r.total}</span><span class="muted">/ 100</span><span class="grade">${g}</span></div>
   ${timeReport()}
