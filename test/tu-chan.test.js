@@ -76,7 +76,7 @@ test('Intake cases cannot be synced into the random duty catalog', async () => {
 
   const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
   const intake = bank.filter(c => c.status === 'nhap');
-  assert.equal(intake.length, 53);
+  assert.equal(intake.length, 101);
   assert.ok(intake.every(c => Array.isArray(c.nguon) && c.nguon.length > 0), 'intake cases must carry sources before review');
   const requiredHbu = ['ly_do_vao_vien','benh_su','tien_su','luoc_qua_co_quan','tom_tat','bien_luan','sinh_ly_benh','chan_doan_phan_biet','dieu_tri','tien_luong','du_phong'];
   for (const item of intake) {
