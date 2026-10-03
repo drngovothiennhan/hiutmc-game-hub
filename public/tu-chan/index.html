@@ -491,10 +491,11 @@ const DOC_CSS = `
 .dstats div{background:var(--bg);border-radius:8px;padding:5px 4px;text-align:center}
 .dstats b{display:block;font-family:var(--f-mono);font-size:16px}.dstats span{font-size:11px;color:var(--muted)}
 .duty{margin-top:14px}
-.rooms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .room{display:grid;gap:5px;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:16px;color:var(--ink);position:relative;overflow:hidden;min-height:150px}
 .room::after{content:"";position:absolute;right:-26px;top:-26px;width:100px;height:100px;border-radius:50%;opacity:.12}
 .room.capcuu{border-color:var(--alert)}.room.capcuu::after{background:var(--alert)}.room.capcuu .ri{background:var(--alert-soft);color:var(--alert)}.room.capcuu em{color:var(--alert)}
+.room.ngoai{border-color:var(--gold,#b8862b)}.room.ngoai::after{background:var(--gold,#b8862b)}.room.ngoai .ri{background:color-mix(in srgb,var(--gold,#b8862b) 16%,transparent);color:var(--gold,#b8862b)}.room.ngoai em{color:var(--gold,#b8862b)}
 .room.kham{border-color:var(--jade)}.room.kham::after{background:var(--jade)}.room.kham .ri{background:var(--jade-soft);color:var(--jade)}.room.kham em{color:var(--jade)}
 .room .ri{width:48px;height:48px;border-radius:12px;display:grid;place-items:center}
 .room b{font-family:var(--f-display);font-size:18px}
@@ -509,6 +510,7 @@ const DOC_CSS = `
 @media (prefers-color-scheme:dark){.expbox.ok{background:linear-gradient(90deg,#3A3114,transparent);color:#FBE9B7}}
 .expbox.no{border-color:var(--alert);background:var(--alert-soft)}.expbox.off{color:var(--muted);font-size:13px}
 .manage-body .wings{margin-top:6px}
+@media (max-width:760px){.rooms{grid-template-columns:1fr}}
 @media (max-width:520px){.rooms{grid-template-columns:1fr}.room{min-height:0}.doc{align-items:flex-start}.doc-av{width:60px;height:60px}.dstats b{font-size:15px}}
 @media (min-width:980px){.rooms{gap:18px}.room{padding:22px;min-height:190px}.room b{font-size:21px}.room span:not(.ri){font-size:14.5px}.doc{padding:18px 22px}.doc-av{width:96px;height:96px}.doc-main h2{font-size:22px}}
 `;
@@ -648,10 +650,12 @@ async function loadProfile() {
   catch (e) { PROFILE = null; PSTATE = e.code === 'no_session' ? 'nosession' : 'error'; }
   renderDoc();
 }
-const ROOMS = {
-  capcuu: { name: 'Trực Cấp cứu', sub: 'Cấp cứu và bệnh nhân nặng. Xử trí theo nội, ngoại y đa khoa, thời gian rất gấp.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>' },
-  kham: { name: 'Trực Phòng khám', sub: 'Khám và châm cứu ngoại trú. Hỏi bệnh, tứ chẩn, biện chứng luận trị theo YHCT.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c8 0 14-6 14-14C11 5 5 11 5 19Z"/><path d="M5 19 14 10"/></svg>' }
+const TRACKS = {
+  noi: { name: 'Trực khoa Nội', cls: 'capcuu', sub: 'Bệnh nhân nội khoa và cấp cứu nội. Chẩn đoán và xử trí theo y học hiện đại.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>' },
+  ngoai: { name: 'Trực khoa Ngoại', cls: 'ngoai', sub: 'Bệnh nhân ngoại khoa và cấp cứu ngoại. Chẩn đoán và xử trí theo y học hiện đại.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6Z"/></svg>' },
+  yhct: { name: 'Trực khoa Y học cổ truyền', cls: 'kham', sub: 'Bệnh nhân khám và điều trị kết hợp Đông Tây y: biện chứng luận trị cùng chẩn đoán hiện đại.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c8 0 14-6 14-14C11 5 5 11 5 19Z"/><path d="M5 19 14 10"/></svg>' }
 };
+const trackOf = c => (c.opt && c.opt.bd) ? 'yhct' : ((c.group === 'ngoai' || c.id === 'thai-ngoai-tu-cung-vo') ? 'ngoai' : 'noi');
 function renderDoc() {
   const doc = $('#doc'), duty = $('#duty'); if (!doc || !duty) return;
   const P = PROFILE, link = HUB ? esc(HUB) + 'y-quan-live/' : '';
@@ -669,42 +673,41 @@ function renderDoc() {
   else if (PSTATE === 'error') h = '<div class="doc-main"><div class="eyebrow">Hồ sơ bác sĩ</div><p class="xpnote">Chưa tải được hồ sơ từ máy chủ. Bạn vẫn trực được nhưng chưa tính EXP.</p><button class="btn ghost" data-reload-profile>Tải lại hồ sơ</button></div>';
   else h = `<div class="doc-main"><div class="eyebrow">Chế độ khách</div><h2>Đăng nhập để tích EXP</h2><p class="xpnote">Ca vẫn được phát ngẫu nhiên, nhưng EXP chỉ cộng dồn khi bạn vào từ Game Hub bằng tài khoản HIU TMC đã duyệt.</p>${HUB ? `<a class="btn" href="${esc(HUB)}">Về Game Hub</a>` : ''}</div>`;
   doc.innerHTML = h;
-  const open = P && P.open_room ? ROOMS[P.open_room] : null;
-  duty.innerHTML = (open ? `<div class="resume">Bạn có một ca đang dở ở ${esc(open.name)}. Vào lại phòng này để tiếp tục đúng ca đó.</div>` : '') +
-    `<div class="rooms">${Object.keys(ROOMS).map(k => `<button class="room ${k}" data-duty="${k}" ${DUTY_BUSY ? 'disabled' : ''}><span class="ri">${ROOMS[k].ico}</span><b>${ROOMS[k].name}</b><span>${ROOMS[k].sub}</span><em>${open && P.open_room === k ? 'Tiếp tục ca dở' : 'Nhận ca ngẫu nhiên'} →</em></button>`).join('')}</div>` +
+  const open = P && P.open_room ? true : null;
+  duty.innerHTML = (open ? `<div class="resume">Bạn có một ca đang dở. Bấm vào một khoa bất kỳ để tiếp tục đúng ca đó.</div>` : '') +
+    `<div class="rooms">${Object.keys(TRACKS).map(k => `<button class="room ${TRACKS[k].cls}" data-duty="${k}" ${DUTY_BUSY ? 'disabled' : ''}><span class="ri">${TRACKS[k].ico}</span><b>${TRACKS[k].name}</b><span>${TRACKS[k].sub}</span><em>${open ? 'Tiếp tục ca dở' : 'Nhận ca ngẫu nhiên'} →</em></button>`).join('')}</div>` +
     `<div class="dmsg" role="status">${esc(DUTY_MSG)}</div>`;
 }
 async function regServer() {
   const out = $('#impout'); if (!out) return;
   try {
     const eligible = BASE.filter(c => c.status !== 'nhap');
-    const n = await sbRpc('tu_chan_register_cases_v1', { p_cases: eligible.map(c => ({ id: c.id, room: (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham', level: c.level, status: c.status || 'draft' })) });
+    const n = await sbRpc('tu_chan_register_cases_v1', { p_cases: eligible.map(c => ({ id: c.id, room: (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham', track: trackOf(c), level: c.level, status: c.status || 'draft' })) });
     out.innerHTML = `<div class="rep ok">Đã đồng bộ ${n} ca lên máy chủ. Ca mới sẽ được phát ngẫu nhiên.</div>`;
   } catch (e) { out.innerHTML = `<div class="rep no">Chưa đồng bộ được: ${esc(e.message || 'lỗi')}. Cần tài khoản admin đang đăng nhập.</div>`; }
 }
-function localPick(room) {
-  const pool = bank().filter(c => (room === 'capcuu') === TAY(c));
+function localPick(track) {
+  const pool = bank().filter(c => trackOf(c) === track);
   const recent = lsGet('tuchan-recent', []), fresh = pool.filter(c => !recent.includes(c.id)), src = fresh.length ? fresh : pool;
   const c = src[Math.floor(Math.random() * src.length)];
   lsSet('tuchan-recent', [c.id].concat(recent).slice(0, Math.max(3, Math.min(10, pool.length - 1))));
   return c;
 }
-async function startDuty(room) {
-  if (DUTY_BUSY || !ROOMS[room]) return;
+async function startDuty(track) {
+  if (DUTY_BUSY || !TRACKS[track]) return;
   DUTY_BUSY = true; DUTY_MSG = PSTATE === 'ok' ? 'Đang nhận ca từ máy chủ…' : 'Đang chọn ca ngẫu nhiên…'; renderDoc();
   try {
     let c, shift = null;
     if (PSTATE === 'ok') {
-      shift = await sbRpc('tu_chan_start_shift_v1', { p_room: room });
+      shift = await sbRpc('tu_chan_start_shift_v2', { p_track: track });
       c = bank().find(x => x.id === shift.case_id);
       if (!c) throw Object.assign(Error('Ca này chưa có trong phiên bản game của bạn. Hãy tải lại trang rồi thử lại.'), { code: 'missing_case' });
-      room = shift.room;
-    } else c = localPick(room);
+    } else c = localPick(track);
     DUTY_MSG = ''; DUTY_BUSY = false;
-    return start(c.id, shift, room);
+    return start(c.id, shift, shift ? shift.room : (TAY(c) ? 'capcuu' : 'kham'));
   } catch (e) {
     const m = String((e && e.code) || (e && e.message) || '');
-    DUTY_MSG = m.includes('daily_limit') ? 'Hôm nay bạn đã trực đủ 40 ca. Hẹn bạn ngày mai.' : m.includes('clinic_required') ? 'Bạn cần mở HIU Y Quán trước.' : m.includes('no_case') ? 'Phòng này chưa có ca nào.' : ('Chưa nhận được ca: ' + ((e && e.message) || 'lỗi kết nối') + '. Thử lại sau ít phút.');
+    DUTY_MSG = m.includes('daily_limit') ? 'Hôm nay bạn đã trực đủ 40 ca. Hẹn bạn ngày mai.' : m.includes('clinic_required') ? 'Bạn cần mở HIU Y Quán trước.' : m.includes('no_case') ? 'Khoa này chưa có ca nào.' : ('Chưa nhận được ca: ' + ((e && e.message) || 'lỗi kết nối') + '. Thử lại sau ít phút.');
     if (m.includes('clinic_required')) PSTATE = 'noclinic';
   }
   DUTY_BUSY = false; renderDoc();
@@ -1033,7 +1036,7 @@ function finish(dead) {
   <div class="rows">${r.rows.map(x => `<div class="row ${x.tone}"><b>${esc(x.title)}</b><span class="v">${x.v}</span><span class="sub">${esc(x.sub)}</span></div>`).join('')}</div>
   <div class="teach"><h3>Điều rút ra</h3>${esc(c.teach)}${c.ref ? `<p class="muted" style="margin:8px 0 0;font-size:13px">Cơ sở tham khảo: ${esc(c.ref)}</p>` : ''}</div>
   <div id="expbox" class="expbox ${S.shift ? '' : 'off'}">${S.shift ? 'Đang ghi EXP vào hồ sơ bác sĩ…' : S.trial ? 'Ca chơi thử của quản trị: không tính EXP.' : 'Chế độ khách: không tính EXP. Đăng nhập từ Game Hub để tích EXP.'}</div>
-  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">${S.trial ? `<button class="btn" data-start="${esc(c.id)}">Chơi lại ca này</button>` : `<button class="btn" data-duty="${esc(S.room)}">Nhận ca tiếp theo</button>`}<button class="btn ghost" data-home>Về sảnh</button></div>
+  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">${S.trial ? `<button class="btn" data-start="${esc(c.id)}">Chơi lại ca này</button>` : `<button class="btn" data-duty="${esc(trackOf(S.c))}">Nhận ca tiếp theo</button>`}<button class="btn ghost" data-home>Về sảnh</button></div>
   <p class="disc">Mô phỏng phục vụ học tập, không thay thế phác đồ và hướng dẫn chuyên môn hiện hành.</p>`;
   show('result');
   if (S.shift) submitShift();
