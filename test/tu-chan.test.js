@@ -119,3 +119,38 @@ test('Learning room lists cases five at a time', async () => {
   assert.match(html, /const PAGE=5;/);
   assert.match(html, /data-v="pg"/);
 });
+
+test('Weekly tournament: same cases for everyone, first attempt counts, leaderboard is real data only', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /tu_chan_challenge_v1/);
+  assert.match(html, /tu_chan_start_challenge_v1/);
+  assert.match(html, /Chưa có ai hoàn tất ca nào trong tuần này/, 'honest empty state, no invented leaderboard');
+  const sql = await read('../supabase/migrations/20261003220000_vien_thuc_hanh_giai_dau_v1.sql');
+  assert.match(sql, /enable row level security/);
+  assert.match(sql, /interval '60 seconds'/, 'very fast submissions earn no points');
+  assert.match(sql, /distinct on \(s\.member_id, s\.case_id\)/, 'only the first finished attempt counts');
+  assert.match(sql, /revoke all on function public\.tu_chan_challenge_v1\(text\), public\.tu_chan_start_challenge_v1\(text\) from public, anon;/);
+  assert.doesNotMatch(sql, /drop\s|delete\s+from|truncate/i, 'additive migration only');
+});
+
+test('Personalization is unlocked by level and enforced on the server', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /tu_chan_personalize_v1/);
+  assert.match(html, /tu_chan_personal_v1/);
+  const sql = await read('../supabase/migrations/20261003230000_vien_thuc_hanh_ca_nhan_hoa_v1.sql');
+  for (const k of ['locked:rename:4', 'locked:outfit:%', 'locked:theme:%', 'locked:frame:%']) assert.ok(sql.includes(k), 'missing gate ' + k);
+  assert.match(sql, /not in \('male','female'\)|clean_outfit not in/);
+  assert.match(sql, /nm ~ '\[<>&\[:cntrl:\]\]'/, 'names must reject markup characters');
+  assert.match(sql, /Cần đạt cấp 4/, 'legacy rename path is gated too');
+  assert.match(sql, /revoke all on function public\.tu_chan_personal_v1\(\), public\.tu_chan_personalize_v1\(text, text, text, text, text\) from public, anon;/);
+  assert.doesNotMatch(sql, /drop\s|delete\s+from|truncate/i);
+});
+
+test('Gameplay additions: events from monitor values, combo, SBAR handover, badges from real history', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /const EV_STEPS = \[65, 45, 25\]/);
+  assert.match(html, /function buildSbar/);
+  assert.match(html, /function badgeList/);
+  assert.match(html, /p_limit: 50/);
+  assert.doesNotMatch(html, /leaderboard\s*=\s*\[\s*\{/i, 'no hard-coded leaderboard');
+});

@@ -36,3 +36,11 @@ Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng c
 
 ## Phòng học lâm sàng
 - Danh sách ca ở Học và Thi hiển thị 5 ca mỗi trang, có nút Trước, Sau.
+
+## Giải đấu tuần, huy hiệu, cá nhân hóa (03/10/2026)
+- **Giải đấu tuần** (`20261003220000_vien_thuc_hanh_giai_dau_v1.sql`): mỗi khoa mỗi tuần (tuần ISO, giờ Việt Nam) có tối đa 3 ca cố định cho mọi người chơi, chốt ở lần gọi đầu trong bảng `y_quan_private.tu_chan_challenges`. RPC `tu_chan_challenge_v1(p_track)` trả ca, kết quả của tôi và top 10; `tu_chan_start_challenge_v1(p_track)` nhận ca kế tiếp chưa thi. Chỉ tính điểm lượt hoàn tất đầu tiên của mỗi ca; lượt dưới 60 giây không có điểm. Tên trên bảng là `hiu_y_quan_profiles.display_name`. Bảng chỉ có dữ liệu thật, trống thì hiện trạng thái trống. Giải chỉ lấy ca đang hoạt động trong danh mục: ca `nhap` không vào giải.
+- Điểm vẫn do trình duyệt gửi lên nên bảng xếp hạng dùng để luyện tập và thi đua, chưa nên dùng để trao giải thật.
+- **Huy hiệu**: tính ở trình duyệt từ `tu_chan_history_v1` (50 ca gần nhất), không lưu riêng, không có huy hiệu nào được cấp mà không có dữ liệu.
+- **Diễn biến trong ca**: ca cấp cứu báo điều dưỡng khi độ ổn định qua 65, 45, 25 với số liệu monitor lúc đó. **Chuỗi xử trí chuẩn** và nhận xét việc đầu tiên hiện ở màn kết quả. **Bàn giao SBAR** (A: chẩn đoán, R: điều trị) là phần luyện, không tính điểm.
+- **Cá nhân hóa HIU Y Quán theo cấp** (`20261003230000_vien_thuc_hanh_ca_nhan_hoa_v1.sql`): cấp = hạng + 1 (cấp 4 từ 700 EXP). Cấp 4 đổi tên hiển thị, lời chào, màu Hoa đào và Chàm, khung trúc; cấp 5 màu Mực nho, khung sen, trang phục Học viện; cấp 6 khung rồng, trang phục Tông sư; cấp 7 màu Vàng Danh y. Kiểm tra cấp ở máy chủ trong `tu_chan_personalize_v1`; hai hàm cũ `hiu_y_quan_activate_v1` (đổi tên khi đã có hồ sơ) và `hiu_y_quan_customize_v1` (đổi áo) được thêm kiểm tra cấp. Hồ sơ đang có áo hoặc tên sẵn vẫn giữ nguyên.
+- Đồ họa mở rộng: xem `docs/CHATGPT_PROMPT_DO_HOA.md`.
