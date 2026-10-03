@@ -47,7 +47,7 @@ test('Case bank management is hidden unless the member is verified as admin', as
 
 test('Duty rooms: random server-issued cases and EXP wired to the shared Y Quan doctor profile', async () => {
   const html = await read('../public/tu-chan/index.html');
-  for (const rpc of ['tu_chan_profile_v1', 'tu_chan_start_shift_v2', 'tu_chan_finish_shift_v1', 'tu_chan_register_cases_v1']) assert.ok(html.includes(rpc), 'client missing ' + rpc);
+  for (const rpc of ['tu_chan_profile_v1', 'tu_chan_start_shift_v2', 'tu_chan_finish_shift_v2', 'tu_chan_register_cases_v1']) assert.ok(html.includes(rpc), 'client missing ' + rpc);
   assert.match(html, /data-duty="\$\{k\}"/);
   const sql = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
   assert.match(sql, /enable row level security/);
