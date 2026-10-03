@@ -55,3 +55,6 @@ Thay toàn bộ gói 1 bằng bộ PNG nền trong suốt mới (bác sĩ nam t�
 - Mở đầu ca: tranh theo loại ca (01 vào cấp cứu, 03 khám bụng khi ca liên quan bụng, 02 hỏi bệnh bên giường), ẩn sau thao tác đầu tiên; bác sĩ chạy vào (ca cấp cứu, bệnh nhân không ổn định) hoặc đi vào (ca ổn định) ngang sân khấu.
 - Kết quả: tranh 06 bàn giao ca khi đạt từ 70 điểm, 04 xem lại kết quả khi chưa đạt, 05 cấp cứu khi bệnh nhân tử vong.
 - Chưa dùng: góc nhìn `goc`, `nghi` (giữ trong bản gốc, chưa cắt).
+
+## Gói 2 bệnh nhân và gói 3 đạo cụ (04/10/2026)
+`public/tu-chan/benhnhan/{nam,nu}_{tre,gia}-trangthai.webp` (10 nét mặt) và `public/tu-chan/vat/*.webp` (30 đạo cụ, 96 px). Ảnh bệnh nhân đối diện bác sĩ, đổi theo độ ổn định (đau ngực, khó thở, vã mồ hôi, li bì, mê man) và theo kết quả ca. Biểu tượng đạo cụ hiện cạnh các mục khám, xét nghiệm, xử trí theo từ khóa (`PROPS` trong `tu-chan/index.html`). Chưa dùng: tư thế toàn thân (`tuthe`), đi bộ, 8 góc của bệnh nhân, và các vật to (giường, cửa, rèm, xe cấp cứu…) vì cảnh vector hiện tại chưa có chỗ ghép.
