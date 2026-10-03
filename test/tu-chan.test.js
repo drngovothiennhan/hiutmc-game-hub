@@ -170,3 +170,12 @@ test('Duty profile is collapsed and private: no case counts, cases only for the 
   assert.doesNotMatch(html, /<span>Ca trực<\/span>/, 'case count is hidden');
   assert.doesNotMatch(html, /tu_chan_showcase/, 'no public showcase of cases');
 });
+
+test('doctor portrait uses the pose and expression sheets and they exist', async () => {
+  const { access } = await import('node:fs/promises');
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /function docPortrait/);
+  assert.match(html, /bacsi\/\$\{g\}-\$\{kind\}\.webp/);
+  assert.doesNotMatch(html, /url\((['"]?)\.\.\//);
+  for (const f of ['nam-bieucam', 'nu-bieucam', 'nam-dongtac', 'nu-dongtac']) await access(new URL(`../public/tu-chan/bacsi/${f}.webp`, import.meta.url));
+});
