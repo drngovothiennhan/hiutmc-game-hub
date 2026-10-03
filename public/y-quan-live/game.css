@@ -151,3 +151,12 @@ textarea{min-height:90px}
   .chat-compose button{align-self:flex-end}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+.yq-hero[class*="th-"]:not(.th-ngoc){border-color:var(--yq-ac)}
+.th-dao{--yq-ac:#B3476A}.th-cham{--yq-ac:#2F4B8F}.th-muc{--yq-ac:#4A4742}.th-vang{--yq-ac:#9A6B00}
+.yq-pers[class*="th-"]:not(.th-ngoc){border-color:var(--yq-ac)}
+.yq-me{margin:.2rem 0 0;font-style:italic;opacity:.85}
+.yq-pers label{display:block;margin-top:.7rem;font-weight:600}
+.yq-pers input,.yq-pers select{display:block;width:100%;margin-top:.25rem;padding:.55rem .6rem;border:1.5px solid #c9b68a;border-radius:10px;background:#fffdf5;font:inherit}
+.yq-pf-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+@media (max-width:560px){.yq-pf-g{grid-template-columns:1fr}}
