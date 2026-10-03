@@ -491,6 +491,19 @@ const DOC_CSS = `
 .dstats div{background:var(--bg);border-radius:8px;padding:5px 4px;text-align:center}
 .dstats b{display:block;font-family:var(--f-mono);font-size:16px}.dstats span{font-size:11px;color:var(--muted)}
 .duty{margin-top:14px}
+.hist{margin-top:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px}
+.hist:empty{display:none}
+.hist-h{font-family:var(--f-display);font-size:18px;font-weight:700;margin-bottom:8px}
+.hist-s{font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.hist-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.sk{display:grid;grid-template-columns:118px 1fr 30px;gap:8px;align-items:center;font-size:13px;margin:5px 0}
+.skbar{height:9px;border-radius:5px;background:var(--line);overflow:hidden}.skbar i{display:block;height:100%;border-radius:5px}
+.skbar i.ok{background:var(--jade)}.skbar i.mid{background:#C8A24A}.skbar i.no{background:var(--alert)}
+.sk b{font-family:var(--f-mono);text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips .chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12.5px;background:var(--bg)}
+.hist-l{list-style:none;margin:0;padding:0}.hist-l li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px}
+.hist-l .rt{font-weight:600}.hist-l .rm{grid-column:1;font-size:12px;color:var(--muted)}.hist-l b{grid-row:1 / span 2;grid-column:2;font-family:var(--f-mono);font-size:17px;align-self:center}
+@media (max-width:700px){.hist-grid{grid-template-columns:1fr}.sk{grid-template-columns:104px 1fr 28px}}
 .rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .room{display:grid;gap:5px;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:16px;color:var(--ink);position:relative;overflow:hidden;min-height:150px}
 .room::after{content:"";position:absolute;right:-26px;top:-26px;width:100px;height:100px;border-radius:50%;opacity:.12}
@@ -643,12 +656,38 @@ async function sbRpc(name, body) {
     throw Object.assign(Error(x.message || x.details || 'Máy chủ chưa xử lý được.'), { code: x.message || '' });
   }
 }
+const SKILL_NAMES = { hoi_benh: 'Hỏi bệnh', kham: 'Khám', cls: 'Cận lâm sàng', chan_doan: 'Chẩn đoán', xu_tri: 'Xử trí', an_toan: 'An toàn người bệnh' };
+const TRACK_NAMES = { noi: 'Nội', ngoai: 'Ngoại', yhct: 'Y học cổ truyền', khac: 'Khác' };
+let HIST = null;
+async function loadHistory() {
+  if (PSTATE !== 'ok') { HIST = null; return renderHist(); }
+  try { HIST = await sbRpc('tu_chan_history_v1', { p_limit: 10 }); } catch (e) { HIST = { error: true }; }
+  renderHist();
+}
+function renderHist() {
+  const el = $('#hist'); if (!el) return;
+  if (PSTATE !== 'ok') { el.innerHTML = ''; return; }
+  if (!HIST) { el.innerHTML = '<div class="hist-h">Hồ sơ trực</div><p class="xpnote">Đang tải lịch sử…</p>'; return; }
+  if (HIST.error) { el.innerHTML = '<div class="hist-h">Hồ sơ trực</div><p class="xpnote">Chưa tải được lịch sử. <button class="btn ghost" data-reload-hist>Thử lại</button></p>'; return; }
+  const sk = HIST.skills || {}, keys = Object.keys(SKILL_NAMES), has = keys.some(k => sk[k] !== undefined);
+  const byId = Object.fromEntries(bank().map(c => [c.id, c]));
+  const tr = HIST.tracks || {};
+  const bars = has ? keys.filter(k => sk[k] !== undefined).map(k => `<div class="sk"><span>${SKILL_NAMES[k]}</span><div class="skbar"><i style="width:${sk[k]}%" class="${sk[k] >= 85 ? 'ok' : sk[k] >= 60 ? 'mid' : 'no'}"></i></div><b>${sk[k]}</b></div>`).join('') : '<p class="xpnote">Chưa có điểm kỹ năng. Hoàn tất một ca trực để bắt đầu.</p>';
+  const weak = has ? keys.filter(k => sk[k] !== undefined).sort((a, b) => sk[a] - sk[b])[0] : null;
+  const trs = Object.keys(tr).map(k => `<span class="chip">${esc(TRACK_NAMES[k] || k)}: ${tr[k].n} ca, TB ${tr[k].avg}</span>`).join('');
+  const rec = (HIST.recent || []).map(r => { const c = byId[r.case_id]; const d = r.at ? new Date(r.at).toLocaleDateString('vi-VN') : '';
+    return `<li><span class="rt">${esc(c ? c.title : r.case_id)}</span><span class="rm">${esc(TRACK_NAMES[r.track] || '')} · ${d}${r.died ? ' · tử vong' : ''}</span><b>${r.score}</b></li>`; }).join('');
+  el.innerHTML = `<div class="hist-h">Hồ sơ trực</div>
+  <div class="hist-grid"><div><div class="hist-s">Điểm theo kỹ năng${HIST.skills_n ? ` (${HIST.skills_n} ca gần nhất)` : ''}</div>${bars}${weak && sk[weak] < 85 ? `<p class="xpnote">Nên luyện thêm: <b>${SKILL_NAMES[weak]}</b>.</p>` : ''}</div>
+  <div><div class="hist-s">Theo khoa</div><div class="chips">${trs || '<span class="xpnote">Chưa có ca nào.</span>'}</div><div class="hist-s" style="margin-top:12px">Ca gần đây</div><ul class="hist-l">${rec || '<li class="xpnote">Chưa có ca nào.</li>'}</ul></div></div>`;
+}
 async function loadProfile() {
   if (!sbSession()) { PSTATE = 'nosession'; PROFILE = null; return renderDoc(); }
   PSTATE = 'loading'; renderDoc();
   try { PROFILE = await sbRpc('tu_chan_profile_v1', {}); PSTATE = PROFILE.has_clinic ? 'ok' : 'noclinic'; }
   catch (e) { PROFILE = null; PSTATE = e.code === 'no_session' ? 'nosession' : 'error'; }
   renderDoc();
+  loadHistory();
 }
 const TRACKS = {
   noi: { name: 'Trực khoa Nội', cls: 'capcuu', sub: 'Bệnh nhân nội khoa và cấp cứu nội. Chẩn đoán và xử trí theo y học hiện đại.', ico: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>' },
@@ -716,8 +755,9 @@ async function submitShift() {
   const box = $('#expbox'); if (!box || !S || !S.shift || !S.res) return;
   box.className = 'expbox'; box.textContent = 'Đang ghi EXP vào hồ sơ bác sĩ…';
   try {
-    const x = await sbRpc('tu_chan_finish_shift_v1', { p_shift_id: S.shift.shift_id, p_score: S.res.total, p_died: !!S.res.dead });
+    const x = await sbRpc('tu_chan_finish_shift_v2', { p_shift_id: S.shift.shift_id, p_score: S.res.total, p_died: !!S.res.dead, p_skills: S.res.skills });
     const was = tierOf(x.experience - x.exp_awarded), now = tierOf(x.experience);
+    loadHistory();
     if (PROFILE) { PROFILE.experience = x.experience; if (!x.already) { PROFILE.shifts_done++; PROFILE.today_exp += x.exp_awarded; PROFILE.open_room = null; } }
     box.className = 'expbox ok';
     box.innerHTML = `<b>+${x.exp_awarded} EXP</b> · tổng ${x.experience} EXP · ${esc(now.name)}${now.idx > was.idx ? ' <b>· Thăng hạng!</b>' : ''}${x.first_time && x.exp_awarded ? ' · ca mới' : ''}${x.exp_awarded === 0 ? '<div class="xpnote">Không cộng EXP: đã hết trần 400 EXP hôm nay hoặc ca kết thúc quá nhanh.</div>' : ''}`;
@@ -745,6 +785,7 @@ function home() {
   </header>
   <section id="doc" class="doc" aria-live="polite"></section>
   <section id="duty" class="duty" aria-label="Chọn phòng trực"></section>
+  <section id="hist" class="hist" aria-label="Hồ sơ trực"></section>
   <details class="manage" id="manage" ${ADMIN ? '' : 'hidden'} ${HS.open ? 'open' : ''}>
     <summary>Quản trị ngân hàng ca</summary>
     <div class="manage-body">
@@ -989,8 +1030,8 @@ function dxForm() {
 
 /* ---------- Chấm điểm ---------- */
 function score(dead) {
-  const c = S.c, rows = []; let tot = 0;
-  const add = (title, got, max, sub, tone) => { tot += got; rows.push({ title, v: got.toFixed(1).replace('.0', '') + '/' + max, sub, tone: tone || (got >= max * .85 ? 'ok' : got >= max * .5 ? 'mid' : 'no') }); };
+  const c = S.c, rows = [], raw = {}; let tot = 0;
+  const add = (title, got, max, sub, tone) => { tot += got; raw[title] = { got, max }; rows.push({ title, v: got.toFixed(1).replace('.0', '') + '/' + max, sub, tone: tone || (got >= max * .85 ? 'ok' : got >= max * .5 ? 'mid' : 'no') }); };
   const ratio = (arr, done, fi, ok) => { const idx = arr.map((x, i) => i).filter(i => arr[i][fi] === 'e' && (!ok || ok(arr[i]))); const got = idx.filter(i => done[i]).length; return { got, n: idx.length, miss: idx.filter(i => !done[i]) }; };
   const tay = TAY(c);
   const A = ratio(c.ask, S.asked, 2); add('Hỏi bệnh', 15 * A.got / A.n, 15, `Đủ ${A.got}/${A.n} câu then chốt.` + (A.miss.length ? ' Bỏ sót: ' + A.miss.map(i => c.ask[i][0]).join('; ') : ''));
@@ -1013,7 +1054,12 @@ function score(dead) {
   let total = Math.round(Math.min(100, Math.max(0, tot))), note = '';
   if (harm) { total = Math.min(total, 69); note = 'Có chỉ định nguy hại cho bệnh nhân nên điểm bị giới hạn ở mức 69. An toàn người bệnh được xét trước.'; }
   if (dead) { total = Math.min(total, 40); note = 'Bệnh nhân ngừng tuần hoàn sau ' + S.t + ' phút trong ca (thời gian mô phỏng, không phải thời gian thực bạn chơi) vì các xét nghiệm và thao tác tốn nhiều phút trong khi chưa xử trí cấp cứu. Ở phòng cấp cứu, việc cứu sống phải đi trước: ổn định, hạ nhiệt, truyền dịch rồi mới làm xét nghiệm chậm.'; }
-  return { total, rows, note };
+  const pc = t => raw[t] ? Math.round(100 * raw[t].got / raw[t].max) : null;
+  const dx = ['Chẩn đoán YHHĐ', 'Bệnh danh', 'Bát cương', 'Thể bệnh', 'Pháp trị', 'Phương dược', 'Huyệt châm cứu'].filter(t => raw[t]);
+  const skills = { hoi_benh: pc('Hỏi bệnh'), kham: pc(tay ? 'Khám lâm sàng' : 'Khám tứ chẩn'), cls: pc('Cận lâm sàng'),
+    chan_doan: dx.length ? Math.round(100 * dx.reduce((a, t) => a + raw[t].got, 0) / dx.reduce((a, t) => a + raw[t].max, 0)) : null,
+    xu_tri: pc('Xử trí'), an_toan: Math.max(0, 100 - 50 * harm - (dead ? 50 : 0)) };
+  return { total, rows, note, skills };
 }
 
 function timeReport() {
@@ -1026,7 +1072,7 @@ function timeReport() {
 function finish(dead) {
   clearInterval(RT);
   if (!S || S.over) return; S.over = true;
-  const r = score(dead), c = S.c; saveBest(c.id, r.total); S.res = { total: r.total, dead: !!dead };
+  const r = score(dead), c = S.c; saveBest(c.id, r.total); S.res = { total: r.total, dead: !!dead, skills: r.skills };
   const g = r.total >= 85 ? 'Xuất sắc' : r.total >= 70 ? 'Đạt' : r.total >= 50 ? 'Cần cải thiện' : 'Chưa đạt';
   $('#result').innerHTML = `
   <div class="eyebrow">Kết quả ca bệnh</div><h2>${esc(c.title)}</h2>
@@ -1050,6 +1096,7 @@ document.addEventListener('click', e => {
   if (d.start !== undefined) return start(d.start);
   if (b.hasAttribute('data-retry')) return submitShift();
   if (b.hasAttribute('data-reload-profile')) return loadProfile();
+  if (b.hasAttribute('data-reload-hist')) return loadHistory();
   if (b.hasAttribute('data-regsrv')) return regServer();
   if (b.hasAttribute('data-home')) { const had = S && S.shift; S = null; home(); if (had) loadProfile(); return; }
   if (d.mode !== undefined) { HS.mode = HS.mode === d.mode ? '' : d.mode; HS.n = 6; HS.open = $('#manage') && $('#manage').open; return home(); }

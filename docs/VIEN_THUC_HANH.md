@@ -27,3 +27,12 @@ Game mô phỏng lâm sàng tại `/tu-chan/` (trang độc lập, ngân hàng c
 - `/phong-hoc/`: chế độ Học và Thi vấn đáp sinh câu hỏi từ ngân hàng nhúng. Tại đợt kiểm tra 02/10/2026 có 50 ca trong gói: 40 ca thuộc tập đang phát cho ca trực và 10 ca Nội tiêu hóa trạng thái `nhap` đang chờ rà chuyên môn. Ca `nhap` không được phép vào danh mục phát ngẫu nhiên trên máy chủ.
 - Quy ước ba mục: Nội và Ngoại chỉ có bệnh án y học hiện đại; chỉ Y học cổ truyền kết hợp Đông – Tây y trong một bệnh án. Kiểm tra 02/10/2026 còn nợ chuẩn hóa dữ liệu cũ: 16 ca mới bổ sung một phần bệnh án nhưng còn thiếu 4 trường HBU; 24 ca cũ chưa có `nguon` và chưa có bộ HBU đầy đủ; 6 ca y học hiện đại còn dùng nhãn khám V/M/T kiểu YHCT. Xem `VIEN_THUC_HANH_CASE_AUDIT_2026-10-02.md`.
 - Chế độ học và thi chưa cộng EXP xếp hạng của game.
+
+## Lịch sử và điểm theo kỹ năng
+- Mỗi ca trực khi kết thúc gửi thêm điểm 6 kỹ năng (0 đến 100): hỏi bệnh, khám, cận lâm sàng, chẩn đoán, xử trí, an toàn người bệnh. Máy chủ chỉ nhận đúng 6 khóa này và chặn giá trị trong khoảng 0 đến 100.
+- Sảnh Trực có mục "Hồ sơ trực": điểm trung bình theo kỹ năng (20 ca gần nhất), số ca theo khoa, 10 ca gần đây và gợi ý kỹ năng cần luyện.
+- RPC: `tu_chan_finish_shift_v2(p_shift_id, p_score, p_died, p_skills)` (gọi lại v1 để tính EXP) và `tu_chan_history_v1(p_limit)`. Cột mới `y_quan_private.tu_chan_shifts.skills`.
+- Điểm do trình duyệt gửi lên, giống điểm tổng trước đây. Chưa dùng làm cơ sở thi cử hay xếp hạng công khai.
+
+## Phòng học lâm sàng
+- Danh sách ca ở Học và Thi hiển thị 5 ca mỗi trang, có nút Trước, Sau.

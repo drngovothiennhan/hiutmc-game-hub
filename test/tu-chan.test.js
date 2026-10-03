@@ -101,3 +101,21 @@ test('Duty is filtered by the three tracks: noi, ngoai, yhct (server picks only 
   for (const k of ['noi', 'ngoai', 'yhct']) assert.ok(bank.some(c => t(c) === k), 'no case in track ' + k);
   for (const c of bank.filter(c => t(c) !== 'yhct')) assert.ok(!c.opt || !c.opt.bd, c.id + ' modern track must not carry YHCT diagnosis');
 });
+
+test('Duty history: per-skill scores are stored server-side and shown in the duty hub', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /tu_chan_finish_shift_v2', \{ p_shift_id/);
+  assert.match(html, /tu_chan_history_v1/);
+  for (const k of ['hoi_benh', 'kham', 'cls', 'chan_doan', 'xu_tri', 'an_toan']) assert.ok(html.includes(k), 'client missing skill ' + k);
+  const sql = await read('../supabase/migrations/20261003200000_vien_thuc_hanh_history_skills_v1.sql');
+  assert.match(sql, /add column if not exists skills jsonb/);
+  assert.match(sql, /revoke all on function public\.tu_chan_finish_shift_v2\(uuid, integer, boolean, jsonb\), public\.tu_chan_history_v1\(integer\) from public, anon;/);
+  assert.match(sql, /least\(100, greatest\(0, round\(v\)\)\)/, 'skill scores must be clamped to 0-100');
+  assert.doesNotMatch(sql, /drop\s|delete\s+from|truncate/i, 'additive migration only');
+});
+
+test('Learning room lists cases five at a time', async () => {
+  const html = await read('../public/phong-hoc/index.html');
+  assert.match(html, /const PAGE=5;/);
+  assert.match(html, /data-v="pg"/);
+});
