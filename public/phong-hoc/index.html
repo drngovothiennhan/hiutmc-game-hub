@@ -230,15 +230,19 @@ function setMode(m){
   $("#m-learn").setAttribute("aria-pressed",m==="learn"); $("#m-exam").setAttribute("aria-pressed",m==="viva");
   clearInterval(timerId); clearInterval(V.timer);
   $("#steps").hidden = m==="viva";
-  if(m==="viva"){ $("#timer").textContent="Thi vấn đáp"; return vivaPick(); }
-  $("#timer").textContent="Không giới hạn giờ"; V.rank=null; learnList();
+  if(m==="viva"){ V.pg=0; $("#timer").textContent="Thi vấn đáp"; return vivaPick(); }
+  $("#timer").textContent="Không giới hạn giờ"; V.rank=null; V.pg=0; learnList();
 }
+const PAGE=5;
+function pageOf(list){ const pages=Math.max(1,Math.ceil(list.length/PAGE)); V.pg=Math.min(Math.max(0,V.pg||0),pages-1); return {items:list.slice(V.pg*PAGE,V.pg*PAGE+PAGE),pages,from:V.pg*PAGE+1,to:Math.min(list.length,V.pg*PAGE+PAGE),total:list.length}; }
+function pager(P){ if(P.pages<2) return ""; return `<nav class="pager" aria-label="Chuyển trang danh sách ca" style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 0"><button class="btn ghost" data-v="pg" data-d="-1" type="button" ${V.pg===0?"disabled":""}>‹ Trước</button><span style="color:var(--muted);font-size:13px">Ca ${P.from}–${P.to} / ${P.total} · Trang ${V.pg+1}/${P.pages}</span><button class="btn ghost" data-v="pg" data-d="1" type="button" ${V.pg>=P.pages-1?"disabled":""}>Sau ›</button></nav>`; }
 function learnList(){
   S.view="list"; S.mode="learn"; $("#steps").hidden=true; $("#timer").textContent="Không giới hạn giờ";
-  const list=orderedDefs(d=>V.filter==="all"||d.track===V.filter);
+  const all=orderedDefs(d=>V.filter==="all"||d.track===V.filter), P=pageOf(all), list=P.items;
   $("#panel").innerHTML=`<section class="card"><div class="code">Chọn bệnh án</div><h2>Học theo bệnh án</h2>${trackChips()}
   <div class="list">${list.map(d=>`<button class="q" data-v="lcase" data-id="${esc(d.id)}" type="button"><span><b>${esc(d.title)}</b></span><span class="a" style="display:block;color:var(--muted);font-size:13px">${esc(TRACKS[d.track])} · ${esc(d.level)}${d.id==="demo"?" · học đủ các mục bệnh án":""}</span></button>`).join("")}</div>
   ${list.length?"":`<div class="lock">Mục này chưa có ca. Ca mới đang được bổ sung.</div>`}
+  ${pager(P)}
   <a class="btn ghost" href="/tu-chan/" style="text-align:center;text-decoration:none">Học xong? Vào trực ở Viện Thực Hành</a></section>`;
 }
 function bankStudy(def){
@@ -500,11 +504,12 @@ function caseDoc(){
 }
 function vivaPick(){
   clearInterval(V.timer); V.phase="pick";
-  const list=orderedDefs(d=>V.filter==="all"||d.track===V.filter);
+  const all=orderedDefs(d=>V.filter==="all"||d.track===V.filter), P=pageOf(all), list=P.items;
   const sel=V.def;
   $("#panel").innerHTML=`<section class="card"><div class="code">Chọn bệnh án</div><h2>Thi vấn đáp</h2>
   ${trackChips()}
   <div class="list">${list.map(d=>{ const sn=seenOf(d.id).size; return `<button class="q ${sel&&sel.id===d.id?"open":""}" data-v="case" data-id="${esc(d.id)}" type="button"><span><b>${esc(d.title)}</b></span><span class="a" style="display:block;color:var(--muted);font-weight:400">${esc(d.kind)} · ${esc(d.level)}${sn?` · đã gặp ${sn} câu`:""}</span></button>`; }).join("")}</div>
+  ${pager(P)}
   ${sel?setupBlock(sel):`<div class="lock">Chọn một bệnh án ở trên để bắt đầu.</div>`}</section>`;
 }
 function setupBlock(def){
@@ -568,8 +573,9 @@ function vivaFinish(){
 }
 function vivaClick(t){
   const a=t.dataset.v;
-  if(a==="filter"){ V.filter=t.dataset.f; return vivaPick(); }
-  if(a==="tfilter"){ V.filter=t.dataset.f; V.rank=null; V.def=null; return S.mode==="learn"?learnList():vivaPick(); }
+  if(a==="filter"){ V.filter=t.dataset.f; V.pg=0; return vivaPick(); }
+  if(a==="pg"){ V.pg=(V.pg||0)+(+t.dataset.d); return S.mode==="learn"?learnList():vivaPick(); }
+  if(a==="tfilter"){ V.filter=t.dataset.f; V.pg=0; V.rank=null; V.def=null; return S.mode==="learn"?learnList():vivaPick(); }
   if(a==="lcase"){ const d=CASEDEFS.find(x=>x.id===t.dataset.id); S.lreveal=false; S.lid=d.id; if(d.id==="demo"){ S.view="case"; S.cur=0; $("#steps").hidden=false; render(); return window.scrollTo({top:0}); } return bankStudy(d); }
   if(a==="lreveal"){ S.lreveal=true; return bankStudy(CASEDEFS.find(x=>x.id===S.lid)); }
   if(a==="lback") return learnList();
