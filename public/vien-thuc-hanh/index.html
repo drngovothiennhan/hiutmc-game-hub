@@ -10,24 +10,24 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#082A22;color:#F6EBCB;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-size:15px;line-height:1.5}
-.wrap{max-width:560px;margin:0 auto;padding-bottom:28px}
-.art{position:relative;height:230px;overflow:hidden}
+.wrap{max-width:560px;margin:0 auto;padding-bottom:12px}
+.art{position:relative;height:180px;overflow:hidden}
 .art svg{display:block;width:100%;height:100%}
 .back{position:absolute;left:14px;top:12px;font-size:13px;color:#F6EBCB;background:#0A2B2599;border:1px solid #E8C26A66;border-radius:99px;padding:6px 12px;text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
-.head{padding:12px 20px 0;text-align:center}
+.head{padding:8px 20px 0;text-align:center}
 .eyebrow{font-size:11px;letter-spacing:.2em;font-weight:700;color:#E8C26A}
 h1{margin:4px 0 0;font-family:'Noto Serif',Georgia,serif;font-size:30px;line-height:1.15;color:#FBE9B7}
 .sub{font-size:13.5px;color:#CFE0D8;margin-top:6px}
-.choices{padding:16px 20px 0;display:grid;gap:12px}
-.card{display:flex;flex-direction:column;gap:6px;text-align:center;padding:16px;border-radius:18px;border:2px solid #C9A44C;text-decoration:none}
+.choices{padding:12px 20px 0;display:grid;gap:10px}
+.card{display:flex;flex-direction:column;gap:6px;text-align:center;padding:12px 14px 14px;border-radius:18px;border:2px solid #C9A44C;text-decoration:none}
 .card h2{margin:0;font-family:'Noto Serif',Georgia,serif;font-size:21px;line-height:1.2}
 .card .go{margin-top:8px;min-height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px}
 .learn{background:#F6EFE0;color:#1E2A44}.learn .go{background:#6B1F2A;color:#F6EFE0}
 .duty{background:#145C4C;color:#F6EBCB}.duty .go{background:#C9A44C;color:#3A1017}
-.flow{margin-top:14px;display:flex;justify-content:center;gap:8px;font-weight:600;font-size:13px;color:#E8C26A}
+.flow{margin-top:10px;display:flex;justify-content:center;gap:8px;font-weight:600;font-size:13px;color:#E8C26A}
 .flow i{font-style:normal;opacity:.6}
-.tracks{margin:14px 20px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.t{border:1px solid #E8C26A66;background:#ffffff12;border-radius:12px;padding:12px 8px;text-align:center;text-decoration:none;color:#F6EBCB;min-height:64px;display:block}
+.tracks{margin:10px 20px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.t{border:1px solid #E8C26A66;background:#ffffff12;border-radius:12px;padding:8px 6px;text-align:center;text-decoration:none;color:#F6EBCB;min-height:0;display:block}
 .t b{display:block;font-size:13px}.t span{display:block;font-size:11.5px;color:#CFE0D8;margin-top:2px;line-height:1.3}
 .note{margin:12px 20px 0;font-size:12px;color:#9FB8AE;text-align:center}
 @keyframes sway{50%{transform:rotate(5deg)}}@keyframes tw{50%{opacity:.3}}
@@ -72,11 +72,16 @@ dialog.ev::backdrop{background:#000a}
 .ev tr.me{font-weight:700;background:#ffffff14}
 .ev .rule{font-size:12px;color:#9FB8AE;margin-top:10px}
 @media (max-width:480px){.ev .cs{grid-template-columns:1fr}}
-.copy{margin:18px 20px 0;text-align:center;font-size:11.5px;color:#9FB8AE;line-height:1.5}
+.copy{margin:8px 20px 0;text-align:center;font-size:11.5px;color:#9FB8AE;line-height:1.5}
 .copy button{background:none;border:0;padding:6px;color:#E8C26A;font:inherit;text-decoration:underline;cursor:pointer;min-height:32px}
 dialog.bq{width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 32px);overflow:auto;border:2px solid #C9A44C;border-radius:18px;background:#0E3A30;color:#F6EBCB;padding:18px;font-size:13.5px;line-height:1.6}
 dialog.bq::backdrop{background:#000a}dialog.bq h2{margin:0 0 8px;font-family:'Noto Serif',Georgia,serif;font-size:19px;color:#FBE9B7}
 dialog.bq ul{padding-left:18px;margin:8px 0}dialog.bq .cl2{margin-top:12px;min-height:44px;width:100%;border-radius:12px;border:0;background:#C9A44C;color:#3A1017;font:inherit;font-weight:700;cursor:pointer}
+@media (min-width:700px){.wrap{max-width:860px}.art{height:400px}.back{font-size:17px;padding:8px 16px;min-height:42px}
+h1{font-size:50px}.evbtn{font-size:20px;min-height:56px;padding:10px 28px 10px 20px}.evbtn svg{width:24px;height:24px}
+.choices{padding:18px 28px 0;gap:16px}.card{padding:18px 20px 20px;border-radius:22px}.card h2{font-size:32px}.card .go{min-height:62px;font-size:21px;border-radius:16px}
+.flow{font-size:19px;margin-top:16px}.tracks{margin:16px 28px 0;gap:12px}.t{padding:14px 10px}.t b{font-size:20px}.t span{font-size:15px}
+.copy{font-size:15px;margin-top:14px}.copy button{font-size:15px}}
 a:focus-visible,button:focus-visible{outline:3px solid #FBE9B7;outline-offset:2px}
 </style>
 </head>
@@ -137,7 +142,6 @@ a:focus-visible,button:focus-visible{outline:3px solid #FBE9B7;outline-offset:2p
 <a class="back" id="back" href="https://hiutmc.com/">‹ Trang chủ</a>
 </div>
 <div class="head">
-<div class="eyebrow">HIU TMC</div>
 <h1>Viện Thực Hành<br>Lâm Sàng</h1>
 <div class="evwrap"><button class="evbtn" id="evbtn" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 3h10v4a5 5 0 0 1-10 0zM7 5H3v1a4 4 0 0 0 4 4M17 5h4v1a4 4 0 0 1-4 4M12 12v4M8 21h8M10 16h4v5h-4z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Sự kiện tuần</span><i aria-hidden="true"></i></button></div>
 </div>
