@@ -281,3 +281,31 @@ test('bed scenes use the 59 side-view bed images with a fallback for the flawed 
       await access(new URL(`../public/tu-chan/canh/giuong/${v}-${i}.webp`, import.meta.url));
     }
 });
+
+test('Play mode follows the room: emergency and ward cases are modern medicine only, the YHCT room combines East and West', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  const tcmOpt = ['bd', 'bc', 'the', 'phap', 'phuong', 'huyet'];
+  const modern = c => c.setting === 'capcuu' || c.setting === 'giuong';
+  for (const c of bank) {
+    assert.ok(['tay', 'dongtay'].includes(c.mode), c.id + ' needs mode tay|dongtay');
+    assert.equal(c.mode === 'tay', modern(c), c.id + ': mode must follow the room (capcuu/giuong = tay)');
+    if (c.mode === 'tay') {
+      assert.ok(['noi', 'ngoai'].includes(c.track), c.id + ': a modern-only case belongs to Noi or Ngoai');
+      assert.ok(!c.exam.some(e => 'VMT'.includes(e[0])), c.id + ': modern exam must not use Vong/Van/Thiet groups');
+      assert.ok(!c.exam.some(e => /lưỡi/i.test(e[1])), c.id + ': modern exam must not ask for the tongue');
+      for (const k of tcmOpt) assert.ok(!(c.opt && c.opt[k]), c.id + ' modern case must not carry opt.' + k);
+      assert.ok(c.actions.some(a => a.startsWith('!')), c.id + ' needs a dangerous-action trap');
+      assert.ok(c.exam.filter(e => e[3] === 'e').length >= 3, c.id + ' needs >= 3 key exam items');
+      assert.ok(!/châm cứu|thuốc thang/i.test(c.actions.join(' ')), c.id + ': no acupuncture or decoction actions in emergency play');
+    } else {
+      assert.equal(c.track, 'yhct', c.id + ': combined East-West cases live in the YHCT room');
+      for (const k of tcmOpt) assert.ok(c.opt && c.opt[k], c.id + ' missing opt.' + k);
+      assert.ok(!c.yhct_hau_cap, c.id + ': yhct_hau_cap only belongs to modern cases');
+    }
+  }
+  const sql = await read('../supabase/migrations/20261004150000_vien_thuc_hanh_chuan_hoa_khoa_v1.sql');
+  for (const c of bank.filter(c => c.yhct_hau_cap && c.yhct_hau_cap.opt)) assert.ok(sql.includes(`'${c.id}'`), 'catalog migration missing ' + c.id);
+  assert.doesNotMatch(sql, /drop\s|delete\s+from|truncate/i, 'additive migration only');
+  assert.match(html, /const trackOf = c => c\.track \|\|/);
+});
