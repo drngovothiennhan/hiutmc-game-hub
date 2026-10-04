@@ -264,3 +264,9 @@ test('Acceptance gates: no meta sentence in cases; adult inpatients use complete
   for (const v of ['be_gai', 'be_trai', 'nam_gia', 'nu_gia']) await access(new URL(`../public/tu-chan/canh/cham_${v}.webp`, import.meta.url));
   assert.match(html, /cham_be_gai/);
 });
+
+test('Respiratory cases show oxygen equipment and the matching patient state portrait', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /const oxyProp = /);
+  assert.match(html, /\(base === 3 \|\| base === 4\) && st < 85\) return base/);
+});
