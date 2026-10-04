@@ -34,5 +34,50 @@
     "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, Phụ lục 14 được trích trong Phác đồ Nội khoa Bệnh viện Lê Văn Việt: https://benhvienlevanviet.vn/media/27eb46dd-6542-4458-ae14-5c7ccdbd2c5c/fls/P%C4%90%20N%E1%BB%99i.pdf",
     "trich": "“RL hoặc NaCl 0,9% 15 ml/kg/giờ x 1 giờ”; “CPT 10-15 ml/kg/giờ x 1 giờ”.",
     "de_xuat": "Với người lớn 24 tuổi: sốc SXHD bắt đầu Ringer lactate hoặc NaCl 0,9% 15 mL/kg/giờ trong 1 giờ; nếu không cải thiện và Hct phù hợp nhánh thoát huyết tương thì chuyển CPT 10-15 mL/kg/giờ trong 1 giờ."
+  },
+  {
+    "id": "noi-than-003",
+    "loc": "action",
+    "text": "Đánh giá lại sau 48 đến 72 giờ;",
+    "verdict": "nhat_quan",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-lieu-huong-dan-su-dung-khang-sinh.html ; PDF đọc được: https://www.benhvien103.vn/vanban/QD-708-BYT-huongdansudungkhangsinh.pdf",
+    "trich": "“Nếu vẫn sốt, vi khuẩn niệu tồn tại 48 giờ đến 72 giờ... cần tìm kiếm tắc nghẽn, ổ nhiễm khuẩn lan rộng hoặc hình thành ổ áp xe thận.”",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-than-003",
+    "loc": "hbu.dieu_tri",
+    "text": "Chuyển sang đường uống khi hết sốt 24 đến 48 giờ và ăn uống được;",
+    "verdict": "lech",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-lieu-huong-dan-su-dung-khang-sinh.html ; PDF đọc được: https://www.benhvien103.vn/vanban/QD-708-BYT-huongdansudungkhangsinh.pdf ; NICE NG111: https://www.nice.org.uk/guidance/ng111/chapter/recommendations",
+    "trich": "QĐ 708: “hết sốt, từ ngày thứ 10 đến ngày thứ 14 chuyển sang kháng sinh đường uống.” NICE: “Review intravenous antibiotics by 48 hours and consider stepping down to oral antibiotics where possible.”",
+    "de_xuat": "Nếu bám Quyết định 708/QĐ-BYT: không dùng mốc hết sốt 24-48 giờ; văn bản ghi hết sốt và từ ngày 10 đến ngày 14 mới chuyển đường uống. Nếu dùng hướng dẫn NICE hiện hành, đánh giá kháng sinh tĩnh mạch tại 48 giờ và chuyển uống khi phù hợp lâm sàng."
+  },
+  {
+    "id": "noi-than-003",
+    "loc": "hbu.dieu_tri",
+    "text": "tổng 7 đến 14 ngày.",
+    "verdict": "nhat_quan",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-lieu-huong-dan-su-dung-khang-sinh.html ; PDF đọc được: https://www.benhvien103.vn/vanban/QD-708-BYT-huongdansudungkhangsinh.pdf",
+    "trich": "“VTBT không biến chứng trong 7 – 14 ngày bằng đường uống nếu triệu chứng không nặng”; kháng sinh đường tiêm ampicilin/cephalosporin ghi “10 – 14 ngày”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-than-003",
+    "loc": "hbu.dieu_tri",
+    "text": "Tái đánh giá, chụp CT nếu không đáp ứng sau 48 đến 72 giờ.",
+    "verdict": "khop",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-lieu-huong-dan-su-dung-khang-sinh.html ; PDF đọc được: https://www.benhvien103.vn/vanban/QD-708-BYT-huongdansudungkhangsinh.pdf",
+    "trich": "“Nếu vẫn sốt, vi khuẩn niệu tồn tại 48 giờ đến 72 giờ... Siêu âm, chụp cắt lớp (CT) thận có thể phát hiện... ổ áp xe quanh thận.”",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-than-001",
+    "loc": "hbu.dieu_tri",
+    "text": "Theo dõi nước tiểu, creatinin, kali, bicarbonat mỗi 12 đến 24 giờ.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "KDIGO 2012 Clinical Practice Guideline for Acute Kidney Injury: https://kdigo.org/wp-content/uploads/2019/01/KDIGO-2012-AKI-Guideline-English.pdf ; NICE NG148 Acute kidney injury: https://www.nice.org.uk/guidance/ng148/chapter/Recommendations ; Evidence-Based Medicine Guidelines, Acute kidney injury: https://evidence.unboundmedicine.com/evidence/view/EBMG/453925/0/Acute_kidney_injury",
+    "trich": "EBMG: “Re-check creatinine concentration after 12–24 hours if it is unexpectedly increased.” NICE: “daily measurement is typical while in hospital.” Không tìm thấy mốc 12–24 giờ chung cho creatinin, kali và bicarbonat.",
+    "de_xuat": ""
   }
 ]
