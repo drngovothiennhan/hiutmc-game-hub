@@ -7,7 +7,7 @@ const Y_QUAN_ROUTE_VERSION='20260929.1';
 const trialMode=new URLSearchParams(location.search).get('trial')==='1';
 
 const root = document.querySelector('#yq-interview');
-const art = name => gameHubPath('y-quan-live/art/' + name + '.webp');
+const art = name => gameHubPath('y-quan-live/art/' + name + '.webp') + '?v=20261004';
 const sceneBanner = (image, title, sub) => `<figure class="scene-banner"><img src="${art(image)}" width="1200" height="900" alt=""><figcaption><b>${title}</b><small>${sub}</small></figcaption></figure>`;
 const scenes = [
   ['waiting', 'Không gian chờ'],

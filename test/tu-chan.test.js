@@ -180,12 +180,10 @@ test('doctor portrait uses the pose and expression sheets and they exist', async
   for (const f of ['nam-bieucam', 'nu-bieucam', 'nam-dongtac', 'nu-dongtac', 'nam-di', 'nu-di', 'nam-chay', 'nu-chay']) await access(new URL(`../public/tu-chan/bacsi/${f}.webp`, import.meta.url));
 });
 
-test('story illustrations exist and open and close each case', async () => {
-  const { access } = await import('node:fs/promises');
+test('Story banners and the running doctor are removed (the scene shows the actual case)', async () => {
   const html = await read('../public/tu-chan/index.html');
-  assert.match(html, /function storyStart/);
-  assert.doesNotMatch(html, /function runner/);
-  for (const k of ['01', '02', '03', '04', '05', '06']) await access(new URL(`../public/tu-chan/tranh/${k}.webp`, import.meta.url));
+  assert.doesNotMatch(html, /function storyStart|function runner|storyImg|id="sprites"/);
+  await assert.rejects(access(new URL('../public/tu-chan/tranh/01.webp', import.meta.url)));
 });
 
 test('patient state sheets and prop icons exist', async () => {
@@ -197,9 +195,31 @@ test('patient state sheets and prop icons exist', async () => {
   for (const k of ['huyet_ap', 'phim_xquang', 'bb_stethoscope', 'soc_dien', 'phieu_xn', 'truyen_dich']) await access(new URL(`../public/tu-chan/vat/${k}.webp`, import.meta.url));
 });
 
-test('Trực: cảnh phòng dùng ảnh đạo cụ, bệnh nhân và bác sĩ động tác', async () => {
-  const html = await readFile(new URL('../public/tu-chan/index.html', import.meta.url), 'utf8');
-  for (const f of ['sceneWard', 'sceneER', 'sceneClinic', 'sceneAcu', 'docScene', 'docPose', 'docExpr', 'patientAt']) assert.match(html, new RegExp('function ' + f));
-  for (const k of ['monitor', 'truyen_dich', 'xe_cap_cuu', 'den_kham', 'cua_so_ngay', 'tu_thuoc', 'ban_lam_viec', 'ban_kham']) await access(new URL(`../public/tu-chan/canh/${k}.webp`, import.meta.url));
+test('Trực: room scenes use prop, patient and acting-doctor art, driven by case scene/sex/age', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  for (const f of ['sceneWard', 'sceneER', 'sceneClinic', 'sceneAcu', 'sceneBed', 'docScene', 'docPose', 'docExpr', 'patientAt', 'patCell']) assert.match(html, new RegExp('(function|const) ' + f));
+  for (const k of ['monitor', 'truyen_dich', 'xe_cap_cuu', 'den_kham', 'cua_so_ngay', 'tu_thuoc', 'ban_lam_viec', 'ban_kham', 'rem_ngan', 'tu_dung_cu']) await access(new URL(`../public/tu-chan/canh/${k}.webp`, import.meta.url));
   for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) for (let i = 1; i <= 7; i++) await access(new URL(`../public/tu-chan/canh/${v}-${i}.webp`, import.meta.url));
+  assert.match(html, /const docKey = \(\) => S\.av === 'female' \? 'dfF' : 'dmF'/);
+});
+
+test('Every case has a scene that matches its story (place, sex, age, honorific)', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  const ok = ['giuong', 'capcuu', 'phongkham', 'chamcuu'];
+  for (const c of bank) {
+    assert.ok(ok.includes(c.scene), c.id + ' needs scene');
+    const t = c.intro.replace(/^Ca tự soạn[^.]*\.\s*/i, '').toLowerCase().slice(0, 170);
+    if (/^phòng khám|tại phòng khám|đến phòng khám/.test(t)) assert.equal(c.scene, 'phongkham', c.id + ' says clinic');
+    if (/phòng cấp cứu|khoa cấp cứu|đến cấp cứu|vào cấp cứu/.test(t)) assert.equal(c.scene, 'capcuu', c.id + ' says ER');
+    const n = c.name.toLowerCase();
+    if (/^(ông|anh|chú)\b/.test(n)) assert.equal(c.sex, 'nam', c.id);
+    if (/^(bà|cô|chị)\b/.test(n)) assert.equal(c.sex, 'nữ', c.id);
+    if (/^(ông|bà)\b/.test(n)) assert.ok(c.age >= 40, c.id + ' honorific vs age');
+  }
+});
+
+test('One doctor identity: Y Quán portraits come from the same doctor pack as the duty game', async () => {
+  const { stat } = await import('node:fs/promises');
+  for (const f of ['doctor-male', 'doctor-female']) assert.ok((await stat(new URL(`../public/y-quan-live/art/${f}.webp`, import.meta.url))).size > 3000);
 });
