@@ -1011,7 +1011,11 @@ function patientAt(cell, cx, yb, flip) {
 const patUrls = cell => [patVariant(S.c) + '-' + cell];
 const BELLY = /bụng|ruột|dạ dày|thượng vị|gan|mật|tụy|tiêu hóa|sỏi/i;
 const RESP = /khó thở|hen\b|phổi|suy hô hấp|ngạt|đau ngực|suy tim|phù phổi/i;
-const LOWC = /li bì|hôn mê|bất tỉnh|đột quỵ|yếu nửa người|co giật|ngừng tim|sốc|lơ mơ|ngất|méo miệng/i;
+const LOWC = /li bì|hôn mê|bất tỉnh|đột quỵ|yếu nửa người|liệt nửa|co giật|ngừng tim|sốc|lơ mơ|ngất|méo miệng|ngã gục|không thở|không bắt được mạch|lú lẫn|tụt huyết áp/i;
+/* chấn thương, đau nhiều, không đi lại được, sau mổ: phải nằm, không thể ngồi mép giường */
+const TRAUMA = /gãy|trật khớp|chấn thương|ngã|tai nạn|bỏng|vết thương|dao đâm|đâm vào|cắt sâu|nổ bếp|xe tải đè|không đứng dậy|không cử động|vỡ|bất động|sau mổ|vừa mổ|rắn cắn|cắt amidan/i;
+const LIEC = /dữ dội|đau quặn|xuất huyết|nôn ra máu|nôn máu|đi ngoài ra máu|không tiểu được|căng đau|không đẩy lên được|không trung tiện|chóng mặt|mệt lả|sốt cao|rét run/i;
+const vitStable = c => { const v = c.vitals || {}; return v.hr <= 100 && v.sbp >= 100 && v.sbp <= 160 && (v.spo2 || 99) >= 95 && (v.t || 36.8) < 38; };
 /* tư thế bệnh nhân theo phòng, bệnh cảnh và mức ổn định */
 function patCell(sc) {
   const c = S.c, txt = [c.title, c.intro].join(' ');
@@ -1019,9 +1023,11 @@ function patCell(sc) {
   if (sc === 'phongkham') return BELLY.test(txt) && /đau quặn|dữ dội|ôm bụng/i.test(txt) ? 7 : 2;
   if ((c.rate > 0 && S.stab < 45) || LOWC.test(c.title + ' ' + c.intro.slice(0, 220))) return 4;
   if (RESP.test(txt)) return 6;
+  if (TRAUMA.test(c.title + ' ' + c.intro.slice(0, 260))) return 4;
   if (BELLY.test(txt)) return 5;
+  if (LIEC.test(c.title + ' ' + c.intro.slice(0, 260))) return 6;
   if (sc === 'capcuu' && c.rate > 0 && S.stab < 70) return 4;
-  return hsh(c.id) % 3 ? 6 : 3;
+  return c.rate > 0 || !vitStable(c) ? 6 : (hsh(c.id) % 3 ? 6 : 3);
 }
 /* bác sĩ đứng trong phòng, quay về phía bệnh nhân, làm đúng động tác vừa thực hiện */
 function docScene(cx, yb, h, flip) {
