@@ -246,17 +246,21 @@ test('Prone acupuncture art and companions (người nhà) are wired into the sc
   for (const g of ['nam', 'nu']) for (let i = 1; i <= 5; i++) await access(new URL(`../public/tu-chan/canh/nhanha_${g}-${i}.webp`, import.meta.url));
   assert.match(html, /function famInfo\(c\)/);
   assert.match(html, /famAt\(352, 268, 170, famCell\(kind\)\)/);
-  assert.match(html, /pk = S\.c\.sex === 'nữ' \? 'cham_nu' : 'cham_nam'/);
+  assert.match(html, /nu_tre: 'cham_nu' \}\)\[patArt\(S\.c\)\] \|\| 'cham_nam'/);
   /* người nhà chỉ xuất hiện khi kịch bản nói rõ ai đưa bệnh nhân đến */
   const m = html.match(/id="bank-data"[^>]*>([\s\S]*?)<\/script>/), bank = JSON.parse(m[1]);
   const re = /(^|[\s,.;:(])(vợ|chồng|con gái|con trai|con dâu|con rể|người con|mẹ|bố|cha|người nhà|người thân|bạn|chị gái|anh trai|em gái|em trai)((?:(?!được)[^.,;]){0,14}?)\s(đưa|bế|dẫn|đi cùng|chở|phát hiện|cõng|đỡ)(?=[\s,.;]|$)/i;
   assert.ok(bank.filter(c => re.test(c.intro.slice(0, 420))).length >= 15);
 });
 
-test('Acceptance gates: no meta sentence in cases, cut art cells are never used', async () => {
+test('Acceptance gates: no meta sentence in cases; adult inpatients use complete-bed art', async () => {
   const html = await read('../public/tu-chan/index.html');
   const bank = JSON.parse(html.match(/id="bank-data"[^>]*>([\s\S]*?)<\/script>/)[1]);
   for (const c of bank) assert.ok(!/Ca tự soạn/.test(JSON.stringify(c)), c.id + ' still has meta sentence');
-  assert.match(html, /const BADCELL = \{ nam_tre: \[5, 6\], nu_tre: \[6\], nam_gia: \[6\], nu_gia: \[3, 5, 6\] \}/);
-  assert.match(html, /\(sc === 'capcuu' \|\| sc === 'giuong'\) && cellBad\(c\) \? 4 : c/);
+  assert.match(html, /const BADCELL = \{\};/);
+  assert.match(html, /function bnAt\(old, cx, yb\)/);
+  for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) for (let i = 1; i <= 8; i++) await access(new URL(`../public/tu-chan/canh/bn_${v}-${i}.webp`, import.meta.url));
+  for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia', 'be_trai', 'be_gai']) for (let i = 1; i <= 7; i++) await access(new URL(`../public/tu-chan/canh/ngt_${v}-${i}.webp`, import.meta.url));
+  for (const v of ['be_gai', 'be_trai', 'nam_gia', 'nu_gia']) await access(new URL(`../public/tu-chan/canh/cham_${v}.webp`, import.meta.url));
+  assert.match(html, /cham_be_gai/);
 });

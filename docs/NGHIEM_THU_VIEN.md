@@ -16,7 +16,11 @@ Khung đối chiếu (dùng như bảng kiểm, không phải chứng nhận):
 ## Đã xem trực quan cả 141 cảnh (ảnh tổng hợp)
 - Giường/chân giường đủ, không mẩu thừa, bác sĩ quay về phía bệnh nhân, người nhà đúng giới/quan hệ.
 
-## Còn dưới 9/10 – cần ảnh vẽ lại (không thể sửa bằng code)
-- Bệnh nhân người lớn: ô 3, 5, 6 bị cắt ở ảnh gốc (giường mất đuôi/đầu). Tạm thời: ca ổn ở nội trú ngồi ghế cạnh giường trống; cấp cứu dùng ô nằm ngửa. Hệ quả: nhiều ca cấp cứu dùng cùng một ảnh.
-- Bệnh nhân khám ngoại trú (phòng khám, châm cứu) đang mặc đồ ngủ bệnh viện: cần bộ ảnh đồ đời thường (dùng chung cho Y Quán).
-- Biểu cảm bệnh nhi; nằm sấp cho trẻ em/người già.
+## Đã khắc phục bằng bộ ảnh mới (04/10)
+- Nội trú người lớn: 8 tư thế trên giường đủ trong ô (`bn_*`), không còn ô bị cắt; cấp cứu không còn dùng chung một ảnh.
+- Ngoại trú đồ đời thường (`ngt_*`, độ phân giải cao) cho phòng khám/châm cứu và Y Quán.
+- Nằm sấp châm cứu cho bé trai, bé gái, nam già, nữ già (`cham_*`).
+
+## Còn thiếu
+- Nội trú trẻ em vẫn dùng bộ `be_*` cũ (7 tư thế, giường đủ nhưng ít biểu cảm).
+- Chỉ số CVI cần chuyên gia chấm.

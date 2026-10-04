@@ -977,7 +977,7 @@ function docPortrait(kind, i, H) {
 
 /* ---------- Cảnh phòng Trực (gói 3: đạo cụ, gói 2: bệnh nhân, gói 1: bác sĩ đứng làm việc) ---------- */
 const CANH = DOCBASE.replace(/bacsi\/$/, 'canh/');
-const PM = { cham_nu: [984, 438], cham_nam: [979, 458], monitor: [335, 324], truyen_dich: [142, 336], xe_cap_cuu: [261, 330], den_kham: [191, 338], cua_so_ngay: [337, 229], cua_so_dem: [287, 203], dong_ho: [329, 334], rem_ngan: [268, 258], tu_thuoc: [230, 339], ban_lam_viec: [331, 265], ban_kham: [270, 186], ghe_kham: [288, 332], may_tho: [237, 339], soc_dien: [336, 312], binh_oxy: [164, 338], cua_phong: [164, 338], tu_dung_cu: [200, 317], thung_rac: [261, 198], giuong_daucao: [305, 197], giuong_phang: [338, 228], cang: [322, 248] };
+const PM = { cham_nu: [984, 438], cham_nam: [979, 458], cham_be_gai: [1065, 598], cham_be_trai: [979, 553], cham_nam_gia: [1158, 519], cham_nu_gia: [1158, 513], monitor: [335, 324], truyen_dich: [142, 336], xe_cap_cuu: [261, 330], den_kham: [191, 338], cua_so_ngay: [337, 229], cua_so_dem: [287, 203], dong_ho: [329, 334], rem_ngan: [268, 258], tu_thuoc: [230, 339], ban_lam_viec: [331, 265], ban_kham: [270, 186], ghe_kham: [288, 332], may_tho: [237, 339], soc_dien: [336, 312], binh_oxy: [164, 338], cua_phong: [164, 338], tu_dung_cu: [200, 317], thung_rac: [261, 198], giuong_daucao: [305, 197], giuong_phang: [338, 228], cang: [322, 248] };
 const PT = {
   nam_tre: [[128, 328], [160, 288], [232, 225], [199, 267], [192, 219], [228, 225], [146, 286]],
   nu_tre: [[142, 327], [158, 283], [230, 219], [217, 249], [201, 227], [228, 228], [145, 291]],
@@ -1012,13 +1012,32 @@ function patientAt(cell, cx, yb, flip) {
   return shadow(cx, w * .9) + (flip ? flipG(cx, im) : im) + statusFx(hx, y + h * hd[1] - 17, 20);
 }
 /* Bệnh nhân NGOẠI TRÚ (đồ đời thường, không đồ bệnh viện): dùng ở phòng khám và phòng châm cứu */
-const NGT = { nam_tre: [[129, 333], [138, 294], [178, 334], [172, 333], [140, 324], [136, 327], [130, 333]], nu_tre: [[141, 334], [149, 299], [190, 334], [184, 333], [142, 321], [142, 324], [141, 334]], nam_gia: [[132, 328], [137, 292], [188, 334], [184, 334], [140, 320], [131, 317], [131, 329]], nu_gia: [[133, 330], [135, 302], [176, 327], [180, 334], [131, 325], [125, 319], [128, 332]], be_trai: [[96, 198], [92, 183], [96, 200], [114, 196], [98, 183], [98, 189], [99, 200]], be_gai: [[128, 201], [124, 189], [126, 202], [128, 201], [128, 193], [124, 192], [128, 201]] };
+const NGT = { nam_tre: [[188, 475], [211, 419], [253, 476], [250, 475], [203, 456], [193, 462], [187, 474]], nu_tre: [[197, 473], [215, 417], [255, 475], [247, 476], [198, 442], [197, 475], [197, 474]], nam_gia: [[191, 478], [222, 436], [268, 472], [241, 470], [201, 454], [193, 462], [182, 471]], nu_gia: [[184, 479], [207, 428], [266, 476], [259, 476], [173, 455], [183, 450], [180, 476]], be_trai: [[137, 282], [155, 276], [142, 286], [158, 278], [153, 257], [141, 260], [140, 275]], be_gai: [[173, 281], [177, 274], [175, 286], [180, 280], [160, 279], [168, 282], [174, 284]] };
 const ngCell = cell => ({ 1: 1, 2: 2, 3: 2, 4: 2, 5: 5, 6: 6, 7: 5 })[cell] || 2; /* ô bệnh nội trú → ô ngoại trú */
 const ngUrls = cell => ['ngt_' + patArt(S.c) + '-' + ngCell(cell)];
 function ngAt(cell, cx, yb, flip) {
-  const v = patArt(S.c), n = ngCell(cell), m = NGT[v][n - 1], k = .55, w = m[0] * k, h = m[1] * k, x = cx - w / 2, y = yb - h;
+  const v = patArt(S.c), n = ngCell(cell), m = NGT[v][n - 1], k = .38, w = m[0] * k, h = m[1] * k, x = cx - w / 2, y = yb - h;
   const im = `<image href="${CANH}ngt_${v}-${n}.webp" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" ${patFilter()}/>`;
   return shadow(cx, w * .9) + (flip ? flipG(cx, im) : im) + statusFx(cx, y - 3, 20);
+}
+/* Bệnh nhân NỘI TRÚ người lớn: ảnh cả giường (8 ô: 1 nhắm mắt, 2 mở mắt, 3 nói chuyện, 4 khó thở/ôm ngực, 5 đau bụng nằm nghiêng, 6 run lạnh, 7 ngồi mép giường, 8 li bì). Trẻ em vẫn dùng bộ be_* */
+const BN = {nam_tre: [[447, 459], [446, 457], [436, 460], [421, 457], [449, 496], [449, 489], [449, 479], [422, 481]], nu_tre: [[437, 462], [433, 461], [428, 464], [417, 463], [442, 492], [441, 487], [442, 495], [423, 485]], nam_gia: [[434, 469], [436, 468], [433, 468], [427, 468], [443, 496], [444, 495], [440, 490], [426, 488]], nu_gia: [[449, 479], [436, 478], [440, 482], [420, 484], [449, 495], [448, 496], [440, 495], [421, 491]]};
+const bnAdult = () => !String(patArt(S.c)).startsWith('be_');
+const BN_RIGOR = /rét run|run lạnh|ớn lạnh|sốt cao|co giật|run rẩy/i;
+function bnCell(old) {
+  const c = S.c, t = [c.title, c.intro.slice(0, 260)].join(' ');
+  if (old === 3) return 7;
+  if (old === 5) return 5;
+  if (old === 4) return S.stab < 35 ? 8 : (S.stab < 60 ? 2 : 1);
+  if (RESP.test(t)) return 4;
+  if (BN_RIGOR.test(t)) return 6;
+  return S.stab >= 70 ? 3 : 2;
+}
+const bnUrls = old => ['bn_' + patArt(S.c) + '-' + bnCell(old)];
+function bnAt(old, cx, yb) {
+  const v = patArt(S.c), n = bnCell(old), m = BN[v][n - 1], k = .34, w = m[0] * k, h = m[1] * k, x = cx - w / 2, y = yb - h;
+  const im = `<image href="${CANH}bn_${v}-${n}.webp" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" ${patFilter()}/>`;
+  return shadow(cx, w * .95) + im + statusFx(x + w * (n === 7 ? .48 : .24), y + h * (n === 7 ? .1 : .2), 20);
 }
 const patUrls = cell => [patArt(S.c) + '-' + cell];
 /* Người nhà đi cùng (chỉ khi kịch bản nói rõ ai đưa bệnh nhân đến) */
@@ -1064,7 +1083,7 @@ function patCell0(sc) {
   return c.rate > 0 || !vitStable(c) ? 6 : (hsh(c.id) % 3 ? 6 : 3);
 }
 /* Ô ảnh gốc bị cắt mất đầu/đuôi giường (chờ vẽ lại): không dùng, thay bằng ô nằm ngửa nguyên vẹn (4) */
-const BADCELL = { nam_tre: [5, 6], nu_tre: [6], nam_gia: [6], nu_gia: [3, 5, 6] };
+const BADCELL = {};
 const cellBad = cell => (BADCELL[patArt(S.c)] || []).includes(cell);
 function patCell(sc) { const c = patCell0(sc); return (sc === 'capcuu' || sc === 'giuong') && cellBad(c) ? 4 : c; }
 /* bác sĩ đứng trong phòng, làm đúng động tác vừa thực hiện. Ảnh gốc quay về bên TRÁI: flip=true để quay sang PHẢI */
@@ -1079,18 +1098,16 @@ const docNeed = () => docImgOk(DOCBASE + (docKey() === 'dfF' ? 'nu' : 'nam') + '
 const winP = (n, x, yb, w) => prop(n ? 'cua_so_dem' : 'cua_so_ngay', x, yb, w);
 /* Nội trú và cấp cứu: bệnh nhân nằm giường, bác sĩ đứng bên phải giường quay về phía bệnh nhân */
 function sceneBed(kind, n) {
-  const er = kind === 'capcuu', raw = patCell0(kind);
-  /* nội trú, bệnh nhân tỉnh và ổn: ngồi ghế cạnh giường (ảnh nửa ngồi trên giường bị cắt nên chưa dùng) */
-  const chair = !er && cellBad(raw) && raw !== 5 && S.stab >= 45, cell = chair ? 2 : patCell(kind);
-  const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : chair ? 'giuong_daucao' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem'];
-  if (!sceneOk(need.concat(patUrls(cell), famUrls())) || !docNeed()) return room(kind, n);
+  const er = kind === 'capcuu', cell = patCell(kind), adult = bnAdult();
+  const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem'];
+  if (!sceneOk(need.concat(adult ? bnUrls(cell) : patUrls(cell), famUrls())) || !docNeed()) return room(kind, n);
   const wall = er
     ? `<rect x="16" y="14" width="74" height="22" rx="4" fill="#E5484D" ${OLN}/><text x="53" y="29.5" text-anchor="middle" style="font:800 11px var(--f-body);fill:#fff">CẤP CỨU</text>` + prop('dong_ho', 334, 66, 28)
     : winP(n, 118, 112, 110) + prop('dong_ho', 28, 68, 28) + prop('rem_ngan', 30, 252, 170);
   const side = er ? propH('tu_dung_cu', 0, 254, 100) + prop('monitor', 6, 154, 50) + propH('xe_cap_cuu', 307, 262, 118)
-                  : (chair ? '' : propH('truyen_dich', 28, 262, 150) + propH('tu_dung_cu', 330, 254, 100) + prop('monitor', 337, 154, 50));
-  if (chair) return room(kind, n) + wall + nightOv(n) + side + propH('giuong_daucao', 8, 262, 118) + patientAt(2, 226, 262, true) + docScene(306, 262, 200, false) + famAt(376, 270, 150, famCell(kind));
-  return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + patientAt(cell, 135, 262) + docScene(262, 262, 200, false) + famAt(352, 268, 170, famCell(kind));
+                  : propH('truyen_dich', 28, 262, 150) + propH('tu_dung_cu', 330, 254, 100) + prop('monitor', 337, 154, 50);
+  const pat = adult ? bnAt(cell, 135, 262) : patientAt(cell, 135, 262);
+  return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + pat + docScene(262, 262, 200, false) + famAt(352, 268, 170, famCell(kind));
 }
 const sceneWard = n => sceneBed('giuong', n);
 const sceneER = n => sceneBed('capcuu', n);
@@ -1103,7 +1120,7 @@ function sceneClinic(n) {
 }
 /* Phòng châm cứu: bệnh nhân ngồi ghế (hoặc nằm nghiêng), giường khám và tủ dụng cụ phía sau */
 function sceneAcu(n) {
-  const cell = patCell('chamcuu'), prone = cell === 5, pk = S.c.sex === 'nữ' ? 'cham_nu' : 'cham_nam';
+  const cell = patCell('chamcuu'), prone = cell === 5, pk = ({ be_gai: 'cham_be_gai', be_trai: 'cham_be_trai', nam_gia: 'cham_nam_gia', nu_gia: 'cham_nu_gia', nu_tre: 'cham_nu' })[patArt(S.c)] || 'cham_nam';
   const need = ['cua_so_ngay', 'cua_so_dem', 'dong_ho', 'tu_thuoc'].concat(prone ? [pk] : ['ban_kham'].concat(ngUrls(cell)), famUrls());
   if (!sceneOk(need) || !docNeed()) return room('chamcuu', n);
   const mid = room('chamcuu', n) + winP(n, 170, 110, 100) + prop('dong_ho', 28, 66, 28) + nightOv(n) + propH('tu_thuoc', 0, 254, 150);
