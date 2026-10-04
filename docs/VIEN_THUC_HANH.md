@@ -52,8 +52,6 @@ Chưa dùng vì ảnh lỗi: ô 3/4 sau của `goc`, toàn bộ `di` và `chay` 
 
 ## Bộ đồ họa mới (04/10/2026)
 Thay toàn bộ gói 1 bằng bộ PNG nền trong suốt mới (bác sĩ nam tóc đen, nữ tóc nâu buộc cao, phong cách chibi): `public/tu-chan/bacsi/{nam,nu}-{bieucam,dongtac,di,chay}.webp`. Thêm 6 tranh `public/tu-chan/tranh/01..06.webp` (960×540).
-- Mở đầu ca: tranh theo loại ca (01 vào cấp cứu, 03 khám bụng khi ca liên quan bụng, 02 hỏi bệnh bên giường), ẩn sau thao tác đầu tiên; bác sĩ chạy vào (ca cấp cứu, bệnh nhân không ổn định) hoặc đi vào (ca ổn định) ngang sân khấu.
-- Kết quả: tranh 06 bàn giao ca khi đạt từ 70 điểm, 04 xem lại kết quả khi chưa đạt, 05 cấp cứu khi bệnh nhân tử vong.
 - Chưa dùng: góc nhìn `goc`, `nghi` (giữ trong bản gốc, chưa cắt).
 
 ## Gói 2 bệnh nhân và gói 3 đạo cụ (04/10/2026)
@@ -68,3 +66,12 @@ Bác sĩ đứng trong phòng làm đúng động tác vừa thực hiện (`doc
 ## Bật toàn bộ ca nháp (04/10/2026)
 
 Chủ sở hữu quyết định bật cả 101 ca `nhap`. Trong ngân hàng nhúng, các ca này đổi sang `draft` (cùng trạng thái với 40 ca phát hành trước). Migration `20261004080000_vien_thuc_hanh_bat_ca_nhap.sql` (đã áp dụng lên production) thêm/kích hoạt dòng danh mục: tổng 141 ca hoạt động (Nội 50, Ngoại 41, YHCT 50). Cơ chế fail-closed với `nhap` vẫn giữ cho ca nhập mới sau này. Lưu ý: ca `draft` chưa phải đã duyệt chuyên môn; nên rà dần các ca tự soạn.
+
+
+## Cảnh theo kịch bản và một bác sĩ duy nhất (04/10/2026)
+
+- **Bỏ tranh truyện 01–06 và hiệu ứng bác sĩ chạy ngang**: tranh cố định không khớp bệnh nhân, bác sĩ và tốn băng thông. Cảnh phòng là phần hình ảnh chính của ca.
+- **Trường `scene` trong ngân hàng ca** (`giuong`, `capcuu`, `phongkham`, `chamcuu`) xác định phòng vẽ theo câu chuyện thật (ca "đến phòng khám" ra phòng khám, ca "vào cấp cứu" ra cấp cứu). `setting` giữ nguyên cho danh mục máy chủ và cách điều trị (`TAY`). Có test đối chiếu `scene` với văn bản ca, giới tính, tuổi và cách xưng hô.
+- **Tư thế bệnh nhân** do `patCell()` chọn theo phòng, bệnh cảnh (hô hấp, bụng, mất ý thức) và độ ổn định: nằm ngửa (nặng/mất ý thức), đầu cao (hô hấp), nằm nghiêng (bụng), ngồi mép giường (ổn định), ngồi ghế (phòng khám, châm cứu), cúi ôm bụng (phòng khám, đau quặn). Người bệnh dưới 12 tuổi vẽ nhỏ hơn vì chưa có ảnh trẻ em.
+- **Bác sĩ** đứng sát bệnh nhân, quay về phía bệnh nhân, làm đúng động tác vừa thực hiện; hàng chân dung chỉ còn biểu cảm. Bác sĩ lấy từ hồ sơ Y Quán (`doctor_avatar_id`); chưa đăng nhập dùng bác sĩ nam mặc định. Ảnh bác sĩ ở Y Quán (`y-quan-live/art/doctor-male|female.webp`) đã đổi sang cùng bộ gói 1, bỏ bộ sprite cũ trong `tu-chan`.
+- **Cần thêm ảnh** (nếu muốn hoàn thiện): bệnh nhân trẻ em nam/nữ (ngồi, nằm giường), người nhà đi cùng (mẹ của bé), tư thế nằm sấp trên bàn châm cứu.
