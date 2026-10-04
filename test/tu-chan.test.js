@@ -230,3 +230,12 @@ test('Patient posture follows the clinical story: trauma and fractures lie down,
   assert.match(html, /const vitStable = /);
   assert.match(html, /if \(TRAUMA\.test\(c\.title/);
 });
+
+test('Child patients use their own art and the acting doctor faces the patient', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  for (const v of ['be_trai', 'be_gai']) for (let i = 1; i <= 7; i++) await access(new URL(`../public/tu-chan/canh/${v}-${i}.webp`, import.meta.url));
+  assert.match(html, /const patArt = c => c\.age < 12/);
+  /* ảnh gốc của bác sĩ quay sang TRÁI: đứng bên phải giường thì giữ nguyên, đứng bên trái bệnh nhân thì lật */
+  assert.match(html, /docScene\(262, 262, 200, false\)/);
+  assert.match(html, /docScene\(130, 262, 200, true\)/);
+});
