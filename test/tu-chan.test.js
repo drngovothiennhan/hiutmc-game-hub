@@ -309,3 +309,20 @@ test('Play mode follows the room: emergency and ward cases are modern medicine o
   assert.doesNotMatch(sql, /drop\s|delete\s+from|truncate/i, 'additive migration only');
   assert.match(html, /const trackOf = c => c\.track \|\|/);
 });
+
+test('Learning room shares the duty case bank (one bank, two modes)', async () => {
+  const { readBank, readPhBank, buildPhBank } = await import('../scripts/sync-case-bank.mjs');
+  const tc = readBank(await read('../public/tu-chan/index.html'));
+  const { bank: ph } = readPhBank(await read('../public/phong-hoc/index.html'));
+  assert.equal(ph.length, tc.length, 'both modes must carry the same number of cases');
+  assert.deepEqual(ph, buildPhBank(tc, ph), 'run: node scripts/sync-case-bank.mjs');
+  const html = await read('../public/phong-hoc/index.html');
+  assert.match(html, /const trackOf=c=>c\.track\|\|/);
+  const byId = new Map(tc.map(c => [c.id, c]));
+  for (const c of ph) {
+    const t = byId.get(c.id);
+    assert.equal(c.track, t.track, c.id + ' track differs');
+    assert.equal(c.mode, t.mode, c.id + ' mode differs');
+    if (c.mode === 'tay') assert.ok(!c.exam.some(e => 'VMT'.includes(e[0])), c.id + ': modern case must not use Vong/Van/Thiet in study mode');
+  }
+});
