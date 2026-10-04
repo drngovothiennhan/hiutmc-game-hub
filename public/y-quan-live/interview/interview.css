@@ -38,4 +38,4 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 .scene-banner figcaption{position:absolute;left:50%;top:.6rem;transform:translateX(-50%);min-width:55%;padding:.3rem .9rem;text-align:center;border:2px solid #7b5230;border-radius:12px;background:linear-gradient(180deg,#fbf1d6,#f0e0b6);box-shadow:0 3px 8px #3a2a1240}
 .scene-banner figcaption b{display:block;font:800 1.1rem/1.2 Georgia,serif;color:#5f3d21}
 .scene-banner figcaption small{color:#6f6350;font-size:.72rem}
-.character img{border-radius:14px;background:#f6eedb;object-fit:contain}
+.character img{border-radius:14px;background:#f6eedb;object-fit:cover;object-position:50% 6%}

@@ -85,3 +85,7 @@ Chủ sở hữu quyết định bật cả 101 ca `nhap`. Trong ngân hàng nh�
 
 ## Y Quán: bệnh nhân (cần ảnh)
 Người đến khám Y Quán là bệnh nhân ngoại trú: quần áo đời thường, không đồ bệnh viện. Chưa có bộ ảnh này; cần ChatGPT vẽ "bệnh nhân đời thường" cùng nét với Viện (nam/nữ trẻ/già, bé trai/gái) rồi tích hợp.
+
+## Bệnh nhân ngoại trú (đồ đời thường)
+- Bộ `canh/ngt_{nam_tre,nu_tre,nam_gia,nu_gia,be_trai,be_gai}-{1..7}.webp` (1 đứng chờ, 2 ngồi ghế, 3 đưa tay, 4 kể bệnh, 5 đau, 6 mệt, 7 mỉm cười). Dùng cho phòng khám và phòng châm cứu ở Viện (`ngAt`, ánh xạ ô nội trú → ngoại trú bằng `ngCell`). Nội trú/cấp cứu vẫn dùng đồ bệnh nhân.
+- Y Quán dùng cùng bộ (`y-quan-live/art/benhnhan-*.webp`), chọn nét mặt theo trạng thái hội thoại; không còn dùng ảnh bác sĩ làm ảnh bệnh nhân.

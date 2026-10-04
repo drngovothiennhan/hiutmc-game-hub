@@ -67,7 +67,7 @@ test('Y Quan defaults to the Thap van practice module with a one-time doctor int
   assert.ok(client.includes("gameHubPath('y-quan-live/interview/')"));
   assert.ok(client.includes("interviewUrl.searchParams.set('v',Y_QUAN_ROUTE_VERSION)"));
   assert.ok(client.includes("const Y_QUAN_ROUTE_VERSION='20260929.1'"));
-  assert.ok(page.includes('app.js?v=20260929.1'));
+  assert.ok(page.includes('app.js?v=20261004.1'));
   assert.ok(page.includes('y-quan-live/?v=20260929.1'));
   assert.ok(page.includes("import(base+'y-quan-live/interview/app.js?v="));
   assert.match(build, /cp\('public', 'dist', \{ recursive: true \}\)/);
@@ -103,4 +103,12 @@ test('Y Quán chỉ cập nhật vùng đổi, không dựng lại cả trang (c
   assert.ok(/scrollTo\(x,y\)/.test(js));
   const css = await readFile(new URL('../public/y-quan-live/game.css', import.meta.url), 'utf8');
   assert.ok(css.includes('@media(hover:hover){button:hover'));
+});
+
+test('Y Quán patients use the outpatient art set (everyday clothes), not hospital pajamas or doctor photos', async () => {
+  const { readFile, access } = await import('node:fs/promises');
+  const app = await readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8');
+  assert.ok(app.includes('patientArtSrc'));
+  assert.ok(!app.includes("caseFile?.avatar || 'assets/avatars"));
+  for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) for (const n of [1, 4, 5, 6, 7]) await access(new URL(`../public/y-quan-live/art/benhnhan-${v}-${n}.webp`, import.meta.url));
 });
