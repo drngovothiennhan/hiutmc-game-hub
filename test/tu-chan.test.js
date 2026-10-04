@@ -352,3 +352,11 @@ test('Every case source carries a verification record; modern cases cite no TCM 
   const seen = new Set();
   for (const e of reg.muc) { assert.ok(!seen.has(e.id), 'duplicate registry id ' + e.id); seen.add(e.id); }
 });
+
+test('Result screen shows a four-step debrief, not only a score', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /function debrief\(dead\)/);
+  for (const t of ['Bạn đã nghĩ gì', 'Bằng chứng bạn bỏ sót', 'Quyết định làm đổi tiên lượng', 'Nếu làm lại, việc đầu tiên']) assert.ok(html.includes(t), 'debrief missing step: ' + t);
+  assert.match(html, /\$\{debrief\(dead\)\}[\s\S]*<details class="dd">[\s\S]*r\.rows\.map/, 'debrief comes before the collapsed score breakdown');
+  assert.match(html, /không phải từ điều bạn nghĩ/, 'must say the debrief is reconstructed from actions, not from player thoughts');
+});

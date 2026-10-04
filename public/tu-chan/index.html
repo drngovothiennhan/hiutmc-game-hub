@@ -120,6 +120,20 @@ select{width:100%;font:inherit;color:var(--ink);background:var(--surface);border
 .fail{background:var(--alert-soft);border:1px solid var(--alert);border-radius:8px;padding:12px;margin-block:10px}
 .teach{background:var(--jade-soft);border-radius:8px;padding:12px;margin-top:12px}
 .teach h3{font-size:15px;margin-bottom:4px}
+.dbrf{margin-top:14px}
+.dbrf h3{font-size:16px;margin:0 0 2px}
+.dbrf .dbn{font-size:12.5px;color:var(--muted);margin:0 0 8px}
+.dbrf ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dbrf li{display:grid;grid-template-columns:28px 1fr;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:11px 12px}
+.dbrf .dn{width:28px;height:28px;border-radius:50%;background:var(--jade);color:var(--jade-ink);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.dbrf li.hot{border-color:var(--alert);background:var(--alert-soft)}
+.dbrf li.hot .dn{background:var(--alert)}
+.dbrf li.go{border-color:var(--jade);background:var(--jade-soft)}
+.dbrf b.t{display:block;font-size:13px;letter-spacing:.02em;margin-bottom:2px}
+.dbrf p{margin:0;font-size:14px;line-height:1.5}
+.dbrf ul.m{margin:4px 0 0;padding-left:18px;font-size:14px}
+.dbrf ul.m li{display:list-item;border:0;background:none;padding:0;margin:3px 0}
+details.dd{margin-top:12px}details.dd>summary{cursor:pointer;font-size:14px;font-weight:600;padding:8px 0;color:var(--jade)}
 .disc{font-size:12px;color:var(--muted);margin-top:14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -1357,6 +1371,55 @@ function timeReport() {
   return `<div class="trep"><div><span>Thời gian thực bạn chơi</span><b>${real}</b></div><div><span>Phút trong ca (mô phỏng)</span><b>${S.t}</b></div>${c.rate > 0 ? `<div><span>Độ ổn định cuối</span><b>${Math.round(S.stab)}%</b></div>` : ''}</div>
   <p class="muted" style="font-size:13px;margin:6px 0">Phút trong ca là thời gian trong bệnh viện mô phỏng, tính theo từng thao tác: ${Object.keys(by).map(k => TL[k] + ' ' + by[k] + ' phút').join(', ') || 'chưa có thao tác'}.${c.rate > 0 && top.length ? ` Tốn nhiều nhất: ${top.map(x => x.n + ' (' + x.m + ' phút)').join('; ')}.` : ''}</p>`;
 }
+/* Phân tích diễn biến: dựng lại từ thao tác của người chơi (không phải điều họ gõ), theo bốn bước:
+   đã nghĩ gì → bằng chứng bỏ sót → quyết định làm đổi tiên lượng → nếu làm lại, việc đầu tiên. */
+function debrief(dead) {
+  const c = S.c, tay = TAY(c), er = c.rate > 0, acts = c.actions.map(pa), KN = { ask: 'hỏi bệnh', ex: 'khám', test: 'xét nghiệm', act: 'xử trí' };
+  let t = 0, firstAct = null; const before = { ask: 0, ex: 0, test: 0, m: 0 }, actAt = new Map();
+  for (const x of S.log) {
+    const start = t; t += x.m;
+    if (x.k === 'act') { if (firstAct === null) firstAct = start; actAt.set(x.n, { start, end: t }); }
+    else if (firstAct === null) { before[x.k] = (before[x.k] || 0) + 1; before.m += x.m; }
+  }
+  const sel = k => (S.ans[k] === undefined || S.ans[k] === '' || !S.opts[k]) ? null : S.opts[k][+S.ans[k]];
+  const rightOf = k => (S.opts[k] || []).filter(o => o.k === '+').map(o => o.t).join(' hoặc ');
+  const dx = sel('ydx'), dxOk = dx && dx.k === '+';
+  /* 1. Đã nghĩ gì */
+  const f = S.first;
+  const s1 = (f ? `Bạn mở đầu bằng <b>${esc(f.n)}</b> (${KN[f.k] || 'thao tác'}). ` : 'Bạn chưa làm thao tác nào. ')
+    + (firstAct === null ? 'Bạn chưa bắt đầu xử trí nào.' : `Trước khi bắt đầu xử trí, bạn đã hỏi ${before.ask}, khám ${before.ex}, xét nghiệm ${before.test} (${before.m} phút trong ca). `)
+    + (dx ? `Bạn chốt chẩn đoán <b>${esc(clip(dx.t, 90))}</b>: ${dxOk ? 'đúng.' : dx.k === '~' ? 'gần đúng, đáp án là ' + esc(clip(rightOf('ydx'), 90)) + '.' : 'chưa đúng, đáp án là ' + esc(clip(rightOf('ydx'), 90)) + '.'}` : 'Bạn chưa chốt chẩn đoán.');
+  /* 2. Bằng chứng bỏ sót */
+  const miss = [];
+  c.exam.forEach((x, i) => { if (x[3] === 'e' && !S.ex[i] && !(tay && /lưỡi/i.test(x[1]))) miss.push(['Khám', x[1], x[2]]); });
+  c.tests.forEach((x, i) => { if (x[3] === 'e' && !S.ts[i]) miss.push(['Xét nghiệm', x[0], x[2]]); });
+  c.ask.forEach((x, i) => { if (x[2] === 'e' && !S.asked[i]) miss.push(['Hỏi', x[0], x[1]]); });
+  const s2 = miss.length
+    ? `<ul class="m">${miss.slice(0, 3).map(m => `<li><b>${m[0]}: ${esc(clip(m[1], 60))}</b> sẽ cho thấy: ${esc(clip(m[2], 150))}</li>`).join('')}</ul>${miss.length > 3 ? `<p class="muted" style="font-size:12.5px;margin-top:4px">Còn ${miss.length - 3} dữ kiện then chốt khác chưa thu thập.</p>` : ''}`
+    : '<p>Bạn đã thu thập đủ các dữ kiện then chốt.</p>';
+  /* 3. Quyết định làm đổi tiên lượng */
+  const dec = [];
+  acts.forEach((a, i) => { if (S.ac[i] && a.k === '!') dec.push({ w: 100, x: `Bạn đã làm <b>${esc(a.n)}</b>, đây là chỉ định nguy hại.${a.why ? ' ' + esc(clip(a.why, 160)) : ''}` }); });
+  acts.forEach((a, i) => { if (!S.ac[i] && a.k === '++') dec.push({ w: 80, x: `Bạn chưa làm <b>${esc(a.n)}</b>.${a.why ? ' ' + esc(clip(a.why, 160)) : ''}` }); });
+  if (er) acts.forEach((a, i) => { const at = S.ac[i] && a.k === '++' ? actAt.get(a.n) : null; if (at && at.start >= 10) dec.push({ w: 50 + Math.min(20, at.start), x: `Bạn bắt đầu <b>${esc(a.n)}</b> ở phút ${at.start} của ca; trước đó ${before.m} phút đã dành cho hỏi, khám và xét nghiệm.` }); });
+  const wasteT = c.tests.filter((x, i) => x[3] === 'w' && S.ts[i]);
+  if (wasteT.length) dec.push({ w: 40, x: `Xét nghiệm không cần thiết (${esc(wasteT.map(x => x[0]).join(', '))}) làm mất ${wasteT.reduce((a, x) => a + x[1], 0)} phút.` });
+  dec.sort((a, b) => b.w - a.w);
+  let s3 = dec.slice(0, 2).map(d => `<p>${d.x}</p>`).join('') || '<p>Không có quyết định nào làm xấu tiên lượng. Xử trí của bạn khớp thứ tự ưu tiên.</p>';
+  if (dead) { const top = S.log.slice().sort((a, b) => b.m - a.m)[0]; s3 = `<p>Bệnh nhân ngừng tuần hoàn ở phút ${S.t} của ca.${top && top.m >= 3 ? ` Việc tốn nhiều phút nhất: <b>${esc(top.n)}</b> (${top.m} phút).` : ''}</p>` + s3; }
+  /* 4. Nếu làm lại */
+  const firstPP = acts.find(a => a.k === '++'), missPP = acts.find((a, i) => a.k === '++' && !S.ac[i]), harmDone = acts.find((a, i) => a.k === '!' && S.ac[i]);
+  let s4;
+  if (er && firstPP && f && !f.good) s4 = `Làm ngay <b>${esc(firstPP.n)}</b>${firstPP.why ? ': ' + esc(clip(firstPP.why, 170)) : ''}`;
+  else if (missPP) s4 = `Làm <b>${esc(missPP.n)}</b>${missPP.why ? ': ' + esc(clip(missPP.why, 170)) : ''}`;
+  else if (miss.length) s4 = `${miss[0][0] === 'Hỏi' ? 'Hỏi' : miss[0][0] === 'Khám' ? 'Khám' : 'Chỉ định'} <b>${esc(clip(miss[0][1], 70))}</b> trước khi chốt chẩn đoán.`;
+  else if (dx && !dxOk) s4 = `Đối chiếu lại các dữ kiện đã có, rồi cân nhắc <b>${esc(clip(rightOf('ydx'), 90))}</b> trước khi chốt.`;
+  else s4 = 'Giữ nguyên thứ tự này. Lần sau thử một ca cùng nhóm để kiểm tra bạn có làm được đều tay không.';
+  if (harmDone) s4 += `<br>Và tránh <b>${esc(harmDone.n)}</b>.`;
+  const hot3 = dec.length && dec[0].w >= 80;
+  const L = [['', 'Bạn đã nghĩ gì', `<p>${s1}</p>`], [miss.length ? 'hot' : '', 'Bằng chứng bạn bỏ sót', s2], [hot3 ? 'hot' : '', 'Quyết định làm đổi tiên lượng', s3], ['go', 'Nếu làm lại, việc đầu tiên', `<p>${s4}</p>`]];
+  return `<section class="dbrf"><h3>Phân tích diễn biến</h3><p class="dbn">Dựng lại từ các thao tác bạn đã làm trong ca, không phải từ điều bạn nghĩ.</p><ol>${L.map((x, i) => `<li class="${x[0]}"><span class="dn">${i + 1}</span><div><b class="t">${x[1]}</b>${x[2]}</div></li>`).join('')}</ol></section>`;
+}
 function finish(dead) {
   clearInterval(RT);
   if (!S || S.over) return; S.over = true;
@@ -1371,7 +1434,8 @@ function finish(dead) {
   ${decisionNote()}
   ${S.challenge ? '<div class="expbox">Ca giải đấu tuần: điểm lượt đầu tiên của ca này được tính vào bảng xếp hạng.</div>' : ''}
   ${r.note ? `<div class="fail">${esc(r.note)}</div>` : ''}
-  <div class="rows">${r.rows.map(x => `<div class="row ${x.tone}"><b>${esc(x.title)}</b><span class="v">${x.v}</span><span class="sub">${esc(x.sub)}</span></div>`).join('')}</div>
+  ${debrief(dead)}
+  <details class="dd"><summary>Xem chi tiết điểm từng phần</summary><div class="rows">${r.rows.map(x => `<div class="row ${x.tone}"><b>${esc(x.title)}</b><span class="v">${x.v}</span><span class="sub">${esc(x.sub)}</span></div>`).join('')}</div></details>
   <div class="teach"><h3>Điều rút ra</h3>${esc(c.teach)}${c.ref ? `<p class="muted" style="margin:8px 0 0;font-size:13px">Cơ sở tham khảo: ${esc(c.ref)}</p>` : ''}</div>
   <div id="sbar">${sbarHtml()}</div>
   <div id="expbox" class="expbox ${S.shift ? '' : 'off'}">${S.shift ? 'Đang ghi EXP vào hồ sơ bác sĩ…' : S.review ? 'Xem lại để học: không tính EXP và không vào giải.' : S.trial ? 'Ca chơi thử của quản trị: không tính EXP.' : 'Chế độ khách: không tính EXP. Đăng nhập từ Game Hub để tích EXP.'}</div>
