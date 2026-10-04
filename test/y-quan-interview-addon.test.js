@@ -112,3 +112,9 @@ test('Y Quán patients use the outpatient art set (everyday clothes), not hospit
   assert.ok(!app.includes("caseFile?.avatar || 'assets/avatars"));
   for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) for (const n of [1, 4, 5, 6, 7]) await access(new URL(`../public/y-quan-live/art/benhnhan-${v}-${n}.webp`, import.meta.url));
 });
+
+test('Y Quán personalization panel shows a hint when the player has no profile yet', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const js = await readFile(new URL('../public/y-quan-live/game.js', import.meta.url), 'utf8');
+  assert.ok(js.includes('Chơi một ca trực ở Viện Thực Hành để mở hồ sơ'));
+});
