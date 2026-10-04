@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, access } from 'node:fs/promises';
 
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 
@@ -196,4 +196,11 @@ test('patient state sheets and prop icons exist', async () => {
   assert.match(html, /function propIcon/);
   for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) await access(new URL(`../public/tu-chan/benhnhan/${v}-trangthai.webp`, import.meta.url));
   for (const k of ['huyet_ap', 'phim_xquang', 'bb_stethoscope', 'soc_dien', 'phieu_xn', 'truyen_dich']) await access(new URL(`../public/tu-chan/vat/${k}.webp`, import.meta.url));
+});
+
+test('Trực: cảnh phòng dùng ảnh đạo cụ, bệnh nhân và bác sĩ động tác', async () => {
+  const html = await readFile(new URL('../public/tu-chan/index.html', import.meta.url), 'utf8');
+  for (const f of ['sceneWard', 'sceneER', 'sceneClinic', 'sceneAcu', 'docScene', 'docPose', 'docExpr', 'patientAt']) assert.match(html, new RegExp('function ' + f));
+  for (const k of ['monitor', 'truyen_dich', 'xe_cap_cuu', 'den_kham', 'cua_so_ngay', 'tu_thuoc', 'ban_lam_viec', 'ban_kham']) await access(new URL(`../public/tu-chan/canh/${k}.webp`, import.meta.url));
+  for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) for (let i = 1; i <= 7; i++) await access(new URL(`../public/tu-chan/canh/${v}-${i}.webp`, import.meta.url));
 });
