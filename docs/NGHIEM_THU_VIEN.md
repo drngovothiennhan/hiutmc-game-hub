@@ -17,10 +17,10 @@ Khung đối chiếu (dùng như bảng kiểm, không phải chứng nhận):
 - Giường/chân giường đủ, không mẩu thừa, bác sĩ quay về phía bệnh nhân, người nhà đúng giới/quan hệ.
 
 ## Đã khắc phục bằng bộ ảnh mới (04/10)
-- Nội trú người lớn: 8 tư thế trên giường đủ trong ô (`bn_*`), không còn ô bị cắt; cấp cứu không còn dùng chung một ảnh.
+- Nội trú (cấp cứu/bệnh phòng): giường vẽ bằng SVG nhìn ngang cùng góc với bác sĩ, tủ, xe đẩy; bệnh nhân là ảnh bán thân biểu cảm (`benhnhan/*-trangthai`) đặt trên gối, đắp chăn. Không còn ảnh nhìn từ trên xuống (giường "bay lên").
 - Ngoại trú đồ đời thường (`ngt_*`, độ phân giải cao) cho phòng khám/châm cứu và Y Quán.
 - Nằm sấp châm cứu cho bé trai, bé gái, nam già, nữ già (`cham_*`).
 
 ## Còn thiếu
-- Nội trú trẻ em vẫn dùng bộ `be_*` cũ (7 tư thế, giường đủ nhưng ít biểu cảm).
+- Trẻ em nội trú: bán thân cắt từ bộ `be_*` đặt trên cùng giường SVG.
 - Chỉ số CVI cần chuyên gia chấm.
