@@ -17,10 +17,10 @@ Khung đối chiếu (dùng như bảng kiểm, không phải chứng nhận):
 - Giường/chân giường đủ, không mẩu thừa, bác sĩ quay về phía bệnh nhân, người nhà đúng giới/quan hệ.
 
 ## Đã khắc phục bằng bộ ảnh mới (04/10)
-- Nội trú (cấp cứu/bệnh phòng): giường vẽ bằng SVG nhìn ngang cùng góc với bác sĩ, tủ, xe đẩy; bệnh nhân là ảnh bán thân biểu cảm (`benhnhan/*-trangthai`) đặt trên gối, đắp chăn. Không còn ảnh nhìn từ trên xuống (giường "bay lên").
+- Nội trú (cấp cứu/bệnh phòng): 59 ảnh vẽ nguyên cảnh `canh/giuong/{nam_gia|nu_gia|nam_tre|nu_tre|be_trai|be_gai}-{1..10}.webp` (giường + bệnh nhân nhìn ngang, 10 trạng thái theo `patPick`). Ảnh `nam_gia-2` lỗi nền nên dùng lại giường SVG cũ (`BED_OLD`); thay bằng ảnh mới thì bỏ khỏi `BED_OLD`.
 - Ngoại trú đồ đời thường (`ngt_*`, độ phân giải cao) cho phòng khám/châm cứu và Y Quán.
 - Nằm sấp châm cứu cho bé trai, bé gái, nam già, nữ già (`cham_*`).
 
 ## Còn thiếu
-- Trẻ em nội trú: bán thân cắt từ bộ `be_*` đặt trên cùng giường SVG.
+- Trẻ em nội trú dùng bộ `be_trai`/`be_gai` riêng, cùng góc nhìn và 10 trạng thái.
 - Chỉ số CVI cần chuyên gia chấm.
