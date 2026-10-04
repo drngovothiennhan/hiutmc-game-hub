@@ -156,6 +156,7 @@ textarea{font-family:var(--f-mono);font-size:12px;min-height:120px;resize:vertic
 @keyframes pl{50%{transform:scale(1.18)}}
 .pulse{animation:pl 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 .o{stroke:#2B3A47;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+@keyframes dbob{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-4px) scaleY(1.015)}}@keyframes dpop{0%{transform:translateY(0) scale(1)}30%{transform:translateY(-10px) scale(1.07)}60%{transform:translateY(0) scale(.97)}100%{transform:none}}.docs{animation:dbob 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}.docs.pop{animation:dpop .6s ease-out,dbob 2.4s ease-in-out .6s infinite}
 @keyframes idl{50%{transform:translateY(-1.6px) rotate(.5deg)}}
 .idle{animation:idl 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes ecgw{to{transform:translateX(-40px)}}
@@ -170,7 +171,7 @@ textarea{font-family:var(--f-mono);font-size:12px;min-height:120px;resize:vertic
 .steam{animation:st 2.4s linear infinite}
 @keyframes gl{50%{opacity:.34}}
 .glowl{animation:gl 3s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.idle,.ecgw,.dripd,.drop,.zz,.steam,.glowl,.pulse,.blink{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.docs,.idle,.ecgw,.dripd,.drop,.zz,.steam,.glowl,.pulse,.blink{animation:none!important}}
 </style>
 <div class="wrap">
   <section id="home"></section>
@@ -830,7 +831,7 @@ function home() {
       <p class="muted" style="font-size:12px">Ca lưu riêng nằm trong trình duyệt của bạn. Ca chia sẻ cho cả lớp cần trang được chia sẻ với quyền Contributor trở lên. Ca có sẵn do người quản trị cập nhật.</p>
     </div>
   </details>
-  <p class="note">Đây là tình huống mô phỏng cho học tập. Không dùng để quyết định điều trị cho người bệnh thật.</p>`;
+  <p class="note">Ca tự soạn phục vụ đào tạo; toàn bộ thông tin và số liệu người bệnh là giả định. Đây là tình huống mô phỏng cho học tập. Không dùng để quyết định điều trị cho người bệnh thật.</p>`;
   renderList(); renderMine(); renderDoc(); show('home');
 }
 
@@ -932,7 +933,7 @@ async function initCaps() {
 function start(id, shift, room) {
   const c = bank().find(x => x.id === id); if (!c) return;
   S = { shift: shift || null, room: room || (TAY(c) ? 'capcuu' : 'kham'), trial: !shift && !room, av: (shift && shift.doctor_avatar_id) || (PSTATE === 'ok' && PROFILE && PROFILE.doctor_avatar_id) || null, c, t: 0, t0: Date.now(), log: [], warn: null, stab: c.stab0, mult: 1, asked: {}, ex: {}, ts: {}, ac: {}, tab: 'ask', ans: { huyet: [] }, over: false,
-    bubble: { who: 'Tình huống', txt: c.intro }, opts: {}, challenge: !!(shift && shift.challenge), events: [], combo: 0, bestCombo: 0, first: null };
+    bubble: { who: 'Tình huống', txt: c.intro.replace(/^Ca tự soạn phục vụ đào tạo; toàn bộ thông tin và số liệu người bệnh là giả định\.\s*/, '') }, opts: {}, challenge: !!(shift && shift.challenge), events: [], combo: 0, bestCombo: 0, first: null };
   for (const k of Object.keys(c.opt)) S.opts[k] = shuffle(c.opt[k].map(po));
   S.actOrder = shuffle(c.actions.map((_, j) => j));
   show('play'); draw(); rtStart();
@@ -1024,8 +1025,8 @@ function patBedCell() {
 function docScene(cx, yb, h, flip) {
   const g = docKey() === 'dfF' ? 'nu' : 'nam', m = DOCSHEET[g + '-dongtac'], url = DOCBASE + g + '-dongtac.webp';
   if (!m || !docImgOk(url)) return '';
-  const i = docPose(), w = h * m[1] / m[2], x = cx - w / 2, y = yb - h;
-  const body = `<g class="idle"><svg x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h}" viewBox="${i * m[1]} 0 ${m[1]} ${m[2]}" overflow="hidden"><image href="${url}" width="${m[0] * m[1]}" height="${m[2]}"/></svg></g>`;
+  const i = docPose(), w = h * m[1] / m[2], x = cx - w / 2, y = yb - h, fresh = S._pp !== undefined && S._pp !== i; S._pp = i;
+  const body = `<g class="docs${fresh ? ' pop' : ''}"><svg x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h}" viewBox="${i * m[1]} 0 ${m[1]} ${m[2]}" overflow="hidden"><image href="${url}" width="${m[0] * m[1]}" height="${m[2]}"/></svg></g>`;
   return shadow(cx, w * .8) + (flip ? flipG(cx, body) : body);
 }
 const docNeed = () => { const g = docKey() === 'dfF' ? 'nu' : 'nam'; return docImgOk(DOCBASE + g + '-dongtac.webp'); };
