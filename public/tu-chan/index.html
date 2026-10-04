@@ -982,10 +982,13 @@ const PT = {
   nam_tre: [[128, 328], [160, 288], [232, 225], [199, 267], [192, 219], [228, 225], [194, 286]],
   nu_tre: [[142, 327], [158, 283], [230, 219], [217, 249], [201, 227], [228, 228], [191, 291]],
   nam_gia: [[114, 330], [173, 308], [231, 205], [201, 287], [196, 248], [227, 247], [175, 284]],
-  nu_gia: [[126, 316], [231, 219], [208, 292], [214, 255], [222, 193], [228, 239], [222, 282]] };
+  nu_gia: [[126, 316], [231, 219], [208, 292], [214, 255], [222, 193], [228, 239], [222, 282]],
+  be_trai: [[87, 201], [98, 181], [175, 189], [143, 188], [159, 165], [188, 179], [101, 186]],
+  be_gai: [[118, 200], [119, 190], [197, 193], [169, 205], [186, 189], [209, 198], [118, 186]] };
 const sceneKey = c => c.scene || c.setting;
 const PSC = [.55, .62, .7, .7, .7, .7, .62];
-const kidScale = (cell, a) => ([1, 2, 7].includes(cell) ? (a < 12 ? .74 : a < 16 ? .88 : 1) : (a < 12 ? .8 : 1));
+const kidScale = (cell, a) => (a >= 12 && a < 16 && [1, 2, 7].includes(cell) ? .88 : 1); /* dưới 12 tuổi dùng ảnh trẻ em riêng */
+const patArt = c => c.age < 12 ? (c.sex === 'nữ' ? 'be_gai' : 'be_trai') : patVariant(c);
 const PHEAD = [[.5, .14], [.5, .2], [.4, .3], [.5, .28], [.35, .3], [.4, .3], [.6, .2]];
 function sceneOk(names) {
   let ok = true;
@@ -1003,12 +1006,12 @@ function prop(name, x, yb, w, flip) {
 const propH = (name, x, yb, h, flip) => prop(name, x, yb, h * PM[name][0] / PM[name][1], flip);
 /* bệnh nhân: cell 1..7, tâm ngang cx, chân chạm yb */
 function patientAt(cell, cx, yb, flip) {
-  const v = patVariant(S.c), m = PT[v][cell - 1], k = PSC[cell - 1] * kidScale(cell, S.c.age), w = m[0] * k, h = m[1] * k, x = cx - w / 2, y = yb - h, hd = PHEAD[cell - 1];
+  const v = patArt(S.c), m = PT[v][cell - 1], k = PSC[cell - 1] * kidScale(cell, S.c.age), w = m[0] * k, h = m[1] * k, x = cx - w / 2, y = yb - h, hd = PHEAD[cell - 1];
   const hx = flip ? x + w * (1 - hd[0]) : x + w * hd[0];
   const im = `<image href="${CANH}${v}-${cell}.webp" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" ${patFilter()}/>`;
   return shadow(cx, w * .9) + (flip ? flipG(cx, im) : im) + statusFx(hx, y + h * hd[1] - 17, 20);
 }
-const patUrls = cell => [patVariant(S.c) + '-' + cell];
+const patUrls = cell => [patArt(S.c) + '-' + cell];
 const BELLY = /bụng|ruột|dạ dày|thượng vị|gan|mật|tụy|tiêu hóa|sỏi/i;
 const RESP = /khó thở|hen\b|phổi|suy hô hấp|ngạt|đau ngực|suy tim|phù phổi/i;
 const LOWC = /li bì|hôn mê|bất tỉnh|đột quỵ|yếu nửa người|liệt nửa|co giật|ngừng tim|sốc|lơ mơ|ngất|méo miệng|ngã gục|không thở|không bắt được mạch|lú lẫn|tụt huyết áp/i;
@@ -1029,7 +1032,7 @@ function patCell(sc) {
   if (sc === 'capcuu' && c.rate > 0 && S.stab < 70) return 4;
   return c.rate > 0 || !vitStable(c) ? 6 : (hsh(c.id) % 3 ? 6 : 3);
 }
-/* bác sĩ đứng trong phòng, quay về phía bệnh nhân, làm đúng động tác vừa thực hiện */
+/* bác sĩ đứng trong phòng, làm đúng động tác vừa thực hiện. Ảnh gốc quay về bên TRÁI: flip=true để quay sang PHẢI */
 function docScene(cx, yb, h, flip) {
   const g = docKey() === 'dfF' ? 'nu' : 'nam', m = DOCSHEET[g + '-dongtac'], url = DOCBASE + g + '-dongtac.webp';
   if (!m || !docImgOk(url)) return '';
@@ -1049,7 +1052,7 @@ function sceneBed(kind, n) {
     : winP(n, 118, 112, 110) + prop('dong_ho', 28, 68, 28) + prop('rem_ngan', 30, 252, 170);
   const side = er ? propH('tu_dung_cu', 0, 254, 100) + prop('monitor', 6, 154, 50) + propH('xe_cap_cuu', 307, 262, 118)
                   : propH('truyen_dich', 28, 262, 150) + propH('tu_dung_cu', 330, 254, 100) + prop('monitor', 337, 154, 50);
-  return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + patientAt(cell, 135, 262) + docScene(262, 262, 200, true);
+  return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + patientAt(cell, 135, 262) + docScene(262, 262, 200, false);
 }
 const sceneWard = n => sceneBed('giuong', n);
 const sceneER = n => sceneBed('capcuu', n);
@@ -1058,14 +1061,14 @@ function sceneClinic(n) {
   const cell = patCell('phongkham'), need = ['cua_so_ngay', 'cua_so_dem', 'dong_ho', 'ban_lam_viec', 'tu_thuoc'];
   if (!sceneOk(need.concat(patUrls(cell))) || !docNeed()) return room('phongkham', n);
   return room('phongkham', n) + winP(n, 150, 110, 100) + prop('dong_ho', 28, 66, 28) +
-    nightOv(n) + propH('tu_thuoc', 0, 254, 150) + prop('ban_lam_viec', 268, 252, 128) + patientAt(cell, 228, 262, true) + docScene(130, 262, 200, false);
+    nightOv(n) + propH('tu_thuoc', 0, 254, 150) + prop('ban_lam_viec', 268, 252, 128) + patientAt(cell, 228, 262, true) + docScene(130, 262, 200, true);
 }
 /* Phòng châm cứu: bệnh nhân ngồi ghế (hoặc nằm nghiêng), giường khám và tủ dụng cụ phía sau */
 function sceneAcu(n) {
   const cell = patCell('chamcuu'), need = ['cua_so_ngay', 'cua_so_dem', 'dong_ho', 'ban_kham', 'tu_thuoc'];
   if (!sceneOk(need.concat(patUrls(cell))) || !docNeed()) return room('chamcuu', n);
   return room('chamcuu', n) + winP(n, 170, 110, 100) + prop('dong_ho', 28, 66, 28) +
-    nightOv(n) + propH('tu_thuoc', 0, 254, 150) + prop('ban_kham', 262, 258, 135) + patientAt(cell, cell === 5 ? 215 : 222, 262, cell !== 5) + docScene(125, 262, 200, false);
+    nightOv(n) + propH('tu_thuoc', 0, 254, 150) + prop('ban_kham', 262, 258, 135) + patientAt(cell, cell === 5 ? 215 : 222, 262, cell !== 5) + docScene(125, 262, 200, true);
 }
 
 /* ---------- Bệnh nhân (gói 2) và đạo cụ (gói 3) ---------- */
@@ -1081,6 +1084,7 @@ function patPick() {
   return S.log && S.log.length > 3 && st >= 80 ? 9 : base;
 }
 function patPortrait(i, H) {
+  if (S.c.age < 12) return ''; /* chưa có ảnh biểu cảm trẻ em */
   const v = patVariant(S.c), u = DOCBASE.replace(/bacsi\/$/, 'benhnhan/') + v + '-trangthai.webp'; if (!docImgOk(u)) return '';
   const k = H / PATSHEET[2], w = Math.round(PATSHEET[1] * k);
   return `<div class="docp pat" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(${u});background-size:${w * PATSHEET[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${PATCAP[i]}</span></div>`;
