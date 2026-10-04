@@ -239,3 +239,16 @@ test('Child patients use their own art and the acting doctor faces the patient',
   assert.match(html, /docScene\(262, 262, 200, false\)/);
   assert.match(html, /docScene\(130, 262, 200, true\)/);
 });
+
+test('Prone acupuncture art and companions (người nhà) are wired into the scenes', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  for (const f of ['cham_nu', 'cham_nam']) await access(new URL(`../public/tu-chan/canh/${f}.webp`, import.meta.url));
+  for (const g of ['nam', 'nu']) for (let i = 1; i <= 5; i++) await access(new URL(`../public/tu-chan/canh/nhanha_${g}-${i}.webp`, import.meta.url));
+  assert.match(html, /function famInfo\(c\)/);
+  assert.match(html, /famAt\(352, 268, 170, famCell\(kind\)\)/);
+  assert.match(html, /pk = S\.c\.sex === 'nữ' \? 'cham_nu' : 'cham_nam'/);
+  /* người nhà chỉ xuất hiện khi kịch bản nói rõ ai đưa bệnh nhân đến */
+  const m = html.match(/id="bank-data"[^>]*>([\s\S]*?)<\/script>/), bank = JSON.parse(m[1]);
+  const re = /(^|[\s,.;:(])(vợ|chồng|con gái|con trai|con dâu|con rể|người con|mẹ|bố|cha|người nhà|người thân|bạn|chị gái|anh trai|em gái|em trai)((?:(?!được)[^.,;]){0,14}?)\s(đưa|bế|dẫn|đi cùng|chở|phát hiện|cõng|đỡ)(?=[\s,.;]|$)/i;
+  assert.ok(bank.filter(c => re.test(c.intro.slice(0, 420))).length >= 15);
+});
