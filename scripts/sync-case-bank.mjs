@@ -8,7 +8,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const TC = new URL('../public/tu-chan/index.html', import.meta.url);
 const PH = new URL('../public/phong-hoc/index.html', import.meta.url);
 export const OWN_FIELDS = ['intro', 'name'];
-export const EXTRA_FIELDS = ['track', 'mode'];
+export const EXTRA_FIELDS = ['track', 'mode', 'nguon_kiem', 'nguon_yhct'];
 
 export function readBank(html) {
   const m = html.match(/id="bank-data">([\s\S]*?)<\/script>/);
@@ -33,7 +33,7 @@ export function buildPhBank(tc, ph) {
     if (!t) throw new Error('Phòng học có ca không có trong Tứ Chẩn: ' + p.id);
     const out = {};
     for (const k of Object.keys(p)) out[k] = OWN_FIELDS.includes(k) ? p[k] : t[k];
-    for (const k of EXTRA_FIELDS) out[k] = t[k];
+    for (const k of EXTRA_FIELDS) if (t[k] !== undefined) out[k] = t[k];
     return out;
   });
 }
