@@ -79,8 +79,16 @@ function doctorCard() {
   const src=art(doctorAvatar==='female'?'doctor-female':'doctor-male');
   return `<div class="character doctor"><img src="${src}" alt="Bác sĩ ${doctorAvatar==='female'?'nữ':'nam'} HIU Y Quán"><div><span class="role-label">BÁC SĨ</span><b>Bác sĩ trực</b><small>Đang lắng nghe</small></div></div>`;
 }
+/* Người bệnh Y Quán: cùng bộ ảnh ngoại trú (đồ đời thường) với Viện; nét mặt theo trạng thái hội thoại */
+const PATIENT_CELL = {neutral:1, concerned:4, uneasy:5, tired:6, relieved:7, guarded:1};
+const PATIENT_AGE_ART = {'than-duong-hu':'nam_gia'};
+function patientArtSrc(expression) {
+  const female = String(caseFile?.avatar || '').includes('female');
+  const variant = PATIENT_AGE_ART[caseFile?.id] || (female ? 'nu_tre' : 'nam_tre');
+  return art('benhnhan-' + variant + '-' + (PATIENT_CELL[expression] || 1));
+}
 function patientCard(expression='neutral') {
-  return `<div class="character patient"><div class="expression">${face[expression] || face.neutral}</div><img src="${esc(gameHubPath(caseFile?.avatar || 'assets/avatars/female_character_29944.jpg'))}" alt="Người bệnh mô phỏng"><div><span class="role-label">NGƯỜI BỆNH · CA MÔ PHỎNG</span><b>${esc(caseFile?.patient || 'Người bệnh')}</b><small>${esc(caseFile?.title || '')}</small></div></div>`;
+  return `<div class="character patient"><div class="expression">${face[expression] || face.neutral}</div><img src="${esc(patientArtSrc(expression))}" alt="Người bệnh mô phỏng" width="66" height="76"><div><span class="role-label">NGƯỜI BỆNH · CA MÔ PHỎNG</span><b>${esc(caseFile?.patient || 'Người bệnh')}</b><small>${esc(caseFile?.title || '')}</small></div></div>`;
 }
 function waiting() {
   return `<section class="room-panel room-entry" tabindex="-1"><div class="room-backdrop waiting-bg"><div class="lantern">☯</div><div class="room-copy"><p class="iq-kicker">CA BỆNH GIÁO DỤC · KHÔNG LƯU DỮ LIỆU SỨC KHỎE</p><h2>Chuẩn bị đón người bệnh</h2><p>Mỗi lượt có đúng 10 câu, một câu được chọn ngẫu nhiên từ ngân hàng 220 câu, phân đều cho 10 nội dung Thập vấn. Ca bệnh được rút ngẫu nhiên từ ${cases.length} bệnh cảnh.</p><div class="avatar-select"><span>Chọn bác sĩ:</span><button class="avatar-option ${doctorAvatar==='male'?'picked':''}" data-doctor-avatar="male"><img src="${art('doctor-male')}" alt="">Nam</button><button class="avatar-option ${doctorAvatar==='female'?'picked':''}" data-doctor-avatar="female"><img src="${art('doctor-female')}" alt="">Nữ</button></div><button class="iq-primary" data-action="start">${trialMode ? "Bắt đầu ca mẫu" : "Bắt đầu ca ngẫu nhiên"} <span>→</span></button></div></div><div class="three-notes"><div><b>01 · Hỏi đủ 10 mục</b><span>Mỗi nội dung Thập vấn có một câu hỏi ngẫu nhiên.</span></div><div><b>02 · Ghi nhận</b><span>Chọn dữ kiện phù hợp với lời kể của người bệnh.</span></div><div><b>03 · Biện chứng</b><span>Bot phản hồi độ chính xác chẩn đoán theo phần trăm.</span></div></div></section>`;
