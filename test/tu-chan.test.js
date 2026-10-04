@@ -236,7 +236,7 @@ test('Child patients use their own art and the acting doctor faces the patient',
   for (const v of ['be_trai', 'be_gai']) for (let i = 1; i <= 7; i++) await access(new URL(`../public/tu-chan/canh/${v}-${i}.webp`, import.meta.url));
   assert.match(html, /const patArt = c => c\.age < 12/);
   /* ảnh gốc của bác sĩ quay sang TRÁI: đứng bên phải giường thì giữ nguyên, đứng bên trái bệnh nhân thì lật */
-  assert.match(html, /docScene\(262, 262, 200, false\)/);
+  assert.match(html, /docScene\(kid \? 262 : 288, 262, 200, false\)/);
   assert.match(html, /docScene\(130, 262, 200, true\)/);
 });
 
@@ -245,7 +245,7 @@ test('Prone acupuncture art and companions (người nhà) are wired into the sc
   for (const f of ['cham_nu', 'cham_nam']) await access(new URL(`../public/tu-chan/canh/${f}.webp`, import.meta.url));
   for (const g of ['nam', 'nu']) for (let i = 1; i <= 5; i++) await access(new URL(`../public/tu-chan/canh/nhanha_${g}-${i}.webp`, import.meta.url));
   assert.match(html, /function famInfo\(c\)/);
-  assert.match(html, /famAt\(352, 268, 170, famCell\(kind\)\)/);
+  assert.match(html, /famAt\(kid \? 352 : 360, 268, 170, famCell\(kind\)\)/);
   assert.match(html, /nu_tre: 'cham_nu' \}\)\[patArt\(S\.c\)\] \|\| 'cham_nam'/);
   /* người nhà chỉ xuất hiện khi kịch bản nói rõ ai đưa bệnh nhân đến */
   const m = html.match(/id="bank-data"[^>]*>([\s\S]*?)<\/script>/), bank = JSON.parse(m[1]);
