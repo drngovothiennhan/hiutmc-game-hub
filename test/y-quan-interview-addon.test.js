@@ -94,3 +94,13 @@ test('Y Quan has a one-case guest trial with no saved progress or parent submiss
   assert.match(css, /#yq-interview\{box-sizing:border-box;width:100%;min-width:0;overflow-x:clip\}/);
   assert.match(css, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });
+
+test('Y Quán chỉ cập nhật vùng đổi, không dựng lại cả trang (chống giật màn hình)', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const js = await readFile(new URL('../public/y-quan-live/game.js', import.meta.url), 'utf8');
+  assert.ok(js.includes('function paint(parts)'));
+  assert.ok(!/ROOT\.innerHTML=heroHTML\(\)/.test(js));
+  assert.ok(/scrollTo\(x,y\)/.test(js));
+  const css = await readFile(new URL('../public/y-quan-live/game.css', import.meta.url), 'utf8');
+  assert.ok(css.includes('@media(hover:hover){button:hover'));
+});
