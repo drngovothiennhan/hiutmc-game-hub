@@ -252,3 +252,11 @@ test('Prone acupuncture art and companions (người nhà) are wired into the sc
   const re = /(^|[\s,.;:(])(vợ|chồng|con gái|con trai|con dâu|con rể|người con|mẹ|bố|cha|người nhà|người thân|bạn|chị gái|anh trai|em gái|em trai)((?:(?!được)[^.,;]){0,14}?)\s(đưa|bế|dẫn|đi cùng|chở|phát hiện|cõng|đỡ)(?=[\s,.;]|$)/i;
   assert.ok(bank.filter(c => re.test(c.intro.slice(0, 420))).length >= 15);
 });
+
+test('Acceptance gates: no meta sentence in cases, cut art cells are never used', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  const bank = JSON.parse(html.match(/id="bank-data"[^>]*>([\s\S]*?)<\/script>/)[1]);
+  for (const c of bank) assert.ok(!/Ca tự soạn/.test(JSON.stringify(c)), c.id + ' still has meta sentence');
+  assert.match(html, /const BADCELL = \{ nam_tre: \[5, 6\], nu_tre: \[6\], nam_gia: \[6\], nu_gia: \[3, 5, 6\] \}/);
+  assert.match(html, /\(sc === 'capcuu' \|\| sc === 'giuong'\) && cellBad\(c\) \? 4 : c/);
+});
