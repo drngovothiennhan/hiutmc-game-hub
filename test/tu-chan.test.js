@@ -184,7 +184,7 @@ test('story illustrations exist and open and close each case', async () => {
   const { access } = await import('node:fs/promises');
   const html = await read('../public/tu-chan/index.html');
   assert.match(html, /function storyStart/);
-  assert.match(html, /function runner/);
+  assert.doesNotMatch(html, /function runner/);
   for (const k of ['01', '02', '03', '04', '05', '06']) await access(new URL(`../public/tu-chan/tranh/${k}.webp`, import.meta.url));
 });
 
