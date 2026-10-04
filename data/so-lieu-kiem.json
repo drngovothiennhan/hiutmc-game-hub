@@ -1,0 +1,3460 @@
+{
+ "ngay": "2026-10-05",
+ "cach": "Đối chiếu từng con số/ngưỡng trong ca với nguồn đọc được (PubMed, hướng dẫn mở, văn bản BYT). Không đọc được thì ghi khong_doi_chieu_duoc, không đoán.",
+ "cases": {
+  "chan-tam-thong": [
+   {
+    "loc": "action_why",
+    "text": "SpO2 88% cần bù oxy.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "spo2=88 (HR104, BP90/60); nguong <90% cua huong dan khong doc duoc",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Cho nhai aspirin 300 mg",
+    "verdict": "khop",
+    "nguon": "https://www.anzcor.org/home/acute-coronary-syndromes/guideline-14-2-acute-coronary-syndromes-initial-medical-therapy ; https://www.ncbi.nlm.",
+    "trich": "ANZCOR: \"Aspirin ... loading dose of 300 mg followed by regular dosing at 75 to 150 mg daily\"; StatPearls (2025 ACC/AHA): \"aspirin 162 to 325 mg (chewed)\"",
+    "de_xuat": "AHA 2025 goc khong doc duoc (403) nhung 300 mg nam trong khoang 162-325 mg.",
+    "dot": 2
+   }
+  ],
+  "ngoai-bung-004": [
+   {
+    "loc": "teach",
+    "text": "Đau hạ sườn phải kéo dài trên 6 giờ kèm sốt, bạch cầu tăng, dấu Murphy dương và sỏi kẹt cổ túi mật trên siêu âm xác lập viêm túi mật cấp.",
+    "verdict": "lech",
+    "nguon": "https://dashboard.protocolosclinicos.com.br/download/anexo/2282/documento-oficial-tokyo.pdf (TG18 initial management, Table 2/4)",
+    "trich": "TG18 tieu chuan: A local signs (Murphy, RUQ mass/pain/tenderness) + B systemic (fever, CRP, WBC) + C imaging \"characteristic of acute cholecystitis\"; khong co moc \"tren 6 gio\". \"Duration of complaints >72 h\" chi la tieu ",
+    "de_xuat": "Bo \"kéo dài trên 6 giờ\" (hoac thay bang \"dau HSP kem dau Murphy + sot/bach cau tang + sieu am dac trung\"). Khong ghi sỏi kẹt cổ như tieu chuan bat buoc (TG18 chi noi \"imaging findings characteristic\").",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Theo dõi sinh hiệu, đau bụng, bilirubin và men gan mỗi 12 giờ",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "Khong tim nguon neu tan suat theo doi 12 gio; day la hanh dong thuc hanh.",
+    "de_xuat": "Co the giu nhu thuc hanh lam sang, khong gan nhan guideline.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chỉ định cắt túi mật nội soi sớm, ưu tiên trong 72 giờ đầu và không quá 7 đến 10 ngày từ khi khởi phát khi đủ điều kiện gây mê và cơ sở có phẫu thuật viên nội soi;",
+    "verdict": "lech",
+    "nguon": "https://drliaukh.com/wp-content/uploads/2018/12/TG18-Acute-Cholecystitis.pdf (TG18 flowchart, doc qua WebFetch)",
+    "trich": "\"we propose early surgery regardless of exactly how much time has passed since onset\"; 72 h la moc cua TG13",
+    "de_xuat": "Cat tui mat noi soi som ngay khi benh nhan du dieu kien (CCI/ASA-PS), khong phu thuoc thoi gian tu khoi phat (TG18); khong gan cung 72 gio va 7-10 ngay. Luu y PMID 29090868 la \"management bundles\", bai flowchart la PMID 29045062 (jhbp.516).",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hậu phẫu: kháng sinh ngừng trong 24 giờ nếu không biến chứng, ăn sớm, xuất viện sau 1 đến 2 ngày, hẹn tái khám và giải phẫu bệnh.",
+    "verdict": "khop",
+    "nguon": "https://www.darmzentrum-bern.ch/fileadmin/darmzentrum/Education/Bible_Class/2025/Gallstones/Tokyo_Leitlinie_Antibiose.pdf (TG18 antimicrobia",
+    "trich": "\"Antimicrobial therapy can be discontinued within 24 h after cholecystectomy is performed.\" (Grade I/II); Grade III: 4-7 days sau kiem soat nguon nhiem.",
+    "de_xuat": "Ap dung cho viem tui mat cap muc I/II khong bien chung; \"an som, xuat vien sau 1-2 ngay\" khong doi chieu.",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-004": [
+   {
+    "loc": "action",
+    "text": "Đặt garô cách mép vết thương 5-7 cm phía trên, siết đến khi hết chảy máu và mất mạch, ghi giờ đặt garô",
+    "verdict": "nhat_quan",
+    "nguon": "TCCC (HCVI) https://tccc.hcvi.org/hemorrhage-control/tourniquet",
+    "trich": "\"applied directly to the skin 2-3 inches above the bleeding site\"; \"clearly mark all tourniquets with the time of tourniquet application\"",
+    "de_xuat": "2-3 inch = khoảng 5-7,6 cm, nhất quán với 5-7 cm. 'Siết đến hết chảy máu và mất mạch' không đọc được literal.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Theo ATLS 10 và hướng dẫn kiểm soát chảy máu ngoại: ép trực tiếp, garô cách vết thương 5-7 cm khi ép không đủ, ghi giờ, không nới garô tại cấp cứu.",
+    "verdict": "nhat_quan",
+    "nguon": "TCCC (HCVI) https://tccc.hcvi.org/hemorrhage-control/tourniquet",
+    "trich": "\"2-3 inches above the bleeding site\"; ghi giờ trên TCCC Casualty Card",
+    "de_xuat": "5-7 cm nhất quán. Không đọc được ATLS 10; mục 'không nới garô' chưa có trích literal (TCCC mô tả chuyển đổi/nới có kiểm soát trong 1-2 giờ ở tuyến sau).",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-104": [
+   {
+    "loc": "teach",
+    "text": "Nôn máu, phân đen và sốc cần hồi sức trước, nội soi cầm máu trong 24 giờ, kèm PPI liều cao.",
+    "verdict": "khop",
+    "nguon": "33929377 (abstract)",
+    "trich": "\"endoscopy is suggested within 24 hours after presentation\"; \"high-dose proton pump inhibitor therapy ... for 3 days\"; ICG A1: resuscitation first",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "teach",
+    "text": "Ngưỡng truyền máu hạn chế (Hb dưới 7 g/dL) giảm tái chảy máu.",
+    "verdict": "khop",
+    "nguon": "33929377 (abstract); 31634917 (PMC7233308 full text)",
+    "trich": "ACG: \"red blood cell transfusion at a threshold of 7 g/dL\". ICG: restrictive vs liberal giam chay mau lai RR 0.58; nguong <80 g/L",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dịch tinh thể ấm thận trọng và truyền hồng cầu lắng để đạt Hb 7 đến 9 g/dL, tránh dịch quá nhiều",
+    "verdict": "lech",
+    "nguon": "PMID 33929377 (ACG 2021); PMID 31634917 (ICG 2019)",
+    "trich": "ACG: 'red blood cell transfusion at a threshold of 7 g/dL'. ICG: 'suggested hemoglobin threshold for blood transfusion is less than 80 g/L, with a higher threshold for those with cardiovascular disease'",
+    "de_xuat": "Viet: truyen hong cau khi Hb <7 g/dL (ACG) hoac <8 g/dL (ICG; nguong cao hon neu benh tim mach); khong co muc dich 'Hb 7-9' hay 'dich am' trong hai nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Hội chẩn tiêu hóa nội soi cầm máu trong 24 giờ sau hồi sức",
+    "verdict": "khop",
+    "nguon": "31634917 (PMC7233308 full text)",
+    "trich": "B3: \"we suggest performing early endoscopy (within 24 hours of presentation)\"; A1: hoi suc truoc",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dịch tinh thể ồ ạt và truyền máu đến Hb trên 10 g/dL",
+    "verdict": "khop",
+    "nguon": "31634917 (PMC7233308 full text); 33929377 (abstract)",
+    "trich": "Phuong an sai; ICG nguong 80 g/L, liberal 90-100 khong khuyen; hoi suc \"restrictive\" (A1/A4)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Hoãn nội soi đến 72 giờ vì chờ ổn định hoàn toàn",
+    "verdict": "khop",
+    "nguon": "31634917 (PMC7233308 full text); 33929377 (abstract)",
+    "trich": "Phuong an sai; nguon: noi soi trong 24 gio, khong hoan 72 gio",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hồi sức ABC, truyền máu hạn chế (Hb 7 đến 9 g/dL), PPI liều cao tĩnh mạch, nội soi cầm máu bằng kẹp clip hoặc phối hợp tiêm adrenalin trong 24 giờ, theo dõi tái chảy máu;",
+    "verdict": "lech",
+    "nguon": "PMID 33929377; PMID 31634917",
+    "trich": "ACG/ICG: transfusion threshold 7 g/dL / <80 g/L; high-dose PPI 3 ngay; endoscopy within 24 hours; clips suggested (khop cac muc con lai)",
+    "de_xuat": "Chi sua muc 'truyen mau han che (Hb 7 den 9)' thanh nguong 7 (ACG) / 8 (ICG) g/dL; PPI cao lieu, noi soi trong 24 gio, clip: khop.",
+    "dot": 2
+   }
+  ],
+  "ngoai-chan-thuong-004": [
+   {
+    "loc": "teach",
+    "text": "Dẫn lưu ra từ 1.500 mL ngay hoặc chảy liên tục từ 200 mL mỗi giờ là chỉ định mở ngực cầm máu.",
+    "verdict": "khop",
+    "nguon": "EAST PMG Hemothorax and Occult Pneumothorax (east.org PDF); MSD Manual Professional, Hemothorax (https://www.msdmanuals.com/professional/inj",
+    "trich": "EAST: \"More than 1,500 mL of blood immediately evacuated by tube thoracostomy\"; \"150 mL/h to 200 mL/h for 2 hours to 4 hours\". MSD: \"Initial bleeding is >1500 mL\"; \"> 200 mL/hour for > 2 to 4 hours\". VUMC: \"≥ 1500 mL ini",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "SpO2 90% và sốc mất máu đồng thời.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "spo2=90, sbp 92/58, HR118, lactate 4,2, Hb 8,9: phu hop soc mat mau",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Hội chẩn ngoại lồng ngực và chuyển mổ mở ngực cấp cứu khi dẫn lưu ra từ 1.500 mL ngay",
+    "verdict": "khop",
+    "nguon": "EAST PMG Hemothorax and Occult Pneumothorax (east.org PDF); MSD Manual Professional, Hemothorax (https://www.msdmanuals.com/professional/inj",
+    "trich": "EAST: \"More than 1,500 mL of blood immediately evacuated by tube thoracostomy\". MSD: \"Initial bleeding is >1500 mL\".",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Sau mổ: giảm đau đa mô thức, vật lý trị liệu hô hấp, rút dẫn lưu khi dịch dưới 200 mL mỗi 24 giờ, phòng uốn ván",
+    "verdict": "khop",
+    "nguon": "Vanderbilt Trauma Hemopneumothorax Guideline 2025 (vumc.org PDF)",
+    "trich": "\"Remove chest tube when output < 200 mL/24hr and no air leak present.\" (chỉ xác nhận ngưỡng số; các ý giảm đau, vật lý trị liệu, phòng uốn ván không được đối chiếu)",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Chuyển đi chụp CT ngực khi huyết áp còn 92/58 mmHg và đang sốc",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "BP 92/58 va soc: khop vitals sbp 92 dbp 58, CT test ghi 92/58",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền 3 đến 4 lít tinh thể nhanh để đưa huyết áp về bình thường",
+    "verdict": "lech",
+    "nguon": "JTS CPG Damage Control Resuscitation (https://jts.health.mil/assets/docs/cpgs/Damage_Control_Resuscitation_12_Jul_2019_ID18.pdf)",
+    "trich": "\"limiting crystalloid use to no more than one liter during the initial resuscitation\"; \"resuscitation with greater than 1.5L of crystalloid is associated with increased mortality\"; \"blood products are preferred for hemor",
+    "de_xuat": "Phương án sai: không truyền 3-4 lít tinh thể. Hạn chế tinh thể (tối đa khoảng 1 lít ban đầu), ưu tiên chế phẩm máu và hạ huyết áp cho phép.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mổ mở ngực cấp cứu cầm máu khi dẫn lưu ra từ 1.500 mL ngay hoặc từ 200 mL mỗi giờ liên tục 2 đến 4 giờ hoặc huyết động xấu.",
+    "verdict": "khop",
+    "nguon": "EAST PMG Hemothorax and Occult Pneumothorax (east.org PDF); MSD Manual Professional, Hemothorax (https://www.msdmanuals.com/professional/inj",
+    "trich": "EAST: \"150 mL/h to 200 mL/h for 2 hours to 4 hours\"; MSD: \"> 200 mL/hour for > 2 to 4 hours and causes respiratory or hemodynamic compromise or the need for repeated blood transfusions\".",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hậu phẫu: giảm đau đa mô thức, vật lý trị liệu hô hấp, rút dẫn lưu khi dịch dưới 200 mL mỗi 24 giờ, kháng sinh dự phòng theo quy trình.",
+    "verdict": "khop",
+    "nguon": "Vanderbilt Trauma Hemopneumothorax Guideline 2025 (vumc.org PDF)",
+    "trich": "\"Remove chest tube when output < 200 mL/24hr and no air leak present.\" (kháng sinh dự phòng theo quy trình không được đối chiếu số liệu)",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "ngoai-vu-001": [
+   {
+    "loc": "action_why",
+    "text": "Với khối 1,8 cm, tỷ lệ khối/vú phù hợp, bảo tồn cho kết quả sống còn tương đương cắt vú.",
+    "verdict": "nhat_quan",
+    "nguon": "ESMO early breast cancer CPG (ScienceDirect S0923753423051049); bobresource ESMO 2019 PDF https://bobresource.com/wp-content/uploads/2023/05",
+    "trich": "'BCS with post-operative RT is the preferred local treatment option for the majority of patients with EBC'; '...BCT might have an even better survival compared with those who have a mastectomy' || Ghi chu: Phu hop (BCT+x",
+    "de_xuat": "Co the ghi 'ket qua song con khong kem cat vu (kem xa tri)'.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-007": [
+   {
+    "loc": "action_why",
+    "text": "Suy hô hấp do phù phổi, SpO2 86%.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "spo2=86, X quang phu phoi huyet dong",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Aspirin 300 mg nhai hoặc 250 mg tĩnh mạch và thuốc kháng đông (heparin) theo phác đồ",
+    "verdict": "nhat_quan",
+    "nguon": "ICR Journal (icrjournal.com) trích ESC 2023; ANZCOR Guideline 14.2",
+    "trich": "ICR trích ESC 2023: \"initial oral LD of 150–300 mg (or 75–250 mg IV)\". ANZCOR: \"loading dose of 300 mg\", nhai.",
+    "de_xuat": "300 mg uống và 250 mg IV nằm ở cận trên của khoảng ESC. Bảng ESC không đọc được trực tiếp. Có thể ghi '150-300 mg nhai hoặc 75-250 mg tĩnh mạch'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Noradrenalin truyền tĩnh mạch để đạt huyết áp trung bình trên 65 mmHg, dobutamine khi cung lượng thấp",
+    "verdict": "khop",
+    "nguon": "Am Heart J Plus 2025 (PMC11960524, PMID 40170689)",
+    "trich": "\"initiating norepinephrine with the intention of maintaining MAP above 65 mmHg ... then considering the addition of dobutamine or milrinone if stroke volume index is <35 mL/m\". Cũng: \"norepinephrine ... (ESC class IIb/B)",
+    "de_xuat": "Không đọc được bảng khuyến cáo ESC 2023 trực tiếp; số liệu khớp với tổng quan.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-107": [
+   {
+    "loc": "action",
+    "text": "Truyền natri bicarbonat tĩnh mạch 1 đến 2 mmol/kg để đưa pH trên 7,3, lặp lại theo khí máu",
+    "verdict": "nhat_quan",
+    "nguon": "WikEM Methanol toxicity: https://www.wikem.org/wiki/Methanol_toxicity; AACT PMID 12216995 (abstract)",
+    "trich": "WikEM: \"Bicarbonate 1-2mEq/kg IV bolus\"; AACT abstract: acidosis should be corrected with intravenous sodium bicarbonate. Medscape: bicarbonate 'liberally, goal completely reverse the acidosis'. Nguong pH>7,3 khong co ng",
+    "de_xuat": "Giu 1-2 mmol/kg; nen ghi muc tieu 'dao nguoc toan chuyen hoa' thay vi pH>7,3 cung nhac",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Giải độc đặc hiệu ngay: fomepizole 15 mg/kg tĩnh mạch, hoặc ethanol 10% truyền duy trì nồng độ ethanol máu 100 đến 150 mg/dL nếu không có fomepizole",
+    "verdict": "khop",
+    "nguon": "Medscape Alcohol Toxicity Treatment: https://emedicine.medscape.com/article/812411-treatment; MSF Methanol poisoning at a glance: https://ww",
+    "trich": "Medscape: fomepizole \"loading dose of 15 mg/kg\"; ethanol target \"100-150 mg/dL\" (MSF cung: \"aim at serum-ethanol 100-150mg/dL\", fomepizole load 15mg/kg). Ethanol 10% la dung dich truyen theo MSF.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Acid folic 50 mg tĩnh mạch mỗi 4 giờ (hoặc folinic) để tăng chuyển formate thành CO2",
+    "verdict": "nhat_quan",
+    "nguon": "Medscape Alcohol Toxicity Treatment: https://emedicine.medscape.com/article/812411-treatment; WikEM Methanol toxicity: https://www.wikem.org",
+    "trich": "Medscape: folic acid \"1 mg/kg, max 50 mg ... repeated every 4 hours\"; WikEM: folinic \"50mg IV q4hr\"; nhung MSF: \"50mg iv or orally every 6 hours for 24 hours\"",
+    "de_xuat": "Nguon khac nhau q4h (Medscape/WikEM) va q6h (MSF); nen ghi 'khoang moi 4-6 gio' hoac neu ro nguon",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Đã quá muộn (14 giờ), không hiệu quả;",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json intro",
+    "trich": "Uong toi hom truoc, vao vien buoi trua (~14 gio): khong mau thuan; pH 7,08",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Chỉ truyền glucose 5% và dịch nuôi dưỡng mà không giải độc",
+    "verdict": "khop",
+    "nguon": "12216995 (abstract)",
+    "trich": "\"the further generation of toxic metabolite should be blocked by ... fomepizole or ethanol\"; can giai doc dac hieu, khong chi truyen glucose",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "2) Natri bicarbonat 1 đến 2 mmol/kg (khoảng 65 đến 130 mmol) truyền tĩnh mạch, lặp lại, duy trì pH trên 7,3.",
+    "verdict": "nhat_quan",
+    "nguon": "WikEM Methanol toxicity: https://www.wikem.org/wiki/Methanol_toxicity",
+    "trich": "\"Bicarbonate 1-2mEq/kg IV bolus\" -> 65-130 mmol cho 65 kg la phep tinh dung; pH>7,3 khong co nguyen van (WikEM pH 7,45-7,50; MSF theo base excess)",
+    "de_xuat": "Co the giu; nen sua muc tieu pH thanh 'dao nguoc toan chuyen hoa, pH >7,3 la nguong toi thieu hop ly' hoac bo so",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "3) Fomepizole 15 mg/kg (khoảng 1 g) liều nạp, sau đó 10 mg/kg mỗi 12 giờ (tăng lên 15 mg/kg sau 4 liều, và mỗi 4 giờ khi chạy thận nhân tạo);",
+    "verdict": "khop",
+    "nguon": "MSF International Methanol Poisoning Protocol v2 2023: https://methanolpoisoning.msf.org/wp-content/uploads/2023/03/MSF_International_Methan",
+    "trich": "MSF 2023: fomepizole \"15 mg/kg IV infusion over 30 min\"; \"10 mg/kg IV every 12hr for 4 doses\"; \"After 5th dose increase to 15 mg/kg every 12hr\"; during HD \"10 mg/kg every 4h\" (intermittent). Medscape: 15 mg/kg then 10 mg",
+    "de_xuat": "Luu y MSF giu 10 mg/kg khi chay than (q4h), khong tang 15 mg/kg trong luc loc",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "nếu không có, ethanol 10% 8 đến 10 mL/kg liều nạp rồi duy trì 1 đến 2 mL/kg/giờ (tăng gấp đôi khi chạy thận), mục tiêu ethanol máu 100 đến 150 mg/dL.",
+    "verdict": "lech",
+    "nguon": "MSF International Methanol Poisoning Protocol v2 2023: https://methanolpoisoning.msf.org/wp-content/uploads/2023/03/MSF_International_Methan",
+    "trich": "MSF: ethanol 10% \"Loading dose 7.5mL/kg\", maintenance \"1-2 mL/kg/hr\", during HD \"2-3.5 mL/kg/hr\", target \"100-150 mg/dl\". Medscape: load 600 mg/kg; WikEM: 800 mg/kg",
+    "de_xuat": "Lieu nap 7,5 mL/kg (MSF; khoang 7,5-10 mL/kg tuy 600-800 mg/kg); duy tri 1-2 mL/kg/gio; gap doi khi loc than; muc tieu 100-150 mg/dL (khop)",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "4) Acid folic 50 mg tĩnh mạch mỗi 4 giờ trong 24 giờ.",
+    "verdict": "nhat_quan",
+    "nguon": "MSF Methanol poisoning at a glance: https://www.methanol.org/wp-content/uploads/2016/06/00-Methanol-poisoning-at-a-glance-final_MSF_guidelin",
+    "trich": "MSF: folinic acid \"50mg iv or orally every 6 hours for 24 hours\"; Medscape: folic acid \"repeated every 4 hours\"; WikEM: \"50mg IV q4hr\"",
+    "de_xuat": "Khoang cach lieu khac nhau giua nguon (4 gio vs 6 gio); thoi gian 24 gio khop MSF",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: pH trên 7,3, khoảng trống anion bình thường, methanol dưới 20 mg/dL, bảo tồn thị lực.",
+    "verdict": "nhat_quan",
+    "nguon": "MSF International Methanol Poisoning Protocol v2 2023: https://methanolpoisoning.msf.org/wp-content/uploads/2023/03/MSF_International_Methan",
+    "trich": "EXTRIP: loc mau ngung khi methanol \"<200 mg/L or 6.2 mmol/L\" (=20 mg/dL); Medscape: continue fomepizole until methanol \"less than 20 mg/dL\"; MSF: \"normalisation of acid base status\", methanol <25 mg/dL. pH>7,3 va AG binh",
+    "de_xuat": "Methanol <20 mg/dL khop EXTRIP/Medscape (MSF dung <25 mg/dL); pH>7,3 la muc dich dao nguoc toan, dung huong nhung khong nguyen van",
+    "dot": 2
+   }
+  ],
+  "noi-nhiem-001": [
+   {
+    "loc": "action",
+    "text": "Theo dõi sát mạch, huyết áp, hiệu áp, nước tiểu, hematocrit, tiểu cầu mỗi 1 đến 2 giờ",
+    "verdict": "lech",
+    "nguon": "QD 3705/QD-BYT qua caselaw.vn (WebFetch, ban tom tat tu dong)",
+    "trich": "Nhom B co dau hieu canh bao: 'moi 4-6 gio' theo doi mach, HA, nuoc tieu, Hct; Soc SXHD: 'moi 1 hoac 2 gio mot lan'",
+    "de_xuat": "Muc 1-2 gio chi dung cho soc. Ca sot ngay 4 dau bung non (dau hieu canh bao) la 4-6 gio theo nguon; sua hoac ghi ro 'neu soc thi 1-2 gio'. Tieu cau khong thay nhac trong doan doc.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Truyền dung dịch tinh thể đẳng trương (Ringer lactate hoặc NaCl 0,9%) 5 đến 7 mL/kg/giờ trong 1 đến 2 giờ, đánh giá lại;",
+    "verdict": "lech",
+    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
+    "trich": "Nguoi lon (>=16t): \"Truyen Ringer lactate ... hoac NaCl 0,9% 6ml/kg/gio trong 1-2 gio\"; ca 24 tuoi",
+    "de_xuat": "Nguoi lon: 6 mL/kg/gio trong 1-2 gio (5-7 la khoang cu cua ban truoc), roi giam theo Hct. Can nguoi co chuyen mon doi chieu lai van ban goc.",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "nếu hematocrit giảm và ổn định thì giảm dần 3 đến 5 mL/kg/giờ, 2 đến 3 mL/kg/giờ;",
+    "verdict": "lech",
+    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
+    "trich": "Nguoi lon: \"sau do 3ml/kg/gio trong 2-4 gio\", neu cai thien giam \"1.5ml/kg/gio\"",
+    "de_xuat": "Giam 3 mL/kg/gio (2-4 gio), roi 1,5 mL/kg/gio (khong phai 3-5 va 2-3). Can doi chieu van ban goc.",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Theo dõi sinh hiệu, nước tiểu (mục tiêu trên 0,5 mL/kg/giờ), hematocrit mỗi 1 đến 2 giờ, tiểu cầu, men gan.",
+    "verdict": "khop",
+    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
+    "trich": "Nuoc tieu muc tieu \"≥ 0,5-1ml/kg/giờ\"; theo doi Hct moi 1-2 gio trong soc",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Sốc: bù dịch nhanh 20 mL/kg trong 15 phút, cân nhắc chất keo.",
+    "verdict": "lech",
+    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
+    "trich": "\"20ml/kg cân nặng trong vòng 15 phút\" ap dung cho TRE EM sốc nặng; nguoi lon khac",
+    "de_xuat": "Ghi ro 20 mL/kg/15 phut la tre em (<16t); nguoi lon soc dung phac do rieng cua 3705 (doc duoc 15 mL/kg/gio, can doi chieu van ban goc).",
+    "dot": 1
+   }
+  ],
+  "noi-than-kinh-002": [
+   {
+    "loc": "action",
+    "text": "Hạ huyết áp có kiểm soát bằng thuốc truyền tĩnh mạch (nicardipin hoặc labetalol) để tâm thu khoảng 140 mmHg",
+    "verdict": "khop",
+    "nguon": "35579034 (https://www.ahajournals.org/doi/10.1161/STR.0000000000000407)",
+    "trich": "\"Lowering SBP to a target range of 130 to 140 mm Hg is safe and may be reasonable\"; nicardipine dung trong ATACH-2 (labetalol khong doc duoc)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Nâng đầu cao 30 độ, tránh hạ natri, kiểm soát sốt, đường huyết, nôn",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Intracerebral Hemorrhage https://www.ncbi.nlm.nih.gov/books/NBK553103/",
+    "trich": "\"elevating the head of the bed to 30 degrees\"; \"Normoglycemia should be maintained while avoiding hypoglycemia\"; ha natri va sot khong duoc de cap.",
+    "de_xuat": "30 do va duong huyet khop; \"tranh ha natri, kiem soat sot, non\" chua xac minh (AHA/ASA 2022 va QD 5331 khong doc duoc).",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hạ huyết áp có kiểm soát bằng nicardipin hoặc labetalol truyền, mục tiêu tâm thu khoảng 140 mmHg, không xuống dưới 130 mmHg, tránh dao động lớn.",
+    "verdict": "khop",
+    "nguon": "35579034",
+    "trich": "\"Acute lowering of SBP to <130 mm Hg ... is potentially harmful and should be avoided\"; muc tieu 130-140",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Nâng đầu 30 độ, giảm đau, kiểm soát nôn, đường huyết 7,8 đến 10 mmol/L, điều chỉnh điện giải, hạ sốt.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "StatPearls NBK553103; AHA 2022 WebFetch khong co muc lien quan",
+    "trich": "30 do khop; muc duong huyet chi neu \"normoglycemia\", khong co 7,8-10 mmol/L (140-180 mg/dL).",
+    "de_xuat": "Bo con so 7,8-10 mmol/L hoac them nguon.",
+    "dot": 2
+   }
+  ],
+  "suy-tim-mat-bu-thuy-thung": [
+   {
+    "loc": "action",
+    "text": "Truyền nhanh dịch muối đẳng trương 1000 ml",
+    "verdict": "lech",
+    "nguon": "MSF Clinical Guidelines, Acute heart failure (acute pulmonary oedema) https://medicalguidelines.msf.org/en/viewport/CG/english/acute-heart-f",
+    "trich": "MSF: dieu tri phu phoi cap = ngoi nua nam, oxy, furosemide 40-80 mg IV, nitrat; khong co truyen dich. StatPearls: tri lieu chinh la loi tieu va giam tai.",
+    "de_xuat": "Day la phuong an sai (ESC 2021 khong doc duoc toan van; nguon khong cam tuong minh). De xuat: khong truyen nhanh 1000 ml; dung loi tieu quai IV, tu the ngoi, oxy/CPAP.",
+    "dot": 2
+   }
+  ],
+  "co-giat-do-sot-cao-tre-em": [
+   {
+    "loc": "teach",
+    "text": "Sốt co giật đơn thuần ở trẻ 6 tháng đến 5 tuổi thường lành tính, nhưng cơn kéo dài trên 5 phút cần cắt cơn ngay và phải loại trừ hạ đường huyết, viêm màng não.",
+    "verdict": "khop",
+    "nguon": "https://www.aafp.org/afp/2019/0401/p445",
+    "trich": "\"A seizure ... six months to five years ... accompanied by a fever\"; \"For seizures lasting more than five minutes, a benzodiazepine should be administered.\" (phần loại trừ hạ đường huyết không thấy t",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "SpO2 90% và môi tím trong lúc giật.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "spo2=90; intro/ghi chú môi tím trong cơn giật phù hợp",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Cơn giật đã quá 5 phút nên cần thuốc cắt cơn, không chờ tự hết.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json intro",
+    "trich": "Intro: \"co giật ... khoảng 5 phút trước, đến giờ vẫn chưa dừng hẳn\" => đã >=5 phút, phù hợp",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-bung-005": [
+   {
+    "loc": "action",
+    "text": "Theo dõi lactate, creatinin, bilirubin mỗi 6 đến 12 giờ",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Tokyo Guidelines 2018 initial management https://dashboard.protocolosclinicos.com.br/download/anexo/2282/documento-oficial-tokyo.pdf (PMID 2",
+    "trich": "TG18 đọc được chỉ nêu theo dõi huyết áp, nhịp tim, nước tiểu; không có khoảng 6-12 giờ",
+    "de_xuat": "Không có nguồn cho '6 đến 12 giờ'; chỉnh theo lâm sàng hoặc bỏ số.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hồi sức tích cực: oxy, truyền dịch tinh thể 20 đến 30 ml/kg theo đáp ứng, theo dõi nước tiểu, vận mạch nếu huyết áp không đáp ứng.",
+    "verdict": "nhat_quan",
+    "nguon": "SSC 2021 https://link.springer.com/article/10.1007/s00134-021-06506-y; Tokyo Guidelines 2018 initial management https://dashboard.protocolos",
+    "trich": "SSC: \"at least 30 mL/kg of intravenous crystalloid fluid should be given within the first 3 h\"; TG18: \"infusion of sufficient fluids\" with monitoring of urine volume",
+    "de_xuat": "TG18 không nêu mL/kg. 20-30 mL/kg không literal; SSC 2021 nêu ít nhất 30 mL/kg trong 3 giờ đầu cho nhiễm khuẩn huyết có giảm tưới máu.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Giải áp đường mật: độ II cần ERCP sớm (cắt cơ vòng Oddi, lấy sỏi bằng rọ hoặc bóng, đặt stent hoặc dẫn lưu mũi mật) trong 24 đến 48 giờ;",
+    "verdict": "khop",
+    "nguon": "https://www.sciencedirect.com/science/article/pii/S1878788619300670 (tổng quan TG18, thứ cấp)",
+    "trich": "Review thứ cấp về TG18: \"for grade 2, it is recommended early\" ... trong 24-48 giờ đầu (bản TG18 gốc Wiley bị chặn 403; nên đối chiếu lại bản gốc)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Kháng sinh 4 đến 7 ngày sau giải áp thành công, kéo dài nếu cấy máu dương tính với một số vi khuẩn.",
+    "verdict": "khop",
+    "nguon": "https://www.darmzentrum-bern.ch/fileadmin/darmzentrum/Education/Bible_Class/2025/Gallstones/Tokyo_Leitlinie_Antibiose.pdf (TG18 antimicrobia",
+    "trich": "\"antimicrobial therapy ... recommended for the duration of 4 to 7 days\"; \"If bacteremia with Gram-positive cocci ... minimum 2 weeks\"",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-cap-cuu-005": [
+   {
+    "loc": "teach",
+    "text": "Xử trí khẩn: nới bột, giữ chi ngang tim, duy trì huyết áp và mổ mở cân sớm khi delta áp lực dưới 30 mmHg, không chờ mất mạch.",
+    "verdict": "khop",
+    "nguon": "https://www.orthointerview.com/knowledge/compartment-syndrome",
+    "trich": "BOAST 2025: delta (diastolic - compartment) \"< 30 mmHg\" là ngưỡng; khoang quyết định giải ép; không chờ mất mạch",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Đo áp lực khoang hoặc hội chẩn phẫu thuật mở cân khi delta áp lực dưới 30 mmHg",
+    "verdict": "khop",
+    "nguon": "https://www.orthointerview.com/knowledge/compartment-syndrome ; https://www.ncbi.nlm.nih.gov/books/NBK553901/",
+    "trich": "\"< 30 mmHg\"; McQueen: delta P <30 mmHg kéo dài >2 giờ là tiêu chuẩn chẩn đoán",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Delta áp lực (tâm trương trừ áp lực khoang) 26-32 mmHg là ngưỡng chỉ định.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json tests",
+    "trich": "DBP 84; khoang trước 52 => 32; khoang sâu sau 58 => 26; khớp số liệu. Lưu ý lời: ngưỡng chỉ định là <30 mmHg, \"26-32\" là giá trị đo của bệnh nhân (32 ở khoang trước chưa dưới 30)",
+    "de_xuat": "Viết lại: \"Delta áp lực của bệnh nhân 26-32 mmHg, đã/tiệm cận ngưỡng <30 mmHg.\"",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Không trì hoãn quá 6 giờ từ khi khởi phát.",
+    "verdict": "khop",
+    "nguon": "Medscape fasciotomy https://emedicine.medscape.com/article/2058838-overview; UK MoD CGO https://cgo.mod.uk/clinical-guidelines-for-operation",
+    "trich": "Medscape: 'The goal of decompression is restoration of muscle perfusion within 6 hours.' MoD: the 6 h threshold is convention-based || Ghi chu: Khop moc 6 gio (luu y: la quy uoc/muc tieu, khong phai nguong cung). BOAST/N",
+    "de_xuat": "Co the viet 'muc tieu giai ep trong vong 6 gio'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Ghi chép giờ khởi phát, theo dõi thần kinh mạch mỗi 1 giờ",
+    "verdict": "khop",
+    "nguon": "https://www.orthointerview.com/knowledge/compartment-syndrome",
+    "trich": "\"Patients at risk of ACS should be assessed hourly with documentation of findings.\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chỉ định mổ mở cân giải áp cả 4 khoang cẳng chân khẩn cấp (đường hai vết), thường trong 6 giờ, để hở da, cắt lọc cơ hoại tử và cố định xương (cố định ngoài hoặc kết hợp xương).",
+    "verdict": "khop",
+    "nguon": "Medscape fasciotomy; UK MoD CGO",
+    "trich": "MoD: 'The leg is decompressed via two incisions ... medial ... lateral' (4 khoang); 'goal of decompression ... within 6 hours'; 'Pack the wound open ... debrided' || Ghi chu: Khop 2 vet/4 khoang, 6 gio, de ho da, cat loc",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "đóng muộn hoặc ghép da sau 48-72 giờ.",
+    "verdict": "lech",
+    "nguon": "Medscape fasciotomy; UK MoD CGO",
+    "trich": "Medscape: 'Delayed primary closure of the skin can usually be accomplished at 5 days ... If closure is not possible within 5 days, a split-thickness skin graft'; MoD: 'return to theatre for relook and/or closure within 4",
+    "de_xuat": "Sua: 'tai kham/cat loc lai sau 48-72 gio; dong muc tri hoan thuong ~5 ngay, ghep da neu khong dong duoc'.",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-105": [
+   {
+    "loc": "teach",
+    "text": "cần giữ huyết áp, tránh thiếu oxy và hạ huyết áp, đầu cao 30 độ, dung dịch ưu trương cầu nối, và mổ giải ép khẩn.",
+    "verdict": "nhat_quan",
+    "nguon": "PMID 27654000 / braintrauma.org/coma/guidelines/severe-tbi; Neurocritical Care Society ENLS TBI Protocol v6 (neurocriticalcare.org)",
+    "trich": "BTF4: 'Maintaining SBP at >=100 (50-69 y) or >=110 (15-49 / >70 y) may be considered'. ENLS: 'Elevate head-of-bed to 30 degrees'; 'IV bolus with mannitol / hypertonic saline'",
+    "de_xuat": "Dau cao 30 do va dung dich uu truong co o ENLS, khong co trong BTF4; nen dan ca hai nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Kiểm soát đường thở: đặt nội khí quản có cố định cổ, thở máy, tránh thiếu oxy (SpO2 trên 94%)",
+    "verdict": "khop",
+    "nguon": "Neurocritical Care Society ENLS TBI Protocol v6 (neurocriticalcare.org)",
+    "trich": "'Maintain SpO2 >94%' (ED/resuscitation)",
+    "de_xuat": "Dan ENLS, khong dan BTF4 (BTF4 khong neu nguong SpO2). Ryder Trauma Center dung PaO2 80-200 mmHg.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Giữ huyết áp tâm thu từ 110 mmHg trở lên, đặt đường truyền, không hạ huyết áp",
+    "verdict": "khop",
+    "nguon": "https://braintrauma.org/coma/guidelines/severe-tbi",
+    "trich": "\"SBP at >=100 mm Hg for 50-69 y or >=110 mm Hg for 15-49 or >70 y\" (BN 34 tuổi => >=110)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Nằm đầu cao 30 độ, giữ cổ trung tính, cố định cột sống cổ",
+    "verdict": "khop",
+    "nguon": "Neurocritical Care Society ENLS TBI Protocol v6 (neurocriticalcare.org); rydertraumacenter.jacksonhealth.org",
+    "trich": "'Elevate head-of-bed to 30 degrees'; 'Maintain head elevation of 30 degrees unless log roll precautions'; 'Restrict motion of C-spine'",
+    "de_xuat": "Dan ENLS thay vi BTF4.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Dùng dung dịch ưu trương (manitol 0,25 đến 1 g/kg hoặc natri clorid 3%) khi có dấu thoát vị",
+    "verdict": "khop",
+    "nguon": "https://braintrauma.org/coma/guidelines/severe-tbi",
+    "trich": "\"Mannitol is effective for control of raised ICP at doses of 0.25 g/kg to 1 g/kg\"; hypertonic saline được nhắc nhưng không nêu nồng độ 3% (BTF 4th chỉ không đưa khuyến cáo chính thức)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Tăng thông khí liên tục để PaCO2 dưới 25 mmHg",
+    "verdict": "khop",
+    "nguon": "https://braintrauma.org/coma/guidelines/severe-tbi",
+    "trich": "\"Prolonged prophylactic hyperventilation with PaCO2 of 25 mm Hg or less is not recommended\" (đây là lựa chọn sai trong ca => đúng)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dịch nhược trương (glucose 5%) để bù dịch",
+    "verdict": "lech",
+    "nguon": "PMID 40944047 (PMC12428941, J Clin Med 2025)",
+    "trich": "'an acute decrease in plasma osmolality... hypotonic hyponatremia... drives water into the brain... brain edema'; hypotonic fluid listed as adverse factor for brain compliance",
+    "de_xuat": "Tranh dich nhược truong/glucose 5% o chan thuong so nao; dung dich dang truong (NaCl 0,9%) de hoi suc.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Đặt nội khí quản, thông khí kiểm soát, giữ huyết áp và oxy, đầu cao 30 độ, dung dịch ưu trương cầu nối, mổ lấy máu tụ khẩn;",
+    "verdict": "nhat_quan",
+    "nguon": "PMID 27654000 / braintrauma.org/coma/guidelines/severe-tbi; Neurocritical Care Society ENLS TBI Protocol v6 (neurocriticalcare.org)",
+    "trich": "BTF4: SBP thresholds; ENLS: HOB 30, mannitol/hypertonic saline, SpO2 >94%, evacuation for SDH >10 mm or shift >5 mm",
+    "de_xuat": "Dan them ENLS cho dau cao 30 do va dich uu truong; BTF4 noi hyperosmolar 'insufficient evidence... to support a specific recommendation'.",
+    "dot": 2
+   }
+  ],
+  "ngoai-chan-thuong-005": [
+   {
+    "loc": "teach",
+    "text": "Bỏng lửa trong không gian kín kèm khàn tiếng, bồ hóng cần nghĩ ngay bỏng hô hấp và ngộ độc CO: bảo đảm đường thở sớm và oxy 100%.",
+    "verdict": "khop",
+    "nguon": "https://surgicalcriticalcare.net/Guidelines/Burn%20Inhalation%20Injury%202025.pdf ; https://www.medintensiva.org/en-initial-evaluation-manag",
+    "trich": "\"administration of 100% oxygen by non-rebreather mask to reduce the degree of carboxyhemoglobin\" ; \"history of being in a fire in an enclosed space should be strongly considered for early intubation\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Thở oxy 100% và đặt nội khí quản sớm",
+    "verdict": "khop",
+    "nguon": "https://surgicalcriticalcare.net/Guidelines/Burn%20Inhalation%20Injury%202025.pdf ; https://www.medintensiva.org/en-initial-evaluation-manag",
+    "trich": "\"100% oxygen by non-rebreather mask...\" ; \"concern for airway edema, as swelling can worsen during fluid resuscitation\" (dat NKQ som)",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đặt hai đường truyền lớn qua da lành, bắt đầu Ringer lactat 400 mL mỗi giờ, đặt thông tiểu theo dõi nước tiểu",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.vumc.org/burn/sites/default/files/public_files/Protocols/Acute-Burn-Resuscitation-2025-07.pdf ; https://www.aafp.org/afp/2025/08",
+    "trich": "\"10 x %TBSA = mL/hr\" for adults (<80 kg; Rule of 10: 40-80 kg); ABA: titrate to urine output 0.5 mL/kg/h. Voi 40% TBSA => 400 mL/h theo Rule of 10; ABA 2 mL/kg/%TBSA cho toc do trung binh thap hon (~200 mL/h voi 60 kg).",
+    "de_xuat": "Giu 400 mL/h neu ghi ro \"theo quy tac 10 (10 mL x %TBSA = 400 mL/h cho 40% TBSA)\" va \"dieu chinh theo nuoc tieu\"; khong doc duoc nguon noi ro Ringer lactat trong cac trang da doc.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Bỏng trên 20% diện tích cần bù dịch sớm;",
+    "verdict": "khop",
+    "nguon": "https://guidance.nattrauma.org/media/wetjtmrg/american-burn-association-clinical-practice-guidelines-on-burn-shock-resuscitation.pdf",
+    "trich": "ABA CPG áp dụng cho \"burns >=20% TBSA\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "điều chỉnh 10 đến 20% mỗi giờ theo nước tiểu 0,5 mL mỗi kg mỗi giờ.",
+    "verdict": "lech",
+    "nguon": "https://guidance.nattrauma.org/media/wetjtmrg/american-burn-association-clinical-practice-guidelines-on-burn-shock-resuscitation.pdf",
+    "trich": "ABA: titrate theo nước tiểu 0,5 mL/kg/giờ; nguồn nhắc \"one-third increases or decreases in the infusion rate\", không phải 10-20%",
+    "de_xuat": "\"điều chỉnh khoảng 1/3 tốc độ truyền mỗi giờ theo nước tiểu 0,5 mL/kg/giờ\" (hoặc nêu rõ nguồn của 10-20%).",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Hạn chế dịch trong 24 giờ đầu và dùng lợi tiểu sớm để tránh phù phổi",
+    "verdict": "lech",
+    "nguon": "https://www.aafp.org/afp/2025/0800/practice-guidelines-resuscitation-patients-burns (tom tat ABA CPG 2024, PMID 38051821) ; https://www.vumc",
+    "trich": "ABA: \"Resuscitation should be titrated by urine output\"; \"fluid resuscitation may increase local and pulmonary edema\". VUMC: phai bao burn attending \"Prior to initiation of... Diuretics\"; khong co khuyen cao han che dich",
+    "de_xuat": "Sua: \"Tranh bu dich qua tay (fluid creep): bat dau theo cong thuc (Rule of 10 hoac 2 mL/kg/%TBSA), dieu chinh moi gio theo nuoc tieu 0,5 mL/kg/gio (30-50 mL/gio); khong dung loi tieu som, chi khi hoi chuyen khoa bong.\" ",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Oxy 100%, đặt nội khí quản sớm.",
+    "verdict": "khop",
+    "nguon": "https://surgicalcriticalcare.net/Guidelines/Burn%20Inhalation%20Injury%202025.pdf ; https://www.medintensiva.org/en-initial-evaluation-manag",
+    "trich": "\"100% oxygen by non-rebreather mask\" ; \"strongly considered for early intubation\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hai đường truyền lớn, Ringer lactat khởi đầu 400 mL mỗi giờ (10 mL nhân %TBSA cho người lớn 40 đến 80 kg), điều chỉnh theo nước tiểu 30 đến 50 mL mỗi giờ.",
+    "verdict": "khop",
+    "nguon": "https://www.vumc.org/burn/sites/default/files/public_files/Protocols/Acute-Burn-Resuscitation-2025-07.pdf",
+    "trich": "\"10 x ____ (%TBSA) = ____ mL/hr\" (adult <80 kg; aliem/EM Kenya: \"for adult patients weighing 40 kg to 80 kg\"); \"hourly urine output between 0.5-1 mL/kg/hr (or approximately 30-50 mL/hr)\"",
+    "de_xuat": "Ringer lactat la dich chon: chi doc gian tiep qua tom tat ABA, khong co trich nguyen van.",
+    "dot": 2
+   }
+  ],
+  "nhiem-toan-ceton-dai-thao-duong": [
+   {
+    "loc": "teach",
+    "text": "Nếu kali <3,5 mmol/L, trì hoãn insulin cho đến khi kali >3,5 mmol/L.",
+    "verdict": "khop",
+    "nguon": "PMC13284666 (bình luận trích 2024 consensus; toàn văn pmid 39052901 không tải được)",
+    "trich": "\"replenish potassium ... before starting insulin infusion\" and \"insulin administration should be postponed until potassium levels reach >3.5 mmol/L\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Bù dịch NaCl 0,9% tĩnh mạch nhanh trong giờ đầu rồi giảm tốc độ theo đáp ứng",
+    "verdict": "khop",
+    "nguon": "PMC13284666 (bình luận trích 2024 consensus; toàn văn pmid 39052901 không tải được)",
+    "trich": "\"500-1000 ml/h during the first 2-4 h\" of isotonic saline (0.9% NaCl)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dung dịch glucose 5% thay cho NaCl 0,9% ở giai đoạn đầu",
+    "verdict": "khop",
+    "nguon": "PMC13284666 (bình luận trích 2024 consensus; toàn văn pmid 39052901 không tải được)",
+    "trich": "Dextrose 5-10% chỉ thêm vào NaCl 0,9% khi glucose \"<13.9 mmol/l (250 mg/dl)\" => thay hoàn toàn bằng glucose 5% ban đầu là sai",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Đường huyết 28 mmol/L, dung dịch glucose làm tăng thêm áp lực thẩm thấu và không bù được thể tích.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json tests",
+    "trich": "Glucose mao mạch 28,4 mmol/L; viết 28 làm tròn, khớp; >13,9 nên chưa dùng dextrose",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "noi-cap-cuu-008": [
+   {
+    "loc": "action_why",
+    "text": "Thiếu oxy nặng SpO2 82%.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "spo2=82",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Đặt nội khí quản kịp thời và thở máy bảo vệ phổi: thể tích khí lưu thông 6 mL/kg cân nặng lý tưởng, PEEP phù hợp",
+    "verdict": "khop",
+    "nguon": "PMC10870893 (pmid 38032683)",
+    "trich": "\"limit tidal volume (4-8 mL/kg predicted body weight)\"; 6 mL/kg nằm trong khoảng này",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Nằm sấp 16 giờ mỗi ngày khi PaO2/FiO2 dưới 150 mmHg",
+    "verdict": "khop",
+    "nguon": "PMID 23688302 (PROSEVA, NEJM 2013); PMID 28459336 (ATS/ESICM/SCCM 2017)",
+    "trich": "PROSEVA: 'prone-positioning sessions of at least 16 hours'; 'PaO2/FiO2 of less than 150 mm Hg, with FiO2 >=0.6, PEEP >=5'. ATS 2017: 'prone positioning for more than 12 h/d' in severe ARDS",
+    "de_xuat": "PROSEVA con yeu cau FiO2>=0,6 va PEEP>=5.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Thông khí với thể tích khí lưu thông lớn 10 đến 12 mL/kg",
+    "verdict": "khop",
+    "nguon": "PMC10870893 (pmid 38032683)",
+    "trich": "Khuyến cáo giới hạn VT 4-8 mL/kg PBW => 10-12 mL/kg là sai (đúng là lựa chọn sai)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Chờ đến khi SpO2 dưới 70% mới đặt nội khí quản",
+    "verdict": "lech",
+    "nguon": "Merck Manual Professional, AHRF/ARDS (merckmanuals.com)",
+    "trich": "'If noninvasive support does not result in improvement in oxygen saturation to > 90%, mechanical ventilation should be considered.'",
+    "de_xuat": "Khong cho SpO2 <70% moi dat NKQ; dat NKQ/ho tro khi hoi suc khong dua duoc SpO2 len >90% hoac that bai ho tro khong xam nhap.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-108": [
+   {
+    "loc": "action",
+    "text": "Cho lactulose 25 mL qua đường uống hoặc sonde mỗi 1 đến 2 giờ đến khi đi ngoài mềm;",
+    "verdict": "khop",
+    "nguon": "https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20Liver%20Disease%202014.pdf (pmid 25042402)",
+    "trich": "\"25 mL of lactulose syrup every 1-2 hours until at least two soft or loose bowel movements per day\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "thụt tháo lactulose 300 mL pha 700 mL nước nếu không uống được",
+    "verdict": "lech",
+    "nguon": "https://www.hepatitisc.uw.edu/pdf/management-cirrhosis-related-complications/hepatic-encephalopathy-diagnosis-management/core-concept/all/10",
+    "trich": "UW: lactulose enema \"300 mL in 1 L of water every 6 to 8 hours\"; AASLD 2014 trang đọc không nêu thể tích enema",
+    "de_xuat": "\"thụt tháo 300 mL lactulose pha trong 1 lít nước\" (hoặc ghi rõ nguồn của 700 mL).",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Ngưng lợi tiểu, bù kali tĩnh mạch an toàn theo điện giải và monitor, mục tiêu kali từ 3,5 mmol/L",
+    "verdict": "nhat_quan",
+    "nguon": "AASLD 2021 ascites/SBP/HRS practice guidance (Biggins, Hepatology 2021, doi 10.1002/hep.31884), PDF https://ptg-e.org.pl/wp-content/uploads/",
+    "trich": "\"Diuretics should be stopped after the diagnosis of AKI.\" Table 6: \"Hypokalemia (serum potassium <3.5 mmol/L)\"",
+    "de_xuat": "Ngưỡng 3,5 mmol/L là ngưỡng định nghĩa hạ kali, không phải mục tiêu bù nêu literal; có thể ghi 'đưa kali về trên 3,5'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Bù natri chậm: không tăng quá 8 đến 10 mmol/L trong 24 giờ",
+    "verdict": "lech",
+    "nguon": "AASLD Liver Fellow Network, Low sodium high stakes https://www.aasld.org/liver-fellow-network/core-series/back-basics/back-basics-low-sodium",
+    "trich": "\"4-6 mEq/L per day, not to exceed 8 mEq per 24-hour period\" (xơ gan, nguy cơ ODS cao); mức 10-12 chỉ cho nguy cơ trung bình",
+    "de_xuat": "Sửa: tăng natri không quá 8 mmol/L/24 giờ (mục tiêu 4-6).",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Truyền albumin 1 g/kg trong 2 ngày khi nghi tổn thương thận do lợi tiểu và nền xơ gan",
+    "verdict": "khop",
+    "nguon": "AASLD 2021 ascites/SBP/HRS practice guidance (Biggins, Hepatology 2021, doi 10.1002/hep.31884), PDF https://ptg-e.org.pl/wp-content/uploads/",
+    "trich": "Figure 4 AKI algorithm: \"Give albumin (1g/kg) for 2 days\"; \"albumin infusion (1 g/kg body weight per day)\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Thêm rifaximin 550 mg uống hai lần mỗi ngày sau khi đã dùng lactulose",
+    "verdict": "khop",
+    "nguon": "https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20Liver%20Disease%202014.pdf (pmid 25042402)",
+    "trich": "\"Rifaximin is an effective add-on therapy to lactulose for prevention of OHE recurrence\"; UW: \"Rifaximin (550 mg twice daily)\". Lưu ý AASLD khuyến cáo sau cơn thứ hai (ca có tiền sử nhập viện, chưa r",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Dinh dưỡng đủ đạm 1,2 đến 1,5 g/kg/ngày, chia nhiều bữa, bao gồm bữa tối muộn",
+    "verdict": "khop",
+    "nguon": "https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20Liver%20Disease%202014.pdf (pmid 25042402)",
+    "trich": "Protein \"1.2-1.5 g/kg/day\"; \"Small meals ... evenly distributed ... a late-night snack should be offered\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Tiếp tục furosemid, spironolacton liều cao và truyền NaCl 3% nhanh để nâng natri",
+    "verdict": "khop",
+    "nguon": "https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20Liver%20Disease%202014.pdf (pmid 25042402)",
+    "trich": "Hạ natri nặng phải sửa chậm; \"diuretic overdose\" là yếu tố khởi phát => tiếp tục lợi tiểu liều cao và NaCl 3% nhanh là sai",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "2) Lactulose 25 mL uống hoặc sonde mỗi 1 đến 2 giờ đến khi đi ngoài mềm, sau đó chỉnh liều để 2 đến 3 lần phân mềm mỗi ngày;",
+    "verdict": "khop",
+    "nguon": "https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20Liver%20Disease%202014.pdf (pmid 25042402)",
+    "trich": "\"25 mL ... every 1-2 hours ... Subsequently, the dosing is titrated to maintain two to three bowel movements per day\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "nếu không uống được, thụt tháo 300 mL lactulose pha 700 mL nước.",
+    "verdict": "lech",
+    "nguon": "https://www.hepatitisc.uw.edu/pdf/management-cirrhosis-related-complications/hepatic-encephalopathy-diagnosis-management/core-concept/all/10",
+    "trich": "UW: \"300 mL in 1 L of water\"; AASLD trang đọc không nêu enema",
+    "de_xuat": "\"thụt tháo 300 mL lactulose pha trong 1 lít nước\".",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "bù KCl tĩnh mạch an toàn mục tiêu kali từ 3,5 mmol/L;",
+    "verdict": "nhat_quan",
+    "nguon": "AASLD 2021 ascites/SBP/HRS practice guidance (Biggins, Hepatology 2021, doi 10.1002/hep.31884), PDF https://ptg-e.org.pl/wp-content/uploads/",
+    "trich": "Hypokalemia defined as serum potassium <3.5 mmol/L; diuretics stopped at AKI",
+    "de_xuat": "Như trên.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "bù natri chậm không quá 8 đến 10 mmol/L trong 24 giờ.",
+    "verdict": "lech",
+    "nguon": "AASLD Liver Fellow Network, Low sodium high stakes https://www.aasld.org/liver-fellow-network/core-series/back-basics/back-basics-low-sodium",
+    "trich": "\"not to exceed 8 mEq per 24-hour period\" in cirrhosis",
+    "de_xuat": "Sửa: không quá 8 mmol/L trong 24 giờ.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "4) Albumin 1 g/kg (tối đa 100 g) trong hai ngày nếu nghi giảm thể tích hoặc tổn thương thận.",
+    "verdict": "nhat_quan",
+    "nguon": "AASLD 2021 ascites/SBP/HRS practice guidance (Biggins, Hepatology 2021, doi 10.1002/hep.31884), PDF https://ptg-e.org.pl/wp-content/uploads/",
+    "trich": "\"Give albumin (1g/kg) for 2 days\"; document has no \"100 g\" ceiling statement in text read",
+    "de_xuat": "1 g/kg x 2 ngày khớp; trần 100 g không đọc được literal trong nguồn này, có thể bỏ '(tối đa 100 g)' hoặc dẫn nguồn khác.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "5) Rifaximin 550 mg hai lần mỗi ngày bổ sung.",
+    "verdict": "khop",
+    "nguon": "https://www.hepatitisc.uw.edu/pdf/management-cirrhosis-related-complications/hepatic-encephalopathy-diagnosis-management/core-concept/all/10",
+    "trich": "\"Rifaximin (550 mg twice daily)\" là add-on sau lactulose; AASLD: add-on phòng tái phát",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "6) Dinh dưỡng 1,2 đến 1,5 g/kg/ngày đạm, chia nhỏ bữa.",
+    "verdict": "khop",
+    "nguon": "https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20Liver%20Disease%202014.pdf (pmid 25042402)",
+    "trich": "Protein \"1.2-1.5 g/kg/day\", chia bữa đều",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: tỉnh táo, 2 đến 3 lần phân mềm mỗi ngày, kali từ 3,5 mmol/L, creatinin về nền.",
+    "verdict": "nhat_quan",
+    "nguon": "AASLD/EASL 2014 HE guideline PMID 25042402, PDF https://www.aasld.org/sites/default/files/2022-07/Hepatic%20Encephalopathy%20in%20Chronic%20",
+    "trich": "\"The dosing is titrated to maintain two to three bowel movements per day.\" (AASLD 2014); K <3,5 = hạ kali (AASLD 2021)",
+    "de_xuat": "2-3 lần phân mềm khớp. Kali >=3,5 nhất quán với ngưỡng hạ kali. 'Creatinin về nền' không tìm thấy literal.",
+    "dot": 2
+   }
+  ],
+  "noi-nhiem-002": [
+   {
+    "loc": "teach",
+    "text": "Viêm màng não mủ cần dùng kháng sinh trong vòng 1 giờ sau khi nghi ngờ, kèm dexamethasone.",
+    "verdict": "khop",
+    "nguon": "https://www.sciencedirect.com/science/article/pii/S1198743X17302306 (tổng quan ESCMID, không phải bản gốc) ; https://academic.oup.com/cid/ar",
+    "trich": "ESCMID (thứ cấp): \"start empiric treatment within one hour of arrival\"; dexamethasone cùng lúc với kháng sinh; IDSA: dexamethasone 10-20 phút trước hoặc cùng liều kháng sinh đầu",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Cấp cứu: lấy cấy máu rồi dùng ngay kháng sinh tĩnh mạch trong vòng 1 giờ, ceftriaxone 2 g mỗi 12 giờ phối hợp vancomycin 15 đến 20 mg/kg mỗi 8 đến 12 giờ (theo chức năng thận, đo nồng độ đáy).",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/cid/article/39/9/1267/402080 (pmid 15494903) ; https://www.sciencedirect.com/science/article/pii/S1198743X17302306 ",
+    "trich": "IDSA: ceftriaxone 2 g q12h + vancomycin \"15-20 mg/kg q8-12h\"; ESCMID: kháng sinh trong 1 giờ",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Dexamethasone 0,15 mg/kg mỗi 6 giờ trong 4 ngày, bắt đầu cùng hoặc trước liều kháng sinh đầu.",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/cid/article/39/9/1267/402080 (pmid 15494903)",
+    "trich": "\"Dexamethasone (0.15 mg/kg q6h for 2-4 days)\" cho 10-20 phút trước hoặc cùng liều kháng sinh đầu (4 ngày là cận trên)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "thời gian 10 đến 14 ngày với phế cầu.",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/cid/article/39/9/1267/402080 (pmid 15494903)",
+    "trich": "\"10-14 days\" cho Streptococcus pneumoniae",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Nâng đầu 30 độ, theo dõi thần kinh, chống co giật khi cần, bù dịch đẳng trương, theo dõi natri.",
+    "verdict": "nhat_quan",
+    "nguon": "Emergency Care BC https://emergencycarebc.ca/clinical_resource/clinical-summary/meningitis-management/ ; RCH Melbourne https://www.rch.org.a",
+    "trich": "EmergencyCareBC: \"Elevate head of bed to 30 degrees.\" RCH (tre em): 0.9% NaCl boluses 10 mL/kg, ≤2/3 maintenance, serum sodium \"every 6-12 hours for the first 48 hours\"; \"All seizures ... should be treated immediately\"",
+    "de_xuat": "Cac y deu co nguon rieng le (RCH la khuyen cao nhi khoa); co the giu",
+    "dot": 2
+   }
+  ],
+  "noi-tim-mach-001": [
+   {
+    "loc": "action",
+    "text": "Ghi điện tim 12 chuyển đạo trong 10 phút, gắn monitor và đường truyền tĩnh mạch",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/44/38/3720/7243210 (ESC 2023, pmid 37622654)",
+    "trich": "\"an ECG should be obtained immediately upon FMC and interpreted ... within 10 min\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Aspirin nhai 300 mg, ticagrelor 180 mg và heparin không phân đoạn theo cân nặng",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Thời gian cửa đến bóng dưới 90 phút (trong 120 phút nếu chuyển viện) quyết định lượng cơ tim cứu được.",
+    "verdict": "lech",
+    "nguon": "https://medizinonline.com/en/esc-recommendations-on-acute-care-and-secondary-prevention/ ; https://academic.oup.com/ehjacc/article/13/1/55/7",
+    "trich": "ESC 2023: tái tưới máu trong 60 phút từ chẩn đoán đến luồn dây (cơ sở PCI), tối đa 120 phút; không dùng chuẩn \"cửa đến bóng <90 phút\" (chuẩn AHA/ACC)",
+    "de_xuat": "ESC 2023: mục tiêu <=60 phút từ chẩn đoán STEMI đến luồn dây (đến thẳng cơ sở PCI), tối đa 120 phút; nếu không đạt thì tiêu sợi huyết trong 10 phút. Chỉ nên đối chiếu thêm Bảng khuyến cáo gốc.",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Atorvastatin 80 mg và dặn giữ yên giường",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chống kết tập tiểu cầu kép (aspirin 300 mg nhai, ticagrelor 180 mg), heparin không phân đoạn theo cân nặng;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "PCI thì đầu khẩn cấp, mục tiêu cửa đến bóng dưới 90 phút (tổng thời gian từ chẩn đoán đến luồn dây dưới 120 phút nếu chuyển viện);",
+    "verdict": "lech",
+    "nguon": "https://medizinonline.com/en/esc-recommendations-on-acute-care-and-secondary-prevention/ ; https://academic.oup.com/ehjacc/article/13/1/55/7",
+    "trich": "\"revascularization within 60 minutes of diagnosis\"; PCI trong 120 phút nếu không thì tiêu sợi huyết",
+    "de_xuat": "ESC 2023: <=60 phút từ chẩn đoán đến luồn dây, tối đa 120 phút (không phân biệt \"cửa đến bóng <90\").",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "nếu không đạt thì tiêu sợi huyết trong 10 phút và chuyển chụp mạch trong 2–24 giờ.",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/44/38/3720/7243210 (ESC 2023, pmid 37622654) ; https://medizinonline.com/en/esc-recommendations-o",
+    "trich": "\"within 10 min\" tiêu sợi huyết; chụp mạch \"between 2 h and 24 h after successful fibrinolysis\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Atorvastatin 80 mg, chẹn beta liều thấp khi không có suy tim và huyết động ổn định, ức chế men chuyển/chẹn thụ thể sớm khi EF dưới 40% hoặc tăng huyết áp.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Oxy chỉ khi SpO2 dưới 90%.",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/44/38/3720/7243210 (ESC 2023, pmid 37622654) ; https://medizinonline.com/en/esc-recommendations-o",
+    "trich": "Oxy khi \"SpO2<90%\"; ca SpO2 96% nhất quán",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "thai-ngoai-tu-cung-vo": [
+   {
+    "loc": "action",
+    "text": "Cho về theo dõi tại nhà, hẹn siêu âm lại sau 48 giờ",
+    "verdict": "khop",
+    "nguon": "https://www.guidelinecentral.com/guideline/308463/ (tóm tắt ACOG PB193); https://www.aafp.org/pubs/afp/issues/2020/0515/p599.html",
+    "trich": "Phẫu thuật khi \"hemodynamic instability, symptoms of an ongoing ruptured ectopic mass ... signs of intraperitoneal bleeding\"; theo dõi ngoại trú chỉ cho người ổn định, không vỡ. Ca HA 78/48, M 128 =>",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "hao-suyen": [
+   {
+    "loc": "action",
+    "text": "Cho ngồi, thở oxy, gắn monitor SpO2 mục tiêu 93-95%",
+    "verdict": "khop",
+    "nguon": "https://ginasthma.org/wp-content/uploads/2025/11/GINA-Summary-Guide-2025-WEB_FINAL-WMS.pdf",
+    "trich": "\"target saturation of 93–95%* in adults and adolescents\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "SpO2 89% cần bù oxy ngay.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json vitals",
+    "trich": "vitals.spo2 = 89; khí máu PaO2 58 mmHg",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-bung-006": [
+   {
+    "loc": "action",
+    "text": "Hồi sức: 2 đường truyền, oxy, truyền dịch tinh thể 30 ml/kg, theo dõi huyết áp và nước tiểu",
+    "verdict": "khop",
+    "nguon": "https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-guidelines-2021",
+    "trich": "\"at least 30 mL/kg of IV crystalloid fluid be given within the first 3 hours\" (đọc trang SCCM của SSC 2021, PMID 34605781 không có full text)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Cho thuốc giảm đau mạnh rồi quan sát 24 giờ",
+    "verdict": "lech",
+    "nguon": "WSES Jerusalem 2020 (PMC7386163); Surviving Sepsis Campaign 2021 (PMC8486643)",
+    "trich": "WSES: không mổ-bảo tồn cho bệnh nhân có \"gangrenous AA, abscesses, and diffuse peritonitis\". SSC: \"source control intervention ... should ideally be implemented as soon as medically and logistically practical\". WSES chỉ ",
+    "de_xuat": "Sai: viêm phúc mạc toàn thể cần hồi sức, kháng sinh sớm và mổ cấp cứu kiểm soát ổ nhiễm sớm nhất có thể, không quan sát 24 giờ.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hồi sức song song với chuẩn bị mổ: đường truyền lớn, truyền dịch tinh thể 30 ml/kg trong 3 giờ đầu, mục tiêu huyết áp trung bình từ 65 mmHg, vận mạch (noradrenalin) nếu hạ huyết áp kéo dài, oxy, sonde tiểu theo dõi nước tiểu.",
+    "verdict": "khop",
+    "nguon": "https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-guidelines-2021",
+    "trich": "30 mL/kg trong 3 giờ đầu; \"initial target MAP of 65 mm Hg\"; \"norepinephrine as the first-line agent\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Insulin truyền mục tiêu đường huyết 8 đến 10 mmol/L.",
+    "verdict": "nhat_quan",
+    "nguon": "Surviving Sepsis Campaign 2021 (PMID 34605781, PMC8486643)",
+    "trich": "\"strong recommendation for the initiation of insulin therapy at a glucose level of ≥ 180 mg/dL (10 mmol/L)\"; nêu khoảng đích \"140–180 mg/dL\".",
+    "de_xuat": "Nên ghi 'bắt đầu insulin khi đường huyết ≥10 mmol/L (180 mg/dL), đích khoảng 7,8-10 mmol/L'. Khoảng 8-10 mmol/L (144-180 mg/dL) tương đương.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hậu phẫu: hồi sức tích cực, kháng sinh 4 đến 7 ngày, nuôi dưỡng sớm, theo dõi áp xe tồn dư, rò, nhiễm trùng vết mổ, dự phòng huyết khối, theo dõi đường huyết và thận.",
+    "verdict": "lech",
+    "nguon": "PMID 28702076 (PMC5504840); PMID 32295644",
+    "trich": "WSES cIAI: \"a short course of antibiotic therapy (3–5 days) after adequate source control is a reasonable option\"; WSES 2020: \"≤ 5 vs > 5 days\" ở viêm ruột thừa phức tạp",
+    "de_xuat": "Kháng sinh sau mổ thường 3–5 ngày sau khi kiểm soát nguồn nhiễm (kéo dài theo đáp ứng lâm sàng, CRP/PCT); bỏ khoảng \"4 đến 7 ngày\". Lưu ý PMID 28702076 là WSES 2017, không phải 2021.",
+    "dot": 1
+   }
+  ],
+  "ngoai-cap-cuu-006": [
+   {
+    "loc": "teach",
+    "text": "Gãy hở độ III là cấp cứu: sau ABC, kháng sinh sớm trong 1 giờ, phòng uốn ván, che vết thương và nẹp, mổ rửa cắt lọc cố định ngoài trong vòng 24 giờ.",
+    "verdict": "nhat_quan",
+    "nguon": "BOAST Open Fractures (https://www.boa.ac.uk/resource/boast-4-pdf.html); EAST Practice Management Guideline, Open fractures prophylactic anti",
+    "trich": "BOAST: \"administered as soon as possible, ideally within 1 hour of injury\"; debridement \"within 12 hours of injury for other solitary high energy open fractures...within 24 hours ... low energy\". EAST: gram-negative cove",
+    "de_xuat": "Mốc 24 giờ là ngưỡng trên; BOAST ghi 12 giờ cho gãy hở năng lượng cao và mổ ngay nếu ô nhiễm nặng. Có thể ghi 'trong 12-24 giờ'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Tiêm kháng sinh tĩnh mạch sớm trong vòng 1 giờ (cefazolin, phối hợp aminoglycoside theo độ nặng, thêm penicillin nếu đất bẩn)",
+    "verdict": "nhat_quan",
+    "nguon": "BOAST Open Fractures (https://www.boa.ac.uk/resource/boast-4-pdf.html); EAST Practice Management Guideline, Open fractures prophylactic anti",
+    "trich": "BOAST: \"ideally within 1 hour of injury\". EAST: \"Systemic antibiotic coverage directed at gram-positive organisms should be initiated as soon as possible\"; \"Additional gram-negative coverage should be added for type III ",
+    "de_xuat": "Mốc 1 giờ và thêm gram âm/penicillin khớp; tên cefazolin không có nguyên văn trong phần đọc được.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đưa vào mổ rửa cắt lọc, cố định ngoài, sửa mạch nếu cần trong 24 giờ",
+    "verdict": "nhat_quan",
+    "nguon": "BOAST Open Fractures (https://www.boa.ac.uk/resource/boast-4-pdf.html)",
+    "trich": "\"within 12 hours of injury for other solitary high energy open fractures...within 24 hours of injury for all other low energy open fractures\"",
+    "de_xuat": "Đề xuất ghi 'trong 12-24 giờ tùy năng lượng chấn thương/mức ô nhiễm'. Phần sửa mạch không được đối chiếu.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Theo ATLS 10, hướng dẫn BOAST và EAST: ABC trước, kháng sinh sớm trong 1 giờ (cefazolin liều đủ, phối hợp aminoglycoside cho độ III, thêm penicillin liều cao nếu nhiễm đất), phòng uốn ván.",
+    "verdict": "nhat_quan",
+    "nguon": "BOAST Open Fractures (https://www.boa.ac.uk/resource/boast-4-pdf.html); EAST Practice Management Guideline, Open fractures prophylactic anti",
+    "trich": "BOAST: \"ideally within 1 hour of injury\"; EAST: gram-negative coverage for type III; high-dose penicillin for fecal/clostridial contamination.",
+    "de_xuat": "Cefazolin, phòng uốn ván và ATLS 10 không được đọc nguyên văn.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Che gạc vô khuẩn, nẹp cố định, rửa cắt lọc triệt để trong phòng mổ trong 24 giờ, cố định ngoài, sửa mạch nếu cần, phủ vạt trong vòng 72 giờ hoặc càng sớm càng tốt (hội chẩn chấn thương chỉnh hình và tạo hình).",
+    "verdict": "nhat_quan",
+    "nguon": "BOAST Open Fractures (https://www.boa.ac.uk/resource/boast-4-pdf.html)",
+    "trich": "\"Definitive soft tissue closure or coverage should be achieved within 72 hours of injury if it cannot be performed at the time of debridement.\" Debridement: 12 giờ (năng lượng cao) hoặc 24 giờ.",
+    "de_xuat": "Mốc phủ vạt 72 giờ khớp; mốc cắt lọc nên ghi 12-24 giờ.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Kháng sinh tiếp tục 24 giờ sau đóng vết thương hoặc 72 giờ theo hướng dẫn.",
+    "verdict": "khop",
+    "nguon": "EAST Practice Management Guideline, Open fractures prophylactic antibiotic use - Update (https://www.east.org/education-resources/practice-m",
+    "trich": "\"antibiotics should be continued for 72 hours after injury or not >24 hours after soft tissue coverage has been achieved\"; type I/II: \"discontinued 24 hours after successful wound closure\".",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-106": [
+   {
+    "loc": "teach",
+    "text": "Chấn thương tủy cổ có sốc thần kinh (huyết áp thấp, mạch chậm, da ấm) cần bất động, bảo vệ hô hấp và giữ MAP 85 đến 90 mmHg bằng vận mạch sau bù dịch hợp lý.",
+    "verdict": "khop",
+    "nguon": "PMC8021842 (PMID 33211951, tổng quan trích AANS/CNS 2013)",
+    "trich": "\"recommends raising the mean arterial pressure (MAP) between 85 and 90 mmHg for the first 7 days following an acute SCI\"; norepinephrine dùng như vận mạch",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Đặt đường truyền lớn, bù dịch hợp lý và dùng noradrenaline để giữ MAP 85 đến 90 mmHg",
+    "verdict": "khop",
+    "nguon": "PMC8021842 (PMID 33211951, tổng quan trích AANS/CNS 2013)",
+    "trich": "\"recommends raising the mean arterial pressure (MAP) between 85 and 90 mmHg for the first 7 days following an acute SCI\"; norepinephrine dùng như vận mạch",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Bất động, hỗ trợ hô hấp, giữ MAP 85 đến 90 mmHg bằng dịch hợp lý và noradrenaline, atropine khi cần, dự phòng huyết khối và loét tì đè;",
+    "verdict": "khop",
+    "nguon": "PMC8021842 (PMID 33211951, tổng quan trích AANS/CNS 2013)",
+    "trich": "\"recommends raising the mean arterial pressure (MAP) between 85 and 90 mmHg for the first 7 days following an acute SCI\"; norepinephrine dùng như vận mạch",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-chan-thuong-006": [
+   {
+    "loc": "action",
+    "text": "Tiêm kháng độc tố uốn ván và vắc xin hấp phụ uốn ván 0,5 mL ở hai vị trí khác nhau",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.rch.org.au/clinicalguide/guideline_index/management_of_tetanusprone_wounds/ ; https://immunize.utah.gov/wp-content/uploads/tetan",
+    "trich": "RCH: \"The recommended dose for TIG is 250 IU IM\"; \"If giving at the same time as the tetanus vaccine, give into opposite limb\". Utah: \"use separate syringes and injection sites\". Lieu 0,5 mL vaccine khong co trong trang ",
+    "de_xuat": "Neu van giu \"0,5 mL\": do la lieu chuan cua vac xin uon van hap phu nhung chua doi chieu duoc literal; TIG du phong la 250 IU (500 IU neu >24 gio).",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Kháng sinh theo kinh nghiệm cho vết thương bẩn (như amoxicillin kết hợp clavulanat) trong 5 đến 7 ngày",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.who.int/docs/default-source/documents/publications/prevention-and-management-of-wound-infection.pdf",
+    "trich": "\"Penicillin G and metronidazole for 5-7 days provide good coverage.\" (WHO, vet thuong nhiem ban). CDC: khang sinh khong khuyen cao de du phong uon van.",
+    "de_xuat": "Thoi gian 5-7 ngay khop WHO; phac do (amox-clav) khac WHO (penicillin G + metronidazol). Nen ghi ro la cho nguy co nhiem khuan vet thuong, khong phai du phong uon van.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Băng vô khuẩn, hẹn thay băng sau 48 giờ, khâu thì đầu muộn khi sạch nếu cần",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.who.int/docs/default-source/documents/publications/prevention-and-management-of-wound-infection.pdf",
+    "trich": "\"Do not close contaminated wounds ... Manage these with surgical toilet, leave open and then close 48 hours later.\" ; \"Change the packing and dressing at least daily.\"",
+    "de_xuat": "Moc 48 gio khau thi dau muoc khop; WHO khuyen thay bang it nhat hang ngay, khong phai \"sau 48 gio\". Sua: \"thay bang hang ngay, khau thi dau muon sau ~48 gio neu sach\".",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Tiêm kháng độc tố uốn ván (huyết thanh sau thử phản ứng hoặc globulin miễn dịch người) kèm vắc xin hấp phụ 0,5 mL tiêm bắp ở vị trí khác.",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.rch.org.au/clinicalguide/guideline_index/management_of_tetanusprone_wounds/ ; https://immunize.utah.gov/wp-content/uploads/tetan",
+    "trich": "CDC: \"administer 250 international units of TIG intramuscularly\"; RCH: vaccine \"into opposite limb\"; Utah: \"separate syringes and injection sites\". Huyet thanh ngua (khang doc to) va 0,5 mL khong doi chieu duoc.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Kháng sinh 5 đến 7 ngày.",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.who.int/docs/default-source/documents/publications/prevention-and-management-of-wound-infection.pdf",
+    "trich": "\"Penicillin G and metronidazole for 5-7 days provide good coverage.\"",
+    "de_xuat": "Ghi ro duoc dung cho vet thuong nhiem ban/nguy co nhiem khuan.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hẹn thay băng sau 48 giờ, khâu thì đầu muộn nếu cần.",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.who.int/docs/default-source/documents/publications/prevention-and-management-of-wound-infection.pdf",
+    "trich": "\"leave open and then close 48 hours later\"; \"Change the packing and dressing at least daily.\"",
+    "de_xuat": "Sua cho khop: thay bang hang ngay; khau thi dau muon sau ~48 gio.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-001": [
+   {
+    "loc": "action",
+    "text": "Xác nhận ngừng tuần hoàn, hô cứu hộ, lấy máy sốc điện và bắt đầu ép tim 100 đến 120 lần/phút, sâu 5 đến 6 cm",
+    "verdict": "khop",
+    "nguon": "AHA 2025 Adult BLS https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+    "trich": "\"chest compressions at a rate of 100 to 120/min\"; \"depth of at least 2 inches, or 5 cm ... avoiding excessive ... (greater than 2.4 inches, or 6cm)\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Gắn máy sốc điện, sốc điện không đồng bộ 200 J (hai pha) ngay khi xác nhận rung thất, rồi ép tim lại ngay",
+    "verdict": "nhat_quan",
+    "nguon": "ERC 2025 ALS (PMID 41117572) full text copy https://sofia.medicalistes.fr/spip/IMG/pdf/european_resuscitation_council_guidelines_2025_adult_",
+    "trich": "\"defibrillation shock energy levels for the first shock is at least 150 J\" (pulsed biphasic 130-150 J)",
+    "de_xuat": "200 J không literal; nguồn nêu tối thiểu 150 J. Nên ghi 'biphasic theo khuyến cáo máy, tối thiểu 150 J, thường 200 J'. Không đọc được con số 200 J từ AHA.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Thông thoáng đường thở, thông khí bằng bóng mặt nạ oxy 100%, tỉ lệ 30 ép : 2 thổi cho đến khi đặt đường thở nâng cao",
+    "verdict": "nhat_quan",
+    "nguon": "AHA 2025 Adult BLS https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+    "trich": "\"CPR with cycles of 30 compressions followed by 2 breaths\"",
+    "de_xuat": "30:2 khớp; oxy 100% và 'đến khi có đường thở nâng cao' không đọc được literal.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Thiết lập đường truyền tĩnh mạch hoặc trong xương, tiêm adrenalin 1 mg sau sốc lần 2 và lặp mỗi 3 đến 5 phút",
+    "verdict": "nhat_quan",
+    "nguon": "AHA 2025 ALS https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support; ERC 2025 ALS (PMID 41117572)",
+    "trich": "AHA: \"1 mg every 3 to 5 min\"; ERC/RCUK 2025: \"Give adrenaline 1 mg after the third shock ... Repeat ... every 3-5 minutes\"",
+    "de_xuat": "1 mg mỗi 3-5 phút khớp. Thời điểm 'sau sốc lần 2' theo thuật toán AHA (nguồn thứ cấp acls-algorithms.com), còn ERC 2025 là sau sốc lần 3: nên ghi rõ theo AHA.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Tiêm amiodarone 300 mg tĩnh mạch sau sốc lần 3 nếu còn rung thất, lần sau 150 mg",
+    "verdict": "khop",
+    "nguon": "ERC 2025 ALS (PMID 41117572) full text copy https://sofia.medicalistes.fr/spip/IMG/pdf/european_resuscitation_council_guidelines_2025_adult_",
+    "trich": "\"amiodarone 300 mg IV ... VF/pVT after three shocks ... further dose of amiodarone 150 mg IV ... after five shocks\"; AHA: \"300mg IV/IO push -> 150 mg\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Sau khi có tuần hoàn tự phát: làm điện tim, duy trì SpO2 94 đến 98%, huyết áp trung bình trên 65 mmHg, kiểm soát thân nhiệt",
+    "verdict": "nhat_quan",
+    "nguon": "RCUK 2025 post-resuscitation https://www.resus.org.uk/professional-library/2025-resuscitation-guidelines/post-resuscitation-care-guidelines ",
+    "trich": "\"arterial oxygen saturation of 94-98%\"; \"MAP > 60-65 mmHg\"; \"temperature <= 37.5C\"; \"repeated 12-lead ECG\"",
+    "de_xuat": "SpO2 94-98 khớp. MAP nguồn nêu >60-65 (không phải >65). Kiểm soát thân nhiệt: tránh sốt <=37,5 độ C.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-101": [
+   {
+    "loc": "action",
+    "text": "Bắt đầu N-acetylcystein tĩnh mạch: 150 mg/kg pha trong 200 mL glucose 5% truyền 60 phút, sau đó 50 mg/kg trong 4 giờ, rồi 100 mg/kg trong 16 giờ",
+    "verdict": "lech",
+    "nguon": "PMID 31786822 (MJA 2020, đọc qua mja.com.au)",
+    "trich": "\"two-bag approach: 200 mg/kg over 4 h, then 100 mg/kg over 16 h\"; ba túi (150 mg/kg 15–60 phút, 50 mg/kg 4 h, 100 mg/kg 16 h) là phác đồ trước đây",
+    "de_xuat": "NAC tĩnh mạch hai túi: 200 mg/kg (10 g với 50 kg) truyền 4 giờ, rồi 100 mg/kg (5 g) trong 16 giờ (ANZ 2020). Phác đồ ba túi 150/50/100 là phác đồ cũ (vẫn dùng ở nhãn thuốc Mỹ); nếu giữ thì ghi rõ nguồn khác.",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "NAC hiệu quả nhất trong 8 giờ đầu;",
+    "verdict": "khop",
+    "nguon": "UCSF Hospital Handbook https://hospitalhandbook.ucsf.edu/content/06-acetaminophen-overdose ; WikEM https://wikem.org/wiki/Acetaminophen_toxi",
+    "trich": "UCSF: NAC \"Best if given within 8 hours of ingestion\"; WikEM: \"nearly 100% effective when given within 8 hours\"; GGC: \"near 100% efficacy ... within the first 8 hours\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Cho than hoạt 1 g/kg ngay lúc này",
+    "verdict": "lech",
+    "nguon": "PMID 31786822",
+    "trich": "\"50 grams of activated charcoal ... within 2 hours of ingestion\" (đến 4 giờ nếu > 30 g); không nêu liều theo kg",
+    "de_xuat": "Than hoạt 50 g (người lớn) nếu đến trong 2 giờ sau uống liều độc (đến 4 giờ nếu > 30 g); ca này uống khoảng 15 g, đã 6 giờ nên không chỉ định.",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Đã quá 6 giờ, không còn lợi ích rõ trừ khi nghi uống phối hợp thuốc khác;",
+    "verdict": "lech",
+    "nguon": "PMID 31786822",
+    "trich": "Cửa sổ than hoạt trong nguồn là 2 giờ (4 giờ nếu > 30 g), không phải 6 giờ",
+    "de_xuat": "Đã quá cửa sổ 2 giờ (nguồn ANZ 2020) nên than hoạt không còn lợi ích; thay \"quá 6 giờ\" bằng \"quá 2 giờ\".",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "men gan tăng muộn sau 24 đến 36 giờ.",
+    "verdict": "nhat_quan",
+    "nguon": "UCSF Hospital Handbook; WikEM; MJA 2020 PMID 31786822",
+    "trich": "UCSF: aminotransferases \"rise as early as 8-12h after massive ingestion\", Stage II (24-72 h) elevated \"... by 36 hours\"; WikEM: stage 2 24-72 h; MJA: ALT/AST rise for 3-4 days",
+    "de_xuat": "Nen ghi 'men gan tang tu khoang 24-72 gio' thay vi 24-36 gio; so 36 gio xuat hien trong UCSF",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "2) N-acetylcystein tĩnh mạch phác đồ 21 giờ: 150 mg/kg (7,5 g) trong 200 mL glucose 5% truyền 60 phút, sau đó 50 mg/kg (2,5 g) trong 500 mL trong 4 giờ, tiếp 100 mg/kg (5 g) trong 1000 mL trong 16 giờ.",
+    "verdict": "lech",
+    "nguon": "PMID 31786822",
+    "trich": "Hai túi 200 mg/kg 4 h rồi 100 mg/kg 16 h; thể tích 500/1000 mL không đọc thấy",
+    "de_xuat": "Dùng phác đồ hai túi 200 mg/kg/4 giờ rồi 100 mg/kg/16 giờ (10 g và 5 g cho 50 kg); số mg/kg và gam của ca nhất quán cân nặng 50 kg nhưng là phác đồ ba túi cũ.",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "3) Chống nôn bằng ondansetron 4 mg tĩnh mạch nếu cần.",
+    "verdict": "khop",
+    "nguon": "StatPearls ondansetron https://www.ncbi.nlm.nih.gov/books/NBK499839/ ; UCSF (ondansetron la thuoc chong non khuyen dung voi NAC)",
+    "trich": "StatPearls: standard IV dose \"4 mg given intravenously\"; UCSF: \"Antiemetics: ondansetron, metoclopramide\". Cac guideline paracetamol (MJA, GGC) khong neu lieu",
+    "de_xuat": "Lieu 4 mg IV la lieu chuan cua ondansetron, khong phai tu guideline paracetamol",
+    "dot": 2
+   }
+  ],
+  "noi-ho-hap-001": [
+   {
+    "loc": "teach",
+    "text": "Cơn hen nặng được nhận biết bằng nói từng từ, PEF dưới 50%, SpO2 giảm;",
+    "verdict": "khop",
+    "nguon": "https://ginasthma.org/wp-content/uploads/2025/11/GINA-Summary-Guide-2025-WEB_FINAL-WMS.pdf",
+    "trich": "\"PEF ≤50% predicted or best\" là cơn nặng (GINA ghi ≤50%, bài ghi \"dưới 50%\")",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Ngồi, monitor SpO2, thở oxy duy trì SpO2 93–95%",
+    "verdict": "khop",
+    "nguon": "https://ginasthma.org/wp-content/uploads/2025/11/GINA-Summary-Guide-2025-WEB_FINAL-WMS.pdf",
+    "trich": "\"target saturation of 93–95%* in adults and adolescents\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Salbutamol 2,5–5 mg phun khí dung kèm ipratropium mỗi 20 phút trong giờ đầu",
+    "verdict": "nhat_quan",
+    "nguon": "MSF Clinical Guidelines, Acute asthma (https://medicalguidelines.msf.org/en/viewport/CG/english/asthma-attack-acute-asthma-16689575.html); E",
+    "trich": "MSF (người lớn): \"salbutamol 5 mg (2.5 ml) + ipratropium 0.5 mg (2 ml) every 20 minutes\" trong giờ đầu. GINA: \"SABA ... every 20 minutes for 3 doses\".",
+    "de_xuat": "GINA Summary không nêu liều khí dung. Có thể ghi 'salbutamol 5 mg (2,5-5 mg) + ipratropium 0,5 mg mỗi 20 phút'; mốc 2,5 mg chủ yếu là liều trẻ em trong MSF.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Corticoid toàn thân sớm (methylprednisolon tĩnh mạch hoặc prednisolon uống 40–50 mg)",
+    "verdict": "khop",
+    "nguon": "https://ginasthma.org/wp-content/uploads/2025/11/GINA-Summary-Guide-2025-WEB_FINAL-WMS.pdf",
+    "trich": "\"Adults: prednisolone 40–50 mg each morning for 5–7 days\" (methylprednisolon không được nêu trong tài liệu)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Oxy duy trì SpO2 93–95%;",
+    "verdict": "khop",
+    "nguon": "https://ginasthma.org/wp-content/uploads/2025/11/GINA-Summary-Guide-2025-WEB_FINAL-WMS.pdf",
+    "trich": "\"target saturation of 93–95%*\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "salbutamol 2,5–5 mg phun khí dung mỗi 20 phút x 3 kèm ipratropium 0,5 mg;",
+    "verdict": "nhat_quan",
+    "nguon": "MSF Clinical Guidelines, Acute asthma; GINA Summary Guide 2025",
+    "trich": "MSF: \"Children ≥12 years and adults: salbutamol 5 mg (2.5 ml) + ipratropium 0.5 mg (2 ml) every 20 minutes\"; GINA: \"SABA ... every 20 minutes for 3 doses\".",
+    "de_xuat": "Ipratropium 0,5 mg khớp; salbutamol người lớn là 5 mg, khoảng 2,5-5 mg chỉ khớp một phần.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "corticoid toàn thân (prednisolon 40–50 mg uống hoặc methylprednisolon 1 mg/kg tĩnh mạch);",
+    "verdict": "nhat_quan",
+    "nguon": "GINA Summary Guide 2025; Emergency Care BC (https://emergencycarebc.ca/clinical_resource/clinical-summary/asthma-exacerbation-in-adults-trea",
+    "trich": "GINA: \"prednisolone 40–50 mg each morning for 5–7 days\". Emergency Care BC: methylprednisolone IV \"40-125mg\" nếu không uống được.",
+    "de_xuat": "Prednisolon 40-50 mg khớp. Methylprednisolon 1 mg/kg không có nguyên văn; nên ghi 'methylprednisolon 40-125 mg tĩnh mạch'.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "magnesium sulfat 2 g tĩnh mạch nếu kém đáp ứng;",
+    "verdict": "khop",
+    "nguon": "Cochrane review PMID 24865567 (PMC10892514); MSF; NHS Scotland BTS/SIGN pathway",
+    "trich": "Cochrane: \"single infusion of 1.2 g or 2 g IV MgSO4 over 15 to 30 minutes\". MSF adults: \"2 g\" over 20 minutes. NHS: \"IV magnesium sulphate 1.2–2g infusion over 20 minutes\".",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "noi-noi-tiet-001": [
+   {
+    "loc": "action",
+    "text": "Cho dung dịch iod sau khi đã dùng kháng giáp ít nhất 1 giờ",
+    "verdict": "khop",
+    "nguon": "https://www.ncbi.nlm.nih.gov/books/NBK448095/ (StatPearls Thyroid Storm)",
+    "trich": "\"An hour after administering propylthiouracil or methimazole, give 5 drops of SSKI ... every 6 hours.\" ; \"Always administer thionamide before starting iodine solution\"",
+    "de_xuat": "ATA 2016/JTA 2016 goc khong doc duoc (J-STAGE bi robots).",
+    "dot": 2
+   }
+  ],
+  "noi-tim-mach-002": [
+   {
+    "loc": "action",
+    "text": "Aspirin nhai và chống đông (enoxaparin 1 mg/kg tiêm dưới da mỗi 12 giờ, điều chỉnh theo eGFR)",
+    "verdict": "khop",
+    "nguon": "https://www.escardio.org/static-file/Escardio/Education-Subspecialty/Courses/Working%20Groups/106-S.D.%20Kristensen.pdf (slide ESC ve ESC AC",
+    "trich": "\"initial oral loading dose of 150-300 mg (in aspirin-naive patients) and a maintenance dose of 75-100 mg daily\" ; \"1 mg/kg administered subcutaneously every 12 hours\" ; CrCl <30: \"1 mg/kg ... once daily\"",
+    "de_xuat": "Bang khuyen cao ESC 2023 goc (Table 6) khong doc duoc (OUP chi hien tieu de bang).",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Hội chẩn tim mạch can thiệp để chụp mạch vành trong 24 giờ",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "\"early invasive strategy\" = \"early coronary angiography (<24 h from diagnosis of ACS)\" (đọc qua WebFetch tóm tắt)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Aspirin 150–300 mg rồi 75–100 mg/ngày, ticagrelor 180 mg rồi 90 mg x 2/ngày (hoặc clopidogrel);",
+    "verdict": "khop",
+    "nguon": "https://www.escardio.org/static-file/Escardio/Education-Subspecialty/Courses/Working%20Groups/106-S.D.%20Kristensen.pdf (slide ESC ve ESC AC",
+    "trich": "\"initial oral loading dose of 150-300 mg ... maintenance dose of 75-100 mg daily\"; ticagrelor \"180 mg loading dose, 90 mg twice daily\"",
+    "de_xuat": "Clopidogrel thay the khong doi chieu.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "enoxaparin 1 mg/kg x 2/ngày (chỉnh theo eGFR) hoặc UFH;",
+    "verdict": "khop",
+    "nguon": "https://products.sanofi.us/Enoxaparin/Enoxaparin.pdf (nhan thuoc FDA, khong phai ESC)",
+    "trich": "\"1 mg/kg administered subcutaneously every 12 hours in conjunction with oral aspirin\"; CrCl <30 mL/min: once daily",
+    "de_xuat": "UFH khong doi chieu; nguon la nhan thuoc, khong phai ESC.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "atorvastatin 80 mg;",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.ncbi.nlm.nih.gov/books/NBK459157/ (StatPearls ACS, dan 2025 ACC/AHA)",
+    "trich": "\"High-intensity statin therapy (atorvastatin 80 mg or rosuvastatin 20-40 mg) is recommended for all patients with ACS.\"",
+    "de_xuat": "ESC 2023 goc khong doc duoc; ESC khuyen statin cuong do cao (LDL muc tieu), so 80 mg la cua ACC/AHA qua StatPearls.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "chụp mạch vành trong 24 giờ và tái thông theo tổn thương;",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "\"early coronary angiography (<24 h from diagnosis of ACS)\" (qua WebFetch tóm tắt)",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "tiet-ta": [
+   {
+    "loc": "action",
+    "text": "Nhịn ăn, nhịn uống 24 giờ",
+    "verdict": "lech",
+    "nguon": "PMID 29053792 (PMC5850553)",
+    "trich": "Rec 45: \"Resumption of an age-appropriate usual diet is recommended during or immediately after the rehydration process\"; Rec 39: ORS là điều trị đầu tay",
+    "de_xuat": "Không nhịn ăn, nhịn uống: bù dịch ORS (hoặc tĩnh mạch nếu không uống được) và cho ăn lại chế độ bình thường phù hợp tuổi trong hoặc ngay sau khi bù dịch.",
+    "dot": 1
+   }
+  ],
+  "huyen-vung": [
+   {
+    "loc": "action",
+    "text": "Đo lại huyết áp ngồi nghỉ 5 phút, ghi nhật ký huyết áp tại nhà",
+    "verdict": "khop",
+    "nguon": "2024 ESC Hypertension Guidelines https://academic.oup.com/eurheartj/article/45/38/3912/7741010",
+    "trich": "'seated comfortably after 5 min of rest'; home BP: twice daily, 3-7 days, 2 measurements 1-2 min apart || Ghi chu: Khop nghi 5 phut va nhat ky/theo doi HA tai nha.",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "ngoai-bung-007": [
+   {
+    "loc": "teach",
+    "text": "Khi tắc ruột đại tràng, manh tràng giãn quá 10 đến 12 cm kèm van hồi manh tràng đóng cần xử trí khẩn để tránh thủng.",
+    "verdict": "nhat_quan",
+    "nguon": "ACS Handbook CPG Ch13 Large Bowel Obstruction (cags-accg.ca) ; StatPearls LBO NBK441888",
+    "trich": "\"Cecal diameter >= 12cm is associated with increased risk for ischemia and perforation.\" ; \"Patients with a competent ileocecal valve may have a closed-loop obstruction\"; WSES 2018 (PMC6090779) khong co nguong cm.",
+    "de_xuat": "Nen sua thanh \"manh trang gian tu 12 cm tro len (nguong 10 cm khong doi chieu duoc)\"; van ileo-manh trang dong gay tac quai kin.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "K 3,0 mmol/L và Hb 82 g/L cần điều chỉnh trước mổ.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "Case: Hb 82 g/L, K 3,0 mmol/L (test công thức máu/điện giải).",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hồi sức tiền phẫu: nhịn ăn, sonde dạ dày, truyền dịch tinh thể, bù natri và kali theo điện giải, truyền hồng cầu lắng khi Hb dưới 70 đến 80 g/L hoặc có triệu chứng, kháng sinh (ceftriaxone phối hợp metronidazol), dự phòng huyết khối.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "WSES 2018 PMC6090779",
+    "trich": "WSES chi khuyen khang sinh du phong nham vao Gram am va ky khi; khong co nguong Hb 70-80 g/L, ceftriaxone+metronidazol, hay bu natri/kali. Da doc toan van PMC6090779.",
+    "de_xuat": "Nguong truyen hong cau can nguon rieng (vd AABB 70-80 g/L); chua doi chieu duoc.",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-007": [
+   {
+    "loc": "teach",
+    "text": "Không dùng kháng sinh dự phòng thường quy và không mổ cắt lọc sớm trong 48 giờ đầu.",
+    "verdict": "khop",
+    "nguon": "31210778; 38857482",
+    "trich": "WSES 2019: \"routine prophylactic antibiotics are no longer recommended\" (1A); ACG: \"We suggest against prophylactic antibiotics in patients with severe AP\". Mổ sớm: \"early necrosectomy is not warrante",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Sốc kéo dài cần vận mạch để duy trì MAP tối thiểu 65 mmHg.",
+    "verdict": "khop",
+    "nguon": "https://www.sccm.org/survivingsepsiscampaign/guidelines-and-resources/surviving-sepsis-campaign-adult-guidelines",
+    "trich": "\"an initial MAP target of 65 mm Hg\" (SSC, bản tóm tắt SCCM đã đọc - bản 2026, không phải pmid 34605781 nhưng cùng khuyến cáo).",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Bắt đầu nuôi ăn ruột sớm trong 24 đến 72 giờ khi dung nạp, ống thông mũi hỗng tràng hoặc dạ dày",
+    "verdict": "nhat_quan",
+    "nguon": "PMID 38857482 (ACG, PMC13221274 doc toan van) va PMID 31210778 (WSES, PMC6567462 doc toan van)",
+    "trich": "ACG: 'Using a nasogastric rather than nasojejunal route ... is preferred because of comparable safety and efficacy'; 'early (within the first 24 hours) initiation of enteral feeding is not beneficial'; WSES: 'Both gastri",
+    "de_xuat": "Duong ong da day/hong trang an toan: khop. Moc 24-72 gio khong co trong nguon (ACG: an duong mieng som 24-48 gio o the nhe; the nang khong loi khi bat dau <24 gio). De xuat: 'nuoi an ruot sau khi hoi suc, khi dung nap, uu tien ong da day'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "xem xét CT có cản quang sau 72 đến 96 giờ nếu xấu đi hoặc nghi hoại tử nhiễm trùng",
+    "verdict": "khop",
+    "nguon": "31210778",
+    "trich": "WSES: \"Optimal timing for first the CE-CT assessment is 72–96 h after onset of symptoms (1C)\".",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Mổ mở cắt lọc hoại tử khẩn trong 48 giờ đầu",
+    "verdict": "khop",
+    "nguon": "31210778; 38857482",
+    "trich": "Đây là lựa chọn sai (!) của case; nguồn xác nhận sai: WSES \"Postponing surgical interventions for more than 4 weeks ... less mortality\"; ACG \"suggest delaying any intervention ... preferably 4 weeks\".",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-cap-cuu-107": [
+   {
+    "loc": "action",
+    "text": "Đặt hai đường truyền (nếu khó thì đường xương), bù dịch tinh thể 10 đến 20 mL/kg và gọi máu, truyền hồng cầu lắng sớm",
+    "verdict": "nhat_quan",
+    "nguon": "OpenAnesthesia Posttonsillectomy Hemorrhage https://www.openanesthesia.org/keywords/posttonsillectomy-hemorrhage/; PMC8749229 (PMID 35027837",
+    "trich": "OpenAnesthesia: \"isotonic crystalloids ... 10-20 mL/kg over 5 to 20 mins\"; transfusion \"should be considered in hemorrhagic shock\" (uncommon); PMC8749229: IV access, fluid resuscitation promptly, intraosseous access.",
+    "de_xuat": "Truyen mau: \"can nhac khi soc mat mau\" thay vi \"som\". AAO-HNS 2019 khong neu muc nay.",
+    "dot": 2
+   }
+  ],
+  "ngoai-chan-thuong-007": [
+   {
+    "loc": "action",
+    "text": "Truyền tinh thể ồ ạt 4 đến 5 lít để đưa huyết áp về bình thường",
+    "verdict": "lech",
+    "nguon": "European guideline major bleeding trauma, 6th ed.: https://europeanshocksociety.org/downloads/6th%20Edition_The%20European%20guideline%20on%",
+    "trich": "\"restricted volume replacement strategy with a target systolic blood pressure of 80-90 mmHg ... until major bleeding has been stopped\"; saline \"limited to a maximum of 1-1.5 L\"",
+    "de_xuat": "Sai: khong truyen tinh the o at 4-5 L. Sua: han che dich (saline toi da 1-1,5 L), huyết áp tâm thu muc tieu 80-90 mmHg, truyen mau/che pham mau som va kiem soat chay mau",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-002": [
+   {
+    "loc": "action",
+    "text": "Kháng sinh tĩnh mạch phổ rộng, chọn thuốc phù hợp tiền sử dị ứng penicillin (ví dụ nhóm carbapenem hoặc phác đồ theo hướng dẫn tại chỗ), trong 1 giờ đầu",
+    "verdict": "khop",
+    "nguon": "https://www.sccm.org/survivingsepsiscampaign/guidelines-and-resources/surviving-sepsis-campaign-adult-guidelines",
+    "trich": "\"administering antimicrobial therapy immediately, ideally within 1 hr of recognition\" (septic shock). Ví dụ carbapenem khi dị ứng penicillin không có trong nguồn đã đọc.",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dịch tinh thể cân bằng 30 mL/kg trong 3 giờ đầu, đánh giá đáp ứng bằng huyết áp, mao mạch, siêu âm",
+    "verdict": "khop",
+    "nguon": "https://www.sccm.org/survivingsepsiscampaign/guidelines-and-resources/surviving-sepsis-campaign-adult-guidelines",
+    "trich": "\"administering at least 30 mL/kg of IV crystalloid in the first 3 hr\" (bản 2026 tóm tắt SCCM).",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Dùng noradrenalin khi huyết áp trung bình dưới 65 mmHg sau truyền dịch, đặt catheter tĩnh mạch trung tâm khi cần",
+    "verdict": "khop",
+    "nguon": "https://www.sccm.org/survivingsepsiscampaign/guidelines-and-resources/surviving-sepsis-campaign-adult-guidelines",
+    "trich": "\"initial MAP target of 65 mm Hg\"; \"norepinephrine as the first-line agent\". Catheter TM không kiểm chứng.",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Đặt sonde tiểu theo dõi nước tiểu, theo dõi lactate lặp lại sau 2 đến 4 giờ",
+    "verdict": "nhat_quan",
+    "nguon": "SSC Hour-1 Bundle 2018 update https://link.springer.com/article/10.1007/s00134-018-5085-0 (SSC 2021: serial lactate)",
+    "trich": "\"If initial lactate is elevated (> 2 mmol/L), it should be remeasured within 2-4 h\"",
+    "de_xuat": "Khoảng 2-4 giờ khớp bundle 2018 (SSC 2021 không nêu số). Đặt sonde tiểu không có trong nguồn đọc được.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-102": [
+   {
+    "loc": "teach",
+    "text": "xử trí là oxy 100% sớm, theo dõi tim và cân nhắc oxy cao áp.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
+    "trich": "Merck: \"100% oxygen (by nonrebreather mask)\"; HBO considered for LOC, cardiac ischemia, COHb >25%.",
+    "de_xuat": "Giu nguyen; khong co so de sai. Weaver NEJM / ACEP khong doc duoc toan van.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đưa người bệnh ra khỏi nguồn khí CO, cho thở oxy 100% qua mặt nạ có túi dự trữ lưu lượng 10 đến 15 L/phút",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Da doc StatPearls NBK430740, Merck: khong nguon nao neu luu luong",
+    "trich": "StatPearls: \"does not specify oxygen flow rates\"; Merck: \"does not provide specific flow rates\".",
+    "de_xuat": "Chua xac minh 10-15 L/phut; neu giu thi can nguon (vd. huong dan cap cuu quoc gia) hoac bo con so.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Oxy rút ngắn bán thải COHb từ khoảng 4 đến 6 giờ xuống khoảng 60 đến 90 phút;",
+    "verdict": "khop",
+    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
+    "trich": "StatPearls: room air \"320 minutes\", 100% O2 \"less than 90 minutes\" (40-80 min); Merck: room air ~4.5 h, 100% O2 1.5 h.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Oxy cao áp rút ngắn thời gian bán thải xuống khoảng 20 đến 30 phút và có thể giảm di chứng thần kinh muộn.",
+    "verdict": "khop",
+    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
+    "trich": "StatPearls: HBO \"approximately 23 minutes\" (15-30 min); Merck: hyperbaric 20 minutes; NBK470531: DNS risk that HBO2 helps mitigate.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Tiếp tục thở oxy cho đến khi COHb dưới 5% và hết triệu chứng;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
+    "trich": "StatPearls: \"does not specify a COHb target of <5%\"; Merck: no stop criterion given.",
+    "de_xuat": "Chua xac minh COHb <5%.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Di chứng có thể xuất hiện sau 2 đến 40 ngày.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Hyperbaric Treatment of CO Toxicity https://www.ncbi.nlm.nih.gov/books/NBK470531/; Merck Manual Professional, Carbon monoxide poi",
+    "trich": "NBK470531: DNS \"usually about 20 days after poisoning (range three to 240 days)\"; Merck: \"days to weeks after exposure\".",
+    "de_xuat": "Khong khop literal 2-40 ngay (Weaver NEJM khong doc duoc). Nen viet \"sau vai ngay den vai tuan (co the muon hon)\".",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Dùng SpO2 99% trên máy đo ngón tay để kết luận không thiếu oxy và cho thở khí phòng",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "Case: SpO2 99% nhưng COHb 38% - phù hợp ý nghĩa SpO2 đọc cao giả; đây là lựa chọn sai (!).",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "oxy 100% qua mặt nạ túi dự trữ 10 đến 15 L/phút, duy trì cho đến khi COHb dưới 5% và hết triệu chứng (thường ít nhất 6 giờ).",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
+    "trich": "Khong nguon nao neu 10-15 L/phut, COHb <5% hay >=6 gio; NBK470531 chi noi HBO som \"within the first 6 hours after exposure\".",
+    "de_xuat": "Chua xac minh; bo hoac them nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "3) Cân nhắc oxy cao áp (thường 2,5 đến 3 ATA) khi có mất ý thức, dấu thần kinh, thiếu máu cục bộ cơ tim hoặc COHb trên khoảng 25%, thai phụ có COHb cao;",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Hyperbaric Treatment of CO Toxicity https://www.ncbi.nlm.nih.gov/books/NBK470531/; StatPearls Carbon Monoxide Toxicity https://ww",
+    "trich": "NBK470531: \"100% oxygen at three atmospheres absolute pressure (ATA)\"; indications LOC, new neuro deficits, end-organ ischemia, pregnancy, COHb \"greater than 25%\"; NBK430740: pregnant >15-20%.",
+    "de_xuat": "2,5 ATA khong thay literal (nguon neu 3 ATA). Co the neu them nguong COHb thai phu 15-20%.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: COHb dưới 5%, lactate trở về bình thường, ổn định điện tâm đồ.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/",
+    "trich": "StatPearls: no COHb <5% target; lactate/ECG goals not stated.",
+    "de_xuat": "Chua xac minh muc tieu COHb <5%.",
+    "dot": 2
+   }
+  ],
+  "noi-ho-hap-002": [
+   {
+    "loc": "teach",
+    "text": "Đợt cấp COPD có toan hô hấp cần oxy mục tiêu 88–92%, thông khí không xâm nhập khi pH dưới 7,35 kèm PaCO2 trên 45;",
+    "verdict": "lech",
+    "nguon": "PMID 28507176 (BTS oxygen guideline 2017) via thorax.bmj.com/content/72/Suppl_1/ii1; PMID 26976648 (BTS/ICS NIV guideline 2016) via thorax.b",
+    "trich": "O2: 'target saturation range of 88-92%' (khop). NIV: 'NIV should be started when pH<7.35 and pCO2 >6.5 kPa persist...'",
+    "de_xuat": "Nguong PaCO2 theo BTS la >6,5 kPa (~49 mmHg), khong phai 45 mmHg; 88-92% dung. Neu muon giu 45 mmHg phai dan GOLD (chua doc duoc).",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Thở oxy Venturi mục tiêu SpO2 88–92%, monitor và lặp lại khí máu sau 30–60 phút",
+    "verdict": "khop",
+    "nguon": "PMID 28507176 (BTS oxygen guideline 2017) via thorax.bmj.com/content/72/Suppl_1/ii1",
+    "trich": "'target saturation range of 88-92%'; 'Blood gases should be repeated at 30-60 min'",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Phun khí dung salbutamol kèm ipratropium mỗi 4–6 giờ",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "Khong tim thay van ban doc duoc ve salbutamol+ipratropium moi 4-6 gio (GOLD 404/chi trang tai ve; PubMed khong co so).",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Prednisolon 40 mg uống hoặc methylprednisolon tương đương trong 5 ngày",
+    "verdict": "khop",
+    "nguon": "PMID 23695200 (REDUCE, JAMA 2013)",
+    "trich": "'40 mg of prednisone daily for either 5 or 14 days... 5-day treatment ... noninferior'",
+    "de_xuat": "Ghi ro prednisone 40 mg (prednisolon tuong duong).",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Oxy Venturi 24–28% giữ SpO2 88–92%;",
+    "verdict": "khop",
+    "nguon": "PMID 28507176 (BTS oxygen guideline 2017) via thorax.bmj.com/content/72/Suppl_1/ii1",
+    "trich": "'a 24% Venturi mask at 2-3 L/min (or a 28% Venturi mask at 4 L/min...)'; target 88-92%",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "BiPAP với áp lực hỗ trợ khởi đầu IPAP 10–12, EPAP 4–5 và theo dõi khí máu sau 1–2 giờ;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "BTS/ICS 2016 doc duoc: khoi dong vi du 'IPAP of 15' roi tang len 20-30 trong 10-30 phut; cai thien 'usually within 1-2 h'. Khong thay IPAP 10-12/EPAP 4-5 bang chu. Khong ket luan khop hay lech.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "prednisolon 40 mg/ngày x 5 ngày;",
+    "verdict": "khop",
+    "nguon": "PMID 23695200 (REDUCE, JAMA 2013)",
+    "trich": "'40 mg of prednisone daily for ... 5 ... days'",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "noi-noi-tiet-002": [
+   {
+    "loc": "action_why",
+    "text": "HbA1c trên 10% thường cần phối hợp sớm để đạt mục tiêu.",
+    "verdict": "khop",
+    "nguon": "ADA Standards of Care 2025 sec 9 (PDF mirror): https://www.medils.com/static/guide/ADA-Pharmacologic-Approaches-to-Glycemic-Treatment-2025.p",
+    "trich": "ADA: \"Initiation of insulin should be considered ... when A1C or blood glucose levels are very high (i.e., A1C >10% or blood glucose >=300 mg/dL)\"; A1C >=1.5% above goal -> \"dual-combination therapy or a more potent gluc",
+    "de_xuat": "QD 5481/QD-BYT khong doc duoc; nen doi nguon sang ADA",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu cá thể hóa: HbA1c dưới 7%, huyết áp dưới 130/80 mmHg, LDL-C dưới 1,8 mmol/L khi nguy cơ rất cao.",
+    "verdict": "lech",
+    "nguon": "ADA 2025 sec 6 https://diabetesjournals.org/care/article/48/Supplement_1/S128/157561/6-Glycemic-Goals-and-Hypoglycemia-Standards-of ; ADA 20",
+    "trich": "ADA: \"A1C goal of <7%\"; \"on-treatment blood pressure goal is <130/80 mmHg\"; LDL \"<70 mg/dL (<1.8 mmol/L)\" (nguy co cao, tien phat) va \"<55 mg/dL (<1.4 mmol/L)\" (da co ASCVD)",
+    "de_xuat": "HbA1c <7% va HA <130/80 khop. LDL-C: <1,8 mmol/L la muc cho nguy co cao; nguy co rat cao/da co ASCVD la <1,4 mmol/L (<55 mg/dL). Sua 'nguy co rat cao' thanh <1,4 hoac doi thanh 'nguy co cao'",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Thay đổi lối sống: chế độ ăn giảm tinh bột tinh chế, vận động 150 phút/tuần, giảm cân, bỏ thuốc lá, hạn chế rượu.",
+    "verdict": "khop",
+    "nguon": "WHO Physical activity fact sheet: https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+    "trich": "WHO: adults should do \"at least 150 minutes of moderate-intensity physical activity per week\". Cac y giam tinh bot tinh che, giam can, bo thuoc la, han che ruou la loi khuyen chung, khong doi chieu so",
+    "de_xuat": "Chi so 150 phut/tuan duoc doi chieu",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "vì HbA1c trên 10% cân nhắc phối hợp ngay thuốc thứ hai (ức chế SGLT2 hoặc đồng vận GLP-1 vì lợi ích thận tim mạch) hoặc insulin nền.",
+    "verdict": "khop",
+    "nguon": "ADA Standards of Care 2025 sec 9 (PDF mirror): https://www.medils.com/static/guide/ADA-Pharmacologic-Approaches-to-Glycemic-Treatment-2025.p",
+    "trich": "ADA: insulin xem xet khi \"A1C >10%\"; A1C >=1.5% tren muc tieu -> \"dual-combination therapy\"; \"SGLT2 inhibitor and/or GLP-1 RA with demonstrated cardiovascular benefit ... independent of A1C\"",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "noi-tim-mach-003": [
+   {
+    "loc": "action",
+    "text": "Nằm đầu cao 30 độ, monitor, hai đường truyền, theo dõi huyết áp mỗi 5 phút",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "Không đọc được ESC/ESH 2018 (OUP không có nội dung mục 8.3.1)",
+    "de_xuat": "Giữ nhãn 'cần kiểm tra thủ công'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Truyền nicardipin hoặc labetalol tĩnh mạch chỉnh liều đạt mục tiêu giảm huyết áp trung bình 20–25% trong giờ đầu",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Hypertensive Emergency https://www.ncbi.nlm.nih.gov/books/NBK470371/",
+    "trich": "\"lower blood pressure by 25% in the first hour\"; nêu IV drips dễ chỉnh liều",
+    "de_xuat": "Nguồn nêu 25% (huyết áp), không phải khoảng 20-25% MAP; nên ghi 'không quá 25%'. Tên thuốc không literal.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "nicardipin 5 mg/giờ tăng 2,5 mg mỗi 5–15 phút (tối đa 15 mg/giờ) hoặc labetalol tĩnh mạch;",
+    "verdict": "nhat_quan",
+    "nguon": "ecgwaves.com hypertensive emergency https://ecgwaves.com/articles/hypertensive-emergency-crisis-drugs-doses-management (dựa ACC/AHA 2017)",
+    "trich": "Nicardipine \"5-15 mg/hour IV infusion\"",
+    "de_xuat": "Chỉ đọc được khoảng 5-15 mg/giờ; bước tăng 2,5 mg mỗi 5-15 phút không đọc được literal.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "mục tiêu giảm huyết áp trung bình không quá 25% trong giờ đầu, sau đó 160/100 mmHg trong 2–6 giờ, rồi dần về bình thường trong 24–48 giờ;",
+    "verdict": "khop",
+    "nguon": "StatPearls Hypertensive Emergency https://www.ncbi.nlm.nih.gov/books/NBK470371/",
+    "trich": "\"lower blood pressure by 25% in the first hour, then to 160/100 over the next 2 to 6 hours, and gradually to normal over 2 days.\"",
+    "de_xuat": "24-48 giờ tương ứng 2 ngày. Lưu ý đây là StatPearls, không phải ESC/ESH.",
+    "dot": 2
+   }
+  ],
+  "trung-phong": [
+   {
+    "loc": "teach",
+    "text": "Nếu dự kiến tiêu sợi huyết tĩnh mạch, huyết áp cần được kiểm soát theo ngưỡng của phác đồ (thường <185/110 mmHg trước điều trị).",
+    "verdict": "khop",
+    "nguon": "AHA/ASA 2019 AIS guideline slide deck https://www.heart.org/-/media/Files/Professional/Quality-Improvement/Get-With-the-Guidelines/Get-With-",
+    "trich": "'SBP is <185 mm Hg and ... diastolic BP is <110 mm Hg' (2019); '2026: A blood pressure goal of <185/110 mm Hg is still recommended prior to initiation of IVT' || Ghi chu: Khop 185/110. Ban 2026 chi doc duoc qua tom tat t",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Nếu đủ điều kiện tiêu sợi huyết tĩnh mạch, cần đạt <185/110 mmHg trước điều trị;",
+    "verdict": "khop",
+    "nguon": "AHA/ASA 2019 slide deck (heart.org); UIC tom tat 2026",
+    "trich": "'BP should be carefully lowered so that SBP <185 and DBP <110' || Ghi chu: Khop <185/110 truoc tieu soi huyet.",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "ngo-doc-phospho-huu-co": [
+   {
+    "loc": "action_why",
+    "text": "SpO2 88% với tăng tiết phế quản nhiều, nguy cơ suy hô hấp.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals.spo2=88; KMĐM: thiếu oxy máu; ran ẩm-rít lan tỏa",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Chuyển hồi sức, theo dõi 24 đến 72 giờ",
+    "verdict": "lech",
+    "nguon": "PMID 18063499 (J Chin Med Assoc 2007); PMID 26563788 (Handb Clin Neurol 2015)",
+    "trich": "'The clinical manifestations of IMS typically occur within 24 to 96 hours'; 'some 24-96 hours after OP exposure'",
+    "de_xuat": "Theo doi hoi chung trung gian den 96 gio (24-96 gio), khong dung o 72 gio.",
+    "dot": 2
+   }
+  ],
+  "ngoai-bung-008": [
+   {
+    "loc": "teach",
+    "text": "Khoảng 30 đến 50% có dò hậu môn về sau nên cần hẹn tái khám.",
+    "verdict": "khop",
+    "nguon": "ASCRS 2022 (PMID 35732009), PDF https://src.wiremedia.ro/wp-content/uploads/2023/05/2022-Anorectal-Abscess-Fistula-in-Ano-Rectovaginal-Fistu",
+    "trich": "\"approximately 30% to 50% will ultimately be diagnosed with a fistula in the months to years after abscess drainage.\"",
+    "de_xuat": "Lưu ý: 30-50% áp dụng cho nhóm không có dò đồng thời lúc dẫn lưu.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Ngâm ngồi nước ấm 2 đến 3 lần mỗi ngày sau dẫn lưu, thay băng",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "ASCRS 2022 (PMID 35732009), PDF https://src.wiremedia.ro/wp-content/uploads/2023/05/2022-Anorectal-Abscess-Fistula-in-Ano-Rectovaginal-Fistu",
+    "trich": "Văn bản đọc được không đề cập ngâm ngồi sau dẫn lưu; chỉ nêu không nhồi gạc cho kết quả tương đương hoặc tốt hơn",
+    "de_xuat": "Bỏ con số '2-3 lần/ngày' hoặc dẫn nguồn khác.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "ngâm ngồi nước ấm 2 đến 3 lần mỗi ngày;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "ASCRS 2022 (PMID 35732009), PDF https://src.wiremedia.ro/wp-content/uploads/2023/05/2022-Anorectal-Abscess-Fistula-in-Ano-Rectovaginal-Fistu",
+    "trich": "Như trên, không có khuyến cáo ngâm ngồi sau dẫn lưu trong văn bản đọc được",
+    "de_xuat": "Như trên.",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-008": [
+   {
+    "loc": "action",
+    "text": "Giữ ấm, ghi chép thời gian bị thương và dấu hiệu sinh tồn mỗi 5 phút",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "TCCC Guideline Change 20-02 (scholars.uthscsa.edu, abstract)",
+    "trich": "Chỉ đọc được: \"Cover exposed bowel with a moist, sterile dressing\" và không ép nhét ruột; không có nội dung về giữ ấm hay sinh hiệu mỗi 5 phút.",
+    "de_xuat": "Không có nguồn đọc được cho tần suất 5 phút. Cân nhắc đổi thành 'theo dõi sinh hiệu liên tục/thường xuyên' hoặc bỏ số.",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-108": [
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hồi sức, heparin không phân đoạn tĩnh mạch, kháng sinh, tái thông mạch (lấy huyết khối hoặc can thiệp nội mạch), đánh giá sức sống ruột và cắt ruột hoại tử, có thể mổ lần hai sau 24 đến 48 giờ;",
+    "verdict": "khop",
+    "nguon": "pmid:36261857 (PMC9580452)",
+    "trich": "'Full-dose anticoagulation... Unfractionated heparin is effective'; 'broad-spectrum antibiotics early'; 'Embolectomy and angioplasty'; 'Most often, re-exploration should be accomplished within 24–48 h",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-noi-tiet-001": [
+   {
+    "loc": "action_why",
+    "text": "Nhân TR5 trên 1 cm có chỉ định chọc hút để quyết định phẫu thuật.",
+    "verdict": "khop",
+    "nguon": "AuntMinnie news ve ACR TI-RADS (Tessler 2017) https://www.auntminnie.com/clinical-news/ultrasound/article/15617315/acr-publishes-ti-rads-thy",
+    "trich": "\"TR5 (Highly suspicious): FNA biopsy if nodule >= 1 cm\" (TR4 >=1,5 cm; TR3 >=2,5 cm).",
+    "de_xuat": "Nen viet \"tu 1 cm tro len\" thay vi \"tren 1 cm\". Nguon thu cap, ban goc ACR khong doc duoc.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Ung thư nhú 1 đến 4 cm không xâm lấn, cN0: cắt thùy là đủ hoặc cắt toàn bộ nếu có yếu tố nguy cơ hoặc bệnh nhân chọn.",
+    "verdict": "nhat_quan",
+    "nguon": "Korean Thyroid Assoc. 2016 (e-enm.org) trich ATA 2015 https://www.e-enm.org/journal/view.php?doi=10.3803/enm.2016.31.3.373",
+    "trich": "\"either a bilateral or a unilateral thyroidectomy ... 1 to 4 cm tumors without extrathyroidal extension and without clinical node metastasis (cN0): lobectomy alone may be sufficient for low-risk DTC\".",
+    "de_xuat": "Phan \"benh nhan chon\" khong doc literal; ban goc ATA (PMC4739132) bi cat truoc muc B7.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hậu phẫu: theo dõi chảy máu và tụ máu cổ trong 24 giờ đầu, calci và triệu chứng hạ calci (nếu cắt toàn bộ), giọng nói (dây thanh quặt ngược), hạ calci cần bổ sung calci, vitamin D.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "ATA 2015 PMC4739132 (full_text rong; WebFetch bi cat truoc B10); PubMed search khong ra nguon thay the",
+    "trich": "Khong doc duoc muc hau phau; khong thay moc 24 gio cho tu mau.",
+    "de_xuat": "Chua xac minh.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-003": [
+   {
+    "loc": "teach",
+    "text": "Co giật kéo dài trên 5 phút là trạng thái động kinh: bảo đảm ABC, kiểm tra đường huyết và dùng benzodiazepin sớm.",
+    "verdict": "khop",
+    "nguon": "pmid:26900382 (PMC4749120, abstract + WebFetch)",
+    "trich": "'randomized controlled trials of anticonvulsant treatment for seizures lasting longer than 5 minutes'; điều trị bắt đầu ở 5 phút",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Diazepam 10 mg tiêm tĩnh mạch chậm (hoặc midazolam 10 mg tiêm bắp nếu chưa có đường truyền), lặp lại 1 lần sau 5 phút nếu còn co giật",
+    "verdict": "lech",
+    "nguon": "https://aesnet.org/docs/default-source/press-releases-assets/cse-treatment-chart-final_rerelease.pdf ; pmid:26900382 (PMC4749120)",
+    "trich": "Diazepam IV '0.15-0.2 mg/kg/dose, max: 10 mg/dose, may repeat dose once'; IM midazolam '10 mg for >40 kg... single dose'. Không nêu khoảng 5 phút.",
+    "de_xuat": "Diazepam IV 0,15–0,2 mg/kg (tối đa 10 mg/liều), có thể lặp lại 1 lần; midazolam IM 10 mg (>40 kg) là liều đơn, không lặp lại. Bỏ mốc 'sau 5 phút' hoặc ghi rõ là thực hành, không phải khuyến cáo AES.",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Nếu còn co giật sau 2 liều: levetiracetam 60 mg/kg (tối đa 4500 mg) truyền tĩnh mạch hoặc valproate 40 mg/kg",
+    "verdict": "khop",
+    "nguon": "https://aesnet.org/docs/default-source/press-releases-assets/cse-treatment-chart-final_rerelease.pdf ; pmid:26900382 (PMC4749120)",
+    "trich": "Levetiracetam '60 mg/kg, max: 4500 mg/dose'; valproic acid '40 mg/kg, max: 3000 mg/dose'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Chỉ theo dõi, chờ cơn tự ngừng trong khi SpO2 84%",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals.spo2=84; 'Co giật toàn thân, tím, SpO2 84%'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Cơn kéo dài trên 5 phút cần dùng thuốc ngay.",
+    "verdict": "khop",
+    "nguon": "pmid:26900382",
+    "trich": "điều trị cho cơn kéo dài >5 phút",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "noi-cap-cuu-103": [
+   {
+    "loc": "action_why",
+    "text": "SpO2 91% và PaCO2 55 mmHg đã báo hiệu.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals.spo2=91; KMĐM 'pH 7,28, PaCO2 55 mmHg'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "3) Huyết thanh kháng nọc rắn hổ mang đúng liều sản phẩm, pha loãng truyền tĩnh mạch chậm, có sẵn adrenalin 0,5 mg tiêm bắp (người lớn) khi phản vệ.",
+    "verdict": "khop",
+    "nguon": "https://qps.nhsrcindia.org/sites/default/files/2021-05/Management%20of%20Snake%20Bite.pdf (Standard Treatment Guidelines Bo Y te An Do 2017)",
+    "trich": "\"Epinephrine (1 in 1,000 solution, 0.5 mg (i.e. 0.5 ml) in adults intramuscular\"; ASV \"dissolved ... added to 400 ml normal saline\" truyen ~30-60 phut; TCCC: \"dilute in a 100 mL bag ... slow IV infusion over 30 mins\"",
+    "de_xuat": "Khong doc duoc WHO SEARO 2016 (403); doi chieu bang STG An Do va TCCC.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "4) Thử neostigmin 0,5 đến 2 mg tiêm sau atropin 0,6 mg, theo dõi đáp ứng.",
+    "verdict": "nhat_quan",
+    "nguon": "https://qps.nhsrcindia.org/sites/default/files/2021-05/Management%20of%20Snake%20Bite.pdf (Standard Treatment Guidelines Bo Y te An Do 2017)",
+    "trich": "\"Atropine 0.6 mg followed by neostigmine (1.5mg) to be given IV stat and repeat dose of neostigmine 0.5 mg with atropine every 30 minutes for 5 doses\"",
+    "de_xuat": "Lieu 1,5 mg va 0,5 mg nam trong khoang 0,5-2 mg; chua thay literal \"2 mg\". WHO SEARO goc khong doc duoc.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: SpO2 từ 94% trở lên, hết liệt tiến triển, không chèn ép khoang.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "STG An Do: \"Oxygen saturation <90% ... indicates requirement for ventilator support\"; TCCC khong neu muc tieu SpO2. Khong tim thay muc 94%.",
+    "de_xuat": "Neu can, dung nguon ngoai (BTS/AHA) hoac bo con so 94%.",
+    "dot": 2
+   }
+  ],
+  "noi-ho-hap-003": [
+   {
+    "loc": "teach",
+    "text": "chọn nơi điều trị dựa vào CURB-65, kháng sinh sớm phù hợp và đánh giá lại sau 48–72 giờ.",
+    "verdict": "lech",
+    "nguon": "pmid:31573350 (PMC6812437)",
+    "trich": "'preferentially the PSI (strong rec) over the CURB-65 (conditional rec, low quality)' để quyết định nhập viện; 48-72 h chỉ xuất hiện cho ngừng sớm ở ca cúm.",
+    "de_xuat": "Chọn nơi điều trị bằng PSI (ưu tiên) hoặc CURB-65 (khuyến cáo có điều kiện) kèm đánh giá lâm sàng; bỏ/giải thích mốc 48–72 giờ là thực hành, không phải ATS/IDSA.",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Nhập viện, thở oxy nếu SpO2 dưới 92%, đường truyền, theo dõi sinh hiệu",
+    "verdict": "lech",
+    "nguon": "BTS CAP guideline: https://www.brit-thoracic.org.uk/document-library/guidelines/pneumonia-adults/annotated-bts-cap-guideline-summary-of-reco",
+    "trich": "BTS Rec 61: \"maintain ... oxygen saturation (Spo2) 94-98%\"; NICE CG191 1.2.20: \"oxygen saturation under 90% on room air\". Khong nguon nao dung nguong 92%",
+    "de_xuat": "Doi thanh: tho oxy khi SpO2 duoi 90% (NICE/WHO) hoac duy tri SpO2 94-98% (BTS); khong dung nguong 92%",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "SpO2 93% cần theo dõi sát.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals.spo2=93; 'SpO2 93% khí trời, PaO2 68'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Cấy máu và lấy đờm trước, rồi kháng sinh sớm trong 4 giờ (ceftriaxon + azithromycin)",
+    "verdict": "lech",
+    "nguon": "pmid:31573350 (PMC6812437)",
+    "trich": "'We suggest not routinely obtaining blood cultures in adults with CAP managed in the hospital setting' (trừ CAP nặng hoặc nguy cơ MRSA/Pseudomonas); không có mốc 4 giờ trong văn bản.",
+    "de_xuat": "Ca CURB-65 2 điểm, không nặng: ATS/IDSA không khuyến cáo cấy máu/đờm thường quy (chỉ khi nặng hoặc có yếu tố nguy cơ MRSA/P. aeruginosa); dùng kháng sinh sớm, bỏ mốc 4 giờ hoặc ghi là mục tiêu thực hành địa phương.",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Đánh giá đáp ứng sau 48–72 giờ",
+    "verdict": "nhat_quan",
+    "nguon": "BTS CAP; NICE CG191; NICE NG250 https://www.nice.org.uk/guidance/ng250/resources/pneumonia-diagnosis-and-management-pdf-66144010347205",
+    "trich": "BTS Rec 59: \"Review ... after 48 h or earlier if clinically indicated\"; NICE CG191 1.2.19: repeat CRP \"if clinical progress is uncertain after 48 to 72 hours\"; NG250 1.5.5: \"review by 48 hours\" if IV antibiotics",
+    "de_xuat": "Co the giu 48-72 gio (NICE CG191) hoac ghi 'sau khoang 48 gio'",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "oxy khi SpO2 dưới 92%;",
+    "verdict": "lech",
+    "nguon": "BTS CAP; NICE CG191",
+    "trich": "BTS: SpO2 muc tieu 94-98%; NICE: <90% la dau hieu nang. Khong co 92%",
+    "de_xuat": "Doi thanh: oxy khi SpO2 duoi 90% (hoac de duy tri 94-98%)",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "ceftriaxon 1–2 g/ngày tĩnh mạch kết hợp azithromycin 500 mg/ngày (hoặc amoxicillin–clavulanat + macrolid), 5–7 ngày nếu ổn định;",
+    "verdict": "khop",
+    "nguon": "pmid:31573350 (PMC6812437)",
+    "trich": "'ceftriaxone 1–2 g daily... AND azithromycin 500 mg daily'; 'continued until stability and for no less than a total of 5 days'; meta-analyses '5 to 7 days'. Amox-clav+macrolid là phác đồ uống (ngoại t",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "đánh giá đáp ứng sau 48–72 giờ;",
+    "verdict": "nhat_quan",
+    "nguon": "BTS CAP; NICE CG191; NICE NG250",
+    "trich": "BTS Rec 59: review after 48 h; NICE CG191: \"after 48 to 72 hours\" (CRP, khi tien trien chua ro)",
+    "de_xuat": "Ghi 48 gio (BTS) hoac 48-72 gio neu tien trien chua ro (NICE)",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "chuyển uống khi hết sốt 24–48 giờ và ăn uống được.",
+    "verdict": "nhat_quan",
+    "nguon": "BTS CAP Rec 100; NICE NG250 1.5.5",
+    "trich": "BTS Rec 100: \"transferred to an oral regimen as soon as clinical improvement occurs and the temperature has been normal for 24 h\"; NICE NG250: review IV by 48 hours and consider switching to oral",
+    "de_xuat": "So 24 gio khop (BTS); 'den 48 gio' khong nguyen van; nen ghi 'het sot it nhat 24 gio, cai thien lam sang, an uong duoc'",
+    "dot": 2
+   }
+  ],
+  "noi-than-001": [
+   {
+    "loc": "teach",
+    "text": "Tổn thương thận cấp trước thận đáp ứng với bù dịch, điển hình là creatinin tăng, tỷ trọng nước tiểu cao, Na niệu thấp, FeNa dưới 1%.",
+    "verdict": "nhat_quan",
+    "nguon": "PMID 12427149 (abstract, Carvounis, Kidney Int 2002)",
+    "trich": "92% of the patients with prerenal azotemia had a FENa <1%, only 48% of those patients with prerenal and diuretic therapy had such a low FENa",
+    "de_xuat": "FeNa <1% khop (luu y: giam do tin cay khi dung loi tieu). Ty trong nuoc tieu cao va Na niệu thap khong co trong abstract.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Kali 5,3 mmol/L và HCO3 17 mmol/L cần theo dõi sát.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "'K 5,3 mmol/L; Na 133; HCO3 17 mmol/L'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "FeNa dưới 1% và tỷ trọng cao phù hợp trước thận.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "'Tỷ trọng 1,028... Na niệu 12; FeNa 0,6%'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Theo dõi nước tiểu, creatinin, kali, bicarbonat mỗi 12 đến 24 giờ.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 22890468 (khong co abstract/toan van)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc nguon nao neu moc 12-24 gio.",
+    "dot": 2
+   }
+  ],
+  "noi-tim-mach-004": [
+   {
+    "loc": "action",
+    "text": "Ngồi đầu cao, gắn monitor, thở oxy hoặc CPAP/NIV để đạt SpO2 trên 94%",
+    "verdict": "nhat_quan",
+    "nguon": "RCEMLearning Cardiogenic pulmonary oedema https://www.rcemlearning.co.uk/reference/cardiogenic-pulmonary-oedema/; MSF Clinical Guidelines, A",
+    "trich": "RCEM: \"Aim for an oxygen saturation of 94-98%\" (BTS); MSF: \"maintain SpO2 >= 95%\"; \"Consider NIV early ... unless contraindicated\".",
+    "de_xuat": "ESC 2021 khong doc duoc toan van. Nen thong nhat voi hbu: \"SpO2 94-98%\" thay vi \"tren 94%\" va \"94%\".",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Furosemid 40–80 mg tiêm tĩnh mạch và nitroglycerin tĩnh mạch chỉnh liều theo huyết áp",
+    "verdict": "nhat_quan",
+    "nguon": "MSF Clinical Guidelines, Acute heart failure (acute pulmonary oedema) https://medicalguidelines.msf.org/en/viewport/CG/english/acute-heart-f",
+    "trich": "MSF: furosemide \"40 to 80 mg\"; RCEM: \"20-40mg\" boluses; StatPearls: IV nitroglycerin drug of choice, \"only when SBP >110 mm Hg\".",
+    "de_xuat": "40-80 mg khop MSF; ESC/RCEM dung 20-40 mg cho benh nhan chua dung loi tieu.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Đánh giá đáp ứng lợi tiểu (đủ trên 100–150 ml/giờ ở 6 giờ đầu).",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "ESC 2021 (PMID 34447992) khong doc duoc toan van; da thu pascar.org, shfnf.co.uk, OUP (bi cat), Europe PMC (loi)",
+    "trich": "Khong tim thay \"100-150 mL/gio trong 6 gio dau\" trong van ban doc duoc.",
+    "de_xuat": "Chua xac minh.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Tư thế ngồi, oxy duy trì SpO2 94% hoặc CPAP/NIV nếu suy hô hấp;",
+    "verdict": "nhat_quan",
+    "nguon": "RCEMLearning Cardiogenic pulmonary oedema https://www.rcemlearning.co.uk/reference/cardiogenic-pulmonary-oedema/; MSF Clinical Guidelines, A",
+    "trich": "RCEM: \"94-98%\"; MSF: \"SpO2 >= 95%\".",
+    "de_xuat": "Viet \"SpO2 94-98%\".",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "furosemid 40–80 mg tĩnh mạch (gấp 1–2,5 lần liều uống hàng ngày), nitroglycerin tĩnh mạch khi huyết áp tâm thu trên 110 mmHg;",
+    "verdict": "nhat_quan",
+    "nguon": "MSF Clinical Guidelines, Acute heart failure (acute pulmonary oedema) https://medicalguidelines.msf.org/en/viewport/CG/english/acute-heart-f",
+    "trich": "MSF: furosemide \"40 to 80 mg\", patients on >40 mg take pre-existing dose IV; StatPearls: NTG \"only ... SBP >110 mm Hg\" (MSF dung >100); RCEM: initial dose matches usual oral dose.",
+    "de_xuat": "\"Gap 1-2,5 lan lieu uong\" khong thay literal; MSF/RCEM: it nhat bang lieu uong hang ngay.",
+    "dot": 2
+   }
+  ],
+  "trung-thu": [
+   {
+    "loc": "action",
+    "text": "Truyền dịch tĩnh mạch natri clorid 0,9% hoặc Ringer lactat",
+    "verdict": "khop",
+    "nguon": "https://journals.sagepub.com/doi/full/10.1177/10806032241227924 (pmid 38425235)",
+    "trich": "'initiating rehydration treatment with 1–2 L of isotonic (0.9% sodium chloride or lactated Ringer's) fluids for adult patients'",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-bung-001": [
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Kháng sinh dự phòng trước mổ (cephalosporin thế hệ 2 hoặc 3 phối hợp metronidazol) trong vòng 60 phút trước rạch da.",
+    "verdict": "khop",
+    "nguon": "32295644",
+    "trich": "optimal timing of preoperative antibiotic administration may be from 0 to 60 min before the surgical skin incision",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chỉ định mổ cắt ruột thừa nội soi sớm, tốt nhất trong 24 giờ;",
+    "verdict": "khop",
+    "nguon": "32295644",
+    "trich": "planning laparoscopic appendectomy for the next available operating list within 24 h in case of uncomplicated acute appendicitis",
+    "de_xuat": "Nên ghi rõ: viêm ruột thừa chưa biến chứng.",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "cho uống sau 6 đến 12 giờ khi có nhu động;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "WSES 2020 PMC7386163 doc toan van (khong thay moc)",
+    "trich": "Khong co moc cho an uong 6-12 gio sau mo trong toan van.",
+    "de_xuat": "Chua xac minh; bo con so hoac them nguon (ERAS).",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "xuất viện thường trong 24 đến 48 giờ;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "WSES 2020 PMC7386163 doc toan van",
+    "trich": "Chi neu fast-track xuat vien trong ngay o mot nghien cuu (median LOS 20 vs 23 h o mot RCT TULAA); khong co moc 24-48 gio.",
+    "de_xuat": "Chua xac minh.",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-001": [
+   {
+    "loc": "action_why",
+    "text": "Đường thở thông nhưng SpO2 91%, cần oxy ngay trong đánh giá A, B.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals spo2=91, rr 28, PaO2 62 mmHg thở oxy",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chỉ định mở ngực cấp cứu vì dẫn lưu ban đầu khoảng 1500 mL máu và tiếp tục khoảng 250 mL/giờ;",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "Sau đặt dẫn lưu: ra khoảng 1500 mL máu trong 15 phút đầu, sau đó khoảng 250 mL/giờ",
+    "de_xuat": "Số liệu khớp case và ngưỡng trong chính case (1500 mL hoặc 200 mL/giờ). Ngưỡng ATLS này chưa có nguồn để đối chiếu.",
+    "dot": 1
+   }
+  ],
+  "ngoai-cap-cuu-101": [
+   {
+    "loc": "action",
+    "text": "Dùng noradrenaline khi huyết áp trung bình dưới 65 mmHg dù đã bù dịch",
+    "verdict": "khop",
+    "nguon": "https://link.springer.com/article/10.1007/s00134-021-06506-y",
+    "trich": "we recommend using norepinephrine as the first-line agent; initial target MAP of 65 mm Hg (SSC 2021). PMID 32381121 (WSES diverticulitis) không nêu mục này",
+    "de_xuat": "Nguồn nên là SSC 2021 (PMID 34605781), không phải WSES diverticulitis. SSC nêu MAP đích 65 mmHg khi dùng vận mạch; ngưỡng bắt đầu vận mạch \"MAP <65 dù đã bù dịch\" là cách áp dụng thông thường.",
+    "dot": 1
+   }
+  ],
+  "ngoai-chan-thuong-001": [
+   {
+    "loc": "action",
+    "text": "Đánh giá ABCDE, cố định cổ, thở oxy, nâng đầu 30 độ",
+    "verdict": "nhat_quan",
+    "nguon": "ENLS TBI v6 (neurocriticalcare.org PDF); WA DOH TBI guideline https://doh.wa.gov/sites/default/files/legacy/Documents/2900//tbiguideline.pdf",
+    "trich": "ENLS: 'Elevate head-of-bed to 30 degrees'; 'a cervical collar and spinal motion restriction is advised'; WA DOH: 'Oxygen therapy should be started'; 'head of bed should be elevated to 30 degrees' || Ghi chu: BTF 4th khon",
+    "de_xuat": "Dan nguon ENLS/ACS TQIP thay vi BTF.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đặt hai đường truyền, lấy máu, đặt thông tiểu, theo dõi tri giác và đồng tử mỗi 15 phút",
+    "verdict": "lech",
+    "nguon": "ENLS TBI v6 (neurocriticalcare.org PDF)",
+    "trich": "'Obtain IV / IO access'; 'Q1H GCS and pupillary examination'; Foley khong duoc de cap || Ghi chu: Nguon doc duoc neu theo doi GCS/dong tu moi 1 gio, khong phai 15 phut; 'hai duong truyen' va thong tieu khong co nguon.",
+    "de_xuat": "Ghi 'theo doi tri giac va dong tu lien tuc, toi thieu moi gio (tang tan suat khi dien bien xau)'; bo 'hai duong truyen/15 phut' neu khong co nguon khac.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Dùng dung dịch ưu trương (Manitol hoặc NaCl 3%) như cầu nối khi có dấu thoát vị",
+    "verdict": "nhat_quan",
+    "nguon": "ACS TQIP best practices TBI https://www.facs.org/media/vgfgjpfk/best-practices-guidelines-traumatic-brain-injury.pdf",
+    "trich": "Mannitol: '0.25-1.0 g/kg' by intermittent bolus (Tier One); ENLS: 'IV bolus hypertonic saline' || Ghi chu: Mannitol 0,25-1 g/kg duoc xac nhan (ACS TQIP); BTF 4th khong dua khuyen cao chinh thuc ve tri lieu uu truong; 'ca",
+    "de_xuat": "Dan ACS TQIP; ghi 'manitol 0,25-1 g/kg hoac NaCl uu truong'.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Thể tích trên 30 mL là chỉ định mổ bất kể Glasgow;",
+    "verdict": "khop",
+    "nguon": "https://seattleneurosciences.com/wp-content/uploads/2017/10/Surgical-Management-of-Acute-Epidural-Hematomas.pdf (BTF EDH, 2006)",
+    "trich": "An EDH greater than 30 cm3 should be surgically evacuated regardless of the patient's GCS score. Ca: thể tích 47 mL",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Sơ cứu theo ABCDE: cố định cổ, bảo đảm đường thở, oxy, giữ huyết áp tâm thu không dưới 110 mmHg, nâng đầu 30 độ, dung dịch ưu trương khi có dấu thoát vị.",
+    "verdict": "khop",
+    "nguon": "https://braintrauma.org/coma/guidelines/severe-tbi",
+    "trich": "SBP at ≥110 mm Hg for patients 15 to 49 or over 70 years old (BTF 4th). Ca: 24 tuổi. Phần nâng đầu 30 độ và dung dịch ưu trương không đối chiếu được",
+    "de_xuat": "Ngưỡng 110 khớp (BTF: \"may be considered\", mức III). Tách phần nâng đầu 30 độ và ưu trương khỏi trích dẫn BTF.",
+    "dot": 1
+   }
+  ],
+  "ngoai-tiet-nieu-001": [
+   {
+    "loc": "action_why",
+    "text": "Điều trị tống sỏi có hỗ trợ cho sỏi niệu quản đoạn xa ≤ 10 mm chưa biến chứng, cần giải thích rõ lợi ích hạn chế.",
+    "verdict": "nhat_quan",
+    "nguon": "https://d56bochluxqnz.cloudfront.net/documents/full-guideline/EAU-Guidelines-on-Urolithiasis-2025.pdf",
+    "trich": "\"Offer alpha-blockers as medical expulsive therapy as one of the treatment options for (distal) ureteral stones > 5 mm\" (off-label); \"MET should only be used in informed patients if active stone removal is not indicated\"",
+    "de_xuat": "Khong thay literal \"<=10 mm\"; sua: \"soi nieu quan doan xa >5 mm (toi ~10 mm) chua bien chung, giai thich loi ich han che va thuoc dung ngoai chi dinh\".",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-004": [
+   {
+    "loc": "action",
+    "text": "Truyền NaCl 0,9% 15 đến 20 mL/kg trong giờ đầu, sau đó điều chỉnh theo natri hiệu chỉnh và huyết động",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 39052901 (chi doc abstract)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "chỉ khởi insulin thường tiêm tĩnh mạch 0,05 đến 0,1 UI/kg/giờ khi kali trên 3,3 mmol/L",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 39052901 (chi doc abstract)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Bù kali khi kali dưới 5,0 mmol/L và có nước tiểu",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 39052901 (chi doc abstract)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đo đường huyết mao mạch mỗi giờ, điện giải mỗi 2 đến 4 giờ, thêm dextrose khi đường huyết dưới 16,7 mmol/L",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 39052901 (chi doc abstract)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Cho dung dịch glucose 5% làm dịch bù ban đầu",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 39052901 (chi doc abstract)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-104": [
+   {
+    "loc": "action",
+    "text": "Lặp lại 20WBCT sau 6 giờ từ khi dùng huyết thanh;",
+    "verdict": "khop",
+    "nguon": "BMJ 2022 Managing snakebite (PMID 34996773, PMC9278408; tong quan dua tren huong dan WHO)",
+    "trich": "\"Repeat administration of antivenom if ... a 20WBCT is positive at six hours after antivenom administration.\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "4) Lặp lại 20WBCT sau 6 giờ;",
+    "verdict": "khop",
+    "nguon": "BMJ 2022 Managing snakebite (PMID 34996773, PMC9278408; tong quan dua tren huong dan WHO)",
+    "trich": "\"...if a 20WBCT is positive at six hours after antivenom administration.\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "tái dùng huyết thanh nếu còn không đông, theo dõi INR, fibrinogen, tiểu cầu mỗi 6 đến 12 giờ.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "BMJ 2022 Managing snakebite (PMID 34996773, PMC9278408; tong quan dua tren huong dan WHO); WHO SEARO PDF khong tai duoc (403)",
+    "trich": "Doc duoc: tai dung huyet thanh neu 20WBCT duong tinh sau 6 gio (khop phan dau). Khong thay \"INR, fibrinogen, tieu cau moi 6-12 gio\".",
+    "de_xuat": "Phan tai dung huyet thanh dung; bo hoac xac minh tan suat 6-12 gio.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: 20WBCT đông, INR dưới 1,5, fibrinogen trên 1,5 g/L, không chảy máu mới.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "BMJ 2022 Managing snakebite (PMID 34996773, PMC9278408; tong quan dua tren huong dan WHO)",
+    "trich": "BMJ chi dinh nghia roi loan dong mau \"INR >1.4 or fibrinogen <100 mg/dL\"; khong neu muc tieu INR <1,5 / fibrinogen >1,5 g/L.",
+    "de_xuat": "Khong gan cac nguong nay cho WHO; neu giu, ghi la muc tieu cua giao vien.",
+    "dot": 2
+   }
+  ],
+  "noi-ho-hap-004": [
+   {
+    "loc": "action",
+    "text": "Ngồi hoặc nằm đầu cao, monitor, thở oxy giữ SpO2 trên 92%",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 31504429 (khong co abstract/toan van)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Bắt đầu chống đông ngay (enoxaparin 1 mg/kg tiêm dưới da mỗi 12 giờ hoặc UFH tĩnh mạch) trong khi chờ CTPA vì xác suất lâm sàng cao",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 31504429 (khong co abstract/toan van)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "enoxaparin 1 mg/kg mỗi 12 giờ hoặc UFH tĩnh mạch rồi chuyển apixaban/rivaroxaban hoặc kháng vitamin K, tối thiểu 3 tháng (huyết khối có yếu tố thuận lợi thoáng qua);",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 31504429 (khong co abstract/toan van)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "theo dõi sát huyết động 48–72 giờ, sẵn sàng tiêu sợi huyết hoặc can thiệp nếu tụt huyết áp, sốc;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 31504429 (khong co abstract/toan van)",
+    "trich": "",
+    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
+    "dot": 2
+   }
+  ],
+  "noi-than-002": [
+   {
+    "loc": "teach",
+    "text": "Hội chẩn hội chứng thận hư cần bốn tiêu chuẩn: phù, protein niệu trên 3,5 g/24 giờ, albumin máu dưới 30 g/L, tăng lipid máu.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Nephrotic Syndrome NBK470444 (WebFetch, ban tom tat tu dong)",
+    "trich": "Nephrotic-range proteinuria is defined as ... 3 grams or more of proteins per 24 hours; hypoalbuminemia (less than 30 g/L)",
+    "de_xuat": "Albumin duoi 30 g/L khop. Nguon (StatPearls) ghi 3 g/24h; ban ghi 3,5 g/24h la nguong pho bien o nguoi lon (KDIGO) nhung chua doc truc tiep. Neu giu 3,5 nen dan KDIGO GN 2021.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Xác định hội chứng thận hư bằng protein niệu 24 giờ, albumin máu, lipid máu",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Nephrotic Syndrome NBK470444 (WebFetch, ban tom tat tu dong)",
+    "trich": "massive proteinuria responsible for hypoalbuminemia, with resulting hyperlipidemia, edema",
+    "de_xuat": "Khong co so cu the; nhat quan.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Protein niệu trên 3,5 g/24 giờ, albumin dưới 30 g/L, phù và tăng lipid máu là tiêu chuẩn chẩn đoán.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Nephrotic Syndrome NBK470444 (WebFetch, ban tom tat tu dong)",
+    "trich": "Nephrotic-range proteinuria ... 3 grams or more per 24 hours; hypoalbuminemia (less than 30 g/L)",
+    "de_xuat": "Nguon StatPearls: phu va tang lipid la he qua/dac diem, khong phai nguong chan doan cung. Nguong 3,5 g chua doc truc tiep (nguon ghi 3 g).",
+    "dot": 2
+   }
+  ],
+  "noi-tim-mach-005": [
+   {
+    "loc": "teach",
+    "text": "không chuyển nhịp vội khi khởi phát hơn 48 giờ nếu chưa an toàn.",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/42/5/373/5899003 (ESC AF 2020)",
+    "trich": "AF >=48 h: TOE to exclude LAA thrombus or anticoagulation >=3 weeks before elective cardioversion (qua bản tóm lược của công cụ đọc web, không phải nguyên văn)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Rung nhĩ kéo dài trên 48 giờ có thể có huyết khối nhĩ trái, nguy cơ đột quỵ.",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/42/5/373/5899003 (ESC AF 2020)",
+    "trich": "Như trên: AF >=48 h cần loại trừ huyết khối tiểu nhĩ trái (đọc gián tiếp)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "khởi đầu chống đông (apixaban 5 mg x 2 hoặc rivaroxaban 20 mg, hoặc enoxaparin chuyển tiếp) và duy trì dài hạn;",
+    "verdict": "khop",
+    "nguon": "https://academic.oup.com/eurheartj/article/42/5/373/5899003 (ESC AF 2020)",
+    "trich": "Apixaban 5 mg twice daily; rivaroxaban 20 mg once daily (đọc gián tiếp)",
+    "de_xuat": "Nên ghi thêm tiêu chí giảm liều apixaban (2,5 mg x2).",
+    "dot": 1
+   }
+  ],
+  "vo-lach-chan-thuong-bung-kin": [
+   {
+    "loc": "action_why",
+    "text": "Sốc mất máu với SpO2 95% và thở nhanh.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals spo2=95, rr=28, hr 126, sbp 84",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Cân nhắc tranexamic acid đường tĩnh mạch trong 3 giờ đầu theo phác đồ",
+    "verdict": "khop",
+    "nguon": "36859355 (PMC9977110)",
+    "trich": "administered ... as soon as possible ... and within 3 h after injury at a loading dose of 1 g infused over 10 min, followed by 1 g over 8 h (Grade 1A)",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-bung-002": [
+   {
+    "loc": "action",
+    "text": "Bù kali và theo dõi điện giải mỗi 12 giờ",
+    "verdict": "nhat_quan",
+    "nguon": "Bologna 2017 (PMID 29946347, PMC6006983)",
+    "trich": "'low values of potassium are frequently found and need to be corrected'; StatPearls NBK572336: 'electrolyte monitoring/supplementation' || Ghi chu: Dong y bu kali va theo doi dien giai; khoang 12 gio khong co trong nguon",
+    "de_xuat": "Bo 'moi 12 gio' hoac ghi 'theo doi dien giai dinh ky'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Khám lại bụng mỗi 4 đến 6 giờ, theo dõi mạch, nhiệt độ, lactate và lượng dịch dẫn lưu",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls NBK572336 https://www.ncbi.nlm.nih.gov/books/NBK572336/; StatPearls NBK448079",
+    "trich": "'Assess for clinical improvement frequently during the first 3-5 days'; 'Serial monitoring of vital signs, abdominal exams, and laboratory tests is essential'; Bologna lactate/CRP/WBC trong xet nghiem toi thieu || Ghi ch",
+    "de_xuat": "Ghi 'kham lai bung thuong xuyen (vd moi 4-6 gio theo thuc hanh lam sang)' va danh dau la thuc hanh, khong phai moc guideline.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Cân nhắc thuốc cản quang tan trong nước đường uống có đánh giá sau 24 giờ",
+    "verdict": "khop",
+    "nguon": "29946347",
+    "trich": "'If the contrast has not reached the colon on an abdominal X-ray taken 24 h following administration ... failure of non-operative management'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Điều trị bảo tồn có theo dõi tại khoa Ngoại: nhịn ăn, đặt sonde dạ dày hút liên tục, truyền Ringer lactat và bù kali (khoảng 40 mmol/ngày theo điện giải), ghi nhận nước tiểu.",
+    "verdict": "nhat_quan",
+    "nguon": "Bologna 2017 PMC6006983; StatPearls NBK448079",
+    "trich": "Bologna: 'Non-operative management should further include fluid resuscitation, correction of electrolyte disturbances'; StatPearls: 'lactated Ringer or normal saline ... correct electrolyte imbalances, particularly hypok",
+    "de_xuat": "Ghi 'bu kali theo ket qua dien giai' (bo con so 40 mmol).",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Cân nhắc cho 100 ml thuốc cản quang tan trong nước qua sonde, chụp X quang sau 24 giờ: thuốc tới đại tràng dự báo thành công.",
+    "verdict": "khop",
+    "nguon": "StatPearls NBK572336 https://www.ncbi.nlm.nih.gov/books/NBK572336/; Bologna PMC6006983",
+    "trich": "'100 mL of Gastrografin, diluted in 50 mL water is administered via NGT'; 'repeat abdominal x-rays are obtained at 24 hours'; Bologna: 'If the contrast has not reached the colon on an abdominal X-ray taken 24 h following",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Khám lại bụng mỗi 4 đến 6 giờ, xét nghiệm lactate, bạch cầu.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls NBK572336",
+    "trich": "'Assess for clinical improvement frequently during the first 3-5 days' || Ghi chu: Khong co khoang 4-6 gio trong nguon; chi 'thuong xuyen'.",
+    "de_xuat": "Ghi 'kham lai bung thuong xuyen' hoac danh dau 4-6 gio la thuc hanh.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chỉ định mổ cấp cứu khi có dấu hiệu nghẹt, viêm phúc mạc, thủng, thiếu máu thành ruột trên CT, lactate tăng, hoặc không cải thiện sau khoảng 72 giờ.",
+    "verdict": "khop",
+    "nguon": "29946347",
+    "trich": "'unless there are signs of peritonitis, strangulation, or bowel ischemia'; 'a 72-h period as safe and appropriate'",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-cap-cuu-002": [
+   {
+    "loc": "action",
+    "text": "Giải áp bằng kim 14G, dài 8 cm, chọc khoang liên sườn 5 đường nách trước phải",
+    "verdict": "nhat_quan",
+    "nguon": "Meta-analysis needle decompression, WJES 2025: https://link.springer.com/article/10.1186/s13017-025-00613-7",
+    "trich": "\"ATLS recommends a 5 cm for small adults or 8 cm needle for larger adults, at the 4th or 5th intercostal space in the anterior midaxillary line.\" Khong doc duoc nguong 14G",
+    "de_xuat": "Ghi 'kim 5-8 cm tuy the trang, khoang lien suon 4-5 duong nach truoc/giua'; 14G khong xac nhan duoc",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chỉ phẫu thuật nếu rò khí kéo dài trên 5-7 ngày hoặc phổi không nở.",
+    "verdict": "khop",
+    "nguon": "BTS Guideline for Pleural Disease (consultation 2022): https://www.brit-thoracic.org.uk/media/455873/bts-guideline-for-pleural-disease-consu",
+    "trich": "\"Persistent air leak (despite 5 to 7 days of chest tube drainage) or failure of lung re-expansion\" la chi dinh phau thuat",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-102": [
+   {
+    "loc": "action",
+    "text": "Điều trị bảo tồn kéo dài 48 đến 72 giờ khi đã nghi xoắn",
+    "verdict": "lech",
+    "nguon": "29946347",
+    "trich": "'Non-operative management should always be tried ... unless there are signs of peritonitis, strangulation, or bowel ischemia'; 72 h chỉ áp dụng cho thử điều trị không mổ",
+    "de_xuat": "Khi đã nghi xoắn/nghẹt (strangulation, ischemia) không kéo dài điều trị bảo tồn 48-72 giờ; mổ sớm. Bảo tồn 72 giờ chỉ cho tắc ruột dính chưa có dấu hiệu nghẹt.",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dịch glucose 5% đơn thuần để bù dịch",
+    "verdict": "nhat_quan",
+    "nguon": "Bologna 2017 PMC6006983; StatPearls NBK448079 https://www.ncbi.nlm.nih.gov/books/NBK448079/",
+    "trich": "Bologna: 'fluid resuscitation, correction of electrolyte disturbances'; StatPearls: 'Isotonic intravenous fluids, such as lactated Ringer or normal saline, are administered to restore intravascular volume and correct ele",
+    "de_xuat": "Giu la phuong an sai.",
+    "dot": 2
+   }
+  ],
+  "ngoai-chan-thuong-002": [
+   {
+    "loc": "teach",
+    "text": "Gãy cổ xương đùi di lệch ở người trên 75 tuổi là cấp cứu chương trình: giảm đau tốt, tối ưu nội khoa nhanh và mổ trong 24 đến 48 giờ.",
+    "verdict": "khop",
+    "nguon": "AAOS hip fracture CPG update https://www.aaos.org/aaos-home/newsroom/press-releases/aaos-updates-clinical-practice-guideline-for-management-",
+    "trich": "AAOS: \"surgery within 24 to 48 hours\"; NICE: \"surgery should be performed on the day of, or the day after, admission\"; nerve blocks if paracetamol/opioids insufficient",
+    "de_xuat": "Ngưỡng 'trên 75 tuổi' không kiểm chứng.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Tối ưu nội khoa, hội chẩn gây mê, mổ trong 24 đến 48 giờ: thay khớp háng bán phần.",
+    "verdict": "nhat_quan",
+    "nguon": "NICE CG124 https://www.rcp.ac.uk/resources/hip-fracture-management-nice-guideline/",
+    "trich": "\"Perform replacement arthroplasty (hemiarthroplasty or total hip replacement) in patients with a displaced intracapsular fracture.\"; \"on the day of, or the day after, admission\"",
+    "de_xuat": "Thay khớp bán phần nhất quán; NICE ưu tiên THR cho người đi lại độc lập, nhận thức tốt.",
+    "dot": 2
+   }
+  ],
+  "ngoai-tiet-nieu-002": [
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "chẹn alpha (tamsulosin hoặc alfuzosin), thử rút thông sau 2 đến 3 ngày;",
+    "verdict": "nhat_quan",
+    "nguon": "PMID 26195469 (abstract, Yoon, Prostate Cancer Prostatic Dis 2015)",
+    "trich": "We recommend use of alpha1-adrenergic receptor blockers before TWOC ... Duration of catheterisation is controversial but <3 days is a safe option",
+    "de_xuat": "Chen alpha truoc khi rut thong khop; 'khong qua 3 ngay' an toan, 2-3 ngay khong nguyen van. Tamsulosin/alfuzosin cu the khong neu trong abstract.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-005": [
+   {
+    "loc": "action",
+    "text": "Canxi gluconat 10% 10 mL (hoặc canxi clorua 10% 5 đến 10 mL) tiêm tĩnh mạch chậm, lặp lại sau 5 phút nếu QRS còn giãn",
+    "verdict": "lech",
+    "nguon": "https://www.ukkidney.org/sites/default/files/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAE",
+    "trich": "UKKA: '30ml 10% Calcium Gluconate over 10 minutes OR 10ml 10% Calcium Chloride over 5 minutes'; không thấy khoảng lặp lại 5 phút",
+    "de_xuat": "Canxi gluconat 10% 30 mL tiêm tĩnh mạch trong 10 phút (hoặc canxi clorua 10% 10 mL trong 5 phút, ưu tiên khi ngừng/sắp ngừng tim); lặp lại theo ECG.",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Insulin thường 10 UI kèm glucose 50% 50 mL (25 g) tĩnh mạch, theo dõi đường huyết",
+    "verdict": "khop",
+    "nguon": "https://www.ukkidney.org/sites/default/files/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAE",
+    "trich": "'10 units soluble insulin in 25g glucose by intravenous infusion' (50 mL glucose 50% = 25 g)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action_why",
+    "text": "Đưa kali vào trong tế bào, tác dụng sau khoảng 15 đến 30 phút.",
+    "verdict": "nhat_quan",
+    "nguon": "SESLHD hyperkalaemia guideline (seslhd.health.nsw.gov.au/.../hyperkalaemia16.pdf)",
+    "trich": "'serum potassium to decrease by 0.5 to 1.5 mmol/L over 30 minutes' (insulin/glucose)",
+    "de_xuat": "Nguon doc duoc khong neu moc 15 phut; UKKA khong doc duoc (404/chi trang tai ve). Co the viet 'ha kali trong khoang 30 phut'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Salbutamol khí dung 10 đến 20 mg",
+    "verdict": "khop",
+    "nguon": "https://www.ukkidney.org/sites/default/files/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAE",
+    "trich": "'nebulised salbutamol 10-20 mg is used as adjuvant therapy'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Natri bicarbonat 50 mmol truyền tĩnh mạch khi nhiễm toan nặng",
+    "verdict": "nhat_quan",
+    "nguon": "SESLHD hyperkalaemia guideline",
+    "trich": "'Sodium bicarbonate 8.4% (= 1 mmol/mL) 50 mL IV over 5 to 10 minutes'; 'if correction of metabolic acidosis is required'",
+    "de_xuat": "50 mL 8,4% = 50 mmol khop; nguon khong ghi 'nang'. Luu y UKKA (theo ghi nhan truoc, chua tu doc) khuyen khong dung bicarbonat thuong quy.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-105": [
+   {
+    "loc": "teach",
+    "text": "Say nóng (sốc nhiệt) là cấp cứu: nhiệt độ trung tâm trên 40 độ C kèm rối loạn thần kinh.",
+    "verdict": "khop",
+    "nguon": "17473783",
+    "trich": "ACSM: 'EHS is defined as a rectal temperature greater than 40 degrees C accompanied by ... central nervous system dysfunction'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Làm mát tích cực ngay: cởi quần áo, ngâm nước lạnh 1 đến 15 độ C hoặc đắp khăn ướt đá, quạt phun sương;",
+    "verdict": "nhat_quan",
+    "nguon": "NATA position statement 2015 (J Athl Train 50:986; PMID 26381473) - PDF mo: https://www.nata.org/sites/default/files/2025-08/exertional_heat",
+    "trich": "The water should be approximately 1.7C (35F) to 15C (59F) and stirred continuously || Ghi chu: Nguon ghi 1,7 den 15 do C (35-59 F), khong phai 1 do C.",
+    "de_xuat": "Sua thanh 'khoang 1,7 den 15 do C'.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Thời gian nhiệt độ trên 40 độ C quyết định tổn thương cơ quan;",
+    "verdict": "nhat_quan",
+    "nguon": "NATA position statement 2015 (J Athl Train 50:986; PMID 26381473) - PDF mo: https://www.nata.org/sites/default/files/2025-08/exertional_heat",
+    "trich": "The length of time the core body ... is above the critical temperature threshold (40.5C [105F]) dictates morbidity and the risk of death from EHS. || Ghi chu: Nguong nguon la 40,5 do C, claim ghi 40.",
+    "de_xuat": "Co the ghi 'tren 40 den 40,5 do C'.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Lập hai đường truyền, bù dịch đẳng trương (NaCl 0,9% hoặc Ringer lactate) từng đợt 500 mL đến 1 L, theo dõi huyết áp, nước tiểu",
+    "verdict": "khop",
+    "nguon": "WikEM Heat stroke https://wikem.org/wiki/Heat_stroke (wiki lam sang mo, bac thap hon guideline); Merck Manual Professional - Heatstroke http",
+    "trich": "WikEM: 'Bolus 500-1000 mL NS if hypotensive'; Merck: 'IV fluids should be given as boluses, assessing responses ... by monitoring blood pressure, urine output' || Ghi chu: Khop 500-1000 mL NaCl 0,9% (WikEM, chi dinh khi ",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đặt thông tiểu, theo dõi lượng nước tiểu, mục tiêu trên 1 đến 2 mL/kg/giờ",
+    "verdict": "khop",
+    "nguon": "WikEM Heat stroke https://wikem.org/wiki/Heat_stroke (wiki lam sang mo, bac thap hon guideline)",
+    "trich": "Titrate to UOP goal 1-2 mL/kg/hr (renal protection from rhabdomyolysis) || Ghi chu: Khop muc tieu nuoc tieu 1-2 mL/kg/gio; viec dat thong tieu khong duoc nguon neu cu the.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Cắt cơn co giật bằng benzodiazepin (diazepam 5 đến 10 mg tĩnh mạch)",
+    "verdict": "lech",
+    "nguon": "Expert consensus on heat stroke (PMC4704265) https://pmc.ncbi.nlm.nih.gov/articles/PMC4704265/",
+    "trich": "10-20 mg Valium initial IV injection ... 10 mg intravenous injection after 20 min; max 40-50 mg in 24 h (WikEM: lorazepam 2-4 mg IV) || Ghi chu: Nguon doc duoc neu lieu khoi dau diazepam 10-20 mg TM (khong phai 5-10 mg);",
+    "de_xuat": "Ghi 'benzodiazepin (vd diazepam 10 mg TM, co the lap lai; hoac lorazepam 2-4 mg)' hoac bo dai lieu cu the.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Truyền nhanh 5 lít dịch trong vài giờ không theo dõi",
+    "verdict": "nhat_quan",
+    "nguon": "Merck Manual Professional - Heatstroke https://www.merckmanuals.com/professional/injuries-poisoning/heat-illness/heatstroke",
+    "trich": "IV fluids should be given as boluses, assessing responses and the need for additional boluses by monitoring blood pressure, urine output, and central venous pressures. || Ghi chu: Nguon nhan manh bolus co danh gia dap un",
+    "de_xuat": "Giu la phuong an sai, ly do: thieu theo doi dap ung/qua tai dich.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "1) Làm mát tích cực ngay: ngâm nước lạnh 1 đến 15 độ C hoặc đắp khăn ướt đá, quạt phun sương, theo dõi nhiệt độ hậu môn liên tục;",
+    "verdict": "nhat_quan",
+    "nguon": "NATA position statement 2015 (J Athl Train 50:986; PMID 26381473) - PDF mo: https://www.nata.org/sites/default/files/2025-08/exertional_heat",
+    "trich": "1.7C-15C water immersion; 'Rectal temperature and other vital signs should be monitored during cooling every 5 to 10 minutes if a continuous monitoring device is not available.' StatPearls: 'a rectal or esophageal probe'",
+    "de_xuat": "Sua 'ngam nuoc 1,7 den 15 do C'.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "mục tiêu 38,5 đến 39 độ C trong 30 phút rồi ngừng làm mát tích cực để tránh hạ nhiệt quá mức.",
+    "verdict": "nhat_quan",
+    "nguon": "NATA position statement 2015 (J Athl Train 50:986; PMID 26381473) - PDF mo: https://www.nata.org/sites/default/files/2025-08/exertional_heat",
+    "trich": "NATA: 'The patient should be removed when core body temperature reaches 38.9C (102F) to prevent overcooling.' and 'lower core body temperature to less than 38.9C within 30 minutes of collapse'. Merck: 'cooling measures s",
+    "de_xuat": "Sua thanh 'ngung lam mat tich cuc khi nhiet do trung tam dat khoang 38,9 do C; muc tieu dat duoi 38,9 trong 30 phut'.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "3) Bù dịch đẳng trương 500 mL đến 1 L mỗi đợt, theo dõi nước tiểu trên 1 đến 2 mL/kg/giờ.",
+    "verdict": "khop",
+    "nguon": "WikEM Heat stroke https://wikem.org/wiki/Heat_stroke (wiki lam sang mo, bac thap hon guideline)",
+    "trich": "Bolus 500-1000 mL NS if hypotensive; UOP goal 1-2 mL/kg/hr || Ghi chu: Khop 500 mL-1 L va 1-2 mL/kg/gio.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "4) Diazepam 5 đến 10 mg tĩnh mạch cho co giật và run.",
+    "verdict": "lech",
+    "nguon": "Expert consensus on heat stroke (PMC4704265) https://pmc.ncbi.nlm.nih.gov/articles/PMC4704265/",
+    "trich": "10-20 mg Valium initial IV injection ... 10 mg after 20 min; WikEM lorazepam 2-4 mg IV || Ghi chu: Lieu diazepam khoi dau theo nguon la 10-20 mg, khong phai 5-10 mg.",
+    "de_xuat": "Diazepam 10 mg TM (lap lai theo dap ung) hoac lorazepam 2-4 mg; neu giu 5-10 mg can nguon khac.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "7) Theo dõi men gan, INR, CK mỗi 6 đến 12 giờ.",
+    "verdict": "nhat_quan",
+    "nguon": "WikEM Heat stroke https://wikem.org/wiki/Heat_stroke (wiki lam sang mo, bac thap hon guideline)",
+    "trich": "Serial monitoring of core temperature, LFTs, coagulation studies, renal function, CK for 48-72h || Ghi chu: Nguon ung ho theo doi men gan, dong mau, CK noi tiep 48-72 gio; khoang 6-12 gio khong co nguyen van (CN consensu",
+    "de_xuat": "Co the ghi 'theo doi lap lai men gan, INR, CK trong 48-72 gio' khong neu moc gio.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: nhiệt độ trung tâm dưới 39 độ C, tỉnh táo, huyết áp và nước tiểu ổn định.",
+    "verdict": "khop",
+    "nguon": "NATA position statement 2015 (J Athl Train 50:986; PMID 26381473) - PDF mo: https://www.nata.org/sites/default/files/2025-08/exertional_heat",
+    "trich": "'lower core body temperature to less than 38.9C within 30 minutes'; Merck: 'lower core temperature to < 39C within 30 minutes' || Ghi chu: Khop muc tieu <39 do C.",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "noi-ho-hap-005": [
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Ampicillin–sulbactam 3 g mỗi 6 giờ tĩnh mạch (hoặc amoxicillin–clavulanat), có thể thay bằng ceftriaxon kèm metronidazol;",
+    "verdict": "nhat_quan",
+    "nguon": "Merck Manual Professional, Lung Abscess (https://www.merckmanuals.com/professional/pulmonary-disorders/lung-abscess/lung-abscess)",
+    "trich": "\"The primary choice is a combination beta-lactam/beta-lactamase inhibitor, for example, ampicillin/sulbactam\"; \"amoxicillin/clavulanic acid\" đường uống; \"combination therapy with metronidazole plus ceftriaxone\".",
+    "de_xuat": "Lựa chọn thuốc khớp; liều 3 g mỗi 6 giờ không có trong nguồn đọc được.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "can thiệp khi thất bại sau 7–14 ngày, ổ trên 6 cm, ho ra máu nhiều hoặc nghi ung thư.",
+    "verdict": "khop",
+    "nguon": "J Thorac Dis 2024, PMID 38883669 (PMC11170420)",
+    "trich": "\"any abscess greater than 6 cm in diameter is less likely to respond to antibiotics\"; \"after 7–14 days of intravenous antibiotic treatment, aspiration ... or ... surgical resection\"; phẫu thuật nếu \"significant hemoptysi",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "noi-than-003": [
+   {
+    "loc": "action",
+    "text": "Đánh giá lại sau 48 đến 72 giờ;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Chuyển sang đường uống khi hết sốt 24 đến 48 giờ và ăn uống được;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "tổng 7 đến 14 ngày.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Tái đánh giá, chụp CT nếu không đáp ứng sau 48 đến 72 giờ.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   }
+  ],
+  "noi-tim-mach-006": [
+   {
+    "loc": "action_why",
+    "text": "LDL-C 3,8 mmol/L và ngáy to nghi ngưng thở khi ngủ, yếu tố làm tăng huyết áp.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "Xét nghiệm: 'LDL-C 3,8 mmol/L'; hỏi bệnh: 'Ngáy to, đôi khi ngủ gật ban ngày'",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Thay đổi lối sống: giảm muối dưới 5 g/ngày, giảm cân, bỏ thuốc lá, hạn chế rượu, vận động 150 phút/tuần.",
+    "verdict": "nhat_quan",
+    "nguon": "ESC/ESH 2018 qua OUP https://academic.oup.com/eurheartj/article/39/33/3021/5079119 (WebFetch tom tat)",
+    "trich": "Liet ke: sodium restriction, weight reduction, smoking cessation, moderation of alcohol, regular physical activity.",
+    "de_xuat": "Khong thay literal \"<5 g muoi/ngay\" va \"150 phut/tuan\" (ban in bi cat); can doc ban goc Table lifestyle.",
+    "dot": 2
+   }
+  ],
+  "ngoai-bung-003": [
+   {
+    "loc": "action_why",
+    "text": "Không an toàn khi nghi nghẹt và đã quá 6 giờ.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "Khoi cang dau khong day len duoc \"10 gio nay\"; 10 h > 6 h (nguong 6 h chua co nguon)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hậu phẫu: kháng sinh đến 24 đến 72 giờ nếu cắt ruột, theo dõi nhu động, ăn lại khi có trung tiện, vận động sớm, kiểm soát táo bón, ho, tiểu khó.",
+    "verdict": "nhat_quan",
+    "nguon": "Dynamic Practice Guidelines EGS 2018, Acute Presentation of Hernias: https://cags-accg.ca/wp-content/uploads/2019/07/ACS-Handbook-CPG-Ch-19-",
+    "trich": "\"strangulation and/or bowel resection\": \"48 hours antimicrobial prophylaxis is recommended\"",
+    "de_xuat": "Khoang 24-72 gio chua 48 gio nhung nen ghi 'khoang 48 gio' cho chinh xac",
+    "dot": 2
+   }
+  ],
+  "ngoai-cap-cuu-003": [
+   {
+    "loc": "action_why",
+    "text": "SpO2 87%, cần cải thiện oxy ngay.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals spo2 87; PaO2 58 khi dang tho oxy",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "ngoai-cap-cuu-103": [
+   {
+    "loc": "action",
+    "text": "Thở oxy, hai đường truyền lớn, truyền tinh thể 30 mL/kg trong 3 giờ đầu và đánh giá lại",
+    "verdict": "khop",
+    "nguon": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8486643/",
+    "trich": "\"at least 30 mL/kg of IV crystalloid fluid should be given within the first 3 h of resuscitation\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Dùng noradrenaline khi MAP dưới 65 mmHg sau bù dịch",
+    "verdict": "khop",
+    "nguon": "SSC 2021 https://link.springer.com/article/10.1007/s00134-021-06506-y (PMID 34605781)",
+    "trich": "\"we recommend using norepinephrine as the first-line agent over other vasopressors\"; \"initial target mean arterial pressure (MAP) of 65 mm Hg\"",
+    "de_xuat": "",
+    "dot": 2
+   }
+  ],
+  "ngoai-chan-thuong-003": [
+   {
+    "loc": "action",
+    "text": "Đánh giá và ghi nhận mạch, cảm giác, vận động, đau khi duỗi thụ động ngón tay mỗi 1 đến 2 giờ",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "Khong co nguon; PubMed khong tra ve van ban co tan suat kiem tra than kinh-mach 1-2 gio.",
+    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
+    "dot": 2
+   }
+  ],
+  "ngoai-tiet-nieu-003": [
+   {
+    "loc": "action_why",
+    "text": "Cứu tinh hoàn phụ thuộc thời gian: tốt nhất trong 6 giờ.",
+    "verdict": "khop",
+    "nguon": "PMID 42265964; PMID 37897515; PMID 32774621",
+    "trich": "42265964: salvage \"96.8%, 62.1%, 41.4%\" cho <6 giờ, 6-12 giờ, >12 giờ; \"time window <6 hours as an independent protective factor\". 37897515: \"The risk of orchiectomy increased after a time cut-off of 6 h 30\". 32774621: \"",
+    "de_xuat": "Nguồn là nghiên cứu, không phải hướng dẫn; paper TWIST (23103800) không nêu mốc 6 giờ nên nên đổi nguồn.",
+    "dot": 2
+   }
+  ],
+  "noi-cap-cuu-006": [
+   {
+    "loc": "action_why",
+    "text": "Mạch 32 lần/phút, huyết áp 80/46 là bất ổn huyết động.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "hr 32, sbp 80, dbp 46",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Tiêm atropine 1 mg tĩnh mạch (có thể lặp lại mỗi 3 đến 5 phút, tối đa 3 mg)",
+    "verdict": "khop",
+    "nguon": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-Bradycardia-250514.pdf",
+    "trich": "\"First dose: 1 mg bolus. Repeat every 3-5 minutes. Maximum total dose: 3 mg.\" (thuat toan AHA 2025, khong phai ban 2018 duoc trich)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Tạo nhịp qua da (tần số 70 lần/phút, tăng dòng đến khi bắt nhịp) cùng an thần giảm đau nhẹ khi còn tỉnh",
+    "verdict": "nhat_quan",
+    "nguon": "https://www.ncbi.nlm.nih.gov/books/NBK519567/ (StatPearls Transcutaneous Pacing)",
+    "trich": "\"The pacing rate should be set at 60 to 80 bpm\" ; current tang \"5 to 10 mA until pacer spikes ... followed by a QRS\"; \"If the patient is conscious, sedation or analgesia should be administered\"",
+    "de_xuat": "70 l/p nam trong 60-80; ACC/AHA/HRS 2018 goc khong doc duoc (403).",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Truyền dopamine 5 đến 20 µg/kg/phút hoặc adrenalin 2 đến 10 µg/phút nếu chưa có tạo nhịp",
+    "verdict": "khop",
+    "nguon": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-Bradycardia-250514.pdf",
+    "trich": "Dopamine \"5-20 mcg/kg per minute\"; epinephrine \"2-10 mcg per minute\"",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "noi-cap-cuu-106": [
+   {
+    "loc": "action",
+    "text": "Bảo đảm đường thở, thở oxy 100% qua mặt nạ túi dự trữ;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "Oxygen should be titrated to maintain arterial saturation between 92% and 96%",
+    "de_xuat": "Nguon chi noi chuan do SpO2 92-96%, khong noi 'oxy 100%'; chua xac nhan.",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Đặt nội khí quản thở máy với PEEP hoặc CPAP khi SpO2 dưới khoảng 92% dù đã thở oxy lưu lượng cao hoặc tri giác xấu",
+    "verdict": "lech",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "failure to achieve an oxygen saturation (SpO2) of 90% or greater despite high-flow oxygen",
+    "de_xuat": "Nguon: nguong 90% (SpO2 duoi 90% du oxy lieu cao); ban ghi 92% khong khop. Can doi chieu them voi NEJM/ERC truoc khi sua. PEEP/CPAP khong duoc neu trong nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Nhiệt độ 34,9 độ C;",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "vitals t=34.9",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "action",
+    "text": "Bù dịch đẳng trương NaCl 0,9% 10 mL/kg (200 mL) bolus, đánh giá lại tưới máu, tránh quá tải",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Nhập hồi sức, theo dõi ít nhất 6 đến 8 giờ ngay cả khi tỉnh táo",
+    "verdict": "lech",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "Patients with mild or no symptoms may be observed in the emergency department for 4 to 8 hours.",
+    "de_xuat": "Nguon: 4-8 gio cho nguoi nhe/khong trieu chung; ban ghi 6-8 gio 'ngay ca khi tinh tao' khong khop. Nhap hoi suc la theo muc nang, khong thay trong nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "1) Oxy 100% qua mặt nạ túi dự trữ;",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "Oxygen should be titrated to maintain arterial saturation between 92% and 96%",
+    "de_xuat": "Khong thay 'oxy 100% qua mat na tui du tru' trong nguon da doc.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "đặt nội khí quản thở máy PEEP 5 đến 8 cmH2O hoặc CPAP khi SpO2 dưới khoảng 92% dù thở oxy lưu lượng cao, mục tiêu SpO2 từ 94% trở lên.",
+    "verdict": "lech",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "failure to achieve an oxygen saturation (SpO2) of 90% or greater despite high-flow oxygen",
+    "de_xuat": "Nguong 90%, khong phai 92%; PEEP 5-8 cmH2O khong co trong nguon; muc tieu SpO2 94% nam trong khoang 92-96% (nhat quan).",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "2) Cởi bỏ đồ ướt, ủ ấm bằng chăn ấm và dịch ấm đến khi nhiệt độ trên 36 độ C.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "3) NaCl 0,9% 10 mL/kg (200 mL) bolus, đánh giá lại.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "",
+    "trich": "",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "5) Khí dung salbutamol 2,5 mg nếu khò khè.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "Nebulized bronchodilators may be administered for bronchospasm.",
+    "de_xuat": "Lieu 2,5 mg khong duoc neu trong nguon.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "6) Nhập hồi sức, theo dõi 6 đến 8 giờ, X-quang ngực lặp lại.",
+    "verdict": "lech",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "Patients with mild or no symptoms may be observed ... 4 to 8 hours. / Chest radiography is not universally required",
+    "de_xuat": "Nguon: 4-8 gio; X-quang khong bat buoc thuong quy, khong ung ho 'lap lai'. Can sua hoac bo.",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: SpO2 từ 94%, tri giác bình thường, nhiệt độ trên 36 độ C, huyết áp ổn định.",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls Drowning NBK430833 (doc qua WebFetch, ban tom tat tu dong, chua doc nguyen van)",
+    "trich": "Oxygen should be titrated to maintain arterial saturation between 92% and 96%",
+    "de_xuat": "SpO2 94% nam trong 92-96%; cac muc tieu con lai (nhiet >36, HA on) khong tim thay nguon.",
+    "dot": 2
+   }
+  ],
+  "noi-huyet-hoc-001": [
+   {
+    "loc": "action",
+    "text": "Bổ sung sắt nguyên tố đường uống 100 đến 200 mg/ngày hoặc cách ngày, kèm vitamin C",
+    "verdict": "khop",
+    "nguon": "StatPearls iron deficiency anemia https://www.ncbi.nlm.nih.gov/books/NBK448065/ ; Camaschella PMID 25946282",
+    "trich": "StatPearls: \"Standard dosing is 100-200 mg elemental iron daily; lower or alternate-day dosing may improve tolerability and absorption\"; vitamin C \"may enhance absorption, though evidence is limited\"",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Bổ sung sắt đường uống 100 đến 200 mg sắt nguyên tố mỗi ngày hoặc cách ngày, uống xa bữa ăn, kèm vitamin C, tránh trà và sữa;",
+    "verdict": "nhat_quan",
+    "nguon": "StatPearls NBK448065",
+    "trich": "100-200 mg/ngay, cach ngay, vitamin C khop; 'xa bua an', 'tranh tra va sua' khong co trong doan doc duoc",
+    "de_xuat": "Phan tranh tra/sua la khuyen cao pho bien, khong doi chieu so",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Truyền máu chỉ khi Hb dưới 7 g/dL kèm triệu chứng nặng hoặc huyết động không ổn;",
+    "verdict": "nhat_quan",
+    "nguon": "AABB 2023 international guidelines, JAMA, PMID 37824153; StatPearls NBK448065",
+    "trich": "AABB: \"for hospitalized adult patients who are hemodynamically stable ... considering transfusion when the hemoglobin concentration is less than 7 g/dL\"; StatPearls: transfusion reserved for \"severe, symptomatic anemia w",
+    "de_xuat": "Nguong Hb<7 khop AABB (benh nhan on dinh); diem 'kem trieu chung nang/huyet dong khong on dinh' khop StatPearls",
+    "dot": 2
+   }
+  ],
+  "noi-than-kinh-001": [
+   {
+    "loc": "teach",
+    "text": "Tiêu sợi huyết trong 4,5 giờ và lấy huyết khối cơ học khi tắc mạch lớn vùng trước.",
+    "verdict": "khop",
+    "nguon": "AHA/ASA 2019 AIS Guideline slide deck (heart.org) + AJH 2022 (academic.oup.com/ajh/article/35/6/483/6552292)",
+    "trich": "IV alteplase cửa sổ \"within 3 to 4.5 hours\"; thrombectomy: \"(2) causative occlusion of the internal carotid artery or MCA segment 1 (M1) ... (6) ... within 6 hours\" và 6-16 giờ theo DAWN/DEFUSE 3.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action",
+    "text": "Kiểm soát huyết áp dưới 185/110 mmHg rồi truyền alteplase đường tĩnh mạch nếu không có chống chỉ định",
+    "verdict": "khop",
+    "nguon": "AHA/ASA 2019 AIS Guideline slide deck (heart.org) + AJH 2022 (academic.oup.com/ajh/article/35/6/483/6552292)",
+    "trich": "\"SBP is <185 mm Hg and their diastolic BP is <110 mm Hg\" trước alteplase (AHA slide deck); AJH: \"SBP/DBP < 185/110 mm Hg before intravenous fibrinolytic therapy\".",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "action_why",
+    "text": "Khởi phát 90 phút, không chống chỉ định, đủ tiêu chuẩn tiêu sợi huyết.",
+    "verdict": "nhat_quan",
+    "nguon": "bank.json",
+    "trich": "intro: khoi phat khoang 90 phut; INR 1.0, CT khong xuat huyet",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Tại phòng cấp cứu: ABC, theo dõi monitor, đặt đường truyền, hạ huyết áp dưới 185/110 mmHg bằng labetalol hoặc nicardipin truyền tĩnh mạch, giữ dưới 180/105 trong 24 giờ sau tiêu sợi huyết.",
+    "verdict": "khop",
+    "nguon": "AHA/ASA 2019 AIS Guideline slide deck (heart.org) + AJH 2022 (academic.oup.com/ajh/article/35/6/483/6552292)",
+    "trich": "Trước: \"<185 ... <110 mm Hg\"; sau: \"BP ≤180/105 mm Hg for at least the first 24 hours\". Số liệu khớp; tên labetalol/nicardipin không được đối chiếu nguyên văn.",
+    "de_xuat": "",
+    "dot": 2
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Alteplase 0,9 mg/kg (tối đa 90 mg), 10% tiêm tĩnh mạch, phần còn lại truyền trong 60 phút.",
+    "verdict": "khop",
+    "nguon": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000211",
+    "trich": "\"Infuse 0.9 mg/kg (maximum dose 90 mg) over 60 min, with 10% of the dose given as a bolus over 1 min.\" (luu y: 60 phut gom ca bolus)",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Hoãn thuốc chống đông và kháng tiểu cầu 24 giờ sau tiêu sợi huyết cho đến khi CT kiểm soát.",
+    "verdict": "khop",
+    "nguon": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000211",
+    "trich": "\"Obtain a follow-up CT or MRI scan at 24 h after IV alteplase before starting anticoagulants or antiplatelet agents.\"",
+    "de_xuat": "",
+    "dot": 1
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "Sau cấp: phục hồi chức năng sớm, statin cường độ cao, kiểm soát huyết áp và đường huyết, bắt đầu thuốc chống đông đường uống trong vòng 2 đến 14 ngày tùy mức nhồi máu.",
+    "verdict": "nhat_quan",
+    "nguon": "ELAN, N Engl J Med 2023, PMID 37222476; PMID 32656768; PMID 41906919",
+    "trich": "ELAN: sớm \"within 48 hours after a minor or moderate stroke or on day 6 or 7 after a major stroke\"; muộn \"day 3 or 4 ... day 6 or 7 ... or day 12, 13, or 14 after a major stroke\".",
+    "de_xuat": "Dải 2-14 ngày phù hợp nhưng không có nguyên văn. Có thể ghi theo ELAN: trong 48 giờ (nhỏ/vừa) hoặc ngày 6-7 (lớn); nhóm muộn đến ngày 12-14. Chủ yếu áp dụng cho rung nhĩ.",
+    "dot": 2
+   }
+  ],
+  "soc-phan-ve-thuoc": [
+   {
+    "loc": "action",
+    "text": "Giữ theo dõi ít nhất 24 giờ",
+    "verdict": "khop",
+    "nguon": "https://luatvietnam.vn/y-te/thong-tu-51-2017-tt-byt-bo-y-te-158294-d1.html",
+    "trich": "\"ít nhất 24 giờ sau khi huyết áp đã ổn định\"",
+    "de_xuat": "",
+    "dot": 1
+   }
+  ],
+  "truong-ung": [],
+  "dot-quy-thieu-mau-cap": [],
+  "thung-o-loet-da-day-ta-trang": [],
+  "noi-tieu-hoa-003": [
+   {
+    "loc": "opt",
+    "text": "Có ít nhất hai trong ba: đau phù hợp, men tụy tăng trên ba lần giới hạn trên, hình ảnh phù hợp",
+    "verdict": "khop",
+    "nguon": "PMID 38857482 (PMC13221274), ACG 2024 Acute Pancreatitis",
+    "trich": "The diagnosis of AP most often is established by identification of 2 of the 3 following criteria: (i) abdominal pain consistent with the disease, (ii) serum amylase and/or lipase greater than 3 times the upper limit of n",
+    "de_xuat": "",
+    "dot": 3
+   }
+  ],
+  "noi-tieu-hoa-006": [],
+  "noi-tieu-hoa-009": [],
+  "ngoai-san-001": [
+   {
+    "loc": "action",
+    "text": "siêu âm theo dõi sau 6 đến 8 tuần",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 31348225 (ACOG CO 783): chỉ đọc được abstract, không có full text/khoảng thời gian siêu âm theo dõi",
+    "trich": "",
+    "de_xuat": "",
+    "dot": 3
+   },
+   {
+    "loc": "hbu.dieu_tri",
+    "text": "siêu âm 6 đến 8 tuần sau mổ",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 31348225: abstract không nêu mốc 6-8 tuần",
+    "trich": "",
+    "de_xuat": "",
+    "dot": 3
+   }
+  ],
+  "stemi-thanh-duoi": [
+   {
+    "loc": "action",
+    "text": "ECG 12 chuyển đạo ngay",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 37622654 (ESC ACS 2023)",
+    "trich": "PubMed ghi \"[Abstract not available]\", không có bản PMC; không đọc được nội dung khuyến cáo (ngưỡng 10 phút từ tiếp xúc y tế đầu tiên).",
+    "de_xuat": "",
+    "dot": 3
+   }
+  ],
+  "ha-duong-huyet-nang": [],
+  "noi-tieu-hoa-001": [],
+  "noi-tieu-hoa-004": [],
+  "noi-tieu-hoa-007": [],
+  "noi-tieu-hoa-010": [
+   {
+    "loc": "action",
+    "text": "nhiều ngày",
+    "verdict": "sai_co_y",
+    "nguon": "PMID 28941329 (TG18 initial management)",
+    "trich": "\"For moderate acute cholangitis, early endoscopic or percutaneous transhepatic biliary drainage is indicated... For severe acute cholangitis... Biliary drainage should be performed as soon as possible\"",
+    "de_xuat": "",
+    "dot": 3
+   }
+  ],
+  "phan-ve-phu-thanh-quan": [],
+  "xhth-tren-xo-gan": [],
+  "noi-tieu-hoa-002": [
+   {
+    "loc": "action",
+    "text": "ít nhất 4 tuần sau kháng sinh và ngừng PPI 2 tuần trước xét nghiệm",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "PMID 39626064 (ACG 2024, abstract only; no PMC full text); gi.org page fetch not permitted",
+    "trich": "Abstract only mentions 'need for universal post-treatment test-of-cure'; no 4-week/2-week figures readable.",
+    "de_xuat": "",
+    "dot": 3
+   }
+  ],
+  "noi-tieu-hoa-005": [],
+  "noi-tieu-hoa-008": [],
+  "ngoai-mach-001": []
+ }
+}

@@ -399,9 +399,9 @@
   {
    "id": "tg18-cholecystitis-flow",
    "loai": "pubmed",
-   "pmid": "29090868",
-   "doi": null,
-   "ten": "Tokyo Guidelines 2018: flowchart for the management of acute cholecystitis. JHBPS 25:96",
+   "pmid": "29045062",
+   "doi": "10.1002/jhbp.516",
+   "ten": "Tokyo Guidelines 2018: flowchart for the management of acute cholecystitis. JHBPS 25:55",
    "alt": [
     [
      "flowchart for the management of acute cholecystitis"
@@ -733,7 +733,12 @@
    "ten": "WSES: Management of pelvic trauma in hemodynamically unstable patients. WJES 12:5",
    "alt": [
     [
-     "pelvic trauma"
+     "pelvic",
+     "wses"
+    ],
+    [
+     "pelvic",
+     "hemodynamically unstable"
     ]
    ],
    "ghi_chu": null

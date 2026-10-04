@@ -361,3 +361,30 @@ test('Result screen shows a four-step debrief, not only a score', async () => {
   assert.match(html, /\$\{debrief\(dead\)\}[\s\S]*<details class="dd">[\s\S]*r\.rows\.map/, 'debrief comes before the collapsed score breakdown');
   assert.match(html, /không phải từ điều bạn nghĩ/, 'must say the debrief is reconstructed from actions, not from player thoughts');
 });
+
+test('Numeric data check: a case is only "da_doi_chieu" when nothing unread or doubtful is left, and it never becomes "reviewed"', async () => {
+  const { readBank } = await import('../scripts/sync-case-bank.mjs');
+  const { FIXES, CAN_XEM_LAI } = await import('../scripts/apply-so-lieu.mjs');
+  const bank = readBank(await read('../public/tu-chan/index.html'));
+  const TT = new Set(['da_doi_chieu', 'mot_phan', 'can_xem_lai', 'khong_co_so_lieu', 'chua_kiem']);
+  for (const c of bank) {
+    const k = c.so_lieu_kiem;
+    assert.ok(k && TT.has(k.trang_thai), c.id + ': missing so_lieu_kiem');
+    assert.equal(c.status, 'draft', c.id + ': only a physician makes a case "reviewed"');
+    if (k.trang_thai === 'da_doi_chieu') {
+      assert.equal(k.khong_doi_chieu, 0, c.id);
+      assert.equal(k.can_xem_lai, 0, c.id);
+      assert.ok(k.tong > 0, c.id);
+      assert.ok(c.nguon_kiem.some(s => ['pubmed', 'van_ban_byt', 'huong_dan_web'].includes(s.loai)), c.id + ': needs one confirmed source');
+    }
+  }
+  for (const id of Object.keys(CAN_XEM_LAI)) assert.equal(bank.find(c => c.id === id).so_lieu_kiem.trang_thai, 'can_xem_lai');
+  assert.ok(bank.filter(c => c.so_lieu_kiem.trang_thai === 'da_doi_chieu').length >= 50);
+  // Every correction is in the bank and the superseded wording is gone.
+  for (const f of FIXES) {
+    const t = JSON.stringify(bank.find(c => c.id === f.id), (key, v) => /^(nguon|verify|so_lieu)/.test(key) ? undefined : v);
+    assert.ok(t.includes(JSON.stringify(f.to).slice(1, -1)), f.id + ': correction missing: ' + f.to.slice(0, 50));
+  }
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /Số liệu đã đối chiếu/);
+});
