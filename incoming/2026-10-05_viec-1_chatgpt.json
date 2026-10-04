@@ -1,0 +1,38 @@
+[
+  {
+    "id": "noi-nhiem-001",
+    "loc": "action",
+    "text": "Theo dõi sát mạch, huyết áp, hiệu áp, nước tiểu, hematocrit, tiểu cầu mỗi 1 đến 2 giờ",
+    "verdict": "lech",
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, bản toàn văn tại LuatVietnam: https://luatvietnam.vn/y-te/quyet-dinh-3705-qd-byt-2019-huong-dan-chan-doan-dieu-tri-sot-xuat-huyet-dengue-176501-d1.html",
+    "trich": "“Theo dõi mạch, HA, những dấu hiệu cảnh báo, lượng dịch đưa vào, nước tiểu và Hct mỗi 4-6 giờ.”",
+    "de_xuat": "Ở người lớn SXHD có dấu hiệu cảnh báo: theo dõi mạch, HA, dấu hiệu cảnh báo, dịch vào, nước tiểu và Hct mỗi 4-6 giờ; không gán chu kỳ tiểu cầu 1-2 giờ theo đoạn này."
+  },
+  {
+    "id": "noi-nhiem-001",
+    "loc": "hbu.dieu_tri",
+    "text": "Truyền dung dịch tinh thể đẳng trương (Ringer lactate hoặc NaCl 0,9%) 5 đến 7 mL/kg/giờ trong 1 đến 2 giờ, đánh giá lại;",
+    "verdict": "lech",
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, bản toàn văn tại Thư Viện Nhà Đất: https://thuviennhadat.vn/van-ban-phap-luat-viet-nam/quyet-dinh-3705-qd-byt-2019-huong-dan-chan-doan-dieu-tri-sot-xuat-huyet-dengue-422657.html",
+    "trich": "“6ml/kg/giờ trong 1-2 giờ, sau đó 3ml/kg/giờ trong 2-4 giờ.”",
+    "de_xuat": "Sửa thành: Ringer lactate, Ringer acetate hoặc NaCl 0,9% 6 mL/kg/giờ trong 1-2 giờ, sau đó 3 mL/kg/giờ trong 2-4 giờ."
+  },
+  {
+    "id": "noi-nhiem-001",
+    "loc": "hbu.dieu_tri",
+    "text": "nếu hematocrit giảm và ổn định thì giảm dần 3 đến 5 mL/kg/giờ, 2 đến 3 mL/kg/giờ;",
+    "verdict": "lech",
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, bản toàn văn tại CaseLaw: https://caselaw.vn/van-ban-phap-luat/331396-quyet-dinh-3705-qd-byt-nam-2019-ve-huong-dan-chan-doan%2C-dieu-tri-sot-xuat-huyet-dengue-do-bo-y-te-ban-hanh",
+    "trich": "“giảm tốc độ truyền ... 1,5ml/kg/giờ trong 6-18 giờ.”",
+    "de_xuat": "Sau 6 mL/kg/giờ trong 1-2 giờ là 3 mL/kg/giờ trong 2-4 giờ; nếu mạch, HA ổn định, Hct giảm và nước tiểu ≥0,5-1 mL/kg/giờ thì giảm 1,5 mL/kg/giờ trong 6-18 giờ."
+  },
+  {
+    "id": "noi-nhiem-001",
+    "loc": "hbu.dieu_tri",
+    "text": "Sốc: bù dịch nhanh 20 mL/kg trong 15 phút, cân nhắc chất keo.",
+    "verdict": "lech",
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, Phụ lục 14 được trích trong Phác đồ Nội khoa Bệnh viện Lê Văn Việt: https://benhvienlevanviet.vn/media/27eb46dd-6542-4458-ae14-5c7ccdbd2c5c/fls/P%C4%90%20N%E1%BB%99i.pdf",
+    "trich": "“RL hoặc NaCl 0,9% 15 ml/kg/giờ x 1 giờ”; “CPT 10-15 ml/kg/giờ x 1 giờ”.",
+    "de_xuat": "Với người lớn 24 tuổi: sốc SXHD bắt đầu Ringer lactate hoặc NaCl 0,9% 15 mL/kg/giờ trong 1 giờ; nếu không cải thiện và Hct phù hợp nhánh thoát huyết tương thì chuyển CPT 10-15 mL/kg/giờ trong 1 giờ."
+  }
+]
