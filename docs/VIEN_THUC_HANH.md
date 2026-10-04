@@ -64,3 +64,7 @@ Thay toàn bộ gói 1 bằng bộ PNG nền trong suốt mới (bác sĩ nam t�
 Bốn phòng (nội trú, cấp cứu, phòng khám, châm cứu) dùng ảnh `public/tu-chan/canh/` (đạo cụ + 7 tư thế bệnh nhân mỗi biến thể).
 Bác sĩ đứng trong phòng làm đúng động tác vừa thực hiện (`docPose()`), hàng chân dung chỉ còn biểu cảm (`docExpr()`).
 Ảnh chưa tải xong thì chỉ hiện nền phòng, rồi tự vẽ lại khi tải xong.
+
+## Bật toàn bộ ca nháp (04/10/2026)
+
+Chủ sở hữu quyết định bật cả 101 ca `nhap`. Trong ngân hàng nhúng, các ca này đổi sang `draft` (cùng trạng thái với 40 ca phát hành trước). Migration `20261004080000_vien_thuc_hanh_bat_ca_nhap.sql` (đã áp dụng lên production) thêm/kích hoạt dòng danh mục: tổng 141 ca hoạt động (Nội 50, Ngoại 41, YHCT 50). Cơ chế fail-closed với `nhap` vẫn giữ cho ca nhập mới sau này. Lưu ý: ca `draft` chưa phải đã duyệt chuyên môn; nên rà dần các ca tự soạn.
