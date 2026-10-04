@@ -257,7 +257,8 @@ test('Acceptance gates: no meta sentence in cases; adult inpatients use complete
   const html = await read('../public/tu-chan/index.html');
   const bank = JSON.parse(html.match(/id="bank-data"[^>]*>([\s\S]*?)<\/script>/)[1]);
   for (const c of bank) assert.ok(!/Ca tự soạn/.test(JSON.stringify(c)), c.id + ' still has meta sentence');
-  assert.match(html, /const BADCELL = \{\};/);
+  assert.match(html, /const BN_ON = false;/);
+  assert.match(html, /const BADCELL = \{ nam_tre: \[5, 6\]/);
   assert.match(html, /function bnAt\(old, cx, yb\)/);
   for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia']) for (let i = 1; i <= 8; i++) await access(new URL(`../public/tu-chan/canh/bn_${v}-${i}.webp`, import.meta.url));
   for (const v of ['nam_tre', 'nu_tre', 'nam_gia', 'nu_gia', 'be_trai', 'be_gai']) for (let i = 1; i <= 7; i++) await access(new URL(`../public/tu-chan/canh/ngt_${v}-${i}.webp`, import.meta.url));

@@ -1022,7 +1022,9 @@ function ngAt(cell, cx, yb, flip) {
 }
 /* Bệnh nhân NỘI TRÚ người lớn: ảnh cả giường (8 ô: 1 nhắm mắt, 2 mở mắt, 3 nói chuyện, 4 khó thở/ôm ngực, 5 đau bụng nằm nghiêng, 6 run lạnh, 7 ngồi mép giường, 8 li bì). Trẻ em vẫn dùng bộ be_* */
 const BN = {nam_tre: [[447, 459], [446, 457], [436, 460], [421, 457], [449, 496], [449, 489], [449, 479], [422, 481]], nu_tre: [[437, 462], [433, 461], [428, 464], [417, 463], [442, 492], [441, 487], [442, 495], [423, 485]], nam_gia: [[434, 469], [436, 468], [433, 468], [427, 468], [443, 496], [444, 495], [440, 490], [426, 488]], nu_gia: [[449, 479], [436, 478], [440, 482], [420, 484], [449, 495], [448, 496], [440, 495], [421, 491]]};
-const bnAdult = () => !String(patArt(S.c)).startsWith('be_');
+/* Tạm tắt: ảnh giường bn_* vẽ góc chéo, lệch góc nhìn với bác sĩ/tủ/xe cấp cứu (góc thẳng). Bật lại khi có bộ vẽ cùng góc. */
+const BN_ON = false;
+const bnAdult = () => BN_ON && !String(patArt(S.c)).startsWith('be_');
 const OXY = /\boxy\b|oxy |SpO2|khó thở|suy hô hấp|hen\b|phổi|ngạt|phù phổi|COPD/i, VENT = /thở máy|nội khí quản|BiPAP|CPAP|\bNIV\b/i;
 const oxyProp = () => { const t = [S.c.title, S.c.intro.slice(0, 300)].join(' '); return VENT.test(t) ? 'may_tho' : OXY.test(t) ? 'binh_oxy' : ''; };
 const BN_RIGOR = /rét run|run lạnh|ớn lạnh|sốt cao|co giật|run rẩy/i;
@@ -1085,7 +1087,7 @@ function patCell0(sc) {
   return c.rate > 0 || !vitStable(c) ? 6 : (hsh(c.id) % 3 ? 6 : 3);
 }
 /* Ô ảnh gốc bị cắt mất đầu/đuôi giường (chờ vẽ lại): không dùng, thay bằng ô nằm ngửa nguyên vẹn (4) */
-const BADCELL = {};
+const BADCELL = { nam_tre: [5, 6], nu_tre: [6], nam_gia: [6], nu_gia: [3, 5, 6] };
 const cellBad = cell => (BADCELL[patArt(S.c)] || []).includes(cell);
 function patCell(sc) { const c = patCell0(sc); return (sc === 'capcuu' || sc === 'giuong') && cellBad(c) ? 4 : c; }
 /* bác sĩ đứng trong phòng, làm đúng động tác vừa thực hiện. Ảnh gốc quay về bên TRÁI: flip=true để quay sang PHẢI */
