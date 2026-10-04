@@ -1106,10 +1106,10 @@ function bedHead(n) {
   const adult = S.c.age >= 12, v = patVariant(S.c), u = DOCBASE.replace(/bacsi\/$/, 'benhnhan/') + v + '-trangthai.webp';
   if (adult) {
     const i = patPick(), k = .82, w = PATSHEET[1] * k, h = PATSHEET[2] * k;
-    return `<svg x="${(98 - w / 2).toFixed(1)}" y="${(214 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" viewBox="${i * PATSHEET[1]} 0 ${PATSHEET[1]} ${PATSHEET[2]}" overflow="hidden"><image href="${u}" width="${PATSHEET[1] * PATSHEET[0]}" height="${PATSHEET[2]}"/></svg>`;
+    return `<g transform="rotate(7 98 208)"><svg x="${(98 - w / 2).toFixed(1)}" y="${(208 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" viewBox="${i * PATSHEET[1]} 0 ${PATSHEET[1]} ${PATSHEET[2]}" overflow="hidden"><image href="${u}" width="${PATSHEET[1] * PATSHEET[0]}" height="${PATSHEET[2]}"/></svg></g>`;
   }
   const art = patArt(S.c), cell = S.stab < 60 ? 7 : 1, m = PT[art][cell - 1], k = .62, w = m[0] * k, h = m[1] * k * .5;
-  return `<svg x="${(98 - w / 2).toFixed(1)}" y="${(214 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" viewBox="0 0 ${m[0]} ${m[1] * .5}" overflow="hidden"><image href="${CANH}${art}-${cell}.webp" width="${m[0]}" height="${m[1]}"/></svg>`;
+  return `<g transform="rotate(7 98 208)"><svg x="${(98 - w / 2).toFixed(1)}" y="${(208 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" viewBox="0 0 ${m[0]} ${m[1] * .5}" overflow="hidden"><image href="${CANH}${art}-${cell}.webp" width="${m[0]}" height="${m[1]}"/></svg></g>`;
 }
 function bedSide() {
   const st = stState(), hot = st.bad ? '#E5484D' : '#4D86D6';
@@ -1121,9 +1121,9 @@ function bedSide() {
     `<rect x="56" y="204" width="158" height="23" rx="6" fill="#F3F6FB" ${OLN}/>` +
     `<rect x="64" y="214" width="142" height="8" rx="3" fill="#4D86D6" opacity=".9"/>` +
     `<rect x="212" y="190" width="11" height="48" rx="5" fill="#D9DCE1" ${OLN}/><rect x="214.5" y="206" width="6" height="22" rx="2" fill="${hot}" opacity=".85"/>` +
-    `<rect x="62" y="182" width="62" height="25" rx="12" fill="#FFFFFF" ${OLN}/>`;
+    `<path d="M58 204 L58 174 Q60 168 70 168 Q96 170 118 190 Q124 200 116 205 Z" fill="#FFFFFF" ${OLN}/><path d="M66 196 Q84 184 104 196 Q86 202 66 204 Z" fill="#E8EEF7" ${OLN}/>`;
 }
-const bedBlanket = () => `<path d="M118 214 Q124 194 150 193 L196 192 Q210 190 214 201 L214 226 L118 226 Z" fill="#F7FAFF" ${OLN}/><path d="M128 213 Q150 205 188 206 L212 207" fill="none" stroke="#4D86D6" stroke-width="3" opacity=".8"/><path d="M168 194 Q176 206 172 224" fill="none" stroke="#C9D4E6" stroke-width="1.6"/>`;
+const bedBlanket = () => `<path d="M76 212 Q80 196 100 196 Q116 195 140 192 L196 191 Q210 190 214 201 L214 226 L76 226 Z" fill="#F7FAFF" ${OLN}/><path d="M84 207 Q110 202 140 204 L212 205" fill="none" stroke="#4D86D6" stroke-width="3" opacity=".8"/><path d="M168 193 Q176 206 172 224" fill="none" stroke="#C9D4E6" stroke-width="1.6"/>`;
 function sceneBed(kind, n) {
   const er = kind === 'capcuu', kid = S.c.age < 12, art = patArt(S.c), cell = S.stab < 60 ? 7 : 1;
   const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem', 'binh_oxy', 'may_tho'].concat(kid ? [art + '-' + cell] : []);
@@ -1136,7 +1136,7 @@ function sceneBed(kind, n) {
   const side = er ? cab(0, 254) + prop('monitor', 6, 154, 50) + propH('xe_cap_cuu', 307, 262, 118)
                   : propH('truyen_dich', 28, 262, 150) + cab(330, 254) + prop('monitor', 337, 154, 50);
   const head = bedHead(n);
-  const hx = 98, hy = kid ? 214 - PT[art][cell - 1][1] * .62 * .5 : 214 - PSHEET_H();
+  const hx = 98, hy = kid ? 208 - PT[art][cell - 1][1] * .62 * .5 : 208 - PSHEET_H();
   return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + bedSide() + head + bedBlanket() + statusFx(hx, hy + 6, 20) + docScene(262, 262, 200, false) + famAt(352, 268, 170, famCell(kind));
 }
 const PSHEET_H = () => PATSHEET[2] * .82;
