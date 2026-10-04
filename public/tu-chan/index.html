@@ -1023,6 +1023,8 @@ function ngAt(cell, cx, yb, flip) {
 /* Bệnh nhân NỘI TRÚ người lớn: ảnh cả giường (8 ô: 1 nhắm mắt, 2 mở mắt, 3 nói chuyện, 4 khó thở/ôm ngực, 5 đau bụng nằm nghiêng, 6 run lạnh, 7 ngồi mép giường, 8 li bì). Trẻ em vẫn dùng bộ be_* */
 const BN = {nam_tre: [[447, 459], [446, 457], [436, 460], [421, 457], [449, 496], [449, 489], [449, 479], [422, 481]], nu_tre: [[437, 462], [433, 461], [428, 464], [417, 463], [442, 492], [441, 487], [442, 495], [423, 485]], nam_gia: [[434, 469], [436, 468], [433, 468], [427, 468], [443, 496], [444, 495], [440, 490], [426, 488]], nu_gia: [[449, 479], [436, 478], [440, 482], [420, 484], [449, 495], [448, 496], [440, 495], [421, 491]]};
 const bnAdult = () => !String(patArt(S.c)).startsWith('be_');
+const OXY = /\boxy\b|oxy |SpO2|khó thở|suy hô hấp|hen\b|phổi|ngạt|phù phổi|COPD/i, VENT = /thở máy|nội khí quản|BiPAP|CPAP|\bNIV\b/i;
+const oxyProp = () => { const t = [S.c.title, S.c.intro.slice(0, 300)].join(' '); return VENT.test(t) ? 'may_tho' : OXY.test(t) ? 'binh_oxy' : ''; };
 const BN_RIGOR = /rét run|run lạnh|ớn lạnh|sốt cao|co giật|run rẩy/i;
 function bnCell(old) {
   const c = S.c, t = [c.title, c.intro.slice(0, 260)].join(' ');
@@ -1099,13 +1101,14 @@ const winP = (n, x, yb, w) => prop(n ? 'cua_so_dem' : 'cua_so_ngay', x, yb, w);
 /* Nội trú và cấp cứu: bệnh nhân nằm giường, bác sĩ đứng bên phải giường quay về phía bệnh nhân */
 function sceneBed(kind, n) {
   const er = kind === 'capcuu', cell = patCell(kind), adult = bnAdult();
-  const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem'];
+  const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem', 'binh_oxy', 'may_tho'];
   if (!sceneOk(need.concat(adult ? bnUrls(cell) : patUrls(cell), famUrls())) || !docNeed()) return room(kind, n);
   const wall = er
     ? `<rect x="16" y="14" width="74" height="22" rx="4" fill="#E5484D" ${OLN}/><text x="53" y="29.5" text-anchor="middle" style="font:800 11px var(--f-body);fill:#fff">CẤP CỨU</text>` + prop('dong_ho', 334, 66, 28)
     : winP(n, 118, 112, 110) + prop('dong_ho', 28, 68, 28) + prop('rem_ngan', 30, 252, 170);
-  const side = er ? propH('tu_dung_cu', 0, 254, 100) + prop('monitor', 6, 154, 50) + propH('xe_cap_cuu', 307, 262, 118)
-                  : propH('truyen_dich', 28, 262, 150) + propH('tu_dung_cu', 330, 254, 100) + prop('monitor', 337, 154, 50);
+  const ox = oxyProp(), cab = (x, yb) => ox ? propH(ox, x + 6, 262, 108) : propH('tu_dung_cu', x, yb, 100);
+  const side = er ? cab(0, 254) + prop('monitor', 6, 154, 50) + propH('xe_cap_cuu', 307, 262, 118)
+                  : propH('truyen_dich', 28, 262, 150) + cab(330, 254) + prop('monitor', 337, 154, 50);
   const pat = adult ? bnAt(cell, 135, 262) : patientAt(cell, 135, 262);
   return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + pat + docScene(262, 262, 200, false) + famAt(352, 268, 170, famCell(kind));
 }
@@ -1138,7 +1141,7 @@ function patPick() {
   let base = 0;
   if (/đau ngực|nhồi máu|đau thắt/.test(txt)) base = 3; else if (/khó thở|suyễn|hen |co thắt|ngạt/.test(txt)) base = 4; else if (/đau|co giật|chấn thương/.test(txt)) base = 2;
   if (!er) return base ? 1 : 0;
-  if (st <= 15) return 7; if (st < 35) return 5; if (st < 60) return 6; if (st < 85 && base) return base;
+  if (st <= 15) return 7; if (st < 35) return 5; if ((base === 3 || base === 4) && st < 85) return base; if (st < 60) return 6; if (st < 85 && base) return base;
   return S.log && S.log.length > 3 && st >= 80 ? 9 : base;
 }
 function patPortrait(i, H) {
