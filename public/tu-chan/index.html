@@ -272,35 +272,15 @@ function stState() { const er = S.c.rate > 0; return { bad: er && S.stab < 65, p
 const hsh = s => { let h = 7; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
 const SPR = (() => { try { return JSON.parse(document.querySelector('#sprites').textContent); } catch (e) { return {}; } })();
 const docKey = () => S.av ? (S.av === 'female' ? 'dfF' : 'dmF') : (hsh(S.c.id) % 2 ? 'dfF' : 'dmF');
-const bedKey = () => { const c = S.c, f = c.sex === 'nữ'; if (c.age < 12) return f ? 'b4' : 'b3'; if (c.age < 18) return f ? 'b6' : 'b5'; if (c.age < 36) return f ? 'b2' : 'b1'; if (c.age < 60) return f ? 'b7' : 'b8'; return f ? 'b9' : 'b10'; };
-const standKey = () => { const c = S.c, f = c.sex === 'nữ'; if (c.age < 14) return f ? 'f3' : 'f4'; if (c.age < 31) return f ? 'f5' : 'f6'; if (c.age < 60) return f ? 'f7' : 'f8'; return f ? 'f9' : 'f10'; };
-const standH = () => { const a = S.c.age; return a < 12 ? 128 : a < 18 ? 172 : a < 60 ? 190 : 176; };
 const patFilter = () => { const st = stState(); return st.pale ? 'style="filter:saturate(.55) brightness(1.08)"' : ''; };
 const OLN = 'class="o"';
 
-/* ảnh nhân vật đứng: đầu căn tại cx, chân chạm feetY, cao h; idle = chuyển động nhẹ */
-function person(k, cx, feetY, h, idle, extra) {
-  const d = SPR[k]; if (!d) return '';
-  const w = h * d.w / d.h, x = cx - d.hx * w;
-  return `<ellipse cx="${cx}" cy="${feetY - 1}" rx="${(w * 0.42).toFixed(1)}" ry="5" fill="#0B2A3A" opacity=".17"/><g class="${idle ? 'idle' : ''}"><image href="${d.src}" x="${x.toFixed(1)}" y="${(feetY - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" ${extra || ''}/></g>`;
-}
 function statusFx(fx, fy, hs) {
   const st = stState(); let s = '';
   if (st.sweat) s += `<path class="drop" d="M${fx + hs * 0.55} ${fy - hs * 0.5}q${hs * 0.1} ${hs * 0.16} 0 ${hs * 0.28}q${-hs * 0.1} ${-hs * 0.12} 0 ${-hs * 0.28}z" fill="#6EC4F0" stroke="#2B3A47" stroke-width="1"/>`;
   if (st.bad) s += `<g class="pulse"><circle cx="${fx + hs * 0.9}" cy="${fy - hs * 1.15}" r="9" fill="#E5484D" ${OLN}/><text x="${fx + hs * 0.9}" y="${fy - hs * 1.15 + 4.2}" text-anchor="middle" style="font:800 12px var(--f-body);fill:#fff">!</text></g>`;
   if (st.drowsy) s += `<text class="zz" x="${fx - hs * 0.2}" y="${fy - hs * 1.0}" style="font:800 13px var(--f-body);fill:#2B3A47">z z</text>`;
   return s;
-}
-function bedImg(x, W) {
-  const d = SPR[bedKey()]; if (!d) return '';
-  const H = W * d.h / d.w, y = 268 - H;
-  const fx = x + (d.hx - 0.058) * W, fy = y + (d.hy - 0.025) * H, hs = H * 0.3;
-  return `<ellipse cx="${x + W / 2}" cy="268" rx="${W * 0.49}" ry="6" fill="#0B2A3A" opacity=".16"/><image href="${d.src}" x="${x}" y="${y.toFixed(1)}" width="${W}" height="${H.toFixed(1)}" ${patFilter()}/>${statusFx(fx, fy, hs)}`;
-}
-function wallClock(cx, cy, r) {
-  const m = nowMin(), mm = m % 60, hh = (m / 60) % 12, a = d => d * Math.PI / 180;
-  const hx = cx + r * 0.5 * Math.sin(a(hh * 30)), hy = cy - r * 0.5 * Math.cos(a(hh * 30)), mx = cx + r * 0.8 * Math.sin(a(mm * 6)), my = cy - r * 0.8 * Math.cos(a(mm * 6));
-  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" ${OLN}/><path d="M${cx} ${cy}L${hx.toFixed(1)} ${hy.toFixed(1)}M${cx} ${cy}L${mx.toFixed(1)} ${my.toFixed(1)}" ${OLN} fill="none"/>`;
 }
 const PAL = { giuong: ['#E1F1ED', '#C7E2DA'], capcuu: ['#E4EFF5', '#C9DBE6'], phongkham: ['#F6EAD3', '#E6D0A6'], chamcuu: ['#E7F1DE', '#CFE3C3'] };
 function room(kind, n) {
@@ -311,95 +291,6 @@ function room(kind, n) {
   <path d="M70 0H240L300 236H10Z" fill="url(#lg)" opacity="${n ? 0.5 : 0.7}"/>`;
 }
 const nightOv = n => n ? `<rect width="400" height="300" fill="#0A1A3A" opacity=".42"/><path d="M60 0H250L300 270H10Z" fill="#FFD98A" opacity=".1"/>` : '';
-function windowW(x, y, w, h, n) {
-  const sky = n ? '#1B2C55' : '#A7DFF2';
-  return `<rect x="${x - 4}" y="${y - 4}" width="${w + 8}" height="${h + 8}" rx="4" fill="#F4F7F9" ${OLN}/><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${sky}"/>
-  ${n ? `<circle cx="${x + w * 0.74}" cy="${y + h * 0.28}" r="${h * 0.1}" fill="#F7EBB5"/><circle cx="${x + w * 0.2}" cy="${y + h * 0.2}" r="1.4" fill="#fff"/><circle cx="${x + w * 0.45}" cy="${y + h * 0.12}" r="1.2" fill="#fff"/>` : `<ellipse cx="${x + w * 0.3}" cy="${y + h * 0.3}" rx="${w * 0.14}" ry="${h * 0.08}" fill="#fff"/><ellipse cx="${x + w * 0.72}" cy="${y + h * 0.22}" rx="${w * 0.1}" ry="${h * 0.06}" fill="#fff"/>`}
-  <path d="M${x} ${y + h * 0.78}Q${x + w * 0.3} ${y + h * 0.55} ${x + w * 0.6} ${y + h * 0.74}T${x + w} ${y + h * 0.7}V${y + h}H${x}Z" fill="${n ? '#1E4A3A' : '#86CF92'}"/>
-  <path d="M${x + w / 2} ${y}v${h}M${x} ${y + h / 2}h${w}" ${OLN}/><rect x="${x - 8}" y="${y + h + 3}" width="${w + 16}" height="6" rx="2" fill="#F4F7F9" ${OLN}/>`;
-}
-/* màn hình theo dõi treo tường, điện tim chạy */
-function wallMonitor(x, y) {
-  const v = vitals(), per = (60 / Math.max(30, v.hr)).toFixed(2), beat = 'M0 14h10q3-4 6 0h3l2 3 3-12 3 16 2-7h5q4-6 8 0h8';
-  return `<path d="M${x + 33} ${y - 18}V${y}" stroke="#6B7C86" stroke-width="3"/><rect x="${x}" y="${y}" width="66" height="46" rx="4" fill="#16232B" ${OLN}/>
-  <text x="${x + 6}" y="${y + 11}" font-size="7.5" font-weight="700" fill="${v.hr > 100 ? '#F5C25B' : '#5DF2B0'}" style="font-family:var(--f-mono)">HR ${v.hr}</text><text x="${x + 38}" y="${y + 11}" font-size="7.5" font-weight="700" fill="${v.spo2 < 94 ? '#F5C25B' : '#5DF2B0'}" style="font-family:var(--f-mono)">${v.spo2}%</text>
-  <svg x="${x + 3}" y="${y + 16}" width="60" height="26" viewBox="0 0 60 26" overflow="hidden"><g class="ecgw" style="animation-duration:${per}s" fill="none" stroke="#5DF2B0" stroke-width="1.5">${[0, 1, 2, 3].map(i => `<path transform="translate(${i * 40} 0)" d="${beat}"/>`).join('')}</g></svg>`;
-}
-
-function sceneWard(n) {
-  return room('giuong', n) + windowW(118, 34, 100, 82, n) + wallClock(334, 48, 15) +
-    `<rect x="6" y="148" width="34" height="88" rx="3" fill="#F4F7F9" ${OLN}/><path d="M6 180H40M6 208H40" stroke="#2B3A47" stroke-width="1.4"/><rect x="18" y="162" width="10" height="3" rx="1.5" fill="#8798A3"/><rect x="18" y="190" width="10" height="3" rx="1.5" fill="#8798A3"/>
-     <rect x="12" y="132" width="14" height="16" rx="3" fill="#9ADCF0" ${OLN}/><path d="M24 132q8-8 10 2" fill="none" ${OLN}/>` +
-    nightOv(n) + bedImg(44, 250);
-}
-function sceneER(n) {
-  const v = vitals();
-  return room('capcuu', n) +
-    `<rect x="16" y="14" width="74" height="22" rx="4" fill="#E5484D" ${OLN}/><text x="53" y="29.5" text-anchor="middle" style="font:800 11px var(--f-body);fill:#fff">CẤP CỨU</text>
-    <path d="M20 70H38M170 70H190" stroke="#00000022" stroke-width="3"/><rect x="38" y="58" width="132" height="24" rx="5" fill="#F4F7F9" ${OLN}/>
-    <circle cx="62" cy="70" r="6.5" fill="#fff" ${OLN}/><text x="62" y="73.2" text-anchor="middle" font-size="8" font-weight="700" fill="#2B3A47">O₂</text><circle cx="88" cy="70" r="6.5" fill="#F5C25B" ${OLN}/><circle cx="114" cy="70" r="6.5" fill="#8FC0E8" ${OLN}/><rect x="132" y="64" width="30" height="12" rx="3" fill="#D8E2E8" ${OLN}/>` +
-    wallMonitor(172, 40) +
-    `<path d="M258 232V46" stroke="#8798A3" stroke-width="3.5"/><path d="M246 46H270" stroke="#8798A3" stroke-width="3"/><rect x="249" y="46" width="18" height="30" rx="7" fill="#E4F4FA" ${OLN}/><rect x="249" y="58" width="18" height="18" rx="6" fill="#9ADCF0" opacity=".6"/>
-    <path d="M258 76V112Q258 168 214 176Q172 184 150 197" fill="none" stroke="#46B7B0" stroke-width="1.8"/><circle class="dripd" cx="258" cy="80" r="2.4" fill="#6EC4F0"/>` +
-    nightOv(n) + bedImg(14, 270);
-}
-function sceneAcu(n) {
-  const pr = S.c.pose === 'prone', k = standKey();
-  let bedPart;
-  if (!pr) bedPart = bedImg(44, 250);
-  else {
-    const d = SPR[k] || {}, sk = d.skin || '#F6CBA8', hh = 150, w = hh * d.w / d.h, O = OLN;
-    const cups = [150, 176, 202].map(x => `<ellipse cx="${x}" cy="182" rx="10" ry="8.5" fill="#CFE9F0" fill-opacity=".8" ${O}/><ellipse cx="${x}" cy="183.5" rx="6.5" ry="4.6" fill="#A8323A" opacity=".6"/><path d="M${x - 5} 178q3-3 7-2" stroke="#fff" stroke-width="1.6" fill="none"/>`).join('');
-    bedPart = `<ellipse cx="170" cy="268" rx="124" ry="6" fill="#0B2A3A" opacity=".16"/>
-    <circle cx="70" cy="258" r="8" fill="#2B3A47"/><circle cx="262" cy="258" r="8" fill="#2B3A47"/><rect x="66" y="240" width="8" height="18" fill="#8798A3"/><rect x="258" y="240" width="8" height="18" fill="#8798A3"/>
-    <rect x="46" y="222" width="244" height="22" rx="5" fill="#D8CDB8" ${O}/><rect x="46" y="222" width="10" height="22" fill="#5A86C4"/><rect x="280" y="222" width="10" height="22" fill="#5A86C4"/>
-    <rect x="40" y="160" width="14" height="84" rx="5" fill="#E4DAC6" ${O}/><rect x="284" y="186" width="14" height="58" rx="5" fill="#E4DAC6" ${O}/>
-    <rect x="52" y="200" width="236" height="26" rx="8" fill="#DCE8F6" ${O}/>
-    <rect x="56" y="176" width="64" height="30" rx="14" fill="#fff" ${O}/>
-    <clipPath id="hc"><rect x="64" y="154" width="64" height="60"/></clipPath>
-    <g transform="rotate(-90 96 186)"><g clip-path="url(#hc)"><image href="${d.src}" x="${(96 - d.hx * w).toFixed(1)}" y="${(186 - 0.14 * hh).toFixed(1)}" width="${w.toFixed(1)}" height="${hh}"/></g></g>
-    <path d="M114 202Q112 172 138 170H226Q246 170 246 202Z" fill="${sk}" ${O}/><path d="M124 190Q140 180 156 192M196 192Q210 180 226 190" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.6"/><path d="M126 186H238" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>${cups}
-    <path d="M232 202Q230 168 250 168H272Q282 170 282 202Z" fill="#3BB5AF" ${O}/><path d="M250 170q-4 16 0 32M266 170q-4 16 0 32" stroke="#fff" stroke-opacity=".5" stroke-width="1.6" fill="none"/>
-    <path d="M270 202Q268 184 288 184Q300 188 298 202Z" fill="#5A86C4" ${O}/>`;
-  }
-  return room('chamcuu', n) + `<rect x="20" y="28" width="62" height="96" rx="5" fill="#FFF8E7" ${OLN}/><circle cx="51" cy="46" r="8" style="fill:var(--skin)" ${OLN}/><path d="M51 54v30M51 60l-16 16M51 60l16 16M51 84l-9 26M51 84l9 26" stroke="#2B3A47" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="35" cy="76" r="2.4" fill="#E5484D"/><circle cx="67" cy="76" r="2.4" fill="#E5484D"/><circle cx="42" cy="110" r="2.4" fill="#E5484D"/><circle cx="60" cy="110" r="2.4" fill="#E5484D"/>` +
-    windowW(196, 44, 64, 58, n) +
-    `<path d="M150 0V52" stroke="#6B7C86" stroke-width="4"/><path d="M122 80q0-26 28-26t28 26z" fill="#F0883E" ${OLN}/><rect x="128" y="78" width="44" height="7" rx="3" fill="#FFD9A8" ${OLN}/><polygon class="glowl" points="130,87 170,87 200,190 100,190" fill="#FFB561" opacity=".2"/>` +
-    nightOv(n) + bedPart;
-}
-/* Bệnh nhân nhìn từ phía sau, ngồi ghế đối diện bác sĩ (vẽ vector theo màu lấy từ ảnh nhân vật) */
-function rearPatient(cx, seatY, armTo) {
-  const k = standKey(), d = SPR[k] || {}, a = S.c.age, s = a < 12 ? 0.7 : a < 18 ? 0.8 : 0.88;
-  const sk = d.skin || '#F6CBA8', top = d.top || '#7FB0E3', hair = d.hair || '#4A3427', st = d.style || 'short', O = OLN;
-  let g = `<g transform="translate(${cx} ${seatY}) scale(${s})">`;
-  g += `<ellipse cx="0" cy="30" rx="40" ry="6" fill="#0B2A3A" opacity=".18"/><rect x="-26" y="2" width="6" height="30" fill="#8B5A2B"/><rect x="20" y="2" width="6" height="30" fill="#8B5A2B"/><ellipse cx="0" cy="2" rx="38" ry="9" fill="#C98A4B" ${O}/>`;
-  g += `<path d="M-33 -54Q-33 -64 -23 -64H23Q33 -64 33 -54L37 -4Q37 4 27 4H-27Q-37 4 -37 -4Z" fill="${top}" ${O}/><path d="M0 -62V0" stroke="#000" stroke-opacity=".12" stroke-width="2"/>`;
-  g += `<path d="M-33 -52Q-46 -34 -40 -10" fill="none" stroke="#2B3A47" stroke-width="13" stroke-linecap="round"/><path d="M-33 -52Q-46 -34 -40 -10" fill="none" stroke="${top}" stroke-width="9.5" stroke-linecap="round"/><circle cx="-40" cy="-8" r="5.5" fill="${sk}" ${O}/>`;
-  if (armTo) { const ex = (armTo[0] - cx) / s, ey = (armTo[1] - seatY) / s;
-    g += `<path d="M33 -52Q${ex + 10} -52 ${ex} ${ey}" fill="none" stroke="#2B3A47" stroke-width="13" stroke-linecap="round"/><path d="M33 -52Q${ex + 10} -52 ${ex} ${ey}" fill="none" stroke="${top}" stroke-width="9.5" stroke-linecap="round"/><circle cx="${ex}" cy="${ey}" r="5.8" fill="${sk}" ${O}/>`; }
-  else g += `<path d="M33 -52Q46 -34 40 -10" fill="none" stroke="#2B3A47" stroke-width="13" stroke-linecap="round"/><path d="M33 -52Q46 -34 40 -10" fill="none" stroke="${top}" stroke-width="9.5" stroke-linecap="round"/><circle cx="40" cy="-8" r="5.5" fill="${sk}" ${O}/>`;
-  g += `<rect x="-7" y="-78" width="14" height="18" rx="5" fill="${sk}" ${O}/>`;
-  if (st === 'long') g += `<path d="M-23 -92Q-30 -40 -20 -20Q0 -14 20 -20Q30 -40 23 -92Z" fill="${hair}" ${O}/>`;
-  if (st === 'mid') g += `<path d="M-23 -92Q-31 -62 -26 -52Q0 -44 26 -52Q31 -62 23 -92Z" fill="${hair}" ${O}/>`;
-  g += `<ellipse cx="0" cy="-94" rx="22" ry="23" fill="${hair}" ${O}/><circle cx="-22" cy="-90" r="4" fill="${sk}" ${O}/><circle cx="22" cy="-90" r="4" fill="${sk}" ${O}/>`;
-  if (st === 'short') g += `<path d="M-16 -80Q0 -72 16 -80" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="2"/>`;
-  if (st === 'bun') g += `<circle cx="0" cy="-122" r="10" fill="${hair}" ${O}/>`;
-  if (st === 'pigtail') g += `<circle cx="-27" cy="-82" r="8" fill="${hair}" ${O}/><circle cx="27" cy="-82" r="8" fill="${hair}" ${O}/><circle cx="-23" cy="-100" r="3.4" fill="#F06A8C"/><circle cx="23" cy="-100" r="3.4" fill="#F06A8C"/>`;
-  g += `<path d="M-12 -108Q-2 -114 8 -108" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/></g>`;
-  return g;
-}
-function sceneClinic(n) {
-  const drawers = []; for (let i = 0; i < 5; i++) for (let j = 0; j < 4; j++) drawers.push(`<rect x="${298 + i * 17}" y="${28 + j * 20}" width="15" height="17" rx="2" fill="#D9A76B" ${OLN}/><circle cx="${305.5 + i * 17}" cy="${36 + j * 20}" r="1.5" fill="#6B4423"/>`);
-  const jars = [0, 1, 2, 3].map(i => `<rect x="${24 + i * 22}" y="66" width="16" height="20" rx="4" fill="${['#8CD1B5', '#F0883E', '#F5C25B', '#9ADCF0'][i]}" ${OLN}/>`).join('');
-  const steam = `<path class="steam" d="M300 146q-4-6 0-12t0-10" fill="none" stroke="#2B3A47" stroke-width="1.4" opacity=".4"/>`;
-  const doc = '';
-  const desk = `<path d="M94 150H306L342 186H58Z" fill="#F6BD6F" ${OLN}/><rect x="58" y="186" width="284" height="10" rx="2" fill="#D98C3F" ${OLN}/><rect x="72" y="196" width="256" height="66" fill="#E3984A" ${OLN}/><rect x="86" y="206" width="108" height="42" rx="4" fill="#EBAE6A" ${OLN}/><rect x="206" y="206" width="108" height="42" rx="4" fill="#EBAE6A" ${OLN}/><rect x="124" y="222" width="32" height="6" rx="3" fill="#6B4423"/><rect x="244" y="222" width="32" height="6" rx="3" fill="#6B4423"/>
-  <rect x="100" y="158" width="38" height="14" rx="2" fill="#fff" ${OLN} transform="skewX(-20) translate(54 0)"/><rect x="288" y="138" width="18" height="14" rx="3" fill="#fff" ${OLN}/><path d="M306 142q9 0 0 7" fill="none" ${OLN}/>${steam}
-  <rect x="250" y="160" width="34" height="12" rx="6" fill="#3BB5AF" ${OLN}/>`;
-  return room('phongkham', n) + windowW(120, 34, 100, 74, n) + wallClock(60, 46, 15) +
-    `<rect x="290" y="14" width="102" height="100" rx="5" fill="#B67B45" ${OLN}/>${drawers.join('')}<rect x="20" y="86" width="104" height="6" rx="2" fill="#B67B45" ${OLN}/>${jars}` +
-    nightOv(n) + doc + desk + rearPatient(176, 272, [240, 190]) + statusFx(200, 124, 22);
-}
 function scene() {
   const n = isNight();
   const f = { giuong: sceneWard, capcuu: sceneER, phongkham: sceneClinic, chamcuu: sceneAcu }[S.c.setting] || sceneWard;
@@ -1051,26 +942,30 @@ function start(id, shift, room) {
 const DOCSHEET = { 'nam-bieucam': [6, 94, 124], 'nam-dongtac': [12, 100, 231], 'nam-di': [8, 70, 165], 'nam-chay': [6, 81, 142], 'nu-bieucam': [6, 110, 116], 'nu-dongtac': [12, 101, 215], 'nu-di': [8, 77, 139], 'nu-chay': [6, 82, 134] };
 const EXPR = ['Bình thường', 'Chăm chú nghe', 'Lo lắng', 'Nghiêm túc quyết định', 'Trấn an', 'Mệt mỏi, trực đêm'];
 const POSE = ['Cầm bệnh án', 'Ghi bệnh án', 'Nghe tim phổi', 'Đo huyết áp', 'Bắt mạch', 'Khám bụng', 'Ra hiệu', 'Gọi điện', 'Xem giờ', 'Hồi sức tim phổi', 'Chỉ định xét nghiệm', 'Chào, trấn an'];
-function docPick() {
-  const l = S.log && S.log[S.log.length - 1], er = S.c.rate > 0, st = S.stab;
+function docPose() {
+  const l = S.log && S.log[S.log.length - 1], er = S.c.rate > 0;
   if (l) {
     const n = (l.n || '').toLowerCase();
-    if (/hồi sinh|ép tim|sốc điện|ngừng tim|cpr/.test(n)) return ['dongtac', 9];
-    if (/nghe tim|nghe phổi|ống nghe/.test(n)) return ['dongtac', 2];
-    if (/huyết áp/.test(n)) return ['dongtac', 3];
-    if (/mạch|thiết/.test(n)) return ['dongtac', 4];
-    if (/bụng|sờ|ấn|gõ|nắn/.test(n)) return ['dongtac', 5];
-    if (/gọi|hội chẩn|liên hệ|chuyển/.test(n)) return ['dongtac', 7];
-    if (l.k === 'test') return ['dongtac', 10];
-    if (l.k === 'ex') return ['dongtac', 5];
-    if (l.k === 'act') return ['dongtac', 6];
-    if (l.k === 'ask' && er && st >= 65) return ['bieucam', 1];
+    if (/hồi sinh|ép tim|sốc điện|ngừng tim|cpr/.test(n)) return 9;
+    if (/nghe tim|nghe phổi|ống nghe/.test(n)) return 2;
+    if (/huyết áp/.test(n)) return 3;
+    if (/mạch|thiết/.test(n)) return 4;
+    if (/bụng|sờ|ấn|gõ|nắn/.test(n)) return 5;
+    if (/gọi|hội chẩn|liên hệ|chuyển/.test(n)) return 7;
+    if (l.k === 'test') return 10;
+    if (l.k === 'ex') return 5;
+    if (l.k === 'act') return 6;
+    if (l.k === 'ask') return 1;
   }
-  if (er && st < 25) return ['bieucam', 3];
-  if (er && st < 45) return ['bieucam', 2];
-  if (isNight() && !(er && st < 65)) return ['bieucam', 5];
-  if (er && st < 65) return ['bieucam', 1];
-  return ['bieucam', 0];
+  return er && S.stab < 45 ? 8 : 0;
+}
+function docExpr() {
+  const er = S.c.rate > 0, st = S.stab;
+  if (er && st < 25) return 3;
+  if (er && st < 45) return 2;
+  if (isNight() && !(er && st < 65)) return 5;
+  if (er && st < 65) return 1;
+  return 0;
 }
 const DOCBASE = (() => { const p = location.pathname.replace(/index\.html$/, ''); return (p.endsWith('/') ? p : p + '/') + 'bacsi/'; })();
 const DOCIMG = {};
@@ -1083,6 +978,80 @@ function docPortrait(kind, i, H) {
   const url = DOCBASE + g + '-' + kind + '.webp'; if (!docImgOk(url)) return '';
   const k = H / m[2], w = Math.round(m[1] * k), cap = (kind === 'dongtac' ? POSE : EXPR)[i];
   return `<div class="docp" aria-hidden="true"><i style="width:${w}px;height:${H}px;background-image:url(${url});background-size:${w * m[0]}px ${H}px;background-position:-${w * i}px 0"></i><span>${cap}</span></div>`;
+}
+
+/* ---------- Cảnh phòng Trực (gói 3: đạo cụ, gói 2: bệnh nhân, gói 1: bác sĩ đứng làm việc) ---------- */
+const CANH = DOCBASE.replace(/bacsi\/$/, 'canh/');
+const PM = { monitor: [340, 328], truyen_dich: [289, 340], xe_cap_cuu: [318, 340], den_kham: [204, 340], cua_so_ngay: [340, 231], cua_so_dem: [340, 239], dong_ho: [337, 340], rem_ngan: [340, 268], tu_thuoc: [232, 340], ban_lam_viec: [340, 324], ban_kham: [340, 209], ghe_kham: [312, 340], may_tho: [274, 340], soc_dien: [340, 315], binh_oxy: [196, 340], cua_phong: [215, 340], tu_dung_cu: [203, 340], thung_rac: [340, 217], giuong_daucao: [340, 203], giuong_phang: [340, 235], cang: [340, 252] };
+const PT = {
+  nam_tre: [[231, 336], [232, 311], [232, 248], [232, 281], [232, 259], [232, 230], [232, 318]],
+  nu_tre: [[231, 336], [232, 311], [232, 253], [232, 259], [232, 278], [232, 255], [232, 301]],
+  nam_gia: [[191, 336], [229, 336], [232, 227], [232, 299], [232, 288], [232, 258], [231, 295]],
+  nu_gia: [[212, 336], [232, 235], [226, 336], [232, 273], [232, 244], [232, 249], [232, 318]] };
+const PHEAD = [[.5, .12], [.5, .2], [.38, .3], [.5, .25], [.3, .3], [.4, .3], [.6, .2]];
+const PSCALE = .6;
+const sceneUrls = [];
+function sceneOk(names) {
+  let ok = true;
+  names.forEach(n => { if (!docImgOk(CANH + n + '.webp')) ok = false; });
+  return ok;
+}
+const flipG = (cx, inner) => `<g transform="translate(${2 * cx} 0) scale(-1 1)">${inner}</g>`;
+const shadow = (cx, w) => `<ellipse cx="${cx}" cy="263" rx="${(w / 2).toFixed(1)}" ry="5" fill="#0B2A3A" opacity=".16"/>`;
+/* đạo cụ: x trái, yb chân, w rộng */
+function prop(name, x, yb, w, flip) {
+  const m = PM[name], h = w * m[1] / m[0];
+  const im = `<image href="${CANH}${name}.webp" x="${x}" y="${(yb - h).toFixed(1)}" width="${w}" height="${h.toFixed(1)}"/>`;
+  return flip ? flipG(x + w / 2, im) : im;
+}
+const propH = (name, x, yb, h, flip) => prop(name, x, yb, h * PM[name][0] / PM[name][1], flip);
+/* bệnh nhân: cell 1..7, x trái, chân yb */
+function patientAt(cell, x, yb, flip) {
+  const v = patVariant(S.c), m = PT[v][cell - 1], w = m[0] * PSCALE, h = m[1] * PSCALE, y = yb - h, hd = PHEAD[cell - 1];
+  let hx = x + w * hd[0]; if (flip) hx = x + w * (1 - hd[0]);
+  const im = `<image href="${CANH}${v}-${cell}.webp" x="${x}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" ${patFilter()}/>`;
+  return shadow(x + w / 2, w * .9) + (flip ? flipG(x + w / 2, im) : im) + statusFx(hx, y + h * hd[1] + 16, 20);
+}
+const patUrls = cell => [patVariant(S.c) + '-' + cell];
+const BELLY = /bụng|ruột|dạ dày|gan|mật|tụy|tiêu hóa|sỏi/i;
+function patBedCell() {
+  const c = S.c;
+  if (c.rate > 0 && S.stab < 45) return 4;
+  if (BELLY.test([c.title, c.intro].join(' '))) return 5;
+  return 6;
+}
+/* bác sĩ đứng trong cảnh, làm đúng động tác vừa thực hiện */
+function docScene(cx, yb, h, flip) {
+  const g = docKey() === 'dfF' ? 'nu' : 'nam', m = DOCSHEET[g + '-dongtac'], url = DOCBASE + g + '-dongtac.webp';
+  if (!m || !docImgOk(url)) return '';
+  const i = docPose(), w = h * m[1] / m[2], x = cx - w / 2, y = yb - h;
+  const body = `<g class="idle"><svg x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h}" viewBox="${i * m[1]} 0 ${m[1]} ${m[2]}" overflow="hidden"><image href="${url}" width="${m[0] * m[1]}" height="${m[2]}"/></svg></g>`;
+  return shadow(cx, w * .8) + (flip ? flipG(cx, body) : body);
+}
+const docNeed = () => { const g = docKey() === 'dfF' ? 'nu' : 'nam'; return docImgOk(DOCBASE + g + '-dongtac.webp'); };
+function sceneWard(n) {
+  const cell = patBedCell(), need = ['cua_so_ngay', 'cua_so_dem', 'dong_ho', 'rem_ngan', 'truyen_dich', 'monitor'];
+  if (!sceneOk(need.concat(patUrls(cell))) || !docNeed()) return room('giuong', n);
+  return room('giuong', n) + prop(n ? 'cua_so_dem' : 'cua_so_ngay', 24, 128, 118) + prop('dong_ho', 320, 78, 34) + prop('rem_ngan', 240, 252, 160) + propH('monitor', 160, 112, 62) +
+    nightOv(n) + propH('truyen_dich', -14, 262, 150) + patientAt(cell, 44, 262) + docScene(300, 264, 200, true);
+}
+function sceneER(n) {
+  const cell = patBedCell(), need = ['den_kham', 'monitor', 'may_tho', 'xe_cap_cuu', 'cua_so_ngay'];
+  if (!sceneOk(need.concat(patUrls(cell))) || !docNeed()) return room('capcuu', n);
+  return room('capcuu', n) + `<rect x="16" y="14" width="74" height="22" rx="4" fill="#E5484D" ${OLN}/><text x="53" y="29.5" text-anchor="middle" style="font:800 11px var(--f-body);fill:#fff">CẤP CỨU</text>` +
+    propH('monitor', 190, 120, 70) + nightOv(n) + patientAt(cell, 14, 262) + propH('den_kham', 96, 262, 205) + propH('may_tho', 172, 262, 100) + propH('xe_cap_cuu', 300, 262, 112) + docScene(262, 264, 200, true);
+}
+function sceneAcu(n) {
+  const cell = S.c.pose === 'prone' ? 5 : 3, need = ['cua_so_ngay', 'cua_so_dem', 'tu_thuoc', 'ban_kham', 'dong_ho'];
+  if (!sceneOk(need.concat(patUrls(cell))) || !docNeed()) return room('chamcuu', n);
+  return room('chamcuu', n) + prop(n ? 'cua_so_dem' : 'cua_so_ngay', 150, 128, 118) + prop('dong_ho', 24, 80, 34) + prop('ban_kham', 238, 262, 160) +
+    nightOv(n) + propH('tu_thuoc', 6, 262, 160) + patientAt(cell, 96, 262) + docScene(318, 264, 200, true);
+}
+function sceneClinic(n) {
+  const cell = BELLY.test([S.c.title, S.c.intro].join(' ')) ? 7 : 2, need = ['cua_so_ngay', 'cua_so_dem', 'dong_ho', 'ban_lam_viec', 'tu_thuoc', 'cua_phong'];
+  if (!sceneOk(need.concat(patUrls(cell))) || !docNeed()) return room('phongkham', n);
+  return room('phongkham', n) + prop(n ? 'cua_so_dem' : 'cua_so_ngay', 150, 126, 110) + prop('dong_ho', 28, 78, 32) + propH('cua_phong', 316, 262, 160) +
+    nightOv(n) + propH('tu_thuoc', 0, 262, 170) + prop('ban_lam_viec', 140, 250, 130) + patientAt(cell, 262, 262, true) + docScene(92, 264, 200, false);
 }
 
 /* ---------- Bệnh nhân (gói 2) và đạo cụ (gói 3) ---------- */
@@ -1198,7 +1167,7 @@ function draw() {
   ${er ? `<div class="stabrow"><span>Độ ổn định</span><div class="bar" role="progressbar" aria-valuenow="${st}" aria-valuemin="0" aria-valuemax="100"><i class="${sc}" style="width:${st}%"></i></div><span class="mono">${st}%</span></div>`
        : `<div class="stabrow"><span class="muted">${esc(c.name)}, ${c.age} tuổi, ${esc(c.sex)}. Bệnh nhân ổn định, không giới hạn thời gian.</span></div>`}
   <div class="tnote">${er ? 'Phút trong ca là thời gian mô phỏng trong bệnh viện, không phải thời gian bạn chơi. Mỗi thao tác tốn vài phút trong ca và bệnh nhân xấu đi theo đó. Bạn nghĩ bao lâu cũng được, bệnh nhân không đổi.' : 'Phút trong ca chỉ để ghi nhận. Ca khám không giới hạn thời gian, bạn cứ thong thả.'}</div>
-  <div class="docrow">${(([kd, i]) => docPortrait(kd, i, kd === 'dongtac' ? 150 : 96))(docPick())}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>${patPortrait(patPick(), 92)}</div>${evlog()}
+  <div class="docrow">${docPortrait('bieucam', docExpr(), 96)}<div class="bubble" aria-live="polite"><div class="who">${esc(S.bubble.who)}</div>${esc(S.bubble.txt)}</div>${patPortrait(patPick(), 92)}</div>${evlog()}
   </div><div class="pl-r">
   <div class="tabs" role="tablist">${TABS.map(([k, n]) => `<button class="tab" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${n}</button>`).join('')}</div>
   <div class="panel">${panel()}</div></div></div>`;

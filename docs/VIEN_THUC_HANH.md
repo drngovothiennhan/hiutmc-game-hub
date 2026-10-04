@@ -58,3 +58,9 @@ Thay toàn bộ gói 1 bằng bộ PNG nền trong suốt mới (bác sĩ nam t�
 
 ## Gói 2 bệnh nhân và gói 3 đạo cụ (04/10/2026)
 `public/tu-chan/benhnhan/{nam,nu}_{tre,gia}-trangthai.webp` (10 nét mặt) và `public/tu-chan/vat/*.webp` (30 đạo cụ, 96 px). Ảnh bệnh nhân đối diện bác sĩ, đổi theo độ ổn định (đau ngực, khó thở, vã mồ hôi, li bì, mê man) và theo kết quả ca. Biểu tượng đạo cụ hiện cạnh các mục khám, xét nghiệm, xử trí theo từ khóa (`PROPS` trong `tu-chan/index.html`). Chưa dùng: tư thế toàn thân (`tuthe`), đi bộ, 8 góc của bệnh nhân, và các vật to (giường, cửa, rèm, xe cấp cứu…) vì cảnh vector hiện tại chưa có chỗ ghép.
+
+## Cảnh phòng Trực vẽ lại (gói 2 + gói 3)
+
+Bốn phòng (nội trú, cấp cứu, phòng khám, châm cứu) dùng ảnh `public/tu-chan/canh/` (đạo cụ + 7 tư thế bệnh nhân mỗi biến thể).
+Bác sĩ đứng trong phòng làm đúng động tác vừa thực hiện (`docPose()`), hàng chân dung chỉ còn biểu cảm (`docExpr()`).
+Ảnh chưa tải xong thì chỉ hiện nền phòng, rồi tự vẽ lại khi tải xong.
