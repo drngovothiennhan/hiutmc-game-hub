@@ -75,7 +75,9 @@ Chủ sở hữu quyết định bật cả 101 ca `nhap`. Trong ngân hàng nh�
 - **Tư thế bệnh nhân** do `patCell()` chọn theo phòng, bệnh cảnh (hô hấp, bụng, mất ý thức) và độ ổn định: nằm ngửa (nặng/mất ý thức), đầu cao (hô hấp), nằm nghiêng (bụng), ngồi mép giường (ổn định), ngồi ghế (phòng khám, châm cứu), cúi ôm bụng (phòng khám, đau quặn). Người bệnh dưới 12 tuổi dùng ảnh trẻ em riêng (`be_trai`, `be_gai`, 7 tư thế); chưa có ảnh biểu cảm trẻ em nên dòng chân dung trạng thái bị ẩn với trẻ.
 - **Bác sĩ** đứng sát bệnh nhân, quay về phía bệnh nhân, làm đúng động tác vừa thực hiện; hàng chân dung chỉ còn biểu cảm. Bác sĩ lấy từ hồ sơ Y Quán (`doctor_avatar_id`); chưa đăng nhập dùng bác sĩ nam mặc định. Ảnh bác sĩ ở Y Quán (`y-quan-live/art/doctor-male|female.webp`) đã đổi sang cùng bộ gói 1, bỏ bộ sprite cũ trong `tu-chan`.
 - Hướng nhìn: ảnh gốc của bác sĩ quay sang TRÁI. Đứng bên phải bệnh nhân (giường) thì giữ nguyên, đứng bên trái (phòng khám, châm cứu) thì lật.
-- **Cần thêm ảnh**: biểu cảm trạng thái bệnh nhân trẻ em, người nhà đi cùng (mẹ của bé), tư thế nằm sấp trên bàn châm cứu.
+- **Người nhà** (`canh/nhanha_{nam|nu}-{1..5}.webp`): xuất hiện bên phải cảnh khi kịch bản nêu ai đưa bệnh nhân đến (`famInfo`: vợ/chồng/con/mẹ/bố/bạn/người nhà). Giới tính theo quan hệ; "người nhà" chung chung chọn theo mã ca. Cấp cứu/nội trú: tư thế lo lắng nếu bệnh nhân chưa ổn, ngược lại đứng bình tĩnh.
+- **Nằm sấp châm cứu** (`canh/cham_{nam|nu}.webp`): ảnh gồm giường + bệnh nhân, dùng khi ca có `pose: prone`.
+- **Cần thêm ảnh**: biểu cảm trạng thái bệnh nhân trẻ em; bệnh nhân nằm sấp là trẻ em/người già.
 
 ## Y Quán: chống giật màn hình
 - `game.js` dùng `paint()`: chia trang thành vùng (hero, nav, thông báo, hành trình, nội dung, chat) và chỉ thay vùng có HTML đổi; giữ vị trí cuộn. Trước đây mỗi lần chạm dựng lại toàn trang nên ảnh bị tạo lại và màn hình nhảy.
