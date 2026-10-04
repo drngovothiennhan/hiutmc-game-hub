@@ -1124,20 +1124,28 @@ function bedSide() {
     `<path d="M58 204 L58 174 Q60 168 70 168 Q96 170 118 190 Q124 200 116 205 Z" fill="#FFFFFF" ${OLN}/><path d="M66 196 Q84 184 104 196 Q86 202 66 204 Z" fill="#E8EEF7" ${OLN}/>`;
 }
 const bedBlanket = () => `<path d="M76 212 Q80 196 100 196 Q116 195 140 192 L196 191 Q210 190 214 201 L214 226 L76 226 Z" fill="#F7FAFF" ${OLN}/><path d="M84 207 Q110 202 140 204 L212 205" fill="none" stroke="#4D86D6" stroke-width="3" opacity=".8"/><path d="M168 193 Q176 206 172 224" fill="none" stroke="#C9D4E6" stroke-width="1.6"/>`;
+/* Giường nội trú: 60 ảnh vẽ nguyên cảnh (6 bệnh nhân × 10 trạng thái), nhìn ngang. Ảnh lỗi dùng lại giường vẽ bằng code */
+const BED_OLD = ['nam_gia-2'];
+const bedKey = () => patArt(S.c) + '-' + (patPick() + 1);
+const BED_W = 206, BED_H = BED_W * 467 / 760;
 function sceneBed(kind, n) {
-  const er = kind === 'capcuu', kid = S.c.age < 12, art = patArt(S.c), cell = S.stab < 60 ? 7 : 1;
-  const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem', 'binh_oxy', 'may_tho'].concat(kid ? [art + '-' + cell] : []);
+  const er = kind === 'capcuu', kid = S.c.age < 12, art = patArt(S.c), key = bedKey(), old = BED_OLD.includes(key);
   const sheet = DOCBASE.replace(/bacsi\/$/, 'benhnhan/') + patVariant(S.c) + '-trangthai.webp';
-  if (!sceneOk(need.concat(famUrls())) || !docNeed() || (!kid && !docImgOk(sheet))) return room(kind, n);
+  const need = ['tu_dung_cu', 'monitor', er ? 'den_kham' : 'rem_ngan', er ? 'xe_cap_cuu' : 'truyen_dich', 'dong_ho', 'cua_so_ngay', 'cua_so_dem', 'binh_oxy', 'may_tho'].concat(old ? [] : ['giuong/' + key]);
+  if (!sceneOk(need.concat(famUrls())) || !docNeed() || (old && !docImgOk(sheet))) return room(kind, n);
   const wall = er
     ? `<rect x="16" y="14" width="74" height="22" rx="4" fill="#E5484D" ${OLN}/><text x="53" y="29.5" text-anchor="middle" style="font:800 11px var(--f-body);fill:#fff">CẤP CỨU</text>` + prop('dong_ho', 334, 66, 28)
     : winP(n, 118, 112, 110) + prop('dong_ho', 28, 68, 28) + prop('rem_ngan', 30, 252, 170);
   const ox = oxyProp(), cab = (x, yb) => ox ? propH(ox, x + 6, 262, 108) : propH('tu_dung_cu', x, yb, 100);
   const side = er ? cab(0, 254) + prop('monitor', 6, 154, 50) + propH('xe_cap_cuu', 307, 262, 118)
                   : propH('truyen_dich', 28, 262, 150) + cab(330, 254) + prop('monitor', 337, 154, 50);
-  const head = bedHead(n);
-  const hx = 98, hy = kid ? 208 - PT[art][cell - 1][1] * .62 * .5 : 208 - PSHEET_H();
-  return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + bedSide() + head + bedBlanket() + statusFx(hx, hy + 6, 20) + docScene(262, 262, 200, false) + famAt(352, 268, 170, famCell(kind));
+  let bed, hx, hy;
+  if (old) {
+    bed = bedSide() + bedHead(n) + bedBlanket(); hx = 98; hy = 208 - PSHEET_H() + 6;
+  } else {
+    bed = shadow(128, 200) + `<image href="${CANH}giuong/${key}.webp" x="24" y="${(264 - BED_H).toFixed(1)}" width="${BED_W}" height="${BED_H.toFixed(1)}"/>`; hx = 24 + BED_W * .125; hy = 264 - BED_H + 14;
+  }
+  return room(kind, n) + wall + nightOv(n) + (er ? propH('den_kham', 118, 262, 215) : '') + side + bed + statusFx(hx, hy, 20) + docScene(262, 262, 200, false) + famAt(352, 268, 170, famCell(kind));
 }
 const PSHEET_H = () => PATSHEET[2] * .82;
 const sceneWard = n => sceneBed('giuong', n);
