@@ -76,3 +76,10 @@ Chủ sở hữu quyết định bật cả 101 ca `nhap`. Trong ngân hàng nh�
 - **Bác sĩ** đứng sát bệnh nhân, quay về phía bệnh nhân, làm đúng động tác vừa thực hiện; hàng chân dung chỉ còn biểu cảm. Bác sĩ lấy từ hồ sơ Y Quán (`doctor_avatar_id`); chưa đăng nhập dùng bác sĩ nam mặc định. Ảnh bác sĩ ở Y Quán (`y-quan-live/art/doctor-male|female.webp`) đã đổi sang cùng bộ gói 1, bỏ bộ sprite cũ trong `tu-chan`.
 - Hướng nhìn: ảnh gốc của bác sĩ quay sang TRÁI. Đứng bên phải bệnh nhân (giường) thì giữ nguyên, đứng bên trái (phòng khám, châm cứu) thì lật.
 - **Cần thêm ảnh**: biểu cảm trạng thái bệnh nhân trẻ em, người nhà đi cùng (mẹ của bé), tư thế nằm sấp trên bàn châm cứu.
+
+## Y Quán: chống giật màn hình
+- `game.js` dùng `paint()`: chia trang thành vùng (hero, nav, thông báo, hành trình, nội dung, chat) và chỉ thay vùng có HTML đổi; giữ vị trí cuộn. Trước đây mỗi lần chạm dựng lại toàn trang nên ảnh bị tạo lại và màn hình nhảy.
+- `button:hover` chỉ áp dụng khi thiết bị có chuột (`hover:hover`) để cảm ứng không bị nhích nút.
+
+## Y Quán: bệnh nhân (cần ảnh)
+Người đến khám Y Quán là bệnh nhân ngoại trú: quần áo đời thường, không đồ bệnh viện. Chưa có bộ ảnh này; cần ChatGPT vẽ "bệnh nhân đời thường" cùng nét với Viện (nam/nữ trẻ/già, bé trai/gái) rồi tích hợp.
