@@ -71,11 +71,15 @@ export const FIXES = [
   { id: 'ngoai-cap-cuu-104', from: 'Truyền dịch tinh thể ấm thận trọng và truyền hồng cầu lắng để đạt Hb 7 đến 9 g/dL, tránh dịch quá nhiều', to: 'Truyền dịch tinh thể thận trọng và truyền hồng cầu lắng khi Hb dưới 7 g/dL (dưới 8 g/dL nếu có bệnh tim mạch), tránh dịch quá nhiều' },
   { id: 'ngoai-cap-cuu-104', from: 'truyền máu hạn chế (Hb 7 đến 9 g/dL)', to: 'truyền máu hạn chế (ngưỡng Hb dưới 7 g/dL theo ACG; dưới 8 g/dL theo ICG)' },
   { id: 'ngoai-cap-cuu-104', from: 'Hb dưới 7 g/dL (mục tiêu 7 đến 9 g/dL)', to: 'Hb dưới 7 g/dL (dưới 8 g/dL nếu có bệnh tim mạch)' },
+  // Sốt xuất huyết người lớn (QĐ 3705/QĐ-BYT 2019): ChatGPT (incoming Việc 1 Lô A) và hai bản toàn văn độc lập cùng cho 6 -> 3 -> 1,5 mL/kg/giờ, sốc 15 mL/kg/giờ.
+  { id: 'noi-nhiem-001', from: 'bắt đầu 5 đến 7 mL/kg/giờ trong 1 đến 2 giờ rồi giảm dần', to: 'bắt đầu 6 mL/kg/giờ trong 1 đến 2 giờ, sau đó 3 mL/kg/giờ trong 2 đến 4 giờ rồi giảm dần' },
+  { id: 'noi-nhiem-001', from: '5 đến 7 mL/kg/giờ trong 1 đến 2 giờ, đánh giá lại; nếu hematocrit giảm và ổn định thì giảm dần 3 đến 5 mL/kg/giờ, 2 đến 3 mL/kg/giờ;', to: '6 mL/kg/giờ trong 1 đến 2 giờ, sau đó 3 mL/kg/giờ trong 2 đến 4 giờ, đánh giá lại; nếu mạch, huyết áp ổn định và hematocrit giảm thì giảm còn 1,5 mL/kg/giờ trong 6 đến 18 giờ;' },
+  { id: 'noi-nhiem-001', from: 'Sốc: bù dịch nhanh 20 mL/kg trong 15 phút, cân nhắc chất keo.', to: 'Sốc (người lớn): Ringer lactate hoặc NaCl 0,9% 15 mL/kg/giờ trong 1 giờ; nếu không cải thiện thì cân nhắc chất keo 10 đến 15 mL/kg/giờ.' },
 ];
 
 // Ca còn con số nghi lệch hoặc nguồn thứ cấp chưa đủ tin: chưa tự quyết, không nâng trạng thái.
 export const CAN_XEM_LAI = {
-  'noi-nhiem-001': 'Tốc độ bù dịch sốt xuất huyết người lớn: bản tóm tắt tự động của QĐ 3705 cho số khác; cần đọc nguyên văn văn bản.',
+  'noi-nhiem-001': 'Tốc độ truyền dịch đã sửa theo QĐ 3705. Còn mở: tần suất theo dõi (các bản đọc được ghi 1-2 giờ, 2-4 giờ và 4-6 giờ); cần đọc nguyên văn mục theo dõi người lớn.',
   'ngoai-chan-thuong-005': 'Mức chỉnh dịch bỏng "10 đến 20% mỗi giờ" so với "khoảng 1/3": cần đối chiếu hướng dẫn ABA nguyên văn.',
   'noi-ho-hap-002': 'Ngưỡng PaCO2 để thở không xâm nhập: BTS dùng trên 6,5 kPa (khoảng 49 mmHg), ca ghi 45 mmHg (GOLD); cần chọn một nguồn.',
   'noi-ho-hap-003': 'Cấy máu/đờm thường quy và mốc kháng sinh trong 4 giờ: ATS/IDSA 2019 không khuyến cáo thường quy cho viêm phổi không nặng.',
