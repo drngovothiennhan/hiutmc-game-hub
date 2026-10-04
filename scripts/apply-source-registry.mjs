@@ -1,6 +1,6 @@
 // Gắn kết quả tra cứu nguồn (data/nguon-registry.json) vào từng ca của ngân hàng chuẩn.
 // Mỗi ca nhận `nguon_kiem`: [{i, loai, id?, pmid?, doi?, url?, so?, ngay?, ghi_chu?}] — i là chỉ số trong `nguon`.
-// loai: pubmed | van_ban_byt (đã xác nhận tồn tại, CHƯA đối chiếu nội dung) | can_sua | khong_xac_nhan
+// loai: pubmed | huong_dan_web (trang chính thức đã xác nhận) | van_ban_byt (đã xác nhận tồn tại, CHƯA đối chiếu nội dung) | can_sua | khong_xac_nhan
 //       | khong_dinh_danh | sach_giao_trinh | chua_tra.
 // Đây là kiểm tra tự động, không thay thế thẩm định chuyên môn: ca vẫn ở trạng thái draft.
 // Dùng: node scripts/apply-source-registry.mjs          (ghi file rồi chạy sync-case-bank)
