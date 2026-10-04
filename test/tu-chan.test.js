@@ -223,3 +223,10 @@ test('One doctor identity: Y Quán portraits come from the same doctor pack as t
   const { stat } = await import('node:fs/promises');
   for (const f of ['doctor-male', 'doctor-female']) assert.ok((await stat(new URL(`../public/y-quan-live/art/${f}.webp`, import.meta.url))).size > 3000);
 });
+
+test('Patient posture follows the clinical story: trauma and fractures lie down, sitting only when stable', async () => {
+  const html = await read('../public/tu-chan/index.html');
+  assert.match(html, /const TRAUMA = \/gãy\|trật khớp\|chấn thương\|ngã/);
+  assert.match(html, /const vitStable = /);
+  assert.match(html, /if \(TRAUMA\.test\(c\.title/);
+});
