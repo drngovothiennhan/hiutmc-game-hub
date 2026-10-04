@@ -419,6 +419,10 @@
     [
      "management of acute pancreatitis",
      "acg"
+    ],
+    [
+     "management of acute pancreatitis",
+     "american college of gastroenterology"
     ]
    ],
    "ghi_chu": null
@@ -1163,6 +1167,224 @@
     [
      "satoh",
      "thyroid storm"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "gina-2025",
+   "loai": "huong_dan_web",
+   "ten": "GINA Summary Guide / Global Strategy for Asthma 2025",
+   "url": "https://ginasthma.org/wp-content/uploads/2025/11/GINA-Summary-Guide-2025-WEB_FINAL-WMS.pdf",
+   "alt": [
+    [
+     "global initiative for asthma"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "gold-2025",
+   "loai": "huong_dan_web",
+   "ten": "GOLD 2025 Report",
+   "url": "https://goldcopd.org/2025-gold-report/",
+   "alt": [
+    [
+     "global initiative for chronic obstructive lung disease"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "nice-cg141",
+   "loai": "huong_dan_web",
+   "ten": "NICE CG141 Acute upper gastrointestinal bleeding in over 16s: management",
+   "url": "https://www.nice.org.uk/guidance/cg141",
+   "alt": [
+    [
+     "nice cg141"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "nice-cg184",
+   "loai": "huong_dan_web",
+   "ten": "NICE CG184 GORD and dyspepsia in adults",
+   "url": "https://www.nice.org.uk/guidance/cg184",
+   "alt": [
+    [
+     "nice cg184"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "nice-cg124",
+   "loai": "can_sua",
+   "ten": "NICE CG124 Hip fracture: management",
+   "url": "https://www.nice.org.uk/guidance/cg124",
+   "alt": [
+    [
+     "nice guideline ng124"
+    ]
+   ],
+   "ghi_chu": "Mã đúng là NICE CG124 (2011, có rà soát 2019), không phải NG124/2023; sửa chuỗi nguồn khi duyệt."
+  },
+  {
+   "id": "eau-urolithiasis",
+   "loai": "huong_dan_web",
+   "ten": "EAU Guidelines on Urolithiasis (bản hằng năm)",
+   "url": "https://uroweb.org/guidelines/urolithiasis",
+   "alt": [
+    [
+     "eau guidelines on urolithiasis"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "ukka-hyperkalaemia",
+   "loai": "huong_dan_web",
+   "ten": "UK Kidney Association: Treatment of Acute Hyperkalaemia in Adults (2023)",
+   "url": "https://ukkidney.org/guidelines/joint-guidelines/treatment-of-acute-hyperkalaemia-in-adults",
+   "alt": [
+    [
+     "uk kidney association",
+     "hyperkalaemia"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "who-hbv-2024",
+   "loai": "huong_dan_web",
+   "ten": "WHO Guidelines for chronic hepatitis B infection (2024)",
+   "url": "https://who.int/publications/i/item/9789240090903",
+   "alt": [
+    [
+     "who",
+     "chronic hepatitis b infection"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "who-searo-snakebite-2016",
+   "loai": "huong_dan_web",
+   "ten": "WHO SEARO Guidelines for the management of snakebites, 2nd ed (2016)",
+   "url": "https://www.who.int/publications/i/item/9789290225300",
+   "alt": [
+    [
+     "regional office for south-east asia",
+     "snakebite"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "who-tetanus-2017",
+   "loai": "huong_dan_web",
+   "ten": "WHO position paper: Tetanus vaccines (WER 92:53-76, 2017)",
+   "url": "https://www.who.int/publications/i/item/WHO-WER9206",
+   "alt": [
+    [
+     "tetanus vaccines",
+     "position paper"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "kdigo-aki-2012",
+   "loai": "pubmed",
+   "pmid": "22890468",
+   "doi": null,
+   "ten": "KDIGO clinical practice guidelines for acute kidney injury. Nephron Clin Pract 120:c179",
+   "alt": [
+    [
+     "kdigo",
+     "acute kidney injury"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "twist-barbosa-2013",
+   "loai": "pubmed",
+   "pmid": "23103800",
+   "doi": null,
+   "ten": "Barbosa JA et al. Testicular Torsion Score (TWIST). J Urol 189:1859",
+   "alt": [
+    [
+     "barbosa",
+     "testicular torsion"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "anorectal-abscess-ascrs-2022",
+   "loai": "pubmed",
+   "pmid": "35732009",
+   "doi": null,
+   "ten": "ASCRS Clinical Practice Guidelines for Anorectal Abscess, Fistula-in-Ano, and Rectovaginal Fistula. Dis Colon Rectum 65:964",
+   "alt": [
+    [
+     "gaertner"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "breast-esmo-2024",
+   "loai": "pubmed",
+   "pmid": "38101773",
+   "doi": null,
+   "ten": "Early breast cancer: ESMO Clinical Practice Guideline. Ann Oncol 35:159",
+   "alt": [
+    [
+     "esmo",
+     "early breast cancer"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "tirads-acr-2017",
+   "loai": "pubmed",
+   "pmid": "28372962",
+   "doi": null,
+   "ten": "ACR TI-RADS. J Am Coll Radiol 14:587",
+   "alt": [
+    [
+     "ti-rads"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "bethesda-2023",
+   "loai": "pubmed",
+   "pmid": "37427847",
+   "doi": null,
+   "ten": "2023 Bethesda System for Reporting Thyroid Cytopathology. Thyroid 33:1039",
+   "alt": [
+    [
+     "bethesda system"
+    ]
+   ],
+   "ghi_chu": null
+  },
+  {
+   "id": "thyroid-nodule-ata-2015",
+   "loai": "pubmed",
+   "pmid": "26462967",
+   "doi": null,
+   "ten": "2015 ATA Management Guidelines for Thyroid Nodules and Differentiated Thyroid Cancer. Thyroid 26:1",
+   "alt": [
+    [
+     "2015 american thyroid association"
     ]
    ],
    "ghi_chu": null

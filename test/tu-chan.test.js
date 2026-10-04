@@ -332,7 +332,7 @@ test('Every case source carries a verification record; modern cases cite no TCM 
   const reg = JSON.parse(await read('../data/nguon-registry.json'));
   assert.ok(reg.cach && reg.ngay, 'registry must state method and date');
   const bank = readBank(await read('../public/tu-chan/index.html'));
-  const LOAI = new Set(['pubmed', 'van_ban_byt', 'can_sua', 'khong_xac_nhan', 'khong_dinh_danh', 'sach_giao_trinh', 'chua_tra']);
+  const LOAI = new Set(['pubmed', 'huong_dan_web', 'van_ban_byt', 'can_sua', 'khong_xac_nhan', 'khong_dinh_danh', 'sach_giao_trinh', 'chua_tra']);
   for (const c of bank) {
     assert.ok(Array.isArray(c.nguon_kiem), c.id + ' missing nguon_kiem');
     const covered = new Set(c.nguon_kiem.map(k => k.i));
@@ -340,6 +340,7 @@ test('Every case source carries a verification record; modern cases cite no TCM 
     for (const k of c.nguon_kiem) {
       assert.ok(LOAI.has(k.loai), c.id + ': unknown loai ' + k.loai);
       if (k.loai === 'pubmed') assert.match(k.pmid, /^\d{6,8}$/, c.id + ': pubmed entry needs a PMID');
+      if (k.loai === 'huong_dan_web') assert.match(k.url, /^https:\/\//, c.id + ': web guideline needs an https url');
       if (k.loai === 'van_ban_byt') assert.ok(k.so && k.url, c.id + ': MoH entry needs so + url');
     }
     if (c.mode === 'tay') {
@@ -348,7 +349,7 @@ test('Every case source carries a verification record; modern cases cite no TCM 
     }
     assert.equal(c.status, 'draft', c.id + ': automated source check does not make a case VERIFIED');
   }
-  assert.ok(bank.filter(c => c.mode === 'tay' && c.nguon_kiem.some(k => k.loai === 'pubmed' || k.loai === 'van_ban_byt')).length >= 70, 'most modern cases should have at least one confirmed source');
+  assert.ok(bank.filter(c => c.mode === 'tay' && c.nguon_kiem.some(k => ['pubmed', 'huong_dan_web', 'van_ban_byt'].includes(k.loai))).length >= 85, 'most modern cases should have at least one confirmed source');
   const seen = new Set();
   for (const e of reg.muc) { assert.ok(!seen.has(e.id), 'duplicate registry id ' + e.id); seen.add(e.id); }
 });
