@@ -79,5 +79,77 @@
     "nguon": "KDIGO 2012 Clinical Practice Guideline for Acute Kidney Injury: https://kdigo.org/wp-content/uploads/2019/01/KDIGO-2012-AKI-Guideline-English.pdf ; NICE NG148 Acute kidney injury: https://www.nice.org.uk/guidance/ng148/chapter/Recommendations ; Evidence-Based Medicine Guidelines, Acute kidney injury: https://evidence.unboundmedicine.com/evidence/view/EBMG/453925/0/Acute_kidney_injury",
     "trich": "EBMG: “Re-check creatinine concentration after 12–24 hours if it is unexpectedly increased.” NICE: “daily measurement is typical while in hospital.” Không tìm thấy mốc 12–24 giờ chung cho creatinin, kali và bicarbonat.",
     "de_xuat": ""
+  },
+  {
+    "id": "noi-tim-mach-001",
+    "loc": "action",
+    "text": "Aspirin nhai 300 mg, ticagrelor 180 mg và heparin không phân đoạn theo cân nặng",
+    "verdict": "khop",
+    "nguon": "2023 ESC Guidelines for the management of acute coronary syndromes: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "“Aspirin | LD of 150–300 mg orally”; “Ticagrelor | LD of 180 mg orally”; “UFH | ... bolus 70–100 U/kg”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-tim-mach-001",
+    "loc": "action_why",
+    "text": "Thời gian cửa đến bóng dưới 90 phút (trong 120 phút nếu chuyển viện) quyết định lượng cơ tim cứu được.",
+    "verdict": "lech",
+    "nguon": "2023 ESC Guidelines for ACS: https://academic.oup.com/eurheartj/article/44/38/3720/7243210 ; ESC Quality Indicators for ACS: https://academic.oup.com/ehjacc/article/14/3/145/7985677",
+    "trich": "ESC 2023: “within 120 min of the ECG-based diagnosis”. ESC QI: “<60 ... PCI centre, <90 min ... non-PCI setting”.",
+    "de_xuat": "Không dùng cụm “cửa đến bóng <90 phút” như mục tiêu chung. Ghi thời gian từ chẩn đoán STEMI đến wire crossing: lý tưởng <60 phút tại trung tâm PCI, <90 phút nếu chẩn đoán ngoài trung tâm PCI; PPCI phải khả thi trong 120 phút."
+  },
+  {
+    "id": "noi-tim-mach-001",
+    "loc": "action",
+    "text": "Atorvastatin 80 mg và dặn giữ yên giường",
+    "verdict": "nhat_quan",
+    "nguon": "2023 AHA/ACC Chronic Coronary Disease Guideline: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001168?url_ver=Z39.88-2003 ; 2023 ESC ACS Guidelines: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "AHA/ACC: “Atorvastatin (40 mg‡), 80 mg” under High Intensity. ESC: “a high-intensity statin ... is initiated as early as possible”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-tim-mach-001",
+    "loc": "hbu.dieu_tri",
+    "text": "Chống kết tập tiểu cầu kép (aspirin 300 mg nhai, ticagrelor 180 mg), heparin không phân đoạn theo cân nặng;",
+    "verdict": "khop",
+    "nguon": "2023 ESC Guidelines for the management of acute coronary syndromes: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "“Aspirin | LD of 150–300 mg orally”; “Ticagrelor | LD of 180 mg orally”; “UFH | ... bolus 70–100 U/kg”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-tim-mach-001",
+    "loc": "hbu.dieu_tri",
+    "text": "PCI thì đầu khẩn cấp, mục tiêu cửa đến bóng dưới 90 phút (tổng thời gian từ chẩn đoán đến luồn dây dưới 120 phút nếu chuyển viện);",
+    "verdict": "lech",
+    "nguon": "2023 ESC Guidelines for ACS: https://academic.oup.com/eurheartj/article/44/38/3720/7243210 ; ESC Quality Indicators for ACS: https://academic.oup.com/ehjacc/article/14/3/145/7985677",
+    "trich": "ESC 2023: “within 120 min of the ECG-based diagnosis”. ESC QI: “<60 ... PCI centre, <90 min ... non-PCI setting”.",
+    "de_xuat": "Sửa thành mục tiêu từ chẩn đoán STEMI đến wire crossing: lý tưởng <60 phút tại trung tâm PCI, <90 phút nếu chẩn đoán ngoài trung tâm PCI; ngưỡng tối đa để chọn PPCI là 120 phút."
+  },
+  {
+    "id": "noi-tim-mach-001",
+    "loc": "hbu.dieu_tri",
+    "text": "Atorvastatin 80 mg, chẹn beta liều thấp khi không có suy tim và huyết động ổn định, ức chế men chuyển/chẹn thụ thể sớm khi EF dưới 40% hoặc tăng huyết áp.",
+    "verdict": "nhat_quan",
+    "nguon": "2023 AHA/ACC Chronic Coronary Disease Guideline: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001168?url_ver=Z39.88-2003 ; 2023 ESC ACS Guidelines: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "AHA/ACC: “Atorvastatin (40 mg‡), 80 mg”. ESC: ACE inhibitors improve outcomes with “LVEF ≤40%”; beta-blockers considered when “SBP >120 mmHg” and no acute HF.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-tim-mach-003",
+    "loc": "action",
+    "text": "Nằm đầu cao 30 độ, monitor, hai đường truyền, theo dõi huyết áp mỗi 5 phút",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "2018 ESC/ESH Guidelines for arterial hypertension: https://academic.oup.com/eurheartj/article/39/33/3021/5079119?login=false ; 2017 ACC/AHA High Blood Pressure Guideline: https://www.ahajournals.org/doi/10.1161/hyp.0000000000000065",
+    "trich": "ESC/ESH yêu cầu “continuous haemodynamic monitoring”; ACC/AHA khuyến cáo ICU “for continuous monitoring of BP”. Không tìm thấy đoạn nguồn quy định 30° hoặc đo HA mỗi 5 phút.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-tim-mach-004",
+    "loc": "action_why",
+    "text": "Đánh giá đáp ứng lợi tiểu (đủ trên 100–150 ml/giờ ở 6 giờ đầu).",
+    "verdict": "khop",
+    "nguon": "2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure: https://academic.oup.com/eurheartj/article/42/36/3599/6358045",
+    "trich": "“a urine output >100–150 mL/h during the first 6 h.”",
+    "de_xuat": ""
   }
 ]
