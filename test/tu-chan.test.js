@@ -56,15 +56,14 @@ test('Duty rooms: random server-issued cases and EXP wired to the shared Y Quan 
   assert.match(sql, /tu_chan_shifts_one_open_idx/);
 });
 
-test('Catalog seeded on the server matches the reviewed bank: 40 cases, 20 per room (draft cases wait for admin sync)', async () => {
+test('Catalog on the server covers the whole bank: 40 seeded + 101 enabled by the owner on 2026-10-04', async () => {
   const html = await read('../public/tu-chan/index.html');
-  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]).filter(c => c.status !== 'nhap');
-  assert.equal(bank.length, 40);
+  const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(bank.length, 141);
   const room = c => (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham';
-  assert.equal(bank.filter(c => room(c) === 'capcuu').length, 20);
-  assert.equal(bank.filter(c => room(c) === 'kham').length, 20);
-  const sql = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
-  for (const c of bank) assert.ok(sql.includes(`('${c.id}','${room(c)}'`), 'catalog missing ' + c.id);
+  const seed = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
+  const more = await read('../supabase/migrations/20261004080000_vien_thuc_hanh_bat_ca_nhap.sql');
+  for (const c of bank) assert.ok(seed.includes(`('${c.id}','${room(c)}'`) || more.includes(`('${c.id}','${room(c)}'`), 'catalog missing ' + c.id);
 });
 
 
@@ -75,8 +74,8 @@ test('Intake cases cannot be synced into the random duty catalog', async () => {
   assert.match(html, /status: c\.status \|\| 'draft'/);
 
   const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
-  const intake = bank.filter(c => c.status === 'nhap');
-  assert.equal(intake.length, 101);
+  assert.equal(bank.filter(c => c.status === 'nhap').length, 0, 'owner enabled all intake cases on 2026-10-04');
+  const intake = bank.filter(c => /-(0\d\d|10\d)$/.test(c.id) && /^(noi|ngoai|yhct)-/.test(c.id) && !(c.nguon === undefined));
   assert.ok(intake.every(c => Array.isArray(c.nguon) && c.nguon.length > 0), 'intake cases must carry sources before review');
   const requiredHbu = ['ly_do_vao_vien','benh_su','tien_su','luoc_qua_co_quan','tom_tat','bien_luan','sinh_ly_benh','chan_doan_phan_biet','dieu_tri','tien_luong','du_phong'];
   for (const item of intake) {
