@@ -1,0 +1,693 @@
+[
+  {
+    "id": "noi-tieu-hoa-011",
+    "title": "Nôn ra máu và đi cầu phân đen",
+    "kind": "Nội",
+    "setting": "giuong",
+    "level": "Vừa",
+    "name": "Người bệnh mô phỏng A",
+    "age": 61,
+    "sex": "nam",
+    "intro": "Người bệnh nằm giường Nội tiêu hóa vì nôn ra máu đỏ sẫm và đi cầu phân đen, kèm choáng váng.",
+    "vitals": {
+      "hr": 106,
+      "sbp": 98,
+      "dbp": 62,
+      "rr": 20,
+      "t": 36.7,
+      "spo2": 97
+    },
+    "ask": [
+      [
+        "Nôn máu bắt đầu khi nào, số lần và màu sắc ra sao?",
+        "Khởi phát trong ngày nhập viện, nôn hai lần máu đỏ sẫm lẫn cục nhỏ.",
+        "e"
+      ],
+      [
+        "Phân có thay đổi màu sắc không?",
+        "Đi cầu phân đen sệt, mùi khẳm từ sáng.",
+        "e"
+      ],
+      [
+        "Có dùng NSAID, aspirin, thuốc chống đông hoặc uống rượu không?",
+        "Dùng ibuprofen nhiều ngày vì đau khớp, không dùng thuốc chống đông.",
+        "e"
+      ],
+      [
+        "Trước đây có loét dạ dày-tá tràng hoặc xuất huyết tiêu hóa không?",
+        "Từng đau thượng vị tái diễn nhưng chưa nội soi.",
+        "n"
+      ],
+      [
+        "Có đau ngực, khó thở hoặc ngất không?",
+        "Không đau ngực; có chóng mặt khi ngồi dậy nhưng chưa ngất.",
+        "n"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Đánh giá toàn trạng và tưới máu ngoại vi",
+        "Da niêm nhợt, đầu chi hơi lạnh, tỉnh táo.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám bụng",
+        "Bụng mềm, ấn đau nhẹ vùng thượng vị, không phản ứng phúc mạc.",
+        "e"
+      ],
+      [
+        "K",
+        "Thăm trực tràng",
+        "Có phân đen trên găng.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám tim phổi",
+        "Tim nhanh đều, phổi thông khí hai bên.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "Công thức máu",
+        10,
+        "Hemoglobin 6,8 g/dL; tiểu cầu không giảm.",
+        "e"
+      ],
+      [
+        "Ure, creatinin và điện giải",
+        10,
+        "Ure tăng tương đối, creatinin chưa tăng rõ.",
+        "e"
+      ],
+      [
+        "Nhóm máu và phản ứng chéo",
+        10,
+        "Đã lấy mẫu chuẩn bị truyền máu.",
+        "e"
+      ],
+      [
+        "Nội soi dạ dày-tá tràng sau hồi sức",
+        20,
+        "Ổ loét tá tràng có dấu xuất huyết nguy cơ cao cần điều trị nội soi.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Xuất huyết tiêu hóa trên do loét dạ dày-tá tràng",
+        "Xuất huyết tiêu hóa dưới do túi thừa đại tràng",
+        "Viêm tụy cấp",
+        "Tắc ruột cơ học"
+      ]
+    },
+    "actions": [
+      "+Thiết lập đường truyền, hồi sức dịch và đánh giá huyết động song song với chuẩn bị nội soi|2|Ổn định ban đầu trước can thiệp nội soi.",
+      "+Truyền hồng cầu lắng vì hemoglobin dưới ngưỡng 7 g/dL, đồng thời đánh giá triệu chứng và bệnh kèm|3|ACG khuyến nghị chiến lược truyền máu hạn chế với ngưỡng 7 g/dL ở UGIB nhập viện.",
+      "+Thực hiện nội soi trong vòng 24 giờ sau khi hồi sức và ổn định ban đầu|3|ACG khuyến nghị nội soi trong vòng 24 giờ ở người bệnh UGIB nhập viện hoặc theo dõi tại bệnh viện.",
+      "-Cho xuất viện chỉ với thuốc kháng acid vì huyết áp còn đo được|0|Bệnh cảnh xuất huyết đang hoạt động và thiếu máu nặng cần điều trị nội trú.",
+      "!Trì hoãn hồi sức và nội soi cho đến khi người bệnh tự hết nôn máu|0|Có thể làm chậm kiểm soát xuất huyết và tăng nguy cơ suy tuần hoàn."
+    ],
+    "teach": "Xuất huyết tiêu hóa trên cần đánh giá huyết động và hồi sức ngay, đồng thời xác định nguy cơ và nguồn chảy máu. Chiến lược truyền máu hạn chế và nội soi sớm sau hồi sức là các điểm thực hành quan trọng.",
+    "hbu": {
+      "hanh_chinh": "Người bệnh mô phỏng nam, điều trị tại giường Nội tiêu hóa.",
+      "ly_do_vao_vien": "Nôn ra máu và đi cầu phân đen.",
+      "benh_su": "Trong ngày nhập viện xuất hiện nôn máu đỏ sẫm, sau đó đi cầu phân đen, chóng mặt và mệt tăng. Trước đó có đau thượng vị tái diễn và dùng ibuprofen nhiều ngày.",
+      "tien_su": "Chưa nội soi tiêu hóa trước đây; không dùng thuốc chống đông; chưa ghi nhận bệnh gan mạn.",
+      "luoc_qua_co_quan": "Tim mạch có hồi hộp và chóng mặt, không đau ngực. Hô hấp không ho, không khó thở. Tiết niệu không tiểu máu. Thần kinh tỉnh táo, chưa ngất. Cơ xương khớp có đau khớp nên tự dùng NSAID.",
+      "kham_hien_tai": "Tỉnh, da niêm nhợt, đầu chi hơi lạnh; tim nhanh đều; bụng mềm, ấn đau nhẹ thượng vị; thăm trực tràng có phân đen.",
+      "can_lam_sang": "Hemoglobin 6,8 g/dL; đã làm nhóm máu và phản ứng chéo. Nội soi sau hồi sức cho thấy ổ loét tá tràng có dấu xuất huyết nguy cơ cao.",
+      "tom_tat": "Người bệnh nam lớn tuổi có nôn máu, melena, thiếu máu nặng và tiền sử dùng NSAID, phù hợp xuất huyết tiêu hóa trên do loét.",
+      "dat_van_de": "Xuất huyết tiêu hóa trên; mức độ mất máu; ổn định huyết động; xác định và cầm nguồn chảy máu.",
+      "chan_doan_so_bo": "Xuất huyết tiêu hóa trên, nghi do loét dạ dày-tá tràng.",
+      "bien_luan": "Nôn máu và melena định hướng nguồn chảy máu tiêu hóa trên. Dùng NSAID là yếu tố nguy cơ loét; nội soi giúp xác định tổn thương và chỉ định cầm máu.",
+      "sinh_ly_benh": "Tổn thương niêm mạc và mạch máu tại ổ loét gây chảy máu vào lòng ống tiêu hóa; mất máu làm giảm thể tích tuần hoàn và khả năng vận chuyển oxy.",
+      "chan_doan_phan_biet": "Vỡ giãn tĩnh mạch thực quản, rách Mallory-Weiss, viêm dạ dày xuất huyết, tổn thương Dieulafoy.",
+      "chan_doan_xac_dinh": "Xuất huyết tiêu hóa trên do loét tá tràng sau khi xác định bằng nội soi.",
+      "dieu_tri": "Hồi sức ban đầu, truyền hồng cầu theo ngưỡng và bối cảnh lâm sàng, nội soi cầm máu khi có chỉ định, ngừng NSAID không cần thiết và điều trị nguyên nhân.",
+      "tien_luong": "Phụ thuộc mức độ mất máu, tổn thương nội soi, bệnh kèm và khả năng kiểm soát nguồn chảy máu.",
+      "du_phong": "Tránh tự dùng NSAID kéo dài, điều trị nguyên nhân loét và tái khám khi có dấu hiệu xuất huyết tái phát."
+    },
+    "nguon": [
+      "Laine L, Barkun AN, Saltzman JR, et al. ACG Clinical Guideline: Upper Gastrointestinal and Ulcer Bleeding, 2021. https://pubmed.ncbi.nlm.nih.gov/33929377/ . Trích: “red blood cell transfusion at a threshold of 7 g/dL ... endoscopy is suggested within 24 hours after presentation.”"
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-tim-mach-007",
+    "title": "Hồi hộp, mạch không đều ở người tăng huyết áp và đái tháo đường",
+    "kind": "Nội",
+    "setting": "giuong",
+    "level": "Vừa",
+    "name": "Người bệnh mô phỏng B",
+    "age": 72,
+    "sex": "nữ",
+    "intro": "Người bệnh nằm giường Nội tim mạch vì hồi hộp từng cơn, mệt và phát hiện nhịp tim không đều.",
+    "vitals": {
+      "hr": 132,
+      "sbp": 126,
+      "dbp": 78,
+      "rr": 18,
+      "t": 36.6,
+      "spo2": 98
+    },
+    "ask": [
+      [
+        "Hồi hộp bắt đầu khi nào và có tự hết không?",
+        "Xuất hiện từng cơn trong nhiều tháng, gần đây kéo dài hơn và gây mệt.",
+        "e"
+      ],
+      [
+        "Có đau ngực, khó thở, ngất hoặc dấu thần kinh khu trú không?",
+        "Không ngất, không yếu liệt; đôi lúc hụt hơi khi tim đập nhanh.",
+        "e"
+      ],
+      [
+        "Có tiền sử tăng huyết áp, đái tháo đường, suy tim hoặc đột quỵ không?",
+        "Có tăng huyết áp và đái tháo đường, chưa từng đột quỵ.",
+        "e"
+      ],
+      [
+        "Có bệnh van tim hoặc thay van cơ học không?",
+        "Chưa ghi nhận bệnh van tim nặng hay van cơ học.",
+        "e"
+      ],
+      [
+        "Đang dùng aspirin hay thuốc chống đông không?",
+        "Không dùng thuốc chống đông.",
+        "n"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Bắt mạch và nghe tim",
+        "Mạch hoàn toàn không đều, tần số nhanh; tiếng tim không đều.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám dấu suy tim",
+        "Không ran ẩm phổi, không phù ngoại biên rõ.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám thần kinh khu trú",
+        "Không phát hiện yếu liệt hoặc rối loạn ngôn ngữ.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám tuyến giáp",
+        "Không có bướu giáp hoặc run đầu chi rõ.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "Điện tâm đồ 12 chuyển đạo",
+        10,
+        "Rung nhĩ với đáp ứng thất nhanh.",
+        "e"
+      ],
+      [
+        "Công thức máu, điện giải, chức năng thận",
+        10,
+        "Không có thiếu máu nặng hoặc rối loạn điện giải nổi bật.",
+        "e"
+      ],
+      [
+        "TSH",
+        10,
+        "Không gợi ý cường giáp.",
+        "e"
+      ],
+      [
+        "Siêu âm tim",
+        15,
+        "Không có hẹp van hai lá mức vừa-nặng, không có van tim cơ học.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Rung nhĩ không do hẹp van hai lá mức vừa-nặng hoặc van tim cơ học",
+        "Nhịp nhanh xoang đơn thuần",
+        "Cuồng nhĩ với dẫn truyền cố định",
+        "Ngoại tâm thu thất đơn độc"
+      ]
+    },
+    "actions": [
+      "+Đánh giá nguy cơ thuyên tắc bằng thang điểm lâm sàng đã được thẩm định và cân nhắc kháng đông theo nguy cơ|3|Khuyến cáo AF yêu cầu đánh giá nguy cơ thuyên tắc hằng năm.",
+      "+Ở người bệnh đủ nguy cơ và không có hẹp van hai lá thấp mức vừa-nặng hoặc van cơ học, ưu tiên DOAC hơn warfarin nếu không có chống chỉ định|3|Guideline ưu tiên DOAC ở AF không thuộc nhóm van tim cần warfarin.",
+      "+Kiểm soát tần số hoặc nhịp tùy triệu chứng, huyết động và bệnh tim nền|2|Mục tiêu điều trị triệu chứng được cá thể hóa.",
+      "-Dùng aspirin đơn thuần thay cho thuốc chống đông để phòng đột quỵ|0|Aspirin không được khuyến nghị như phương án thay thế kháng đông ở người đủ chỉ định.",
+      "!Không phòng ngừa thuyên tắc chỉ vì rung nhĩ xuất hiện từng cơn rồi tự hết|0|Nguy cơ đột quỵ được quyết định theo nguy cơ thuyên tắc, không chỉ dựa vào kiểu rung nhĩ."
+    ],
+    "teach": "Ở rung nhĩ, quyết định phòng ngừa đột quỵ dựa vào nguy cơ thuyên tắc và nguy cơ chảy máu, không chỉ dựa vào rung nhĩ kịch phát hay dai dẳng. Khi đủ chỉ định và không có hẹp van hai lá thấp mức vừa-nặng hoặc van cơ học, DOAC thường được ưu tiên.",
+    "hbu": {
+      "hanh_chinh": "Người bệnh mô phỏng nữ, điều trị tại giường Nội tim mạch.",
+      "ly_do_vao_vien": "Hồi hộp và nhịp tim không đều.",
+      "benh_su": "Hồi hộp từng cơn nhiều tháng, gần đây kéo dài hơn, kèm mệt và hụt hơi nhẹ. Không có ngất hoặc dấu thần kinh khu trú.",
+      "tien_su": "Tăng huyết áp và đái tháo đường; chưa từng đột quỵ; không có van tim cơ học đã biết.",
+      "luoc_qua_co_quan": "Tim mạch có hồi hộp, không đau ngực kéo dài. Hô hấp không ho, không khó thở khi nghỉ. Thần kinh không yếu liệt, không nói khó. Tiêu hóa không xuất huyết. Tiết niệu không tiểu máu.",
+      "kham_hien_tai": "Mạch nhanh hoàn toàn không đều; chưa có dấu sung huyết phổi hoặc phù ngoại biên; khám thần kinh không có thiếu sót khu trú.",
+      "can_lam_sang": "Điện tâm đồ xác nhận rung nhĩ. Siêu âm tim không ghi nhận hẹp van hai lá mức vừa-nặng hoặc van cơ học.",
+      "tom_tat": "Người bệnh nữ lớn tuổi có rung nhĩ, tăng huyết áp và đái tháo đường, chưa dùng kháng đông, cần đánh giá nguy cơ thuyên tắc và lựa chọn phòng ngừa đột quỵ.",
+      "dat_van_de": "Rung nhĩ; nguy cơ thuyên tắc; nguy cơ chảy máu; kiểm soát tần số hoặc nhịp.",
+      "chan_doan_so_bo": "Rung nhĩ với đáp ứng thất nhanh.",
+      "bien_luan": "Điện tâm đồ và mạch hoàn toàn không đều xác nhận rung nhĩ. Các yếu tố tuổi, giới và bệnh nền làm tăng nguy cơ thuyên tắc nên cần đánh giá bằng thang điểm chuẩn và quyết định kháng đông.",
+      "sinh_ly_benh": "Hoạt hóa điện hỗn loạn tại nhĩ làm mất co bóp nhĩ hiệu quả, tạo ứ máu nhĩ và tăng nguy cơ huyết khối-thuyên tắc.",
+      "chan_doan_phan_biet": "Cuồng nhĩ, nhịp nhanh nhĩ, ngoại tâm thu dày, nhịp nhanh xoang.",
+      "chan_doan_xac_dinh": "Rung nhĩ không thuộc nhóm hẹp van hai lá thấp mức vừa-nặng hoặc van tim cơ học.",
+      "dieu_tri": "Đánh giá nguy cơ thuyên tắc và chảy máu, chỉ định kháng đông khi phù hợp; lựa chọn kiểm soát tần số hoặc nhịp dựa vào triệu chứng, huyết động và bệnh nền.",
+      "tien_luong": "Phụ thuộc kiểm soát tần số hoặc nhịp, tuân thủ kháng đông khi có chỉ định và kiểm soát bệnh nền.",
+      "du_phong": "Kiểm soát huyết áp, đường huyết, cân nặng, rượu và các yếu tố nguy cơ tim mạch; tái đánh giá nguy cơ định kỳ."
+    },
+    "nguon": [
+      "2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation. https://www.jacc.org/doi/10.1016/j.jacc.2023.08.017 . Trích: “annual thromboembolic risk of ≥2% per year (eg, CHA2DS2-VASc score of ≥2 in men and ≥3 in women), anticoagulation is recommended”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-ho-hap-006",
+    "title": "Khó thở tăng, khạc đờm mủ ở người COPD",
+    "kind": "Nội",
+    "setting": "giuong",
+    "level": "Vừa",
+    "name": "Người bệnh mô phỏng C",
+    "age": 67,
+    "sex": "nam",
+    "intro": "Người bệnh nằm giường Nội hô hấp vì khó thở tăng, khò khè và đờm chuyển vàng.",
+    "vitals": {
+      "hr": 104,
+      "sbp": 132,
+      "dbp": 76,
+      "rr": 30,
+      "t": 37.8,
+      "spo2": 84
+    },
+    "ask": [
+      [
+        "Khó thở tăng từ khi nào và so với mức nền thế nào?",
+        "Khó thở tăng rõ trong vài ngày, đi lại trong phòng cũng hụt hơi.",
+        "e"
+      ],
+      [
+        "Lượng và màu đờm có thay đổi không?",
+        "Đờm nhiều hơn và chuyển vàng đục.",
+        "e"
+      ],
+      [
+        "Có sốt, đau ngực kiểu màng phổi hoặc ho ra máu không?",
+        "Sốt nhẹ, không đau ngực kiểu màng phổi, không ho ra máu.",
+        "e"
+      ],
+      [
+        "Đang dùng thuốc hít gì và kỹ thuật dùng thuốc ra sao?",
+        "Có thuốc giãn phế quản nhưng dùng không đều.",
+        "n"
+      ],
+      [
+        "Có tiền sử đặt nội khí quản hoặc đợt cấp phải thở máy không?",
+        "Chưa từng đặt nội khí quản.",
+        "n"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Quan sát hô hấp",
+        "Thở nhanh, sử dụng cơ hô hấp phụ mức độ vừa.",
+        "e"
+      ],
+      [
+        "K",
+        "Nghe phổi",
+        "Rì rào phế nang giảm, ran rít và ran ngáy hai bên.",
+        "e"
+      ],
+      [
+        "K",
+        "Đánh giá tri giác",
+        "Tỉnh, tiếp xúc được, chưa có lú lẫn.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám tim và phù",
+        "Không phù ngoại biên rõ, tim nhanh đều.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "Khí máu động mạch",
+        15,
+        "pH 7,31, PaCO2 58 mmHg, có toan hô hấp tăng CO2.",
+        "e"
+      ],
+      [
+        "X-quang ngực",
+        10,
+        "Không thấy tràn khí màng phổi hoặc đông đặc thùy rõ.",
+        "e"
+      ],
+      [
+        "Công thức máu và CRP",
+        10,
+        "Có phản ứng viêm mức vừa.",
+        "n"
+      ],
+      [
+        "Điện tâm đồ",
+        10,
+        "Nhịp xoang nhanh, không có thiếu máu cơ tim cấp rõ.",
+        "n"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Đợt cấp COPD kèm suy hô hấp tăng CO2",
+        "Cơn hen đơn thuần ở người chưa có COPD",
+        "Phù phổi cấp do tim",
+        "Tràn khí màng phổi áp lực"
+      ]
+    },
+    "actions": [
+      "+Chuẩn độ oxy để đạt SpO2 mục tiêu 88–92% và đánh giá lại khí máu theo diễn biến|3|GOLD khuyến cáo oxy có kiểm soát trong đợt cấp COPD.",
+      "+Dùng corticosteroid toàn thân tương đương prednisone 40 mg mỗi ngày trong 5 ngày nếu không có chống chỉ định|3|GOLD khuyến cáo liều và thời gian này trong đợt cấp COPD.",
+      "+Dùng thuốc giãn phế quản tác dụng ngắn, có thể phối hợp kháng cholinergic tác dụng ngắn|2|Là điều trị giãn phế quản ban đầu trong đợt cấp.",
+      "+Cân nhắc hỗ trợ thông khí không xâm nhập khi có suy hô hấp tăng CO2 và toan hô hấp phù hợp|3|NIV là biện pháp hỗ trợ quan trọng ở đợt cấp có suy hô hấp tăng CO2.",
+      "-Dùng methylxanthine tĩnh mạch thường quy cho mọi đợt cấp COPD|0|GOLD không khuyến cáo methylxanthine tĩnh mạch do tác dụng phụ.",
+      "!Cho oxy không kiểm soát nhằm đưa bão hòa lên tối đa bất kể nguy cơ giữ CO2|0|Có thể làm nặng tăng CO2; cần oxy chuẩn độ theo mục tiêu."
+    ],
+    "teach": "Đợt cấp COPD cần đánh giá mức độ suy hô hấp, nguyên nhân khởi phát và bệnh đồng mắc. Oxy phải được chuẩn độ, corticosteroid toàn thân dùng ngắn ngày và NIV được cân nhắc khi có suy hô hấp tăng CO2 kèm toan.",
+    "hbu": {
+      "hanh_chinh": "Người bệnh mô phỏng nam, điều trị tại giường Nội hô hấp.",
+      "ly_do_vao_vien": "Khó thở tăng và khạc đờm mủ.",
+      "benh_su": "Khó thở tăng trong vài ngày, khò khè nhiều hơn, lượng đờm tăng và chuyển vàng đục. Thuốc hít dùng không đều.",
+      "tien_su": "Đã được chẩn đoán COPD; có tiền sử hút thuốc; chưa từng đặt nội khí quản.",
+      "luoc_qua_co_quan": "Hô hấp có khó thở, khò khè, đờm mủ. Tim mạch không đau ngực kéo dài, không phù rõ. Thần kinh tỉnh táo. Tiêu hóa không nôn. Tiết niệu không tiểu buốt.",
+      "kham_hien_tai": "Thở nhanh, dùng cơ hô hấp phụ, ran rít-ran ngáy hai bên, tỉnh táo.",
+      "can_lam_sang": "Khí máu cho thấy toan hô hấp tăng CO2; X-quang không thấy tràn khí hoặc đông đặc rõ.",
+      "tom_tat": "Người bệnh COPD có khó thở và đờm tăng, đờm mủ, thiếu oxy và tăng CO2 kèm toan hô hấp, phù hợp đợt cấp COPD có suy hô hấp.",
+      "dat_van_de": "Đợt cấp COPD; suy hô hấp tăng CO2; nhu cầu oxy có kiểm soát và hỗ trợ thông khí.",
+      "chan_doan_so_bo": "Đợt cấp COPD kèm suy hô hấp tăng CO2.",
+      "bien_luan": "Triệu chứng hô hấp xấu đi cấp tính trên nền COPD, đờm tăng và mủ, kèm khí máu tăng CO2 và toan, phù hợp đợt cấp nặng cần theo dõi nội trú.",
+      "sinh_ly_benh": "Tăng viêm đường thở và tắc nghẽn luồng khí làm tăng công thở, mất cân bằng thông khí-tưới máu và giữ CO2.",
+      "chan_doan_phan_biet": "Viêm phổi, suy tim cấp, thuyên tắc phổi, tràn khí màng phổi, cơn hen.",
+      "chan_doan_xac_dinh": "Đợt cấp COPD kèm suy hô hấp tăng CO2.",
+      "dieu_tri": "Oxy chuẩn độ mục tiêu, thuốc giãn phế quản tác dụng ngắn, corticosteroid toàn thân ngắn ngày, đánh giá chỉ định kháng sinh và hỗ trợ thông khí không xâm nhập.",
+      "tien_luong": "Phụ thuộc đáp ứng với điều trị, mức độ toan tăng CO2 và bệnh đồng mắc.",
+      "du_phong": "Bỏ thuốc lá, dùng thuốc hít đúng kỹ thuật, tiêm chủng phù hợp và có kế hoạch xử trí đợt cấp."
+    },
+    "nguon": [
+      "Global Initiative for Chronic Obstructive Lung Disease, GOLD Report 2026. https://goldcopd.org/wp-content/uploads/2026/01/GOLD-REPORT-2026-v1.3-8Dec2025_WMV2.pdf . Trích: “A dose of 40 mg prednisone-equivalent per day for 5 days is recommended”; “target saturation of 88-92%”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-nhiem-002",
+    "title": "Sốt cao, tụt huyết áp và thiểu niệu do nhiễm trùng",
+    "kind": "Nội",
+    "setting": "giuong",
+    "level": "Khó",
+    "name": "Người bệnh mô phỏng D",
+    "age": 59,
+    "sex": "nam",
+    "intro": "Người bệnh nằm giường Nội nhiễm vì sốt rét run, lơ mơ nhẹ, huyết áp tụt và tiểu ít trên nền nhiễm trùng đường tiết niệu.",
+    "vitals": {
+      "hr": 118,
+      "sbp": 82,
+      "dbp": 48,
+      "rr": 26,
+      "t": 39.2,
+      "spo2": 95
+    },
+    "ask": [
+      [
+        "Sốt và rét run bắt đầu từ khi nào?",
+        "Sốt cao, rét run và mệt tăng nhanh trong ngày nhập viện.",
+        "e"
+      ],
+      [
+        "Có tiểu buốt, tiểu gắt hoặc đau hông lưng không?",
+        "Có tiểu buốt, tiểu gắt và đau hông lưng trước khi sốt tăng.",
+        "e"
+      ],
+      [
+        "Có lú lẫn, chóng mặt hoặc tiểu ít không?",
+        "Có lơ mơ nhẹ, chóng mặt và lượng nước tiểu giảm.",
+        "e"
+      ],
+      [
+        "Đã dùng kháng sinh gần đây hoặc có tiền sử vi khuẩn kháng thuốc không?",
+        "Chưa dùng kháng sinh trong đợt này, chưa biết tiền sử vi khuẩn đa kháng.",
+        "n"
+      ],
+      [
+        "Có bệnh tim, thận hoặc xơ gan không?",
+        "Chưa ghi nhận suy tim, suy thận mạn hoặc xơ gan.",
+        "n"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Đánh giá tưới máu ngoại vi",
+        "Chi lạnh, thời gian làm đầy mao mạch kéo dài.",
+        "e"
+      ],
+      [
+        "K",
+        "Đánh giá tri giác",
+        "Lơ mơ nhẹ nhưng còn đáp ứng khi gọi.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám hông lưng",
+        "Đau vùng hông lưng gợi nguồn nhiễm tiết niệu.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám phổi",
+        "Không có ran khu trú rõ.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "Lactate máu",
+        10,
+        "Lactate tăng, phù hợp giảm tưới máu mô.",
+        "e"
+      ],
+      [
+        "Cấy máu và cấy nước tiểu",
+        15,
+        "Đã lấy mẫu trước kháng sinh nếu không làm chậm điều trị.",
+        "e"
+      ],
+      [
+        "Công thức máu, creatinin, bilirubin, đông máu",
+        10,
+        "Có rối loạn chức năng cơ quan mức độ cần theo dõi sát.",
+        "e"
+      ],
+      [
+        "Siêu âm hệ tiết niệu",
+        15,
+        "Đánh giá tắc nghẽn và nguồn nhiễm cần kiểm soát.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Sốc nhiễm khuẩn do nhiễm trùng đường tiết niệu",
+        "Sốc phản vệ",
+        "Sốc tim",
+        "Sốc giảm thể tích đơn thuần"
+      ]
+    },
+    "actions": [
+      "+Bắt đầu hồi sức ngay và dùng dịch tinh thể với lượng ban đầu ít nhất 30 mL/kg trong 3 giờ đầu ở người có giảm tưới máu do sepsis hoặc sốc nhiễm khuẩn, sau đó đánh giá lại thường xuyên|3|SSC khuyến cáo hồi sức dịch tinh thể sớm và tái đánh giá liên tục.",
+      "+Nếu vẫn cần vận mạch, chỉnh vận mạch theo mục tiêu MAP ban đầu 65 mmHg|3|SSC khuyến cáo mục tiêu MAP ban đầu 65 mmHg ở sốc nhiễm khuẩn cần vận mạch.",
+      "+Lấy cấy máu sớm nếu không làm chậm điều trị và khởi kháng sinh phù hợp ngay khi nghi sốc nhiễm khuẩn|3|Sepsis là cấp cứu; điều trị kháng sinh không nên chờ kết quả cấy.",
+      "-Dùng qSOFA đơn độc để loại trừ sepsis khi điểm thấp|0|Sepsis là chẩn đoán lâm sàng và không nên bị loại trừ bằng một công cụ đơn lẻ.",
+      "!Trì hoãn kháng sinh cho đến khi có kết quả cấy và kháng sinh đồ|0|Làm chậm điều trị nhiễm trùng trong sốc nhiễm khuẩn."
+    ],
+    "teach": "Sốc nhiễm khuẩn là cấp cứu cần hồi sức và điều trị nguyên nhân đồng thời. Dịch tinh thể ban đầu, đánh giá lại tưới máu và vận mạch khi cần phải được thực hiện song song với kháng sinh và kiểm soát nguồn nhiễm.",
+    "hbu": {
+      "hanh_chinh": "Người bệnh mô phỏng nam, điều trị tại giường Nội nhiễm.",
+      "ly_do_vao_vien": "Sốt cao, tụt huyết áp và tiểu ít.",
+      "benh_su": "Khởi đầu bằng tiểu buốt, tiểu gắt và đau hông lưng, sau đó sốt rét run, mệt lả, chóng mặt, lơ mơ nhẹ và tiểu ít.",
+      "tien_su": "Chưa ghi nhận suy tim hoặc suy thận mạn; chưa dùng kháng sinh trong đợt này.",
+      "luoc_qua_co_quan": "Tiết niệu có tiểu buốt, tiểu gắt, đau hông lưng và tiểu ít. Thần kinh có lơ mơ nhẹ. Tim mạch có chóng mặt và tụt huyết áp. Hô hấp không có ho khạc đờm rõ. Tiêu hóa không tiêu chảy.",
+      "kham_hien_tai": "Sốt cao, huyết áp thấp, mạch nhanh, chi lạnh, làm đầy mao mạch kéo dài và lơ mơ nhẹ.",
+      "can_lam_sang": "Lactate tăng; đã lấy cấy máu và cấy nước tiểu; xét nghiệm có biểu hiện rối loạn chức năng cơ quan cần theo dõi.",
+      "tom_tat": "Người bệnh có nhiễm trùng tiết niệu kèm tụt huyết áp, giảm tưới máu, lơ mơ và thiểu niệu, phù hợp sepsis nặng tiến triển sốc nhiễm khuẩn.",
+      "dat_van_de": "Sốc nhiễm khuẩn; giảm tưới máu mô; nguồn nhiễm tiết niệu; nhu cầu hồi sức và kiểm soát nguồn.",
+      "chan_doan_so_bo": "Sốc nhiễm khuẩn nghi nguồn tiết niệu.",
+      "bien_luan": "Nhiễm trùng rõ kèm rối loạn chức năng cơ quan và giảm tưới máu đòi hỏi xử trí sepsis ngay. Cần đồng thời hồi sức, kháng sinh và tìm tắc nghẽn tiết niệu cần can thiệp.",
+      "sinh_ly_benh": "Đáp ứng viêm mất điều hòa gây giãn mạch, rối loạn vi tuần hoàn và suy chức năng cơ quan; nguồn nhiễm kéo dài làm sốc khó hồi phục.",
+      "chan_doan_phan_biet": "Sốc giảm thể tích, sốc tim, sốc phản vệ, sốc tắc nghẽn.",
+      "chan_doan_xac_dinh": "Sốc nhiễm khuẩn do nhiễm trùng đường tiết niệu sau khi xác định nguồn và loại trừ nguyên nhân sốc khác.",
+      "dieu_tri": "Hồi sức dịch tinh thể sớm có tái đánh giá, vận mạch khi cần để đạt MAP mục tiêu, kháng sinh phù hợp và kiểm soát nguồn nhiễm.",
+      "tien_luong": "Nặng; phụ thuộc thời gian kiểm soát sốc, đáp ứng với hồi sức và kiểm soát nguồn nhiễm.",
+      "du_phong": "Điều trị sớm nhiễm trùng tiết niệu, xử trí tắc nghẽn đường niệu và tái khám khi có sốt hoặc dấu hiệu nhiễm trùng toàn thân."
+    },
+    "nguon": [
+      "Society of Critical Care Medicine, Surviving Sepsis Campaign Adult Guidelines. https://sccm.org/survivingsepsiscampaign/guidelines-and-resources/surviving-sepsis-campaign-adult-guidelines . Trích: “at least 30 mL/kg of IV crystalloid in the first 3 hr”; “initial MAP target of 65 mm Hg”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-noi-tiet-004",
+    "title": "Nôn, đau bụng và thở sâu ở người đái tháo đường típ một",
+    "kind": "Nội",
+    "setting": "giuong",
+    "level": "Khó",
+    "name": "Người bệnh mô phỏng E",
+    "age": 29,
+    "sex": "nữ",
+    "intro": "Người bệnh nằm giường Nội tiết vì nôn, đau bụng, khát nhiều, tiểu nhiều và thở sâu sau khi bỏ nhiều liều insulin.",
+    "vitals": {
+      "hr": 112,
+      "sbp": 104,
+      "dbp": 66,
+      "rr": 28,
+      "t": 37.1,
+      "spo2": 98
+    },
+    "ask": [
+      [
+        "Có bỏ hoặc giảm insulin gần đây không?",
+        "Bỏ nhiều liều insulin trong những ngày trước nhập viện vì ăn uống kém.",
+        "e"
+      ],
+      [
+        "Có khát nhiều, tiểu nhiều và sụt cân không?",
+        "Khát nhiều, tiểu nhiều, mệt và ăn kém.",
+        "e"
+      ],
+      [
+        "Có nôn, đau bụng hoặc thay đổi tri giác không?",
+        "Nôn nhiều lần, đau bụng lan tỏa, còn tỉnh nhưng mệt lả.",
+        "e"
+      ],
+      [
+        "Có sốt, ho, tiểu buốt hoặc dấu nhiễm trùng không?",
+        "Không sốt rõ; cần tiếp tục tìm yếu tố khởi phát.",
+        "n"
+      ],
+      [
+        "Có dùng thuốc ức chế SGLT2 không?",
+        "Không dùng.",
+        "n"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Đánh giá kiểu thở",
+        "Thở sâu và nhanh kiểu Kussmaul.",
+        "e"
+      ],
+      [
+        "K",
+        "Đánh giá tình trạng mất nước",
+        "Niêm mạc khô, khát, mạch nhanh.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám tri giác",
+        "Tỉnh, trả lời đúng nhưng mệt.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám bụng",
+        "Đau nhẹ lan tỏa, không phản ứng phúc mạc.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "Glucose máu",
+        10,
+        "Glucose 420 mg/dL.",
+        "e"
+      ],
+      [
+        "Khí máu tĩnh mạch hoặc động mạch",
+        10,
+        "pH 7,18 và bicarbonate 10 mmol/L.",
+        "e"
+      ],
+      [
+        "Beta-hydroxybutyrate máu",
+        10,
+        "Tăng rõ, phù hợp nhiễm ceton.",
+        "e"
+      ],
+      [
+        "Điện giải và chức năng thận",
+        10,
+        "Cần theo dõi kali sát trong quá trình điều trị.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Nhiễm toan ceton do đái tháo đường",
+        "Hạ đường huyết",
+        "Tăng đường huyết không ceton đơn thuần",
+        "Viêm dạ dày-ruột cấp đơn thuần"
+      ]
+    },
+    "actions": [
+      "+Khởi truyền dung dịch đẳng trương hoặc crystalloid cân bằng với tốc độ 500–1000 mL/giờ trong 2–4 giờ đầu nếu không có suy tim hoặc suy thận hạn chế bù dịch|3|Đồng thuận 2024 khuyến cáo tốc độ dịch ban đầu này ở người lớn DKA/HHS không có hạn chế tim-thận.",
+      "+Sau đánh giá kali và tình trạng phù hợp, dùng insulin regular truyền tĩnh mạch liên tục 0,1 đơn vị/kg/giờ|3|Insulin truyền tĩnh mạch tốc độ cố định là nền tảng điều trị DKA.",
+      "+Theo dõi glucose, điện giải, tình trạng dịch và ceton để điều chỉnh điều trị cho tới khi nhiễm toan ceton giải quyết|3|Điều trị cần theo dõi chuyển hóa liên tục và không chỉ dựa vào glucose.",
+      "-Chỉ truyền dịch mà không dùng insulin dù đã xác định DKA|0|Không giải quyết được tình trạng thiếu insulin và tạo ceton.",
+      "!Ngừng insulin ngay khi glucose bắt đầu giảm mặc dù nhiễm toan ceton chưa giải quyết|0|Có nguy cơ tái tăng ceton và kéo dài DKA."
+    ],
+    "teach": "DKA là cấp cứu chuyển hóa do thiếu insulin, cần bù dịch, insulin và theo dõi điện giải đồng thời. Mục tiêu không chỉ là hạ glucose mà phải giải quyết nhiễm ceton và toan chuyển hóa.",
+    "hbu": {
+      "hanh_chinh": "Người bệnh mô phỏng nữ, điều trị tại giường Nội tiết.",
+      "ly_do_vao_vien": "Nôn, đau bụng, khát nhiều và thở sâu.",
+      "benh_su": "Bỏ nhiều liều insulin khi ăn uống kém, sau đó xuất hiện khát nhiều, tiểu nhiều, nôn, đau bụng, mệt và thở sâu.",
+      "tien_su": "Đái tháo đường típ một đang điều trị insulin; không dùng thuốc ức chế SGLT2.",
+      "luoc_qua_co_quan": "Nội tiết-chuyển hóa có khát và tiểu nhiều. Tiêu hóa có nôn và đau bụng. Hô hấp thở sâu nhưng không ho. Thần kinh còn tỉnh. Tiết niệu chưa ghi nhận tiểu buốt.",
+      "kham_hien_tai": "Mạch nhanh, niêm mạc khô, thở Kussmaul, tỉnh nhưng mệt, bụng mềm không phản ứng phúc mạc.",
+      "can_lam_sang": "Glucose 420 mg/dL, pH 7,18, bicarbonate 10 mmol/L và beta-hydroxybutyrate tăng.",
+      "tom_tat": "Người bệnh đái tháo đường típ một bỏ insulin, có mất nước, thở Kussmaul, tăng glucose, nhiễm ceton và toan chuyển hóa, phù hợp DKA.",
+      "dat_van_de": "DKA; mất nước; rối loạn điện giải; tìm yếu tố khởi phát.",
+      "chan_doan_so_bo": "Nhiễm toan ceton do đái tháo đường.",
+      "bien_luan": "Tiền sử bỏ insulin cùng tăng glucose, keton máu tăng và toan chuyển hóa xác định bệnh cảnh DKA; cần tìm nhiễm trùng hoặc nguyên nhân thúc đẩy khác.",
+      "sinh_ly_benh": "Thiếu insulin và tăng hormon đối kháng làm tăng tân tạo đường và ly giải mỡ, sinh thể ceton gây toan chuyển hóa; tăng glucose gây lợi niệu thẩm thấu và mất nước.",
+      "chan_doan_phan_biet": "HHS, toan lactic, toan ceton do đói, ngộ độc gây toan chuyển hóa.",
+      "chan_doan_xac_dinh": "Nhiễm toan ceton do đái tháo đường.",
+      "dieu_tri": "Bù dịch đẳng trương hoặc crystalloid cân bằng theo tình trạng tim-thận, truyền insulin tĩnh mạch sau đánh giá kali và theo dõi chuyển hóa sát đến khi DKA giải quyết.",
+      "tien_luong": "Tốt nếu hồi sức sớm và theo dõi sát; biến chứng điều trị chủ yếu liên quan rối loạn điện giải, glucose và dịch.",
+      "du_phong": "Giáo dục không tự ngừng insulin, có kế hoạch sick-day và kiểm tra ceton khi bệnh cấp hoặc tăng đường huyết."
+    },
+    "nguon": [
+      "Umpierrez GE, Davis GM, ElSayed NA, et al. Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, 2024. https://diabetesjournals.org/care/article/47/8/1257/156808/Hyperglycemic-Crises-in-Adults-With-Diabetes-A . Trích: “500–1,000 mL/h during the first 2–4 h”; “fixed-rate intravenous insulin infusion started at 0.1 units/kg/h”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  }
+]
