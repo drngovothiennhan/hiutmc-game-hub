@@ -250,5 +250,59 @@
     "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136",
     "trich": "“leave patients with intermediate−high-risk PE on LMWH anticoagulation over the first 2−3 days”; “Rescue thrombolytic therapy ... should be reserved for patients who develop signs of haemodynamic instability.”",
     "de_xuat": ""
+  },
+  {
+    "id": "ngoai-chan-thuong-005",
+    "loc": "action_why",
+    "text": "điều chỉnh 10 đến 20% mỗi giờ theo nước tiểu 0,5 mL mỗi kg mỗi giờ.",
+    "verdict": "lech",
+    "nguon": "Japanese Society for Burn Injuries (JSBI) Clinical Practice Guidelines for Management of Burn Care, 3rd Edition (2022): https://onlinelibrary.wiley.com/doi/10.1002/ams2.739",
+    "trich": "“target urine output (0.5 mL/kg/h...) for 2 consecutive hours, the infusion rate should be reduced/increased ... by one-third”",
+    "de_xuat": "Nếu lượng nước tiểu lệch mục tiêu 0,5 mL/kg/giờ trong 2 giờ liên tiếp, tăng hoặc giảm tốc độ truyền khoảng 1/3."
+  },
+  {
+    "id": "ngoai-chan-thuong-005",
+    "loc": "action",
+    "text": "Hạn chế dịch trong 24 giờ đầu và dùng lợi tiểu sớm để tránh phù phổi",
+    "verdict": "lech",
+    "nguon": "ISBI Practice Guidelines for Burn Care (2016): https://www.sciencedirect.com/science/article/abs/pii/S0305417916301449",
+    "trich": "“between 2 and 4 mL/kg ... should be administered within the first 24 h after injury, with alertness to over-resuscitation.” Không thấy khuyến cáo dùng lợi tiểu sớm thường quy.",
+    "de_xuat": "Hồi sức dịch theo diện tích bỏng và cân nặng, tránh quá hồi sức; bỏ chỉ định lợi tiểu sớm thường quy nếu không có chỉ định chuyên biệt."
+  },
+  {
+    "id": "ngoai-bung-008",
+    "loc": "action",
+    "text": "Ngâm ngồi nước ấm 2 đến 3 lần mỗi ngày sau dẫn lưu, thay băng",
+    "verdict": "nhat_quan",
+    "nguon": "PubMed PMID 38390277: https://pubmed.ncbi.nlm.nih.gov/38390277/ ; PubMed PMID 18380741: https://pubmed.ncbi.nlm.nih.gov/18380741/",
+    "trich": "PMID 38390277: “three times a day, especially after every defecation.” PMID 18380741: “a twice-daily sitz bath”. Dữ liệu trực tiếp sau I&D là ở trẻ em.",
+    "de_xuat": ""
+  },
+  {
+    "id": "ngoai-bung-008",
+    "loc": "hbu.dieu_tri",
+    "text": "ngâm ngồi nước ấm 2 đến 3 lần mỗi ngày;",
+    "verdict": "nhat_quan",
+    "nguon": "PubMed PMID 38390277: https://pubmed.ncbi.nlm.nih.gov/38390277/ ; PubMed PMID 18380741: https://pubmed.ncbi.nlm.nih.gov/18380741/",
+    "trich": "PMID 38390277: “three times a day, especially after every defecation.” PMID 18380741: “a twice-daily sitz bath”. Dữ liệu trực tiếp sau I&D là ở trẻ em.",
+    "de_xuat": ""
+  },
+  {
+    "id": "ngoai-bung-001",
+    "loc": "hbu.dieu_tri",
+    "text": "cho uống sau 6 đến 12 giờ khi có nhu động;",
+    "verdict": "lech",
+    "nguon": "RCT ERAS ở viêm ruột thừa cấp không biến chứng, PubMed PMID 29987566: https://pubmed.ncbi.nlm.nih.gov/29987566/",
+    "trich": "“significant reduction in time to resume diet (110 vs. 360 min, p < 0.001)”",
+    "de_xuat": "Sau cắt ruột thừa nội soi không biến chứng, cho uống/ăn sớm theo dung nạp sau hồi phục gây mê; không chờ một mốc giờ cố định hoặc bắt buộc có nhu động."
+  },
+  {
+    "id": "ngoai-bung-001",
+    "loc": "hbu.dieu_tri",
+    "text": "xuất viện thường trong 24 đến 48 giờ;",
+    "verdict": "lech",
+    "nguon": "RCT ngoại trú sau cắt ruột thừa nội soi, PubMed PMID 36419071: https://pubmed.ncbi.nlm.nih.gov/36419071/ ; Systematic review/meta-analysis, PubMed PMID 33575890: https://pubmed.ncbi.nlm.nih.gov/33575890/",
+    "trich": "PMID 36419071: “mean 8.82 h” so với “mean 43.53 h”. PMID 33575890: “same-day discharge ... is safe” ở ca không biến chứng chọn lọc.",
+    "de_xuat": "Ở ca không biến chứng chọn lọc, có thể xuất viện cùng ngày khi đạt tiêu chí; không ấn định khoảng thời gian cố định sau mổ."
   }
 ]
