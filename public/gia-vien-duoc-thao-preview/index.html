@@ -1,217 +1,664 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#173f32" />
-  <title>Gia Viên Dược Thảo 3D · HIU TMC</title>
-  <style>:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#f6f3e8;background:#10241e;--green:#173f32;--green2:#24644b;--cream:#f3ead8;--gold:#d6ad62;--ink:#17352a;--panel:rgba(246,242,232,.97);--line:rgba(255,255,255,.18)}
-*{box-sizing:border-box}html,body,.app{width:100%;height:100%;margin:0;overflow:hidden}body{background:#10241e}.app{position:relative;isolation:isolate}#world{position:absolute;inset:0;width:100%;height:100%;touch-action:none;background:linear-gradient(#9fc7bc 0 38%,#6e8d62 38%)}
-button{font:inherit}.topbar{position:absolute;top:max(10px,env(safe-area-inset-top));left:14px;right:14px;display:flex;align-items:center;gap:12px;z-index:8;pointer-events:none}.brand{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border:1px solid rgba(255,255,255,.22);border-radius:16px;background:rgba(13,42,32,.74);backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(0,0,0,.14)}.brand-mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#e4c37f;color:#214435;font:700 22px Georgia,serif}.brand strong,.brand small{display:block;letter-spacing:.08em}.brand strong{font-size:12px}.brand small{font-size:8px;color:#e6d4a8;margin-top:2px}.status-pill,.ghost-btn{pointer-events:auto;margin-left:auto;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(13,42,32,.72);color:#fff;padding:9px 12px;font-size:11px;backdrop-filter:blur(10px)}.ghost-btn{margin-left:0;cursor:pointer}.mission-card{position:absolute;top:78px;left:14px;z-index:7;width:min(260px,calc(100vw - 28px));padding:13px 14px;border-radius:15px;background:rgba(18,50,39,.78);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(0,0,0,.12)}.eyebrow{margin:0 0 5px;font-size:9px;letter-spacing:.16em;color:#b7893d;font-weight:800}.mission-card .eyebrow{color:#e6c178}.mission-card strong{display:block;font-size:13px}.mission-card small{font-size:9px;color:#d5e2dc}.progress{height:5px;background:rgba(255,255,255,.15);border-radius:99px;margin:9px 0 5px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:#e5c57e;border-radius:99px;transition:width .25s ease}.reticle{position:absolute;left:50%;top:50%;z-index:6;transform:translate(-50%,-50%);width:32px;height:32px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:grid;place-items:center;pointer-events:none}.reticle span{width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.8)}.focus-label{position:absolute;left:50%;top:calc(50% + 28px);transform:translateX(-50%);z-index:7;padding:7px 10px;border-radius:9px;background:rgba(15,36,29,.82);border:1px solid rgba(255,255,255,.18);font-size:11px;white-space:nowrap}.mode-bar{position:absolute;z-index:8;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;padding:4px;border-radius:999px;background:rgba(15,40,31,.75);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px)}.mode{border:0;border-radius:999px;background:transparent;color:#dbe6df;padding:9px 12px;font-size:10px;cursor:pointer}.mode.active{background:#f2e7cf;color:#214235;font-weight:800}.interact-btn{position:absolute;z-index:8;right:18px;bottom:74px;width:185px;min-height:58px;border:1px solid rgba(255,255,255,.24);border-radius:16px;background:rgba(225,194,126,.94);color:#16362a;display:grid;grid-template-columns:34px 1fr;text-align:left;padding:9px 12px;box-shadow:0 10px 28px rgba(0,0,0,.2);cursor:pointer}.interact-btn span{grid-row:1/3;font-size:25px;align-self:center}.interact-btn strong{font-size:11px}.interact-btn small{font-size:8px;color:#496357}.interact-btn:disabled{opacity:.45;cursor:default}.mobile-controls{position:absolute;z-index:8;left:18px;bottom:70px;display:flex;gap:10px;align-items:end}.dpad{width:116px;height:116px;position:relative}.dpad button,.look-pad button{position:absolute;width:38px;height:38px;border:1px solid rgba(255,255,255,.2);background:rgba(12,42,31,.7);color:#fff;border-radius:12px;backdrop-filter:blur(8px)}.dpad button[data-move=forward]{left:39px;top:0}.dpad button[data-move=left]{left:0;top:39px}.dpad button[data-move=back]{left:39px;top:78px}.dpad button[data-move=right]{left:78px;top:39px}.look-pad{position:relative;width:84px;height:40px;margin-bottom:39px}.look-pad button{position:absolute;top:0}.look-pad button:first-child{left:0}.look-pad button:last-child{right:0}.mini-map{position:absolute;right:18px;top:78px;z-index:6;padding:7px 7px 5px;border-radius:12px;background:rgba(13,43,32,.74);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(8px);text-align:center}.mini-map canvas{display:block;width:132px;height:87px}.mini-map span{font-size:7px;letter-spacing:.15em;color:#e2c787}.plant-panel{position:absolute;z-index:20;top:0;right:0;width:min(460px,100%);height:100%;background:var(--panel);color:var(--ink);box-shadow:-24px 0 60px rgba(0,0,0,.24);transform:translateX(102%);transition:transform .32s cubic-bezier(.2,.8,.2,1);overflow:auto}.plant-panel.open{transform:none}.panel-close{position:absolute;top:14px;right:14px;z-index:3;width:36px;height:36px;border:0;border-radius:50%;background:rgba(17,53,41,.1);color:#183a2d;font-size:24px;cursor:pointer}.plant-visual{height:220px;background:radial-gradient(circle at 50% 60%,#d7ddbb 0 12%,transparent 13%),linear-gradient(155deg,#b9d6c8,#718f6d);display:grid;place-items:center;position:relative;overflow:hidden}.plant-visual:after{content:"";position:absolute;inset:auto -10% -35% -10%;height:55%;border-radius:50%;background:#415c3d}.plant-glyph{position:relative;z-index:2;font-size:96px;filter:drop-shadow(0 12px 8px rgba(0,0,0,.17))}.plant-visual span{position:absolute;left:18px;bottom:14px;z-index:2;background:rgba(20,52,41,.8);color:#fff;padding:5px 8px;border-radius:8px;font-size:9px;letter-spacing:.12em}.panel-content{padding:26px}.panel-content h1{font:700 34px/1.05 Georgia,serif;margin:0;color:#1c4c39}.latin{font:italic 14px Georgia,serif;color:#6b736d}.fact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}.fact-grid div,.knowledge-card{padding:13px;border:1px solid #ddd7c7;border-radius:13px;background:#fffdf8}.fact-grid span,.knowledge-card span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#92733f;margin-bottom:5px}.fact-grid strong{font-size:12px}.knowledge-card{margin:10px 0}.knowledge-card p{margin:0;font-size:12px;line-height:1.55}.primary-btn{width:100%;border:0;border-radius:12px;padding:13px;background:#1d5a43;color:#fff;font-weight:800;cursor:pointer;margin-top:12px}.prototype-note{font-size:9px;line-height:1.5;color:#7d807a}.quiz-dialog,.help-dialog{border:0;padding:0;background:transparent;max-width:none}.quiz-dialog::backdrop,.help-dialog::backdrop{background:rgba(7,20,15,.6);backdrop-filter:blur(4px)}.quiz-card{position:relative;width:min(520px,calc(100vw - 28px));padding:28px;border:1px solid #ddd7c7;border-radius:22px;background:#f8f4ea;color:#17382d;box-shadow:0 26px 80px rgba(0,0,0,.32)}.quiz-card h2{margin:5px 0 20px;font:700 24px/1.25 Georgia,serif}.quiz-card p{line-height:1.6}.quiz-options{display:grid;gap:9px}.quiz-options button{border:1px solid #d6d3c7;border-radius:12px;padding:12px;background:#fff;text-align:left;color:#253f35;cursor:pointer}.quiz-options button.correct{border-color:#3f7759;background:#e7f2e9}.quiz-options button.wrong{border-color:#a75d4d;background:#fae9e5}.quiz-feedback{min-height:22px;font-size:11px;font-weight:700}.toast{position:absolute;z-index:30;left:50%;top:24%;transform:translateX(-50%);padding:11px 14px;border-radius:12px;background:rgba(12,42,31,.9);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 30px rgba(0,0,0,.2);font-size:11px}.hidden{display:none!important}
-@media(min-width:900px){.mobile-controls{opacity:.55}.mobile-controls:hover{opacity:1}}
-@media(max-width:700px){.topbar{left:8px;right:8px;top:max(6px,env(safe-area-inset-top));gap:6px}.brand{padding:6px 8px 6px 6px;border-radius:13px}.brand-mark{width:34px;height:34px}.brand strong{font-size:10px}.brand small{font-size:7px}.status-pill{font-size:9px;padding:7px 9px}.ghost-btn{display:none}.mission-card{top:64px;left:8px;width:190px;padding:10px}.mission-card strong{font-size:11px}.mini-map{right:8px;top:64px}.mini-map canvas{width:100px;height:66px}.interact-btn{right:10px;bottom:max(68px,calc(env(safe-area-inset-bottom) + 64px));width:154px;min-height:52px;padding:8px}.mode-bar{bottom:max(9px,env(safe-area-inset-bottom))}.mode{padding:8px 9px;font-size:9px}.mobile-controls{left:10px;bottom:max(58px,calc(env(safe-area-inset-bottom) + 54px));transform:scale(.88);transform-origin:left bottom}.look-pad{display:none}.plant-visual{height:190px}.panel-content{padding:22px}.panel-content h1{font-size:30px}}
-
-.real-scene{position:absolute;inset:0;z-index:1;background:#0c2019;overflow:hidden}.real-scene img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.96) contrast(1.03) brightness(.92);transition:opacity .25s ease}.real-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,29,22,.16),rgba(9,29,22,.06) 50%,rgba(9,29,22,.35));pointer-events:none}.real-scene.hidden-scene{display:none}.photo-caption{position:absolute;z-index:3;left:50%;bottom:128px;transform:translateX(-50%);max-width:min(720px,calc(100vw - 40px));padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:13px;background:rgba(10,38,28,.74);backdrop-filter:blur(10px);text-align:center;font-size:11px;color:#f7f2e6}.photo-nav{position:absolute;z-index:9;right:18px;bottom:145px;display:flex;gap:7px}.photo-nav button{width:38px;height:38px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(10,38,28,.78);color:white;cursor:pointer}.scene-toggle{pointer-events:auto;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(13,42,32,.72);color:#fff;padding:9px 12px;font-size:11px;backdrop-filter:blur(10px);cursor:pointer}#world.photo-underlay{opacity:.08}.real-hotspot{position:absolute;z-index:4;width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.9);background:rgba(215,175,95,.92);color:#173b2e;font-weight:900;box-shadow:0 0 0 8px rgba(215,175,95,.18),0 6px 20px rgba(0,0,0,.2);cursor:pointer}.real-hotspot.hs1{left:29%;top:58%}.real-hotspot.hs2{left:58%;top:57%}.real-hotspot.hs3{left:76%;top:50%}.real-hotspot.hs4{left:41%;top:43%}.photo-strip{position:absolute;z-index:8;right:18px;top:176px;width:118px;display:grid;gap:7px}.photo-strip button{padding:0;border:1px solid rgba(255,255,255,.3);border-radius:9px;overflow:hidden;background:#173c30;cursor:pointer;box-shadow:0 5px 16px rgba(0,0,0,.18)}.photo-strip img{display:block;width:100%;height:66px;object-fit:cover}.photo-strip button.active{outline:2px solid #e1be75;outline-offset:2px}@media(max-width:700px){.photo-strip{display:none}.photo-caption{bottom:121px;font-size:9px}.photo-nav{right:10px;bottom:126px}.scene-toggle{font-size:9px;padding:7px 9px}.real-hotspot{width:29px;height:29px;font-size:11px}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gia Viên Dược Thảo · hạ tầng preview v2</title>
+<style>
+:root{
+  --bg:#0f1a17; --panel:#162621; --panel2:#1e312c; --soft:#243c34; --line:rgba(255,255,255,.12);
+  --text:#eef6f1; --muted:#bfd2c8; --gold:#d8b16c; --green:#6dbf78; --red:#ff8c7a;
+  --shadow:0 14px 34px rgba(0,0,0,.26);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#11201b,#0b1311 70%);color:var(--text)}
+button,input,select{font:inherit}
+.app{display:grid;grid-template-columns:340px 1fr 340px;gap:16px;padding:16px;min-height:100%}
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.left,.right{padding:16px;display:flex;flex-direction:column;gap:14px}
+.brand{display:flex;gap:12px;align-items:center}
+.mark{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#ead7ab,#b38846);display:grid;place-items:center;color:#284438;font:700 24px Georgia,serif}
+.brand h1{margin:0;font-size:18px;line-height:1.2}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 10px;border-radius:999px;background:#21362f;border:1px solid var(--line);color:#d9ebe1;font-size:12px}
+.card{padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03)}
+.card h3,.card h4{margin:0 0 10px}
+.card p{margin:8px 0;color:var(--muted);line-height:1.45}
+.mode-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mode-buttons button,.controls button,.quiz-actions button,.pillbtn{border:1px solid var(--line);background:#244038;color:#f5fbf7;padding:10px 12px;border-radius:12px;cursor:pointer}
+.mode-buttons button.active,.controls button.primary,.quiz-actions button.primary,.pillbtn.active{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
+.mode-buttons button:hover,.controls button:hover,.quiz-actions button:hover,.pillbtn:hover{filter:brightness(1.05)}
+.main{display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:16px;min-width:0}
+.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.titleblock h2{margin:0;font-size:22px}
+.titleblock p{margin:4px 0 0;color:var(--muted)}
+.stage{position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line);background:#0d1614;min-height:560px}
+#photoStage,#simStage{position:absolute;inset:0;display:none}
+#photoStage.active,#simStage.active{display:block}
+.hero{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(1.03)}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,14,12,.15),rgba(8,14,12,.62) 68%,rgba(8,14,12,.88))}
+.photo-ui{position:absolute;inset:auto 18px 18px 18px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:end}
+.caption{padding:16px;background:rgba(8,14,12,.62);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(10px)}
+.caption h3{margin:0 0 8px;font-size:22px}
+.caption p{margin:0 0 8px;color:#e4eee8;line-height:1.5}
+.thumbs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.thumb{position:relative;border-radius:14px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#10201b}
+.thumb.active{border-color:var(--gold)}
+.thumb img{display:block;width:100%;height:86px;object-fit:cover}
+.thumb span{position:absolute;left:6px;bottom:6px;right:6px;font-size:11px;background:rgba(0,0,0,.6);padding:4px 6px;border-radius:8px}
+.canvas-wrap{position:absolute;inset:0;padding:10px}
+#simCanvas{width:100%;height:100%;display:block;border-radius:16px;background:linear-gradient(#cae4dc,#dfe7dc 32%,#7d8e72 33%,#6d7b63)}
+.hud{position:absolute;inset:18px 18px auto 18px;display:flex;justify-content:space-between;gap:12px;pointer-events:none}
+.hud .tag,.scene-pill{pointer-events:auto;padding:10px 12px;border-radius:14px;background:rgba(7,12,10,.72);backdrop-filter:blur(10px);border:1px solid var(--line)}
+.scene-pill strong{display:block;font-size:14px}
+.scene-pill span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px 0 4px}
+.controls .spacer{flex:1}
+.legend{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.list{display:flex;flex-direction:column;gap:10px}
+.plant-item,.quest-item{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);cursor:pointer}
+.plant-item.active,.quest-item.active{outline:2px solid rgba(216,177,108,.55);background:rgba(216,177,108,.08)}
+.plant-item small,.quest-item small{display:block;color:var(--muted);margin-top:4px;line-height:1.45}
+.info-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.badge{padding:5px 9px;border-radius:999px;background:#22453c;border:1px solid var(--line);font-size:11px;color:#def5e4;white-space:nowrap}
+.badge.warn{color:#fff1d1;background:#5a4522}
+.badge.low{color:#ffd7cf;background:#5b2d25}
+.quiz-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.progress{height:12px;border-radius:999px;background:#0d1714;border:1px solid var(--line);overflow:hidden}
+.progress > div{height:100%;background:linear-gradient(90deg,#d8b16c,#6dbf78);width:0%}
+.footer-note{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.mapbox{height:150px;border-radius:14px;background:#10211d;border:1px solid var(--line);position:relative;overflow:hidden}
+.mapbox .lane{position:absolute;left:42%;width:16%;top:10%;bottom:10%;background:#8d8677;border-radius:8px}
+.mapbox .rack{position:absolute;right:18%;top:16%;bottom:16%;width:11%;background:#202a26;border-radius:8px}
+.mapbox .bed{position:absolute;left:16%;width:22%;height:12%;background:#2a332c;border-radius:8px}
+.mapbox .bed.b1{top:20%}.mapbox .bed.b2{top:38%}.mapbox .bed.b3{top:56%}
+.mapbox .bed.b4{right:16%;left:auto;top:26%;width:14%;height:10%}.mapbox .bed.b5{right:16%;left:auto;top:48%;width:14%;height:10%}
+.mapbox .label{position:absolute;font-size:11px;color:#dbeee5;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:6px}
+.mapbox .p{position:absolute;width:9px;height:9px;border-radius:50%;background:#d8b16c;border:2px solid #173127}
+.mapbox .you{background:#7ccaf2;width:12px;height:12px}
+@media (max-width:1200px){.app{grid-template-columns:300px 1fr}.right{grid-column:1/-1}.photo-ui{grid-template-columns:1fr}}
+@media (max-width:900px){.app{grid-template-columns:1fr;padding:10px}.left,.right,.main{padding:14px}.stage{min-height:520px}.photo-ui{inset:auto 10px 10px 10px}.thumbs{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:640px){.stage{min-height:500px}.thumb img{height:62px}.photo-ui{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(2,1fr)}.caption h3{font-size:18px}}
 </style>
 </head>
 <body>
-  <main id="app" class="app">
-
-    <section id="realScene" class="real-scene" aria-label="Ảnh thực tế Gia Viên Dược Thảo">
-      <img id="realSceneImg" src="./assets/IMG_2750.jpg" alt="Ảnh thực tế Gia Viên Dược Thảo HIU" />
-      <button class="real-hotspot hs1" data-photo-hotspot="1" aria-label="Điểm quan sát 1">1</button>
-      <button class="real-hotspot hs2" data-photo-hotspot="2" aria-label="Điểm quan sát 2">2</button>
-      <button class="real-hotspot hs3" data-photo-hotspot="3" aria-label="Điểm quan sát 3">3</button>
-      <button class="real-hotspot hs4" data-photo-hotspot="4" aria-label="Điểm quan sát 4">4</button>
-      <div id="photoCaption" class="photo-caption">Ảnh thực tế Gia Viên Dược Thảo · chạm mũi tên hoặc ảnh nhỏ để đổi góc nhìn</div>
-    </section>
-    <canvas id="world" class="photo-underlay" aria-label="Mô phỏng tham quan Gia Viên Dược Thảo"></canvas>
-
-    <header class="topbar">
-      <div class="brand">
-        <span class="brand-mark">藥</span>
-        <div><strong>GIA VIÊN DƯỢC THẢO</strong><small>HIU TMC · BẢN TIỀN ỨNG DỤNG</small></div>
-      </div>
-      <div class="status-pill"><span id="discoveredCount">0</span>/10 cây demo</div>
-      <button id="sceneToggle" class="scene-toggle" type="button">Chuyển sang mô phỏng 3D</button>
-      <button id="helpBtn" class="ghost-btn" type="button">Hướng dẫn</button>
-    </header>
-
-    <section class="mission-card" aria-live="polite">
-      <span class="eyebrow">NHIỆM VỤ ĐẦU TIÊN</span>
-      <strong id="missionTitle">Khám phá 3 cây thuốc</strong>
-      <div class="progress"><i id="missionProgress"></i></div>
-      <small id="missionText">0/3 cây đã mở hồ sơ</small>
-    </section>
-
-    <div class="reticle" aria-hidden="true"><span></span></div>
-    <div id="focusLabel" class="focus-label hidden"></div>
-
-    <nav class="mode-bar" aria-label="Chế độ">
-      <button class="mode active" data-mode="explore" type="button">Khám phá</button>
-      <button class="mode" data-mode="quiz" type="button">Thử thách</button>
-      <button class="mode" data-mode="tour" type="button">Tour tự động</button>
-    </nav>
-
-    <button id="interactBtn" class="interact-btn" type="button" disabled>
-      <span>◎</span><strong>Quan sát cây</strong><small>đến gần và hướng tâm ngắm vào cây</small>
-    </button>
-
-    <div class="mobile-controls" aria-label="Điều khiển di chuyển">
-      <div class="dpad">
-        <button data-move="forward" aria-label="Đi tới">▲</button>
-        <button data-move="left" aria-label="Sang trái">◀</button>
-        <button data-move="back" aria-label="Đi lùi">▼</button>
-        <button data-move="right" aria-label="Sang phải">▶</button>
-      </div>
-      <div class="look-pad">
-        <button data-look="left" aria-label="Nhìn trái">↶</button>
-        <button data-look="right" aria-label="Nhìn phải">↷</button>
+<div class="app">
+  <aside class="left panel">
+    <div class="brand">
+      <div class="mark">GV</div>
+      <div>
+        <h1>Gia Viên Dược Thảo</h1>
+        <p>Hạ tầng preview v2 · ưu tiên cảnh quan thật, cách chơi, góc nhìn, định danh tạm</p>
       </div>
     </div>
 
-
-    <div id="photoStrip" class="photo-strip" aria-label="Các góc ảnh thực tế">
-      <button class="active" data-photo="0"><img src="./assets/IMG_2750.jpg" alt="Góc ảnh 1"></button>
-      <button data-photo="1"><img src="./assets/IMG_2822.jpg" alt="Góc ảnh 2"></button>
-      <button data-photo="2"><img src="./assets/IMG_2837.jpg" alt="Góc ảnh 3"></button>
-      <button data-photo="3"><img src="./assets/IMG_2839.jpg" alt="Góc ảnh 4"></button>
+    <div class="chiprow">
+      <span class="chip">Không dùng ảnh có người</span>
+      <span class="chip">Sẵn cho QR + số thứ tự sau</span>
+      <span class="chip">2 chế độ xem</span>
     </div>
-    <div class="photo-nav"><button id="photoPrev" type="button" aria-label="Ảnh trước">‹</button><button id="photoNext" type="button" aria-label="Ảnh sau">›</button></div>
-    <aside id="plantPanel" class="plant-panel" aria-hidden="true">
-      <button id="closePanel" class="panel-close" type="button" aria-label="Đóng">×</button>
-      <div class="plant-visual"><div id="plantGlyph" class="plant-glyph">🌿</div><span id="plantIndex">CÂY 01</span></div>
-      <div class="panel-content">
-        <p class="eyebrow">DƯỢC THẢO ĐỒ GIÁM</p>
-        <h1 id="plantName">Tên cây</h1>
-        <p id="plantLatin" class="latin"></p>
-        <div class="fact-grid">
-          <div><span>Họ</span><strong id="plantFamily"></strong></div>
-          <div><span>Bộ phận dùng</span><strong id="plantPart"></strong></div>
+
+    <div class="card">
+      <h3>Chế độ</h3>
+      <div class="mode-buttons">
+        <button id="btnPhoto" class="active">Ảnh thật</button>
+        <button id="btnSim">Khám phá 2.5D</button>
+      </div>
+      <p>Ảnh thật để giữ đúng cảnh quan. Chế độ 2.5D để kiểm tra trước cách chơi, góc nhìn và logic tương tác của khu vườn.</p>
+    </div>
+
+    <div class="card">
+      <h3>Luồng chơi đã hoàn thiện</h3>
+      <p>1) Quan sát cảnh quan thật → 2) vào khu vườn 2.5D → 3) di chuyển theo lối đi trung tâm → 4) chạm hotspot cây → 5) đọc hồ sơ tạm → 6) đánh dấu cho nhiệm vụ định danh.</p>
+      <div class="legend">
+        <span><i class="dot" style="background:#d8b16c"></i>hotspot cây</span>
+        <span><i class="dot" style="background:#7ccaf2"></i>vị trí người học</span>
+        <span><i class="dot" style="background:#6dbf78"></i>cây đã tìm đúng</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Bản đồ bố cục</h3>
+      <div class="mapbox" id="miniMap">
+        <div class="lane"></div>
+        <div class="rack"></div>
+        <div class="bed b1"></div><div class="bed b2"></div><div class="bed b3"></div>
+        <div class="bed b4"></div><div class="bed b5"></div>
+        <div class="label" style="left:36%;top:2%">Cổng + bảng tên</div>
+        <div class="label" style="right:4%;top:6%">Giá tường phải</div>
+        <div class="label" style="left:8%;top:76%">Cụm chậu trái</div>
+        <div class="label" style="right:7%;top:82%">Cuối vườn</div>
+        <div class="p" id="mapP1" style="left:47%;top:19%"></div>
+        <div class="p" id="mapP2" style="left:71%;top:34%"></div>
+        <div class="p" id="mapP3" style="left:70%;top:49%"></div>
+        <div class="p" id="mapP4" style="left:29%;top:56%"></div>
+        <div class="p you" id="youDot" style="left:48%;top:86%"></div>
+      </div>
+      <p>Cấu trúc hiện bám những gì đã thấy trong ảnh: khung mái đen, lối đi hẹp giữa, bồn dài hai bên, mảng chậu treo và giá cây đứng bên phải.</p>
+    </div>
+  </aside>
+
+  <main class="main panel">
+    <div class="topbar">
+      <div class="titleblock">
+        <h2 id="mainTitle">Tham quan ảnh thật không dính người</h2>
+        <p id="mainSub">Ưu tiên giữ đúng bố trí khu vườn để làm nền cho các bước gắn QR, số thứ tự và danh mục cây ở giai đoạn sau.</p>
+      </div>
+      <div class="chiprow">
+        <span class="chip" id="modeReadout">Mode: Ảnh thật</span>
+        <span class="chip" id="questReadout">Nhiệm vụ: đang chờ</span>
+      </div>
+    </div>
+
+    <section class="stage">
+      <div id="photoStage" class="active">
+        <div class="hero" id="heroImage"></div>
+        <div class="overlay"></div>
+        <div class="photo-ui">
+          <div class="caption">
+            <h3 id="photoTitle"></h3>
+            <p id="photoDesc"></p>
+            <div class="chiprow" id="photoTags"></div>
+          </div>
+          <div class="thumbs" id="thumbs"></div>
         </div>
-        <div class="knowledge-card"><span>Công năng YHCT</span><p id="plantAction"></p></div>
-        <div class="knowledge-card"><span>Gợi ý nhận diện</span><p id="plantIdentify"></p></div>
-        <button id="startQuiz" class="primary-btn" type="button">Làm thử 1 câu nhận diện</button>
-        <p class="prototype-note">Nội dung học thuật ở bản này là dữ liệu demo để kiểm tra cơ chế chơi; bản chính sẽ khóa theo nguồn đã duyệt.</p>
       </div>
-    </aside>
 
-    <dialog id="quizDialog" class="quiz-dialog">
-      <form method="dialog" class="quiz-card">
-        <button class="panel-close" value="cancel" aria-label="Đóng">×</button>
-        <p class="eyebrow">THỬ THÁCH NHẬN DIỆN</p>
-        <h2 id="quizQuestion"></h2>
-        <div id="quizOptions" class="quiz-options"></div>
-        <p id="quizFeedback" class="quiz-feedback" aria-live="polite"></p>
-        <button id="quizDone" class="primary-btn hidden" value="done">Tiếp tục khám phá</button>
-      </form>
-    </dialog>
+      <div id="simStage">
+        <div class="canvas-wrap"><canvas id="simCanvas" width="1280" height="720"></canvas></div>
+        <div class="hud">
+          <div class="scene-pill"><strong id="sceneName"></strong><span id="sceneDesc"></span></div>
+          <div class="tag">Góc nhìn: người học đi bộ trong vườn</div>
+        </div>
+      </div>
+    </section>
 
-    <dialog id="helpDialog" class="help-dialog">
-      <form method="dialog" class="quiz-card">
-        <button class="panel-close" value="close" aria-label="Đóng">×</button>
-        <p class="eyebrow">CÁCH CHƠI</p>
-        <h2>Đi trong vườn · quan sát · trả lời</h2>
-        <p>Máy tính: WASD hoặc phím mũi tên để đi, kéo chuột trên khung cảnh để nhìn. Điện thoại: dùng cụm nút góc dưới. Khi tâm ngắm hướng vào cây gần bạn, chọn <b>Quan sát cây</b>.</p>
-        <p>Màn hình mặc định dùng ảnh thật Gia Viên Dược Thảo. Nút “Chuyển sang mô phỏng 3D” mở lớp không gian dựng theo bố cục ảnh; đây chưa phải digital twin 3D cuối cùng.</p>
-        <button class="primary-btn" value="close">Bắt đầu</button>
-      </form>
-    </dialog>
+    <div class="controls">
+      <button id="backBtn">◀ Lùi cảnh</button>
+      <button id="leftBtn">↺ Nhìn trái</button>
+      <button id="focusBtn" class="primary">Tự động tới điểm nóng</button>
+      <button id="rightBtn">↻ Nhìn phải</button>
+      <button id="nextBtn">Tiến cảnh ▶</button>
+    </div>
 
-    <div class="mini-map" aria-label="Bản đồ khu vườn"><canvas id="minimap" width="170" height="112"></canvas><span>BẢN ĐỒ VƯỜN</span></div>
-    <div id="toast" class="toast hidden" role="status"></div>
+    <div class="footer-note">
+      <div>Trạng thái preview: <strong id="statusText">Đang ở chế độ ảnh thật</strong></div>
+      <div>Hotspot đang chọn: <strong id="selectedText">chưa chọn</strong></div>
+    </div>
   </main>
-  <script>const canvas = document.querySelector('#world');
-const ctx = canvas.getContext('2d');
-const mini = document.querySelector('#minimap');
-const mctx = mini.getContext('2d');
 
-const plants = [
-  {id:1,name:'Tía tô',latin:'Perilla frutescens (L.) Britton',family:'Lamiaceae',part:'Lá, cành mang lá',action:'Giải biểu tán hàn, hành khí hòa vị.',identify:'Lá mọc đối, mép có răng cưa; thân và lá thường có sắc tím, mùi thơm đặc trưng.',glyph:'🌿',x:-3.2,z:7.4,color:'#6a4468',quiz:['Tía tô','Bạc hà','Ngải cứu']},
-  {id:2,name:'Bạc hà',latin:'Mentha arvensis L.',family:'Lamiaceae',part:'Bộ phận trên mặt đất',action:'Tân lương giải biểu, sơ phong thanh nhiệt.',identify:'Thân vuông, lá mọc đối, vò lá có mùi thơm mát mạnh.',glyph:'🍃',x:3.2,z:8.8,color:'#4f915f',quiz:['Bạc hà','Rau má','Diếp cá']},
-  {id:3,name:'Gừng',latin:'Zingiber officinale Roscoe',family:'Zingiberaceae',part:'Thân rễ',action:'Giải biểu tán hàn, ôn trung chỉ ẩu.',identify:'Thân giả mọc thẳng, lá hình mác; phần dùng là thân rễ thơm cay nằm dưới đất.',glyph:'🌱',x:-3.4,z:12.3,color:'#4c8a55',quiz:['Gừng','Nghệ','Sả']},
-  {id:4,name:'Nghệ',latin:'Curcuma longa L.',family:'Zingiberaceae',part:'Thân rễ',action:'Hành khí, phá ứ, thông kinh, chỉ thống.',identify:'Lá lớn hình mác; thân rễ màu vàng cam đặc trưng.',glyph:'🌱',x:3.3,z:13.9,color:'#6b9a4b',quiz:['Nghệ','Gừng','Ngải cứu']},
-  {id:5,name:'Rau má',latin:'Centella asiatica (L.) Urb.',family:'Apiaceae',part:'Toàn cây',action:'Thanh nhiệt, giải độc, lợi thấp.',identify:'Cây bò sát đất, lá gần tròn hình thận, cuống dài.',glyph:'☘️',x:-3.0,z:17.1,color:'#4e9b5c',quiz:['Rau má','Diếp cá','Tía tô']},
-  {id:6,name:'Diếp cá',latin:'Houttuynia cordata Thunb.',family:'Saururaceae',part:'Phần trên mặt đất',action:'Thanh nhiệt giải độc, tiêu thũng, lợi niệu.',identify:'Lá hình tim, mùi đặc trưng khi vò; cây ưa ẩm.',glyph:'🍀',x:3.4,z:18.4,color:'#4a8f62',quiz:['Diếp cá','Rau má','Bạc hà']},
-  {id:7,name:'Sả',latin:'Cymbopogon citratus (DC.) Stapf',family:'Poaceae',part:'Thân, lá và tinh dầu',action:'Thường dùng trong bài thuốc dân gian để hỗ trợ giải cảm và tiêu hóa.',identify:'Mọc thành bụi, lá dài hẹp, mép sắc; bẹ lá ôm nhau tạo thân giả.',glyph:'🌾',x:-3.4,z:22.0,color:'#6a9d52',quiz:['Sả','Gừng','Ngải cứu']},
-  {id:8,name:'Ngải cứu',latin:'Artemisia vulgaris L.',family:'Asteraceae',part:'Lá, phần trên mặt đất',action:'Ôn kinh chỉ huyết, tán hàn chỉ thống.',identify:'Lá xẻ thùy; mặt dưới thường trắng bạc và có lông.',glyph:'🌿',x:3.1,z:23.3,color:'#6d8464',quiz:['Ngải cứu','Tía tô','Bạc hà']},
-  {id:9,name:'Đinh lăng',latin:'Polyscias fruticosa (L.) Harms',family:'Araliaceae',part:'Rễ và lá',action:'Dùng trong dược liệu truyền thống; hồ sơ chính thức sẽ theo nguồn được duyệt.',identify:'Cây bụi, lá kép nhiều lần, phiến lá nhỏ có răng cưa.',glyph:'🌳',x:-3.3,z:27.0,color:'#3f7a4f',quiz:['Đinh lăng','Nha đam','Sả']},
-  {id:10,name:'Nha đam',latin:'Aloe vera (L.) Burm.f.',family:'Asphodelaceae',part:'Lá',action:'Hồ sơ công năng/chủ trị sẽ được khóa theo nguồn dược liệu được duyệt.',identify:'Lá mọng nước dày, mọc thành cụm, mép có gai nhỏ.',glyph:'🪴',x:3.4,z:28.4,color:'#5e9b68',quiz:['Nha đam','Đinh lăng','Rau má']}
+  <aside class="right panel">
+    <div class="card">
+      <h3>Nhiệm vụ định danh</h3>
+      <div class="progress"><div id="questBar"></div></div>
+      <div class="list" id="questList" style="margin-top:12px"></div>
+      <div class="quiz-actions">
+        <button class="primary" id="markAnswerBtn">Đánh dấu cây đang chọn là đáp án</button>
+        <button id="resetQuestBtn">Làm lại nhiệm vụ</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Cây đang chọn</h3>
+      <div id="selectedPanel">
+        <p>Chưa chọn cây nào. Hãy chuyển sang <strong>Khám phá 2.5D</strong> rồi bấm vào các điểm vàng.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Định danh tạm đã rà trước</h3>
+      <div class="list" id="plantList"></div>
+      <p style="margin-top:10px">Đây là danh sách tạm để chuẩn bị cho bước sau: bạn sẽ cung cấp danh mục chính thức, mã QR và số thứ tự để gắn lại chính xác.</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+const photos=[
+  {
+    id:'p-entry-night',
+    src:'assets/IMG_2750.jpg',
+    title:'Góc nhìn cổng vào · bảng tên và khung chính',
+    desc:'Ảnh thật không dính người. Thấy rõ khung mái đen, bảng “Gia Viên Dược Thảo”, dàn chậu đứng giữa và các bồn cây hai bên lối vào.',
+    tags:['Cổng vào','Bảng tên','Khung mái','Bồn cây hai bên']
+  },
+  {
+    id:'p-left-beds',
+    src:'assets/IMG_3500.jpg',
+    title:'Cụm bồn bên trái',
+    desc:'Cụm bồn dài đặt dọc phía trái lối đi. Ảnh này hữu ích để dựng đúng cảm giác “chậu sát nhau – lối đi hẹp – nhiều tầng thực vật”.',
+    tags:['Bồn trái','Chậu dài','Lamppost','Tường tranh']
+  },
+  {
+    id:'p-right-rack',
+    src:'assets/IMG_2837.jpg',
+    title:'Giá cây tường phải',
+    desc:'Ảnh thật không dính người. Thấy rõ giá chậu đứng nhiều tầng, chậu treo trắng, mái trong và các nhãn cây. Đây là trục chính của phần gameplay nhận diện.',
+    tags:['Giá cây phải','Chậu treo','Nhãn cây','Mái trong']
+  },
+  {
+    id:'p-right-close',
+    src:'assets/IMG_2839.jpg',
+    title:'Cận cảnh nhóm cây có nhãn',
+    desc:'Ảnh gần của cụm cây tại giá tường phải và bồn dài dưới đất. Dùng để chuẩn bị gắn hotspot, số thứ tự và mã QR cho từng cây ở bước sau.',
+    tags:['Cận cảnh','Nhãn cây','Bồn dài','Hotspot chuẩn bị']
+  }
 ];
 
-const beds = [
-  {x:-3.2,z:8,w:2.9,d:4.0},{x:3.2,z:9.2,w:2.9,d:4.0},
-  {x:-3.2,z:13,w:2.9,d:4.0},{x:3.2,z:14.2,w:2.9,d:4.0},
-  {x:-3.2,z:17.8,w:2.9,d:4.0},{x:3.2,z:19,w:2.9,d:4.0},
-  {x:-3.2,z:22.7,w:2.9,d:4.0},{x:3.2,z:23.9,w:2.9,d:4.0},
-  {x:-3.2,z:27.5,w:2.9,d:4.0},{x:3.2,z:28.8,w:2.9,d:4.0}
+const plants=[
+  {
+    id:'plant-sả',
+    code:'Tạm 01',
+    name:'Sả',
+    latin:'Cymbopogon citratus (tạm)',
+    confidence:0.72,
+    scene:1,
+    pos:[930,565],
+    mapTop:'34%',
+    title:'Khóm lá dài hẹp mọc thành bụi',
+    why:'Định danh tạm theo hình dạng lá dải hẹp mọc thành bụi ở bồn thấp phía trước, rất giống sả. Chưa gắn QR/số chính thức.',
+    hint:'Tìm cụm lá dài, hẹp, mọc chụm từ gốc ở bồn thấp gần lối đi.',
+    status:'Trung bình'
+  },
+  {
+    id:'plant-ngaicuu',
+    code:'Tạm 02',
+    name:'Ngải cứu',
+    latin:'Artemisia vulgaris (tạm)',
+    confidence:0.82,
+    scene:2,
+    pos:[990,318],
+    mapTop:'49%',
+    title:'Cây có nhãn “Ngải cứu” ở tầng giữa',
+    why:'Trong ảnh cận cảnh có thể đọc được nhãn “Ngải cứu”; hình lá xẻ thùy cũng phù hợp. Đây là cây tạm xác định có độ tin cậy cao.',
+    hint:'Tìm nhãn treo có chữ “Ngải cứu” ở dãy giá phải, tầm mắt người xem.',
+    status:'Cao'
+  },
+  {
+    id:'plant-raumeo',
+    code:'Tạm 03',
+    name:'Râu mèo',
+    latin:'Orthosiphon aristatus (tạm)',
+    confidence:0.84,
+    scene:2,
+    pos:[1060,280],
+    mapTop:'34%',
+    title:'Cây có nhãn “Râu mèo”',
+    why:'Nhãn “Râu mèo” hiện khá rõ ở ảnh giá cây bên phải. Đây là một điểm tốt để thử cơ chế định danh trước khi gắn danh mục chuẩn.',
+    hint:'Quan sát nhãn chữ “Râu mèo” ở phía phải của giá cây.',
+    status:'Cao'
+  },
+  {
+    id:'plant-zing',
+    code:'Tạm 04',
+    name:'Nhóm gừng/riềng (chưa chốt)',
+    latin:'Zingiberaceae sp. (tạm)',
+    confidence:0.45,
+    scene:3,
+    pos:[270,470],
+    mapTop:'56%',
+    title:'Cụm cây lá lớn hình mác trong bồn trái',
+    why:'Hiện chỉ định danh tới mức nhóm họ Gừng do nhìn thấy dạng lá và cách mọc bụi. Chưa đủ dữ liệu để chốt là gừng, nghệ hay riềng.',
+    hint:'Tìm cụm lá lớn mọc thành khóm ở bồn bên trái gần giữa lối đi.',
+    status:'Thấp'
+  }
 ];
 
-const state={x:0,z:1.4,yaw:0,mode:'explore',focused:null,discovered:new Set(),keys:new Set(),last:performance.now(),tourIndex:0,tourT:0,dragging:false,dragX:0};
-const ui={
-  panel:document.querySelector('#plantPanel'), close:document.querySelector('#closePanel'), interact:document.querySelector('#interactBtn'), label:document.querySelector('#focusLabel'),
-  discovered:document.querySelector('#discoveredCount'), missionProgress:document.querySelector('#missionProgress'), missionText:document.querySelector('#missionText'), toast:document.querySelector('#toast'),
-  quiz:document.querySelector('#quizDialog'), quizQuestion:document.querySelector('#quizQuestion'), quizOptions:document.querySelector('#quizOptions'), quizFeedback:document.querySelector('#quizFeedback'), quizDone:document.querySelector('#quizDone'),
-  help:document.querySelector('#helpDialog')
+const quests=[
+  {id:'q1',title:'Tìm cây có lá dài hẹp mọc thành bụi',desc:'Mục tiêu: chọn đúng cây tạm định danh là sả.',plantId:'plant-sả'},
+  {id:'q2',title:'Tìm cây có nhãn “Ngải cứu”',desc:'Mục tiêu: đọc nhãn và chọn đúng vị trí cây ngải cứu ở giá phải.',plantId:'plant-ngaicuu'},
+  {id:'q3',title:'Tìm cây có nhãn “Râu mèo”',desc:'Mục tiêu: xác định đúng vị trí cây râu mèo ở mảng giá cây bên phải.',plantId:'plant-raumeo'}
+];
+
+const scenes=[
+  {
+    id:0,
+    name:'Cảnh 1 · Cổng vườn',
+    desc:'Đứng trước bảng tên và nhìn vào trục lối đi.',
+    cameraY:0,
+    hotspots:[{plantId:'plant-zing',x:280,y:470}]
+  },
+  {
+    id:1,
+    name:'Cảnh 2 · Dưới bảng tên',
+    desc:'Tiến vào dưới khung mái, bồn trái và chậu phải bắt đầu rõ hơn.',
+    cameraY:1,
+    hotspots:[{plantId:'plant-sả',x:930,y:565},{plantId:'plant-zing',x:300,y:470}]
+  },
+  {
+    id:2,
+    name:'Cảnh 3 · Sát giá cây bên phải',
+    desc:'Tập trung vào mảng giá cây nhiều tầng và các nhãn treo.',
+    cameraY:2,
+    hotspots:[{plantId:'plant-ngaicuu',x:990,y:318},{plantId:'plant-raumeo',x:1060,y:280}]
+  },
+  {
+    id:3,
+    name:'Cảnh 4 · Giữa lối đi',
+    desc:'Nhìn chéo sang bồn trái và vẫn thấy giá cây phải phía sau.',
+    cameraY:3,
+    hotspots:[{plantId:'plant-zing',x:270,y:470},{plantId:'plant-sả',x:970,y:560}]
+  }
+];
+
+let mode='photo';
+let photoIndex=0;
+let sceneIndex=0;
+let selectedPlantId=null;
+let questProgress=new Set();
+let currentQuestId=quests[0].id;
+let simFocusIndex=0;
+const heroImage=document.getElementById('heroImage');
+const photoTitle=document.getElementById('photoTitle');
+const photoDesc=document.getElementById('photoDesc');
+const photoTags=document.getElementById('photoTags');
+const thumbs=document.getElementById('thumbs');
+const photoStage=document.getElementById('photoStage');
+const simStage=document.getElementById('simStage');
+const btnPhoto=document.getElementById('btnPhoto');
+const btnSim=document.getElementById('btnSim');
+const mainTitle=document.getElementById('mainTitle');
+const mainSub=document.getElementById('mainSub');
+const modeReadout=document.getElementById('modeReadout');
+const statusText=document.getElementById('statusText');
+const selectedText=document.getElementById('selectedText');
+const plantList=document.getElementById('plantList');
+const selectedPanel=document.getElementById('selectedPanel');
+const sceneName=document.getElementById('sceneName');
+const sceneDesc=document.getElementById('sceneDesc');
+const questList=document.getElementById('questList');
+const questBar=document.getElementById('questBar');
+const questReadout=document.getElementById('questReadout');
+const youDot=document.getElementById('youDot');
+const canvas=document.getElementById('simCanvas');
+const ctx=canvas.getContext('2d');
+const backBtn=document.getElementById('backBtn');
+const nextBtn=document.getElementById('nextBtn');
+const leftBtn=document.getElementById('leftBtn');
+const rightBtn=document.getElementById('rightBtn');
+const focusBtn=document.getElementById('focusBtn');
+const markAnswerBtn=document.getElementById('markAnswerBtn');
+const resetQuestBtn=document.getElementById('resetQuestBtn');
+
+function byId(id){return plants.find(p=>p.id===id)}
+function currentQuest(){return quests.find(q=>q.id===currentQuestId)}
+
+function renderPhotoMode(){
+  const p=photos[photoIndex];
+  heroImage.style.backgroundImage=`url(${p.src})`;
+  photoTitle.textContent=p.title;
+  photoDesc.textContent=p.desc;
+  photoTags.innerHTML=p.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+  thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}"><img src="${ph.src}" alt="${ph.title}"><span>${ph.title}</span></button>`).join('');
+  thumbs.querySelectorAll('.thumb').forEach(btn=>btn.onclick=()=>{photoIndex=+btn.dataset.i;renderPhotoMode()});
+}
+
+function renderPlantList(){
+  plantList.innerHTML=plants.map(p=>{
+    const badgeClass=p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
+    return `<div class="plant-item ${selectedPlantId===p.id?'active':''}" data-id="${p.id}">
+      <div class="info-head"><strong>${p.name}</strong><span class="${badgeClass}">${Math.round(p.confidence*100)}%</span></div>
+      <small>${p.code} · ${p.title}</small>
+      <small>${p.why}</small>
+    </div>`;
+  }).join('');
+  plantList.querySelectorAll('.plant-item').forEach(el=>el.onclick=()=>{selectedPlantId=el.dataset.id;renderSelectedPlant();renderPlantList();if(mode==='sim'){goToPlant(selectedPlantId)}})
+}
+
+function renderSelectedPlant(){
+  if(!selectedPlantId){selectedPanel.innerHTML='<p>Chưa chọn cây nào. Hãy chuyển sang <strong>Khám phá 2.5D</strong> rồi bấm vào các điểm vàng.</p>'; selectedText.textContent='chưa chọn'; return;}
+  const p=byId(selectedPlantId);
+  const badgeClass=p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
+  selectedPanel.innerHTML=`
+    <div class="info-head"><h4 style="margin:0">${p.name}</h4><span class="${badgeClass}">${p.status}</span></div>
+    <p><strong>Mã tạm:</strong> ${p.code}</p>
+    <p><strong>Định danh tạm:</strong> ${p.latin}</p>
+    <p><strong>Căn cứ hiện có:</strong> ${p.why}</p>
+    <p><strong>Gợi ý tìm trong vườn:</strong> ${p.hint}</p>
+    <p><strong>Độ tin cậy:</strong> ${Math.round(p.confidence*100)}%</p>
+  `;
+  selectedText.textContent=p.name;
+}
+
+function renderQuestList(){
+  questList.innerHTML=quests.map(q=>{
+    const done=questProgress.has(q.id);
+    return `<div class="quest-item ${currentQuestId===q.id?'active':''}" data-id="${q.id}">
+      <div class="info-head"><strong>${q.title}</strong><span class="badge ${done?'':'warn'}">${done?'Đã đúng':'Chưa xong'}</span></div>
+      <small>${q.desc}</small>
+    </div>`;
+  }).join('');
+  questList.querySelectorAll('.quest-item').forEach(el=>el.onclick=()=>{currentQuestId=el.dataset.id;updateQuestUI()});
+}
+
+function updateQuestUI(){
+  const q=currentQuest();
+  const doneCount=questProgress.size;
+  questBar.style.width=`${(doneCount/quests.length)*100}%`;
+  questReadout.textContent=`Nhiệm vụ: ${q.title}`;
+  renderQuestList();
+}
+
+function setMode(next){
+  mode=next;
+  const isPhoto=mode==='photo';
+  photoStage.classList.toggle('active',isPhoto);
+  simStage.classList.toggle('active',!isPhoto);
+  btnPhoto.classList.toggle('active',isPhoto);
+  btnSim.classList.toggle('active',!isPhoto);
+  modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':'Khám phá 2.5D'}`;
+  if(isPhoto){
+    mainTitle.textContent='Tham quan ảnh thật không dính người';
+    mainSub.textContent='Giữ đúng cảnh quan thật để làm chuẩn cho mô phỏng và gắn QR/số cây về sau.';
+    statusText.textContent='Đang ở chế độ ảnh thật';
+  } else {
+    mainTitle.textContent='Khám phá 2.5D · lối đi trung tâm và hotspot cây';
+    mainSub.textContent='Bản này tập trung hoàn thiện hạ tầng: bố trí vườn, góc nhìn, nhiệm vụ định danh và logic di chuyển.';
+    statusText.textContent='Đang ở chế độ mô phỏng 2.5D';
+    drawScene();
+  }
+}
+
+function drawScene(){
+  const w=canvas.width,h=canvas.height;
+  const scene=scenes[sceneIndex];
+  sceneName.textContent=scene.name;
+  sceneDesc.textContent=scene.desc;
+  ctx.clearRect(0,0,w,h);
+
+  // Sky and distant mural
+  const sky=ctx.createLinearGradient(0,0,0,h*0.45); sky.addColorStop(0,'#d7ece6'); sky.addColorStop(.9,'#e5eee4');
+  ctx.fillStyle=sky; ctx.fillRect(0,0,w,h);
+
+  // Rear mural walls / wraparound garden wall
+  drawPolygon([[100,120],[1180,120],[1160,340],[120,340]], '#85b8a5');
+  paintMural(100,120,1080,220);
+
+  // Main floor perspective
+  drawPolygon([[390,300],[890,300],[1140,710],[140,710]], '#978e7e');
+  // tile lines
+  for(let i=0;i<9;i++) drawLine(390+(i*500/8),300,140+(i*1000/8),710,'rgba(80,72,62,.18)',1);
+  for(let y=330;y<700;y+=42) drawLine(390-(y-300)*0.67, y, 890+(y-300)*0.67, y, 'rgba(82,75,66,.16)', 1);
+
+  // Canopy frame
+  drawStructure(scene.cameraY);
+
+  // Left planter beds and right rack according to scene emphasis
+  drawLeftBeds(scene.cameraY);
+  drawRightRack(scene.cameraY);
+  drawHangingPots(scene.cameraY);
+  drawSignboard();
+  drawListBoard();
+  drawHotspots(scene);
+  updateMapDot();
+}
+
+function paintMural(x,y,w,h){
+  ctx.save();
+  ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
+  const g=ctx.createLinearGradient(0,y,0,y+h); g.addColorStop(0,'#95cdbb'); g.addColorStop(1,'#6aa583');
+  ctx.fillStyle=g; ctx.fillRect(x,y,w,h);
+  // Tree rhythm
+  for(let i=0;i<16;i++){
+    const tx=x+50+i*64; const ty=y+48+Math.sin(i)*10;
+    ctx.strokeStyle='rgba(88,68,48,.55)'; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(tx, y+h); ctx.lineTo(tx+Math.sin(i)*18, ty+50); ctx.stroke();
+    ctx.fillStyle=`rgba(${70+i*2},${120+i*3},${70+i*2},.65)`;
+    ctx.beginPath(); ctx.arc(tx+Math.sin(i)*8, ty, 42+(i%3)*8, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+}
+function drawStructure(depth){
+  const frontY=depth===0?255:depth===1?220:depth===2?190:205;
+  const frontL=depth===2?250:220, frontR=depth===2?1030:1060;
+  ctx.strokeStyle='#1a211d'; ctx.lineWidth=7;
+  drawLine(frontL,frontY,frontL,655,'#1a211d',8);
+  drawLine(frontR,frontY,frontR,655,'#1a211d',8);
+  drawLine(frontL,frontY,frontR,frontY,'#1a211d',8);
+  drawLine(frontL,frontY,375,110,'#1a211d',5);
+  drawLine(frontR,frontY,905,110,'#1a211d',5);
+  drawLine(375,110,905,110,'#1a211d',5);
+  drawLine(375,110,375,590,'#1a211d',4);
+  drawLine(905,110,905,590,'#1a211d',4);
+  // roof panels
+  for(let i=0;i<3;i++){
+    drawPolygon([[375+i*177,110],[552+i*177,110],[frontR-(2-i)*52,frontY],[frontL+(i+1)*52,frontY]], 'rgba(255,255,255,.10)');
+  }
+}
+function drawLeftBeds(depth){
+  const beds = depth===0
+    ? [[[120,470],[345,430],[380,610],[100,660]], [[110,540],[280,520],[300,690],[90,710]]]
+    : depth===1
+      ? [[[160,430],[330,400],[360,590],[120,650]], [[130,515],[280,500],[300,690],[100,710]], [[250,350],[380,338],[405,508],[210,546]]]
+      : [[[140,470],[270,445],[300,610],[120,648]], [[210,360],[370,336],[392,530],[195,564]], [[260,520],[390,505],[402,680],[235,705]]];
+  beds.forEach((poly,i)=>{ drawPolygon(poly, i===1?'#232c26':'#1b231f'); drawPlantMass(poly, i); });
+}
+function drawRightRack(depth){
+  const rackX=depth===2?760:790; const topY=depth===2?185:215; const width=depth===2?360:300; const height=depth===2?350:320;
+  drawPolygon([[rackX,topY],[rackX+width,topY],[rackX+width-55,topY+height],[rackX+40,topY+height]], '#151d1a');
+  // shelves grid
+  for(let row=1;row<4;row++) drawLine(rackX+10, topY+row*height/4, rackX+width-20, topY+row*height/4, 'rgba(255,255,255,.18)', 2);
+  for(let col=1;col<4;col++) drawLine(rackX+col*width/4, topY+5, rackX+col*width/4-25, topY+height-5, 'rgba(255,255,255,.12)', 2);
+  // pots
+  for(let r=0;r<4;r++){
+    for(let c=0;c<4;c++){
+      const px=rackX+22+c*(width/4); const py=topY+18+r*(height/4);
+      drawSmallPot(px,py,depth===2?52:44,depth===2?36:30);
+    }
+  }
+  // bottom troughs
+  drawPolygon([[rackX+30,topY+height-8],[rackX+width-70,topY+height-8],[rackX+width-45,topY+height+42],[rackX+12,topY+height+42]], '#212923');
+}
+function drawHangingPots(depth){
+  const pots=depth===2?[[850,185],[980,155]]:[[842,205],[967,178]];
+  pots.forEach(([x,y],i)=>{
+    drawLine(x,85+(i*10),x,y,'#eef2ec',2);
+    ctx.fillStyle='#f0eee6'; ctx.beginPath(); ctx.ellipse(x,y,30,16,0,0,Math.PI*2); ctx.fill();
+    ctx.fillRect(x-28,y-2,56,16);
+    ctx.fillStyle='rgba(106,164,109,.9)';
+    for(let j=0;j<5;j++){ctx.beginPath();ctx.arc(x-16+j*8,y-12+(j%2)*3,7,0,Math.PI*2);ctx.fill();}
+  });
+}
+function drawSignboard(){
+  drawPolygon([[500,185],[655,185],[645,260],[510,260]], '#efe6d2');
+  ctx.fillStyle='#5c4b31'; ctx.font='italic 700 28px Georgia'; ctx.fillText('Gia Viên Dược Thảo', 517,228);
+}
+function drawListBoard(){
+  drawPolygon([[912,245],[1080,245],[1068,455],[920,455]], '#efe7d8');
+  ctx.fillStyle='#6c5d43'; ctx.font='700 18px Inter'; ctx.fillText('DANH SÁCH CÂY', 934,276);
+  ctx.font='12px Inter';
+  for(let i=0;i<8;i++) ctx.fillText(`${String(i+1).padStart(2,'0')} · ...`, 940, 304 + i*18);
+}
+function drawPlantMass(poly,index){
+  const minX=Math.min(...poly.map(p=>p[0])), maxX=Math.max(...poly.map(p=>p[0])), minY=Math.min(...poly.map(p=>p[1])), maxY=Math.max(...poly.map(p=>p[1]));
+  for(let i=0;i<20;i++){
+    const x=minX+20+((i*37)%Math.max(60,maxX-minX-40));
+    const y=maxY-12-((i*19)%Math.max(50,maxY-minY-22));
+    const r=10+((i*7)%18);
+    ctx.fillStyle=`rgba(${70+i*3},${120+i*2},${70+i*3},.92)`;
+    ctx.beginPath();ctx.ellipse(x,y,r,r*.58,((i%5)-2)*0.18,0,Math.PI*2);ctx.fill();
+  }
+}
+function drawSmallPot(x,y,w,h){
+  drawPolygon([[x,y],[x+w,y],[x+w-8,y+h],[x+6,y+h]], '#202924');
+  ctx.fillStyle='rgba(89,150,81,.95)';
+  for(let i=0;i<4;i++){
+    ctx.beginPath(); ctx.ellipse(x+10+i*9,y+6+(i%2)*4,8,14,(i-1.5)*0.18,0,Math.PI*2); ctx.fill();
+  }
+}
+function drawHotspots(scene){
+  scene.hotspots.forEach((h,i)=>{
+    const plant=byId(h.plantId);
+    const active=selectedPlantId===plant.id;
+    ctx.beginPath(); ctx.arc(h.x,h.y, active?18:14, 0, Math.PI*2); ctx.fillStyle=active?'rgba(109,191,120,.92)':'rgba(216,177,108,.95)'; ctx.fill();
+    ctx.lineWidth=3; ctx.strokeStyle='rgba(10,20,16,.88)'; ctx.stroke();
+    ctx.fillStyle='#163028'; ctx.font='700 12px Inter'; ctx.textAlign='center'; ctx.fillText(String(i+1), h.x, h.y+4);
+  });
+}
+function drawPolygon(points,fill,stroke='rgba(255,255,255,.08)'){
+  ctx.beginPath(); points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); if(fill){ctx.fillStyle=fill; ctx.fill();} if(stroke){ctx.strokeStyle=stroke; ctx.stroke();}
+}
+function drawLine(x1,y1,x2,y2,stroke,width){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+
+canvas.addEventListener('click',e=>{
+  if(mode!=='sim') return;
+  const rect=canvas.getBoundingClientRect();
+  const x=(e.clientX-rect.left)*(canvas.width/rect.width);
+  const y=(e.clientY-rect.top)*(canvas.height/rect.height);
+  const scene=scenes[sceneIndex];
+  let found=null;
+  for(const hs of scene.hotspots){
+    const dx=x-hs.x, dy=y-hs.y;
+    if(Math.sqrt(dx*dx+dy*dy)<22){found=hs.plantId;break;}
+  }
+  if(found){selectedPlantId=found; renderSelectedPlant(); renderPlantList(); drawScene();}
+});
+
+function goToPlant(pid){
+  const plant=byId(pid);
+  if(!plant) return;
+  sceneIndex=plant.scene;
+  drawScene();
+}
+function updateMapDot(){
+  const positions=['84%','64%','42%','57%'];
+  youDot.style.top=positions[sceneIndex]||'84%';
+}
+
+btnPhoto.onclick=()=>setMode('photo');
+btnSim.onclick=()=>setMode('sim');
+backBtn.onclick=()=>{sceneIndex=(sceneIndex-1+scenes.length)%scenes.length; drawScene()};
+nextBtn.onclick=()=>{sceneIndex=(sceneIndex+1)%scenes.length; drawScene()};
+leftBtn.onclick=()=>{photoIndex=(photoIndex-1+photos.length)%photos.length; if(mode==='photo') renderPhotoMode(); else {sceneIndex=(sceneIndex+scenes.length-1)%scenes.length;drawScene();}};
+rightBtn.onclick=()=>{photoIndex=(photoIndex+1)%photos.length; if(mode==='photo') renderPhotoMode(); else {sceneIndex=(sceneIndex+1)%scenes.length;drawScene();}};
+focusBtn.onclick=()=>{
+  if(mode==='photo'){setMode('sim');}
+  const scene=scenes[sceneIndex];
+  if(scene.hotspots.length){
+    const target=scene.hotspots[simFocusIndex % scene.hotspots.length].plantId;
+    simFocusIndex++;
+    selectedPlantId=target; renderSelectedPlant(); renderPlantList(); drawScene();
+  }
 };
+markAnswerBtn.onclick=()=>{
+  if(!selectedPlantId){alert('Hãy chọn một cây trước.'); return;}
+  const q=currentQuest();
+  if(selectedPlantId===q.plantId){
+    questProgress.add(q.id);
+    updateQuestUI();
+    statusText.textContent=`Đúng: ${byId(selectedPlantId).name}`;
+  } else {
+    statusText.textContent=`Chưa đúng: ${byId(selectedPlantId).name}`;
+  }
+};
+resetQuestBtn.onclick=()=>{questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); statusText.textContent='Đã reset nhiệm vụ';};
 
-const realPhotos=[
-  {src:'./assets/IMG_2750.jpg',caption:'Góc thực tế Gia Viên Dược Thảo · lối đi và cụm cây'},
-  {src:'./assets/IMG_2822.jpg',caption:'Góc thực tế · khung mái, chậu cây và cảnh quan'},
-  {src:'./assets/IMG_2837.jpg',caption:'Góc thực tế · cụm cây dược liệu và lối tham quan'},
-  {src:'./assets/IMG_2839.jpg',caption:'Góc thực tế · chi tiết bố trí cây trong Gia Viên'}
-];
-let realPhotoIndex=0, useRealScene=true;
-const realScene=document.querySelector('#realScene'), realSceneImg=document.querySelector('#realSceneImg'), photoCaption=document.querySelector('#photoCaption'), sceneToggle=document.querySelector('#sceneToggle');
-function setRealPhoto(i){realPhotoIndex=(i+realPhotos.length)%realPhotos.length;const p=realPhotos[realPhotoIndex];realSceneImg.style.opacity='.25';setTimeout(()=>{realSceneImg.src=p.src;photoCaption.textContent=p.caption;realSceneImg.style.opacity='1'},90);document.querySelectorAll('[data-photo]').forEach((b,n)=>b.classList.toggle('active',n===realPhotoIndex))}
-function setSceneMode(real){useRealScene=real;realScene.classList.toggle('hidden-scene',!real);canvas.classList.toggle('photo-underlay',real);document.querySelector('#photoStrip').classList.toggle('hidden',!real);document.querySelector('.photo-nav').classList.toggle('hidden',!real);sceneToggle.textContent=real?'Chuyển sang mô phỏng 3D':'Xem ảnh thực tế';toast(real?'Đang xem ảnh thực tế Gia Viên':'Đang xem mô phỏng 3D theo bố cục Gia Viên')}
-document.querySelector('#photoPrev').addEventListener('click',()=>setRealPhoto(realPhotoIndex-1));document.querySelector('#photoNext').addEventListener('click',()=>setRealPhoto(realPhotoIndex+1));document.querySelectorAll('[data-photo]').forEach(b=>b.addEventListener('click',()=>setRealPhoto(Number(b.dataset.photo))));document.querySelectorAll('[data-photo-hotspot]').forEach(b=>b.addEventListener('click',()=>{const n=Number(b.dataset.photoHotspot);toast('Điểm quan sát '+n+' · sẽ gắn cây/hồ sơ tương tác ở bước tiếp theo')}));sceneToggle.addEventListener('click',()=>setSceneMode(!useRealScene));
-
-function resize(){const d=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.floor(innerWidth*d);canvas.height=Math.floor(innerHeight*d);canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(d,0,0,d,0,0)}
-addEventListener('resize',resize);resize();
-
-function project(x,z,y=0){
-  const dx=x-state.x,dz=z-state.z,c=Math.cos(state.yaw),s=Math.sin(state.yaw);
-  const lx=dx*c-dz*s,lz=dx*s+dz*c;
-  if(lz<=.2)return null;
-  const w=innerWidth,h=innerHeight,f=Math.min(w,h)*.92,horizon=h*.39,camH=1.62;
-  return {x:w/2+(lx/lz)*f,y:horizon+((camH-y)/lz)*f,z:lz,scale:f/lz};
-}
-function poly(points,fill,stroke){const ps=points.map(p=>project(p.x,p.z,p.y||0));if(ps.some(p=>!p))return;ctx.beginPath();ctx.moveTo(ps[0].x,ps[0].y);for(let i=1;i<ps.length;i++)ctx.lineTo(ps[i].x,ps[i].y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}}
-function drawBackground(){
-  const w=innerWidth,h=innerHeight;const sky=ctx.createLinearGradient(0,0,0,h*.55);sky.addColorStop(0,'#b9d7d2');sky.addColorStop(1,'#dbe3cb');ctx.fillStyle=sky;ctx.fillRect(0,0,w,h*.55);
-  ctx.fillStyle='#647e58';ctx.fillRect(0,h*.39,w,h*.61);
-  const wall=project(0,34,3.6);if(wall){const left=project(-9,34,0),right=project(9,34,0),lt=project(-9,34,3.6),rt=project(9,34,3.6);if(left&&right&&lt&&rt){ctx.fillStyle='#d7d0b9';ctx.beginPath();ctx.moveTo(lt.x,lt.y);ctx.lineTo(rt.x,rt.y);ctx.lineTo(right.x,right.y);ctx.lineTo(left.x,left.y);ctx.closePath();ctx.fill();ctx.fillStyle='#315d46';ctx.font=`700 ${Math.max(10,wall.scale*.28)}px Georgia`;ctx.textAlign='center';ctx.fillText('GIA VIÊN DƯỢC THẢO',wall.x,wall.y-25*wall.scale*.05)}}
-  // translucent roof ribs
-  for(let z=4;z<33;z+=4){const a=project(-6,z,3.4),b=project(6,z,3.4);if(a&&b){ctx.strokeStyle='rgba(64,84,72,.28)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}
-}
-function drawGround(){
-  poly([{x:-1.45,z:2},{x:1.45,z:2},{x:1.45,z:33},{x:-1.45,z:33}], '#ccb98f','rgba(255,255,255,.16)');
-  // central paving lines
-  for(let z=3;z<33;z+=2){const a=project(-1.42,z,0.01),b=project(1.42,z,0.01);if(a&&b){ctx.strokeStyle='rgba(98,80,54,.18)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}
-  beds.forEach(b=>poly([{x:b.x-b.w/2,z:b.z-b.d/2},{x:b.x+b.w/2,z:b.z-b.d/2},{x:b.x+b.w/2,z:b.z+b.d/2},{x:b.x-b.w/2,z:b.z+b.d/2}], '#5a6945','rgba(223,206,157,.38)'));
-}
-function drawPlant(p){const base=project(p.x,p.z,0),top=project(p.x,p.z,1.25);if(!base||!top)return;const sc=Math.max(7,Math.min(58,base.scale*.12));ctx.save();ctx.translate(base.x,base.y);ctx.fillStyle='rgba(0,0,0,.18)';ctx.beginPath();ctx.ellipse(0,0,sc*.7,sc*.2,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#385c3b';ctx.lineWidth=Math.max(1,sc*.09);ctx.beginPath();ctx.moveTo(0,-2);ctx.lineTo(0,-sc*1.7);ctx.stroke();for(let i=0;i<8;i++){const a=(i/8)*Math.PI*2+0.3;const yy=-sc*(.35+(i%4)*.33);const xx=Math.cos(a)*sc*(.5+(i%3)*.13);ctx.fillStyle=p.color;ctx.beginPath();ctx.ellipse(xx,yy,sc*.42,sc*.18,a*.35,0,Math.PI*2);ctx.fill()}if(state.discovered.has(p.id)){ctx.fillStyle='#e8ca7b';ctx.beginPath();ctx.arc(sc*.75,-sc*1.7,Math.max(4,sc*.16),0,Math.PI*2);ctx.fill();ctx.fillStyle='#1f4938';ctx.font=`700 ${Math.max(7,sc*.18)}px sans-serif`;ctx.textAlign='center';ctx.fillText('✓',sc*.75,-sc*1.7+3)}ctx.restore()}
-function focusPlant(){let best=null;for(const p of plants){const dx=p.x-state.x,dz=p.z-state.z,dist=Math.hypot(dx,dz);if(dist>5.2)continue;const target=Math.atan2(dx,dz);let da=Math.atan2(Math.sin(target-state.yaw),Math.cos(target-state.yaw));if(Math.abs(da)>.36)continue;if(!best||dist<best.dist)best={plant:p,dist,angle:da}}return best?.plant||null}
-function draw(){drawBackground();drawGround();const sorted=[...plants].map(p=>({p,pr:project(p.x,p.z)})).filter(o=>o.pr).sort((a,b)=>b.pr.z-a.pr.z);for(const o of sorted)drawPlant(o.p);drawMini();const f=focusPlant();state.focused=f;ui.interact.disabled=!f;ui.label.classList.toggle('hidden',!f);if(f)ui.label.textContent=`${String(f.id).padStart(2,'0')} · ${state.discovered.has(f.id)?f.name:'Cây chưa nhận diện'}`}
-function drawMini(){const w=mini.width,h=mini.height;mctx.clearRect(0,0,w,h);mctx.fillStyle='#203d30';mctx.fillRect(0,0,w,h);mctx.fillStyle='#cbb68b';mctx.fillRect(w*.44,4,w*.12,h-8);for(const p of plants){const x=w/2+(p.x/9)*w*.42,y=6+(p.z/34)*(h-12);mctx.fillStyle=state.discovered.has(p.id)?'#e3bf70':'#7fa57d';mctx.beginPath();mctx.arc(x,y,3.2,0,Math.PI*2);mctx.fill()}const px=w/2+(state.x/9)*w*.42,py=6+(state.z/34)*(h-12);mctx.save();mctx.translate(px,py);mctx.rotate(-state.yaw);mctx.fillStyle='#fff';mctx.beginPath();mctx.moveTo(0,-6);mctx.lineTo(-4,5);mctx.lineTo(4,5);mctx.closePath();mctx.fill();mctx.restore()}
-function canMove(nx,nz){return nx>-1.25&&nx<1.25&&nz>.5&&nz<32.2}
-function update(dt){if(state.mode==='tour'){state.tourT+=dt;const idx=Math.floor(state.tourT/4)%plants.length;const p=plants[idx];const targetZ=Math.max(1,p.z-2.6);state.z+=(targetZ-state.z)*Math.min(1,dt*.7);const targetYaw=Math.atan2(p.x-state.x,p.z-state.z);state.yaw+=Math.atan2(Math.sin(targetYaw-state.yaw),Math.cos(targetYaw-state.yaw))*Math.min(1,dt*1.6);return}
-  const speed=3.0,rot=1.8;let f=0,r=0;if(state.keys.has('w')||state.keys.has('arrowup'))f+=1;if(state.keys.has('s')||state.keys.has('arrowdown'))f-=1;if(state.keys.has('a'))r-=1;if(state.keys.has('d'))r+=1;if(state.keys.has('arrowleft'))state.yaw-=rot*dt;if(state.keys.has('arrowright'))state.yaw+=rot*dt;if(f||r){const l=Math.hypot(f,r)||1;f/=l;r/=l;const nx=state.x+(Math.sin(state.yaw)*f+Math.cos(state.yaw)*r)*speed*dt;const nz=state.z+(Math.cos(state.yaw)*f-Math.sin(state.yaw)*r)*speed*dt;if(canMove(nx,nz)){state.x=nx;state.z=nz}}}
-function loop(now){const dt=Math.min(.035,(now-state.last)/1000);state.last=now;update(dt);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
-
-function showPlant(p){state.discovered.add(p.id);ui.discovered.textContent=state.discovered.size;const progress=Math.min(3,state.discovered.size);ui.missionProgress.style.width=`${progress/3*100}%`;ui.missionText.textContent=state.discovered.size>=3?'Hoàn thành · tiếp tục mở Dược thảo đồ giám':`${progress}/3 cây đã mở hồ sơ`;document.querySelector('#plantIndex').textContent=`CÂY ${String(p.id).padStart(2,'0')}`;document.querySelector('#plantGlyph').textContent=p.glyph;document.querySelector('#plantName').textContent=p.name;document.querySelector('#plantLatin').textContent=p.latin;document.querySelector('#plantFamily').textContent=p.family;document.querySelector('#plantPart').textContent=p.part;document.querySelector('#plantAction').textContent=p.action;document.querySelector('#plantIdentify').textContent=p.identify;ui.panel.dataset.plant=p.id;ui.panel.classList.add('open');ui.panel.setAttribute('aria-hidden','false');toast(state.discovered.size===3?'Đã hoàn thành nhiệm vụ đầu tiên +30 XP':'Đã mở hồ sơ '+p.name)}
-function closePanel(){ui.panel.classList.remove('open');ui.panel.setAttribute('aria-hidden','true')}
-function toast(msg){ui.toast.textContent=msg;ui.toast.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>ui.toast.classList.add('hidden'),2200)}
-function startQuiz(p){ui.quizQuestion.textContent=`Cây nào phù hợp với gợi ý: “${p.identify}”`;ui.quizOptions.innerHTML='';ui.quizFeedback.textContent='';ui.quizDone.classList.add('hidden');const opts=[...p.quiz].sort(()=>Math.random()-.5);for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o;b.addEventListener('click',()=>{for(const x of ui.quizOptions.children)x.disabled=true;if(o===p.name){b.classList.add('correct');ui.quizFeedback.textContent='Chính xác · +10 XP';}else{b.classList.add('wrong');[...ui.quizOptions.children].find(x=>x.textContent===p.name)?.classList.add('correct');ui.quizFeedback.textContent=`Chưa đúng. Đáp án: ${p.name}`;}ui.quizDone.classList.remove('hidden')});ui.quizOptions.appendChild(b)}ui.quiz.showModal()}
-
-ui.interact.addEventListener('click',()=>state.focused&&showPlant(state.focused));ui.close.addEventListener('click',closePanel);document.querySelector('#startQuiz').addEventListener('click',()=>{const p=plants.find(x=>x.id===Number(ui.panel.dataset.plant));if(p){closePanel();startQuiz(p)}});document.querySelector('#helpBtn').addEventListener('click',()=>ui.help.showModal());
-for(const b of document.querySelectorAll('.mode'))b.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.mode=b.dataset.mode;if(state.mode==='quiz')toast('Chế độ thử thách: tên cây sẽ ẩn cho đến khi quan sát');if(state.mode==='tour'){state.tourT=0;toast('Tour tự động bắt đầu')}});
-addEventListener('keydown',e=>{const k=e.key.toLowerCase();state.keys.add(k);if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();if(e.key==='Enter'&&state.focused)showPlant(state.focused)});addEventListener('keyup',e=>state.keys.delete(e.key.toLowerCase()));
-for(const b of document.querySelectorAll('[data-move]')){const map={forward:'w',back:'s',left:'a',right:'d'},k=map[b.dataset.move];const on=e=>{e.preventDefault();state.keys.add(k)},off=e=>{e.preventDefault();state.keys.delete(k)};b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointercancel',off);b.addEventListener('pointerleave',off)}
-for(const b of document.querySelectorAll('[data-look]')){const k=b.dataset.look==='left'?'arrowleft':'arrowright';const on=e=>{e.preventDefault();state.keys.add(k)},off=e=>{e.preventDefault();state.keys.delete(k)};b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointercancel',off);b.addEventListener('pointerleave',off)}
-canvas.addEventListener('pointerdown',e=>{state.dragging=true;state.dragX=e.clientX;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!state.dragging)return;const dx=e.clientX-state.dragX;state.yaw+=dx*.006;state.dragX=e.clientX});canvas.addEventListener('pointerup',()=>state.dragging=false);canvas.addEventListener('pointercancel',()=>state.dragging=false);
-setTimeout(()=>ui.help.showModal(),350);
+renderPhotoMode();
+renderPlantList();
+renderSelectedPlant();
+updateQuestUI();
+setMode('photo');
 </script>
 </body>
 </html>
