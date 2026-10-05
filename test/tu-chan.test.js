@@ -56,13 +56,13 @@ test('Duty rooms: random server-issued cases and EXP wired to the shared Y Quan 
   assert.match(sql, /tu_chan_shifts_one_open_idx/);
 });
 
-test('Catalog on the server covers the whole bank: 40 seeded + 101 enabled by the owner on 2026-10-04 + 5 added on 2026-10-05', async () => {
+test('Catalog on the server covers the whole bank: 40 seeded + 101 enabled by the owner on 2026-10-04 + 10 added on 2026-10-05', async () => {
   const html = await read('../public/tu-chan/index.html');
   const bank = JSON.parse(html.match(/id="bank-data">([\s\S]*?)<\/script>/)[1]);
-  assert.equal(bank.length, 146);
+  assert.equal(bank.length, 151);
   const room = c => (c.setting === 'capcuu' || c.setting === 'giuong') ? 'capcuu' : 'kham';
   const seed = await read('../supabase/migrations/20261001160000_vien_thuc_hanh_shifts_v1.sql');
-  const more = await read('../supabase/migrations/20261004080000_vien_thuc_hanh_bat_ca_nhap.sql') + await read('../supabase/migrations/20261005130000_vien_thuc_hanh_them_5_ca_noi.sql');
+  const more = await read('../supabase/migrations/20261004080000_vien_thuc_hanh_bat_ca_nhap.sql') + await read('../supabase/migrations/20261005130000_vien_thuc_hanh_them_5_ca_noi.sql') + await read('../supabase/migrations/20261005150000_vien_thuc_hanh_them_5_ca_noi_lo2.sql');
   for (const c of bank) assert.ok(seed.includes(`('${c.id}','${room(c)}'`) || more.includes(`('${c.id}','${room(c)}'`), 'catalog missing ' + c.id);
 });
 
