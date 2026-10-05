@@ -1,0 +1,56 @@
+[
+  {
+    "id": "chan-tam-thong",
+    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "text": "Huyết phủ trục ứ thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức Cục Quản lý Y Dược cổ truyền: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca hiện chỉ ghi tên bài “Huyết phủ trục ứ thang”, không có liều từng vị nên không có số trong ca để đối chiếu Dược điển Việt Nam V. Quyết định 5013/QĐ-BYT, mục thể khí trệ huyết ứ, ghi: “Đương quy 12g Ngưu tất 12g; Sinh địa 12g Xích thược 08g; Đào nhân 16g Sài hồ 04g; Hồng hoa 12g Cát cánh 06g; Xuyên khung 06g Cam thảo 04g; Chỉ xác 08g”. Không được tự suy ra rằng đây là liều đang có trong ca khi dữ liệu ca chưa ghi liều.",
+    "de_xuat": ""
+  },
+  {
+    "id": "trung-phong",
+    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "text": "Hóa đàm thông lạc thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi “Hóa đàm thông lạc thang”, không ghi thành phần và liều từng vị. Trong bản toàn văn Quyết định 5013/QĐ-BYT đã đọc không tìm thấy tên bài “Hóa đàm thông lạc thang” để lấy một công thức liều chính thức; vì vậy không thể đối chiếu từng vị với Dược điển Việt Nam V mà không đoán.",
+    "de_xuat": ""
+  },
+  {
+    "id": "trung-thu",
+    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "text": "Bạch hổ gia nhân sâm thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi “Bạch hổ gia nhân sâm thang”, không ghi liều từng vị. Bản toàn văn Quyết định 5013/QĐ-BYT đã đọc có các bài Bạch hổ quế chi thang/Bạch hổ gia quế chi thang nhưng không tìm thấy đúng tên “Bạch hổ gia nhân sâm thang”; không được lấy liều của bài khác để thay thế.",
+    "de_xuat": ""
+  },
+  {
+    "id": "hao-suyen",
+    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "text": "Tiểu thanh long thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên bài, không ghi liều từng vị. Quyết định 5013/QĐ-BYT có công thức “Tiểu thanh long thang” trong mục thể thủy ẩm của bệnh phổi tắc nghẽn mạn tính: “Ma hoàng 06g Nhục quế 08g; Tế tân 04g Can khương 06g; Bán hạ chế 12g Ngũ vị tử 06g; Bạch thược 12g Cam thảo 06g”. Vì nguồn này thuộc bối cảnh bệnh khác và ca hiện không có liều, không thể coi các số trên là liều đã được đối chiếu cho ca hen.",
+    "de_xuat": ""
+  },
+  {
+    "id": "tiet-ta",
+    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "text": "Cát căn cầm liên thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi “Cát căn cầm liên thang”, không ghi thành phần và liều từng vị. Trong bản toàn văn Quyết định 5013/QĐ-BYT đã đọc không tìm thấy đúng tên bài này; các mục có Cát căn thuộc những phương khác, nên không thể dùng thay để suy ra liều.",
+    "de_xuat": ""
+  },
+  {
+    "id": "huyen-vung",
+    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "text": "Thiên ma câu đằng ẩm",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca hiện chỉ ghi “Thiên ma câu đằng ẩm”, không có liều từng vị để đối chiếu. Quyết định 5013/QĐ-BYT, thể can dương thượng cang, ghi: “Thiên ma 08g Câu đằng 12g; Ngưu tất 12g Thạch quyết minh 20g; Đỗ trọng 12g Tang ký sinh 16g; Chi tử 12g Hoàng cầm 12g; Ích mẫu 12g Dạ giao đằng 12g; Phục thần 12g”. Các số này là liều của phương trong nguồn, không phải số đang tồn tại trong ca.",
+    "de_xuat": ""
+  }
+]
