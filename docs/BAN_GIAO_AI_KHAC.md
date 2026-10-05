@@ -51,3 +51,11 @@ Chỉ ca không còn ý "lệch" hoặc "không đọc được" mới đưa và
 - Mọi thay đổi code, cơ sở dữ liệu, test, phân quyền theo nhóm (trường `tier`: khách, ngoại, đủ).
 - Nạp kết quả vào ngân hàng ca, chạy test, mở PR, deploy.
 - Đổi trạng thái hiển thị của ca.
+
+## Quy tắc khi soạn ca mới (rút ra từ hai lô Việc 2, bắt buộc)
+1. `id` phải chưa tồn tại. Số lớn nhất hiện có: noi-tieu-hoa 11, noi-tim-mach 7, noi-ho-hap 6, noi-noi-tiet 4, noi-than 4, noi-than-kinh 3, noi-huyet-hoc 2, noi-nhiem 3, noi-co-xuong-khop 1, ngoai-bung 8, ngoai-chan-thuong 7. Dùng số kế tiếp.
+2. `level` chỉ là một trong: "Dễ", "Trung bình", "Khó" (không dùng "Vừa").
+3. `setting` là "giuong" (ca Nội, Ngoại chỉ y học hiện đại).
+4. Mọi hành động trong `actions` phải bắt đầu bằng một ký hiệu: "++", "+", "-" hoặc "!". Không để hành động trống ký hiệu.
+5. Có ít nhất 1 hành động "!" (nguy hại), ít nhất 3 mục khám cờ "e", và `hbu` đủ các trường, kể cả `luoc_qua_co_quan`.
+6. Mỗi con số (liều, ngưỡng, thời gian) phải có trong `nguon` kèm trích nguyên văn. Con số không có nguồn thì bỏ, không đoán.
