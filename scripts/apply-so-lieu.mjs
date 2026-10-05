@@ -19,6 +19,11 @@ const NGAY = '2026-10-05';
 
 // Sửa theo nguồn đọc được. Áp dụng cho mọi trường chữ của ca (trừ nguon*, verify).
 export const FIXES = [
+  // Việc 1b (ChatGPT, 06/10): tần suất theo dõi TG18, ngưỡng truyền hồng cầu AABB 2023, bỏ mốc 5 phút không có nguồn.
+  { id: 'ngoai-bung-004', from: 'Theo dõi sinh hiệu, đau bụng, bilirubin và men gan mỗi 12 giờ', to: 'Theo dõi sinh hiệu, đau bụng và đánh giá lại mức độ nặng (lúc chẩn đoán, trong 24 giờ và lúc 24 đến 48 giờ); bilirubin, men gan theo diễn biến lâm sàng' },
+  { id: 'ngoai-bung-005', from: 'Theo dõi lactate, creatinin, bilirubin mỗi 6 đến 12 giờ', to: 'Đánh giá lại đáp ứng và suy cơ quan (lactate, creatinin, bilirubin) theo diễn biến lâm sàng; phân độ lại lúc chẩn đoán, trong 24 giờ và lúc 24 đến 48 giờ' },
+  { id: 'ngoai-bung-007', from: 'Hb dưới 70 đến 80 g/L hoặc có triệu chứng', to: 'Hb dưới 70 g/L hoặc có triệu chứng (ngưỡng 80 g/L nếu có bệnh tim mạch)' },
+  { id: 'ngoai-cap-cuu-008', from: 'dấu hiệu sinh tồn mỗi 5 phút', to: 'theo dõi sát dấu hiệu sinh tồn' },
   // Paracetamol: giữ phác đồ 3 túi (nhãn thuốc) nhưng ghi rõ phác đồ 2 túi ANZ 2020; than hoạt có cửa sổ 2 giờ.
   { id: 'noi-cap-cuu-101', from: 'Đã quá 6 giờ, không còn lợi ích rõ trừ khi nghi uống phối hợp thuốc khác; không phải ưu tiên.', to: 'Đã quá cửa sổ khoảng 2 giờ (đến 4 giờ nếu liều rất lớn), không còn lợi ích rõ trừ khi nghi uống phối hợp thuốc khác; không phải ưu tiên.' },
   { id: 'noi-cap-cuu-101', from: 'rồi 100 mg/kg trong 16 giờ|5|', to: 'rồi 100 mg/kg trong 16 giờ (phác đồ 3 túi theo nhãn thuốc; hướng dẫn ANZ 2020 dùng 2 túi: 200 mg/kg trong 4 giờ rồi 100 mg/kg trong 16 giờ)|5|' },
