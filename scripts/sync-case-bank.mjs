@@ -1,4 +1,4 @@
-// Đồng bộ ngân hàng ca: public/tu-chan/index.html là nguồn chuẩn (141 ca).
+// Đồng bộ ngân hàng ca: public/tu-chan/index.html là nguồn chuẩn (146 ca).
 // Phòng học (public/phong-hoc/index.html) giữ bản sao cùng nội dung lâm sàng;
 // riêng `intro` và `name` do từng chế độ tự viết nên không bị ghi đè.
 // Dùng: node scripts/sync-case-bank.mjs          (ghi file)
