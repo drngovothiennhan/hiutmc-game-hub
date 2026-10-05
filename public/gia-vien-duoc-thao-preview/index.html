@@ -21,7 +21,7 @@ button{font:inherit}.topbar{position:absolute;top:max(10px,env(safe-area-inset-t
         <span class="brand-mark">藥</span>
         <div><strong>GIA VIÊN DƯỢC THẢO</strong><small>HIU TMC · BẢN TIỀN ỨNG DỤNG</small></div>
       </div>
-      <div class="status-pill"><span id="discoveredCount">0</span>/10 cây demo</div>
+      <div class="status-pill"><span id="discoveredCount">0</span>/10 cây demo · bố cục theo ảnh thật</div>
       <button id="helpBtn" class="ghost-btn" type="button">Hướng dẫn</button>
     </header>
 
@@ -107,27 +107,28 @@ const mini = document.querySelector('#minimap');
 const mctx = mini.getContext('2d');
 
 const plants = [
-  {id:1,name:'Tía tô',latin:'Perilla frutescens (L.) Britton',family:'Lamiaceae',part:'Lá, cành mang lá',action:'Giải biểu tán hàn, hành khí hòa vị.',identify:'Lá mọc đối, mép có răng cưa; thân và lá thường có sắc tím, mùi thơm đặc trưng.',glyph:'🌿',x:-3.2,z:7.4,color:'#6a4468',quiz:['Tía tô','Bạc hà','Ngải cứu']},
-  {id:2,name:'Bạc hà',latin:'Mentha arvensis L.',family:'Lamiaceae',part:'Bộ phận trên mặt đất',action:'Tân lương giải biểu, sơ phong thanh nhiệt.',identify:'Thân vuông, lá mọc đối, vò lá có mùi thơm mát mạnh.',glyph:'🍃',x:3.2,z:8.8,color:'#4f915f',quiz:['Bạc hà','Rau má','Diếp cá']},
-  {id:3,name:'Gừng',latin:'Zingiber officinale Roscoe',family:'Zingiberaceae',part:'Thân rễ',action:'Giải biểu tán hàn, ôn trung chỉ ẩu.',identify:'Thân giả mọc thẳng, lá hình mác; phần dùng là thân rễ thơm cay nằm dưới đất.',glyph:'🌱',x:-3.4,z:12.3,color:'#4c8a55',quiz:['Gừng','Nghệ','Sả']},
-  {id:4,name:'Nghệ',latin:'Curcuma longa L.',family:'Zingiberaceae',part:'Thân rễ',action:'Hành khí, phá ứ, thông kinh, chỉ thống.',identify:'Lá lớn hình mác; thân rễ màu vàng cam đặc trưng.',glyph:'🌱',x:3.3,z:13.9,color:'#6b9a4b',quiz:['Nghệ','Gừng','Ngải cứu']},
-  {id:5,name:'Rau má',latin:'Centella asiatica (L.) Urb.',family:'Apiaceae',part:'Toàn cây',action:'Thanh nhiệt, giải độc, lợi thấp.',identify:'Cây bò sát đất, lá gần tròn hình thận, cuống dài.',glyph:'☘️',x:-3.0,z:17.1,color:'#4e9b5c',quiz:['Rau má','Diếp cá','Tía tô']},
-  {id:6,name:'Diếp cá',latin:'Houttuynia cordata Thunb.',family:'Saururaceae',part:'Phần trên mặt đất',action:'Thanh nhiệt giải độc, tiêu thũng, lợi niệu.',identify:'Lá hình tim, mùi đặc trưng khi vò; cây ưa ẩm.',glyph:'🍀',x:3.4,z:18.4,color:'#4a8f62',quiz:['Diếp cá','Rau má','Bạc hà']},
-  {id:7,name:'Sả',latin:'Cymbopogon citratus (DC.) Stapf',family:'Poaceae',part:'Thân, lá và tinh dầu',action:'Thường dùng trong bài thuốc dân gian để hỗ trợ giải cảm và tiêu hóa.',identify:'Mọc thành bụi, lá dài hẹp, mép sắc; bẹ lá ôm nhau tạo thân giả.',glyph:'🌾',x:-3.4,z:22.0,color:'#6a9d52',quiz:['Sả','Gừng','Ngải cứu']},
-  {id:8,name:'Ngải cứu',latin:'Artemisia vulgaris L.',family:'Asteraceae',part:'Lá, phần trên mặt đất',action:'Ôn kinh chỉ huyết, tán hàn chỉ thống.',identify:'Lá xẻ thùy; mặt dưới thường trắng bạc và có lông.',glyph:'🌿',x:3.1,z:23.3,color:'#6d8464',quiz:['Ngải cứu','Tía tô','Bạc hà']},
-  {id:9,name:'Đinh lăng',latin:'Polyscias fruticosa (L.) Harms',family:'Araliaceae',part:'Rễ và lá',action:'Dùng trong dược liệu truyền thống; hồ sơ chính thức sẽ theo nguồn được duyệt.',identify:'Cây bụi, lá kép nhiều lần, phiến lá nhỏ có răng cưa.',glyph:'🌳',x:-3.3,z:27.0,color:'#3f7a4f',quiz:['Đinh lăng','Nha đam','Sả']},
-  {id:10,name:'Nha đam',latin:'Aloe vera (L.) Burm.f.',family:'Asphodelaceae',part:'Lá',action:'Hồ sơ công năng/chủ trị sẽ được khóa theo nguồn dược liệu được duyệt.',identify:'Lá mọng nước dày, mọc thành cụm, mép có gai nhỏ.',glyph:'🪴',x:3.4,z:28.4,color:'#5e9b68',quiz:['Nha đam','Đinh lăng','Rau má']}
-];
+  {id:1,name:'Tía tô',latin:'Perilla frutescens (L.) Britton',family:'Lamiaceae',part:'Lá, cành mang lá',action:'Giải biểu tán hàn, hành khí hòa vị.',identify:'Lá mọc đối, mép có răng cưa; thân và lá thường có sắc tím, mùi thơm đặc trưng.',glyph:'🌿',x:-2.55,z:6.6,color:'#70436b',quiz:['Tía tô','Bạc hà','Ngải cứu']},
+  {id:2,name:'Bạc hà',latin:'Mentha arvensis L.',family:'Lamiaceae',part:'Bộ phận trên mặt đất',action:'Tân lương giải biểu, sơ phong thanh nhiệt.',identify:'Thân vuông, lá mọc đối, vò lá có mùi thơm mát mạnh.',glyph:'🍃',x:-2.75,z:10.0,color:'#4f915f',quiz:['Bạc hà','Rau má','Diếp cá']},
+  {id:3,name:'Gừng',latin:'Zingiber officinale Roscoe',family:'Zingiberaceae',part:'Thân rễ',action:'Giải biểu tán hàn, ôn trung chỉ ẩu.',identify:'Thân giả mọc thẳng, lá hình mác; phần dùng là thân rễ thơm cay nằm dưới đất.',glyph:'🌱',x:-2.45,z:14.2,color:'#4c8a55',quiz:['Gừng','Nghệ','Sả']},
+  {id:4,name:'Nghệ',latin:'Curcuma longa L.',family:'Zingiberaceae',part:'Thân rễ',action:'Hành khí, phá ứ, thông kinh, chỉ thống.',identify:'Lá lớn hình mác; thân rễ màu vàng cam đặc trưng.',glyph:'🌱',x:-2.75,z:19.0,color:'#6b9a4b',quiz:['Nghệ','Gừng','Ngải cứu']},
+  {id:5,name:'Rau má',latin:'Centella asiatica (L.) Urb.',family:'Apiaceae',part:'Toàn cây',action:'Thanh nhiệt, giải độc, lợi thấp.',identify:'Cây bò sát đất, lá gần tròn hình thận, cuống dài.',glyph:'☘️',x:-2.35,z:23.8,color:'#4e9b5c',quiz:['Rau má','Diếp cá','Tía tô']},
+  {id:6,name:'Diếp cá',latin:'Houttuynia cordata Thunb.',family:'Saururaceae',part:'Phần trên mặt đất',action:'Thanh nhiệt giải độc, tiêu thũng, lợi niệu.',identify:'Lá hình tim, mùi đặc trưng khi vò; cây ưa ẩm.',glyph:'🍀',x:2.55,z:8.6,color:'#4a8f62',quiz:['Diếp cá','Rau má','Bạc hà']},
+  {id:7,name:'Sả',latin:'Cymbopogon citratus (DC.) Stapf',family:'Poaceae',part:'Thân, lá và tinh dầu',action:'Thường dùng trong bài thuốc dân gian để hỗ trợ giải cảm và tiêu hóa.',identify:'Mọc thành bụi, lá dài hẹp, mép sắc; bẹ lá ôm nhau tạo thân giả.',glyph:'🌾',x:2.35,z:13.0,color:'#6a9d52',quiz:['Sả','Gừng','Ngải cứu']},
+  {id:8,name:'Ngải cứu',latin:'Artemisia vulgaris L.',family:'Asteraceae',part:'Lá, phần trên mặt đất',action:'Ôn kinh chỉ huyết, tán hàn chỉ thống.',identify:'Lá xẻ thùy; mặt dưới thường trắng bạc và có lông.',glyph:'🌿',x:2.65,z:17.0,color:'#6d8464',quiz:['Ngải cứu','Tía tô','Bạc hà']},
+  {id:9,name:'Đinh lăng',latin:'Polyscias fruticosa (L.) Harms',family:'Araliaceae',part:'Rễ và lá',action:'Dùng trong dược liệu truyền thống; hồ sơ chính thức sẽ theo nguồn được duyệt.',identify:'Cây bụi, lá kép nhiều lần, phiến lá nhỏ có răng cưa.',glyph:'🌳',x:2.4,z:22.0,color:'#3f7a4f',quiz:['Đinh lăng','Nha đam','Sả']},
+  {id:10,name:'Nha đam',latin:'Aloe vera (L.) Burm.f.',family:'Asphodelaceae',part:'Lá',action:'Hồ sơ công năng/chủ trị sẽ được khóa theo nguồn dược liệu được duyệt.',identify:'Lá mọng nước dày, mọc thành cụm, mép có gai nhỏ.',glyph:'🪴',x:2.7,z:27.2,color:'#5e9b68',quiz:['Nha đam','Đinh lăng','Rau má']}
+]
 
-const beds = [
-  {x:-3.2,z:8,w:2.9,d:4.0},{x:3.2,z:9.2,w:2.9,d:4.0},
-  {x:-3.2,z:13,w:2.9,d:4.0},{x:3.2,z:14.2,w:2.9,d:4.0},
-  {x:-3.2,z:17.8,w:2.9,d:4.0},{x:3.2,z:19,w:2.9,d:4.0},
-  {x:-3.2,z:22.7,w:2.9,d:4.0},{x:3.2,z:23.9,w:2.9,d:4.0},
-  {x:-3.2,z:27.5,w:2.9,d:4.0},{x:3.2,z:28.8,w:2.9,d:4.0}
+const planters = [
+  {x:-3.05,z:6.3,w:2.3,d:3.0},{x:-3.0,z:10.4,w:2.45,d:3.1},{x:-3.0,z:14.6,w:2.35,d:3.2},
+  {x:-3.0,z:19.0,w:2.55,d:3.4},{x:-2.9,z:23.7,w:2.5,d:3.2},{x:-2.85,z:28.2,w:2.55,d:3.1},
+  {x:2.95,z:7.4,w:2.2,d:2.5},{x:3.0,z:12.0,w:2.1,d:2.7},{x:3.0,z:16.7,w:2.2,d:2.7},
+  {x:2.95,z:21.7,w:2.1,d:2.9},{x:3.0,z:27.0,w:2.25,d:3.0}
 ];
+const rack={x:4.05,z0:6.0,z1:27.8};
+const canopy={x0:-4.35,x1:4.35,z0:4.2,z1:29.5,h:3.35};
 
-const state={x:0,z:1.4,yaw:0,mode:'explore',focused:null,discovered:new Set(),keys:new Set(),last:performance.now(),tourIndex:0,tourT:0,dragging:false,dragX:0};
+const state={x:0,z:1.2,yaw:0,mode:'explore',focused:null,discovered:new Set(),keys:new Set(),last:performance.now(),tourIndex:0,tourT:0,dragging:false,dragX:0};
 const ui={
   panel:document.querySelector('#plantPanel'), close:document.querySelector('#closePanel'), interact:document.querySelector('#interactBtn'), label:document.querySelector('#focusLabel'),
   discovered:document.querySelector('#discoveredCount'), missionProgress:document.querySelector('#missionProgress'), missionText:document.querySelector('#missionText'), toast:document.querySelector('#toast'),
@@ -146,25 +147,111 @@ function project(x,z,y=0){
   return {x:w/2+(lx/lz)*f,y:horizon+((camH-y)/lz)*f,z:lz,scale:f/lz};
 }
 function poly(points,fill,stroke){const ps=points.map(p=>project(p.x,p.z,p.y||0));if(ps.some(p=>!p))return;ctx.beginPath();ctx.moveTo(ps[0].x,ps[0].y);for(let i=1;i<ps.length;i++)ctx.lineTo(ps[i].x,ps[i].y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}}
+function screenLine(a,b,stroke,width=1,alpha=1){
+  if(!a||!b)return;ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.restore()
+}
+function billboard(cx,z,cy,w,h,fill,stroke,text,sub){
+  const tl=project(cx-w/2,z,cy+h/2),tr=project(cx+w/2,z,cy+h/2),br=project(cx+w/2,z,cy-h/2),bl=project(cx-w/2,z,cy-h/2),cc=project(cx,z,cy);
+  if(!tl||!tr||!br||!bl||!cc)return;
+  ctx.beginPath();ctx.moveTo(tl.x,tl.y);ctx.lineTo(tr.x,tr.y);ctx.lineTo(br.x,br.y);ctx.lineTo(bl.x,bl.y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=Math.max(1,cc.scale*.015);ctx.stroke();
+  const fs=Math.max(8,Math.min(24,cc.scale*.16));ctx.fillStyle='#294637';ctx.textAlign='center';ctx.font=`italic 700 ${fs}px Georgia,serif`;ctx.fillText(text,cc.x,cc.y+fs*.18);
+  if(sub){ctx.font=`700 ${Math.max(6,fs*.35)}px sans-serif`;ctx.fillStyle='#7b6641';ctx.fillText(sub,cc.x,cc.y+fs*.75)}
+}
+function drawMuralSide(side){
+  const x=side*4.65;
+  for(let z=5;z<31;z+=4){
+    const pts=[{x,z,y:0},{x,z:z+4,y:0},{x,z:z+4,y:3.15},{x,z,y:3.15}];
+    poly(pts,side<0?'#7ba89a':'#6f9b71','rgba(38,68,54,.14)');
+  }
+  // painted forest rhythm on the mural
+  for(let z=7;z<31;z+=4.8){
+    const base=project(x,z,.1),top=project(x,z,2.8);
+    if(!base||!top)continue;
+    screenLine(base,top,'rgba(83,67,49,.58)',Math.max(1,base.scale*.05));
+    const r=Math.max(3,Math.min(26,base.scale*.17));
+    ctx.fillStyle=side<0?'rgba(47,104,79,.72)':'rgba(52,116,70,.72)';
+    ctx.beginPath();ctx.arc(top.x,top.y+r*.5,r,0,Math.PI*2);ctx.fill();
+  }
+}
+function drawCanopy(){
+  const {x0,x1,z0,z1,h}=canopy;
+  for(const z of [z0,10,16,22,28,z1]){
+    screenLine(project(x0,z,h),project(x1,z,h),'#1c2623',Math.max(2,(project(0,z,h)?.scale||10)*.035));
+  }
+  for(const x of [x0,x1]){
+    screenLine(project(x,z0,0),project(x,z0,h),'#202724',4);
+    screenLine(project(x,z1,0),project(x,z1,h),'#202724',3);
+    screenLine(project(x,z0,h),project(x,z1,h),'#202724',3);
+  }
+  // translucent polycarbonate roof, kept light so the mural remains visible
+  poly([{x:x0,z:z0,y:h+.02},{x:x1,z:z0,y:h+.02},{x:x1,z:z1,y:h+.02},{x:x0,z:z1,y:h+.02}],'rgba(224,238,226,.10)','rgba(255,255,255,.18)');
+}
+function drawRack(){
+  const x=rack.x;
+  for(let z=rack.z0;z<=rack.z1;z+=4.2)screenLine(project(x,z,.18),project(x,z,2.5),'#171c1a',3);
+  for(const y of [.25,.8,1.35,1.9,2.45])screenLine(project(x,rack.z0,y),project(x,rack.z1,y),'#171c1a',2);
+  for(let z=rack.z0+.8;z<rack.z1;z+=2.15){
+    for(const y of [.55,1.12,1.68]){
+      const p=project(x-.05,z,y);if(!p)continue;
+      const ww=Math.max(5,Math.min(34,p.scale*.17)),hh=ww*.54;
+      ctx.fillStyle='#111916';ctx.fillRect(p.x-ww/2,p.y-hh/2,ww,hh);
+      ctx.fillStyle='rgba(69,125,73,.88)';ctx.beginPath();ctx.arc(p.x,p.y-hh*.5,ww*.26,Math.PI,Math.PI*2);ctx.fill();
+    }
+  }
+}
+function drawHangingPot(x,z,y=2.38){
+  const hook=project(x,z,3.3),p=project(x,z,y);if(!hook||!p)return;
+  screenLine(hook,p,'rgba(235,235,222,.85)',1);
+  const s=Math.max(5,Math.min(30,p.scale*.12));
+  ctx.fillStyle='#f0eee6';ctx.beginPath();ctx.ellipse(p.x,p.y,s*.62,s*.35,0,0,Math.PI*2);ctx.fill();ctx.fillRect(p.x-s*.56,p.y-s*.08,s*1.12,s*.45);
+  ctx.fillStyle='#4e8b55';for(let i=0;i<6;i++){ctx.beginPath();ctx.arc(p.x+(i-2.5)*s*.17,p.y-s*.3,s*.22,0,Math.PI*2);ctx.fill()}
+}
 function drawBackground(){
-  const w=innerWidth,h=innerHeight;const sky=ctx.createLinearGradient(0,0,0,h*.55);sky.addColorStop(0,'#b9d7d2');sky.addColorStop(1,'#dbe3cb');ctx.fillStyle=sky;ctx.fillRect(0,0,w,h*.55);
-  ctx.fillStyle='#647e58';ctx.fillRect(0,h*.39,w,h*.61);
-  const wall=project(0,34,3.6);if(wall){const left=project(-9,34,0),right=project(9,34,0),lt=project(-9,34,3.6),rt=project(9,34,3.6);if(left&&right&&lt&&rt){ctx.fillStyle='#d7d0b9';ctx.beginPath();ctx.moveTo(lt.x,lt.y);ctx.lineTo(rt.x,rt.y);ctx.lineTo(right.x,right.y);ctx.lineTo(left.x,left.y);ctx.closePath();ctx.fill();ctx.fillStyle='#315d46';ctx.font=`700 ${Math.max(10,wall.scale*.28)}px Georgia`;ctx.textAlign='center';ctx.fillText('GIA VIÊN DƯỢC THẢO',wall.x,wall.y-25*wall.scale*.05)}}
-  // translucent roof ribs
-  for(let z=4;z<33;z+=4){const a=project(-6,z,3.4),b=project(6,z,3.4);if(a&&b){ctx.strokeStyle='rgba(64,84,72,.28)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}
+  const w=innerWidth,h=innerHeight;
+  const sky=ctx.createLinearGradient(0,0,0,h*.55);sky.addColorStop(0,'#c6e0dc');sky.addColorStop(1,'#dce7d1');ctx.fillStyle=sky;ctx.fillRect(0,0,w,h*.56);
+  ctx.fillStyle='#626f58';ctx.fillRect(0,h*.39,w,h*.61);
+  // Mural enclosure seen in the real garden: forest sides, sea/sky end wall.
+  drawMuralSide(-1);drawMuralSide(1);
+  poly([{x:-4.65,z:31.5,y:0},{x:4.65,z:31.5,y:0},{x:4.65,z:31.5,y:3.3},{x:-4.65,z:31.5,y:3.3}],'#8db8bd','rgba(47,76,69,.18)');
+  const seaL=project(-4.5,31.45,.85),seaR=project(4.5,31.45,.85),seaT=project(0,31.45,1.75);
+  if(seaL&&seaR&&seaT){ctx.fillStyle='rgba(54,133,161,.72)';ctx.fillRect(seaL.x,seaT.y,seaR.x-seaL.x,seaL.y-seaT.y)}
+  drawCanopy();
+  // Real visual anchors: hanging sign, vertical list board, wall-planter rack and hanging pots.
+  billboard(1.95,5.0,2.75,3.05,.82,'#eee8d9','#8a7653','Gia Viên Dược Thảo','HIU');
+  billboard(3.55,6.1,1.55,1.18,2.42,'#eee9dc','#907b5d','DANH SÁCH CÂY','01 — 70');
+  drawRack();
+  drawHangingPot(2.55,11.4);drawHangingPot(2.15,16.2);drawHangingPot(2.65,21.0);
+  // Decorative black lamp-post element visible in the mural/courtyard.
+  const lp=project(-.8,28.8,0),lt=project(-.8,28.8,2.25);if(lp&&lt){screenLine(lp,lt,'#1a2320',3);const s=Math.max(4,lt.scale*.08);ctx.fillStyle='#202825';ctx.fillRect(lt.x-s*.95,lt.y-s*.2,s*1.9,s*.28);ctx.fillRect(lt.x-s*.9,lt.y-s*.75,s*.35,s*.6);ctx.fillRect(lt.x+s*.55,lt.y-s*.75,s*.35,s*.6)}
 }
 function drawGround(){
-  poly([{x:-1.45,z:2},{x:1.45,z:2},{x:1.45,z:33},{x:-1.45,z:33}], '#ccb98f','rgba(255,255,255,.16)');
-  // central paving lines
-  for(let z=3;z<33;z+=2){const a=project(-1.42,z,0.01),b=project(1.42,z,0.01);if(a&&b){ctx.strokeStyle='rgba(98,80,54,.18)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}
-  beds.forEach(b=>poly([{x:b.x-b.w/2,z:b.z-b.d/2},{x:b.x+b.w/2,z:b.z-b.d/2},{x:b.x+b.w/2,z:b.z+b.d/2},{x:b.x-b.w/2,z:b.z+b.d/2}], '#5a6945','rgba(223,206,157,.38)'));
+  // The real site uses tiled paving with dense pots along both sides, not symmetric raised beds.
+  poly([{x:-4.25,z:2},{x:4.25,z:2},{x:4.25,z:31.2},{x:-4.25,z:31.2}], '#9d9382','rgba(255,255,255,.13)');
+  for(let z=2.6;z<31;z+=1.35){screenLine(project(-4.2,z,.01),project(4.2,z,.01),'rgba(77,68,57,.18)',1)}
+  for(let x=-4.1;x<=4.1;x+=1.2){screenLine(project(x,2,.012),project(x,31,.012),'rgba(78,69,58,.11)',1)}
+  // narrow green strip at the right rack base seen in the photos
+  poly([{x:3.45,z:6,y:.018},{x:4.35,z:6,y:.018},{x:4.35,z:28,y:.018},{x:3.45,z:28,y:.018}],'#718368','rgba(42,74,52,.24)');
+  planters.forEach((b,i)=>{
+    poly([{x:b.x-b.w/2,z:b.z-b.d/2},{x:b.x+b.w/2,z:b.z-b.d/2},{x:b.x+b.w/2,z:b.z+b.d/2},{x:b.x-b.w/2,z:b.z+b.d/2}], i%3===0?'#252c27':'#1d2420','rgba(164,174,151,.22)');
+  });
 }
-function drawPlant(p){const base=project(p.x,p.z,0),top=project(p.x,p.z,1.25);if(!base||!top)return;const sc=Math.max(7,Math.min(58,base.scale*.12));ctx.save();ctx.translate(base.x,base.y);ctx.fillStyle='rgba(0,0,0,.18)';ctx.beginPath();ctx.ellipse(0,0,sc*.7,sc*.2,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#385c3b';ctx.lineWidth=Math.max(1,sc*.09);ctx.beginPath();ctx.moveTo(0,-2);ctx.lineTo(0,-sc*1.7);ctx.stroke();for(let i=0;i<8;i++){const a=(i/8)*Math.PI*2+0.3;const yy=-sc*(.35+(i%4)*.33);const xx=Math.cos(a)*sc*(.5+(i%3)*.13);ctx.fillStyle=p.color;ctx.beginPath();ctx.ellipse(xx,yy,sc*.42,sc*.18,a*.35,0,Math.PI*2);ctx.fill()}if(state.discovered.has(p.id)){ctx.fillStyle='#e8ca7b';ctx.beginPath();ctx.arc(sc*.75,-sc*1.7,Math.max(4,sc*.16),0,Math.PI*2);ctx.fill();ctx.fillStyle='#1f4938';ctx.font=`700 ${Math.max(7,sc*.18)}px sans-serif`;ctx.textAlign='center';ctx.fillText('✓',sc*.75,-sc*1.7+3)}ctx.restore()}
+function drawPlant(p){function drawPlant(p){const base=project(p.x,p.z,0),top=project(p.x,p.z,1.25);if(!base||!top)return;const sc=Math.max(7,Math.min(58,base.scale*.12));ctx.save();ctx.translate(base.x,base.y);ctx.fillStyle='rgba(0,0,0,.18)';ctx.beginPath();ctx.ellipse(0,0,sc*.7,sc*.2,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#385c3b';ctx.lineWidth=Math.max(1,sc*.09);ctx.beginPath();ctx.moveTo(0,-2);ctx.lineTo(0,-sc*1.7);ctx.stroke();for(let i=0;i<8;i++){const a=(i/8)*Math.PI*2+0.3;const yy=-sc*(.35+(i%4)*.33);const xx=Math.cos(a)*sc*(.5+(i%3)*.13);ctx.fillStyle=p.color;ctx.beginPath();ctx.ellipse(xx,yy,sc*.42,sc*.18,a*.35,0,Math.PI*2);ctx.fill()}if(state.discovered.has(p.id)){ctx.fillStyle='#e8ca7b';ctx.beginPath();ctx.arc(sc*.75,-sc*1.7,Math.max(4,sc*.16),0,Math.PI*2);ctx.fill();ctx.fillStyle='#1f4938';ctx.font=`700 ${Math.max(7,sc*.18)}px sans-serif`;ctx.textAlign='center';ctx.fillText('✓',sc*.75,-sc*1.7+3)}ctx.restore()}
 function focusPlant(){let best=null;for(const p of plants){const dx=p.x-state.x,dz=p.z-state.z,dist=Math.hypot(dx,dz);if(dist>5.2)continue;const target=Math.atan2(dx,dz);let da=Math.atan2(Math.sin(target-state.yaw),Math.cos(target-state.yaw));if(Math.abs(da)>.36)continue;if(!best||dist<best.dist)best={plant:p,dist,angle:da}}return best?.plant||null}
 function draw(){drawBackground();drawGround();const sorted=[...plants].map(p=>({p,pr:project(p.x,p.z)})).filter(o=>o.pr).sort((a,b)=>b.pr.z-a.pr.z);for(const o of sorted)drawPlant(o.p);drawMini();const f=focusPlant();state.focused=f;ui.interact.disabled=!f;ui.label.classList.toggle('hidden',!f);if(f)ui.label.textContent=`${String(f.id).padStart(2,'0')} · ${state.discovered.has(f.id)?f.name:'Cây chưa nhận diện'}`}
-function drawMini(){const w=mini.width,h=mini.height;mctx.clearRect(0,0,w,h);mctx.fillStyle='#203d30';mctx.fillRect(0,0,w,h);mctx.fillStyle='#cbb68b';mctx.fillRect(w*.44,4,w*.12,h-8);for(const p of plants){const x=w/2+(p.x/9)*w*.42,y=6+(p.z/34)*(h-12);mctx.fillStyle=state.discovered.has(p.id)?'#e3bf70':'#7fa57d';mctx.beginPath();mctx.arc(x,y,3.2,0,Math.PI*2);mctx.fill()}const px=w/2+(state.x/9)*w*.42,py=6+(state.z/34)*(h-12);mctx.save();mctx.translate(px,py);mctx.rotate(-state.yaw);mctx.fillStyle='#fff';mctx.beginPath();mctx.moveTo(0,-6);mctx.lineTo(-4,5);mctx.lineTo(4,5);mctx.closePath();mctx.fill();mctx.restore()}
-function canMove(nx,nz){return nx>-1.25&&nx<1.25&&nz>.5&&nz<32.2}
-function update(dt){if(state.mode==='tour'){state.tourT+=dt;const idx=Math.floor(state.tourT/4)%plants.length;const p=plants[idx];const targetZ=Math.max(1,p.z-2.6);state.z+=(targetZ-state.z)*Math.min(1,dt*.7);const targetYaw=Math.atan2(p.x-state.x,p.z-state.z);state.yaw+=Math.atan2(Math.sin(targetYaw-state.yaw),Math.cos(targetYaw-state.yaw))*Math.min(1,dt*1.6);return}
+function drawMini(){
+  const w=mini.width,h=mini.height;mctx.clearRect(0,0,w,h);
+  mctx.fillStyle='#274538';mctx.fillRect(0,0,w,h);
+  mctx.fillStyle='#9d9382';mctx.fillRect(w*.29,5,w*.42,h-10);
+  // mural perimeter + canopy footprint
+  mctx.strokeStyle='#89a88f';mctx.lineWidth=4;mctx.strokeRect(w*.25,3,w*.5,h-6);
+  mctx.strokeStyle='#171d1a';mctx.lineWidth=3;mctx.beginPath();mctx.moveTo(w*.72,20);mctx.lineTo(w*.72,h-14);mctx.stroke();
+  // dense ground planters
+  mctx.fillStyle='#1b241f';for(const b of planters){const x=w/2+(b.x/9)*w*.42,y=6+(b.z/34)*(h-12);mctx.fillRect(x-5,y-4,10,8)}
+  for(const p of plants){const x=w/2+(p.x/9)*w*.42,y=6+(p.z/34)*(h-12);mctx.fillStyle=state.discovered.has(p.id)?'#e3bf70':'#77a57a';mctx.beginPath();mctx.arc(x,y,3.2,0,Math.PI*2);mctx.fill()}
+  const px=w/2+(state.x/9)*w*.42,py=6+(state.z/34)*(h-12);mctx.save();mctx.translate(px,py);mctx.rotate(-state.yaw);mctx.fillStyle='#fff';mctx.beginPath();mctx.moveTo(0,-6);mctx.lineTo(-4,5);mctx.lineTo(4,5);mctx.closePath();mctx.fill();mctx.restore()
+}
+function canMove(nx,nz){return nx>-1.55&&nx<1.55&&nz>.55&&nz<30.6}
+function update(dt){if(state.mode==='tour'){state.tourT+=dt;const idx=Math.floor(state.tourT/4)%plants.length;const p=plants[idx];const targetZ=Math.max(1,p.z-2.4);state.x+=(0-state.x)*Math.min(1,dt*.9);state.z+=(targetZ-state.z)*Math.min(1,dt*.7);const targetYaw=Math.atan2(p.x-state.x,p.z-state.z);state.yaw+=Math.atan2(Math.sin(targetYaw-state.yaw),Math.cos(targetYaw-state.yaw))*Math.min(1,dt*1.6);return}
   const speed=3.0,rot=1.8;let f=0,r=0;if(state.keys.has('w')||state.keys.has('arrowup'))f+=1;if(state.keys.has('s')||state.keys.has('arrowdown'))f-=1;if(state.keys.has('a'))r-=1;if(state.keys.has('d'))r+=1;if(state.keys.has('arrowleft'))state.yaw-=rot*dt;if(state.keys.has('arrowright'))state.yaw+=rot*dt;if(f||r){const l=Math.hypot(f,r)||1;f/=l;r/=l;const nx=state.x+(Math.sin(state.yaw)*f+Math.cos(state.yaw)*r)*speed*dt;const nz=state.z+(Math.cos(state.yaw)*f-Math.sin(state.yaw)*r)*speed*dt;if(canMove(nx,nz)){state.x=nx;state.z=nz}}}
 function loop(now){const dt=Math.min(.035,(now-state.last)/1000);state.last=now;update(dt);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 
