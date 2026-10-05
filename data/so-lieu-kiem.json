@@ -356,28 +356,28 @@
     "loc": "action",
     "text": "Theo dõi sát mạch, huyết áp, hiệu áp, nước tiểu, hematocrit, tiểu cầu mỗi 1 đến 2 giờ",
     "verdict": "lech",
-    "nguon": "QD 3705/QD-BYT qua caselaw.vn (WebFetch, ban tom tat tu dong)",
-    "trich": "Nhom B co dau hieu canh bao: 'moi 4-6 gio' theo doi mach, HA, nuoc tieu, Hct; Soc SXHD: 'moi 1 hoac 2 gio mot lan'",
-    "de_xuat": "Muc 1-2 gio chi dung cho soc. Ca sot ngay 4 dau bung non (dau hieu canh bao) la 4-6 gio theo nguon; sua hoac ghi ro 'neu soc thi 1-2 gio'. Tieu cau khong thay nhac trong doan doc.",
-    "dot": 2
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, bản toàn văn tại LuatVietnam: https://luatvietnam.vn/y-te/quyet-dinh-3705-qd-byt-2019-hu",
+    "trich": "“Theo dõi mạch, HA, những dấu hiệu cảnh báo, lượng dịch đưa vào, nước tiểu và Hct mỗi 4-6 giờ.”",
+    "de_xuat": "Ở người lớn SXHD có dấu hiệu cảnh báo: theo dõi mạch, HA, dấu hiệu cảnh báo, dịch vào, nước tiểu và Hct mỗi 4-6 giờ; không gán chu kỳ tiểu cầu 1-2 giờ theo đoạn này.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "Truyền dung dịch tinh thể đẳng trương (Ringer lactate hoặc NaCl 0,9%) 5 đến 7 mL/kg/giờ trong 1 đến 2 giờ, đánh giá lại;",
     "verdict": "lech",
-    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
-    "trich": "Nguoi lon (>=16t): \"Truyen Ringer lactate ... hoac NaCl 0,9% 6ml/kg/gio trong 1-2 gio\"; ca 24 tuoi",
-    "de_xuat": "Nguoi lon: 6 mL/kg/gio trong 1-2 gio (5-7 la khoang cu cua ban truoc), roi giam theo Hct. Can nguoi co chuyen mon doi chieu lai van ban goc.",
-    "dot": 1
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, bản toàn văn tại Thư Viện Nhà Đất: https://thuviennhadat.vn/van-ban-phap-luat-viet-nam/q",
+    "trich": "“6ml/kg/giờ trong 1-2 giờ, sau đó 3ml/kg/giờ trong 2-4 giờ.”",
+    "de_xuat": "Sửa thành: Ringer lactate, Ringer acetate hoặc NaCl 0,9% 6 mL/kg/giờ trong 1-2 giờ, sau đó 3 mL/kg/giờ trong 2-4 giờ.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "nếu hematocrit giảm và ổn định thì giảm dần 3 đến 5 mL/kg/giờ, 2 đến 3 mL/kg/giờ;",
     "verdict": "lech",
-    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
-    "trich": "Nguoi lon: \"sau do 3ml/kg/gio trong 2-4 gio\", neu cai thien giam \"1.5ml/kg/gio\"",
-    "de_xuat": "Giam 3 mL/kg/gio (2-4 gio), roi 1,5 mL/kg/gio (khong phai 3-5 va 2-3). Can doi chieu van ban goc.",
-    "dot": 1
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, bản toàn văn tại CaseLaw: https://caselaw.vn/van-ban-phap-luat/331396-quyet-dinh-3705-qd",
+    "trich": "“giảm tốc độ truyền ... 1,5ml/kg/giờ trong 6-18 giờ.”",
+    "de_xuat": "Sau 6 mL/kg/giờ trong 1-2 giờ là 3 mL/kg/giờ trong 2-4 giờ; nếu mạch, HA ổn định, Hct giảm và nước tiểu ≥0,5-1 mL/kg/giờ thì giảm 1,5 mL/kg/giờ trong 6-18 giờ.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -392,10 +392,10 @@
     "loc": "hbu.dieu_tri",
     "text": "Sốc: bù dịch nhanh 20 mL/kg trong 15 phút, cân nhắc chất keo.",
     "verdict": "lech",
-    "nguon": "https://caselaw.vn/...3705 (WebFetch)",
-    "trich": "\"20ml/kg cân nặng trong vòng 15 phút\" ap dung cho TRE EM sốc nặng; nguoi lon khac",
-    "de_xuat": "Ghi ro 20 mL/kg/15 phut la tre em (<16t); nguoi lon soc dung phac do rieng cua 3705 (doc duoc 15 mL/kg/gio, can doi chieu van ban goc).",
-    "dot": 1
+    "nguon": "Quyết định 3705/QĐ-BYT ngày 22/08/2019 của Bộ Y tế, Phụ lục 14 được trích trong Phác đồ Nội khoa Bệnh viện Lê Văn Việt: https://benhvienleva",
+    "trich": "“RL hoặc NaCl 0,9% 15 ml/kg/giờ x 1 giờ”; “CPT 10-15 ml/kg/giờ x 1 giờ”.",
+    "de_xuat": "Với người lớn 24 tuổi: sốc SXHD bắt đầu Ringer lactate hoặc NaCl 0,9% 15 mL/kg/giờ trong 1 giờ; nếu không cải thiện và Hct phù hợp nhánh thoát huyết tương thì chuyển CPT 10-15 mL/kg/giờ trong 1 giờ.",
+    "dot": 4
    }
   ],
   "noi-than-kinh-002": [
@@ -1018,47 +1018,47 @@
    {
     "loc": "action",
     "text": "Aspirin nhai 300 mg, ticagrelor 180 mg và heparin không phân đoạn theo cân nặng",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "2023 ESC Guidelines for the management of acute coronary syndromes: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "“Aspirin | LD of 150–300 mg orally”; “Ticagrelor | LD of 180 mg orally”; “UFH | ... bolus 70–100 U/kg”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "action_why",
     "text": "Thời gian cửa đến bóng dưới 90 phút (trong 120 phút nếu chuyển viện) quyết định lượng cơ tim cứu được.",
     "verdict": "lech",
-    "nguon": "https://medizinonline.com/en/esc-recommendations-on-acute-care-and-secondary-prevention/ ; https://academic.oup.com/ehjacc/article/13/1/55/7",
-    "trich": "ESC 2023: tái tưới máu trong 60 phút từ chẩn đoán đến luồn dây (cơ sở PCI), tối đa 120 phút; không dùng chuẩn \"cửa đến bóng <90 phút\" (chuẩn AHA/ACC)",
-    "de_xuat": "ESC 2023: mục tiêu <=60 phút từ chẩn đoán STEMI đến luồn dây (đến thẳng cơ sở PCI), tối đa 120 phút; nếu không đạt thì tiêu sợi huyết trong 10 phút. Chỉ nên đối chiếu thêm Bảng khuyến cáo gốc.",
-    "dot": 1
+    "nguon": "2023 ESC Guidelines for ACS: https://academic.oup.com/eurheartj/article/44/38/3720/7243210 ; ESC Quality Indicators for ACS: https://academi",
+    "trich": "ESC 2023: “within 120 min of the ECG-based diagnosis”. ESC QI: “<60 ... PCI centre, <90 min ... non-PCI setting”.",
+    "de_xuat": "Không dùng cụm “cửa đến bóng <90 phút” như mục tiêu chung. Ghi thời gian từ chẩn đoán STEMI đến wire crossing: lý tưởng <60 phút tại trung tâm PCI, <90 phút nếu chẩn đoán ngoài trung tâm PCI; PPCI phải khả thi trong 120 phút.",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Atorvastatin 80 mg và dặn giữ yên giường",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "2023 AHA/ACC Chronic Coronary Disease Guideline: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001168?url_ver=Z39.88-2003 ; 2023 ESC",
+    "trich": "AHA/ACC: “Atorvastatin (40 mg‡), 80 mg” under High Intensity. ESC: “a high-intensity statin ... is initiated as early as possible”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "Chống kết tập tiểu cầu kép (aspirin 300 mg nhai, ticagrelor 180 mg), heparin không phân đoạn theo cân nặng;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "2023 ESC Guidelines for the management of acute coronary syndromes: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "“Aspirin | LD of 150–300 mg orally”; “Ticagrelor | LD of 180 mg orally”; “UFH | ... bolus 70–100 U/kg”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "PCI thì đầu khẩn cấp, mục tiêu cửa đến bóng dưới 90 phút (tổng thời gian từ chẩn đoán đến luồn dây dưới 120 phút nếu chuyển viện);",
     "verdict": "lech",
-    "nguon": "https://medizinonline.com/en/esc-recommendations-on-acute-care-and-secondary-prevention/ ; https://academic.oup.com/ehjacc/article/13/1/55/7",
-    "trich": "\"revascularization within 60 minutes of diagnosis\"; PCI trong 120 phút nếu không thì tiêu sợi huyết",
-    "de_xuat": "ESC 2023: <=60 phút từ chẩn đoán đến luồn dây, tối đa 120 phút (không phân biệt \"cửa đến bóng <90\").",
-    "dot": 1
+    "nguon": "2023 ESC Guidelines for ACS: https://academic.oup.com/eurheartj/article/44/38/3720/7243210 ; ESC Quality Indicators for ACS: https://academi",
+    "trich": "ESC 2023: “within 120 min of the ECG-based diagnosis”. ESC QI: “<60 ... PCI centre, <90 min ... non-PCI setting”.",
+    "de_xuat": "Sửa thành mục tiêu từ chẩn đoán STEMI đến wire crossing: lý tưởng <60 phút tại trung tâm PCI, <90 phút nếu chẩn đoán ngoài trung tâm PCI; ngưỡng tối đa để chọn PPCI là 120 phút.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -1072,11 +1072,11 @@
    {
     "loc": "hbu.dieu_tri",
     "text": "Atorvastatin 80 mg, chẹn beta liều thấp khi không có suy tim và huyết động ổn định, ức chế men chuyển/chẹn thụ thể sớm khi EF dưới 40% hoặc tăng huyết áp.",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "ESC 2023 (PMID 37622654) chi doc duoc metadata, khong co abstract; Table 6 (lieu thuoc) khong hien thi qua OUP.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "2023 AHA/ACC Chronic Coronary Disease Guideline: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001168?url_ver=Z39.88-2003 ; 2023 ESC",
+    "trich": "AHA/ACC: “Atorvastatin (40 mg‡), 80 mg”. ESC: ACE inhibitors improve outcomes with “LVEF ≤40%”; beta-blockers considered when “SBP >120 mmHg” and no acute HF.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -1823,11 +1823,11 @@
    {
     "loc": "teach",
     "text": "Đợt cấp COPD có toan hô hấp cần oxy mục tiêu 88–92%, thông khí không xâm nhập khi pH dưới 7,35 kèm PaCO2 trên 45;",
-    "verdict": "lech",
-    "nguon": "PMID 28507176 (BTS oxygen guideline 2017) via thorax.bmj.com/content/72/Suppl_1/ii1; PMID 26976648 (BTS/ICS NIV guideline 2016) via thorax.b",
-    "trich": "O2: 'target saturation range of 88-92%' (khop). NIV: 'NIV should be started when pH<7.35 and pCO2 >6.5 kPa persist...'",
-    "de_xuat": "Nguong PaCO2 theo BTS la >6,5 kPa (~49 mmHg), khong phai 45 mmHg; 88-92% dung. Neu muon giu 45 mmHg phai dan GOLD (chua doc duoc).",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "GOLD 2025 Report: https://goldcopd.org/wp-content/uploads/2024/11/GOLD-2025-Report-v1.0-15Nov2024_WMV.pdf ; BTS/ICS Guideline for acute hype",
+    "trich": "GOLD 2025: “PaCO₂ ≥ 6.0 kPa or 45 mmHg and arterial pH ≤ 7.35”. BTS/ICS: “targeting an oxygen saturation of 88–92%”; “pH<7.35 and pCO₂ >6.5 kPa”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "action",
@@ -1841,11 +1841,11 @@
    {
     "loc": "action",
     "text": "Phun khí dung salbutamol kèm ipratropium mỗi 4–6 giờ",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "Khong tim thay van ban doc duoc ve salbutamol+ipratropium moi 4-6 gio (GOLD 404/chi trang tai ve; PubMed khong co so).",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "GOLD 2025 Report: https://goldcopd.org/wp-content/uploads/2024/11/GOLD-2025-Report-v1.0-15Nov2024_WMV.pdf",
+    "trich": "“one or two puffs every one hour for two or three doses and then every 2-4 hours based on the patient’s response.”",
+    "de_xuat": "Theo GOLD 2025: dùng SABA, có thể phối hợp SAMA; sau các liều ban đầu mỗi giờ trong 2–3 liều, chỉnh khoảng dùng tiếp theo mỗi 2–4 giờ theo đáp ứng, không cố định 4–6 giờ.",
+    "dot": 4
    },
    {
     "loc": "action",
@@ -1868,11 +1868,11 @@
    {
     "loc": "hbu.dieu_tri",
     "text": "BiPAP với áp lực hỗ trợ khởi đầu IPAP 10–12, EPAP 4–5 và theo dõi khí máu sau 1–2 giờ;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "BTS/ICS 2016 doc duoc: khoi dong vi du 'IPAP of 15' roi tang len 20-30 trong 10-30 phut; cai thien 'usually within 1-2 h'. Khong thay IPAP 10-12/EPAP 4-5 bang chu. Khong ket luan khop hay lech.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "BTS/ICS Guideline for the ventilatory management of acute hypercapnic respiratory failure in adults: https://thorax.bmj.com/content/71/Suppl",
+    "trich": "“started on NIV with IPAP of 15 ... increased to reach an IPAP of 20–30 within 10–30 min”; “ABG measurement is needed prior to and following starting NIV.”",
+    "de_xuat": "Theo BTS/ICS: có thể khởi IPAP 15 cmH2O và tăng dần đến 20–30 cmH2O trong 10–30 phút tùy đáp ứng; EPAP điều chỉnh theo oxy hóa/tắc nghẽn, không xác nhận được mức cố định 4–5 từ nguồn này; khí máu cần đo trước và sau khi bắt đầu NIV, nhưng nguồn này không ấn đị",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -1927,10 +1927,10 @@
     "loc": "action",
     "text": "Nằm đầu cao 30 độ, monitor, hai đường truyền, theo dõi huyết áp mỗi 5 phút",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "Không đọc được ESC/ESH 2018 (OUP không có nội dung mục 8.3.1)",
-    "de_xuat": "Giữ nhãn 'cần kiểm tra thủ công'.",
-    "dot": 2
+    "nguon": "2018 ESC/ESH Guidelines for arterial hypertension: https://academic.oup.com/eurheartj/article/39/33/3021/5079119?login=false ; 2017 ACC/AHA ",
+    "trich": "ESC/ESH yêu cầu “continuous haemodynamic monitoring”; ACC/AHA khuyến cáo ICU “for continuous monitoring of BP”. Không tìm thấy đoạn nguồn quy định 30° hoặc đo HA mỗi 5 phút.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "action",
@@ -2170,19 +2170,19 @@
     "loc": "teach",
     "text": "chọn nơi điều trị dựa vào CURB-65, kháng sinh sớm phù hợp và đánh giá lại sau 48–72 giờ.",
     "verdict": "lech",
-    "nguon": "pmid:31573350 (PMC6812437)",
-    "trich": "'preferentially the PSI (strong rec) over the CURB-65 (conditional rec, low quality)' để quyết định nhập viện; 48-72 h chỉ xuất hiện cho ngừng sớm ở ca cúm.",
-    "de_xuat": "Chọn nơi điều trị bằng PSI (ưu tiên) hoặc CURB-65 (khuyến cáo có điều kiện) kèm đánh giá lâm sàng; bỏ/giải thích mốc 48–72 giờ là thực hành, không phải ATS/IDSA.",
-    "dot": 1
+    "nguon": "ATS/IDSA 2019 CAP guideline: https://pmc.ncbi.nlm.nih.gov/articles/PMC6812437/ ; NICE Pneumonia NG250: https://www.nice.org.uk/guidance/NG25",
+    "trich": "ATS/IDSA: “preferentially the Pneumonia Severity Index (PSI) ... over the CURB-65”. NICE: “If intravenous antibiotics are given, review by 48 hours”.",
+    "de_xuat": "Dùng PSI ưu tiên hơn CURB-65 để hỗ trợ quyết định nơi điều trị theo ATS/IDSA; nếu dùng kháng sinh tĩnh mạch, NICE khuyến cáo đánh giá lại ở 48 giờ. Không gán mốc 48–72 giờ chung cho ATS/IDSA 2019.",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Nhập viện, thở oxy nếu SpO2 dưới 92%, đường truyền, theo dõi sinh hiệu",
     "verdict": "lech",
-    "nguon": "BTS CAP guideline: https://www.brit-thoracic.org.uk/document-library/guidelines/pneumonia-adults/annotated-bts-cap-guideline-summary-of-reco",
-    "trich": "BTS Rec 61: \"maintain ... oxygen saturation (Spo2) 94-98%\"; NICE CG191 1.2.20: \"oxygen saturation under 90% on room air\". Khong nguon nao dung nguong 92%",
-    "de_xuat": "Doi thanh: tho oxy khi SpO2 duoi 90% (NICE/WHO) hoac duy tri SpO2 94-98% (BTS); khong dung nguong 92%",
-    "dot": 2
+    "nguon": "BTS Guidelines for the Management of Community Acquired Pneumonia in Adults 2009 update: https://brit-thoracic.org.uk/document-library/guide",
+    "trich": "“maintain ... SpO2 94–98%”; “Oxygen saturation below 94% ... is ... an indication for oxygen therapy”.",
+    "de_xuat": "Ở người lớn CAP không có nguy cơ suy hô hấp tăng CO2, dùng oxy để duy trì SpO2 94–98%; không dùng ngưỡng cố định dưới 92% theo BTS.",
+    "dot": 4
    },
    {
     "loc": "action_why",
@@ -2197,10 +2197,10 @@
     "loc": "action",
     "text": "Cấy máu và lấy đờm trước, rồi kháng sinh sớm trong 4 giờ (ceftriaxon + azithromycin)",
     "verdict": "lech",
-    "nguon": "pmid:31573350 (PMC6812437)",
-    "trich": "'We suggest not routinely obtaining blood cultures in adults with CAP managed in the hospital setting' (trừ CAP nặng hoặc nguy cơ MRSA/Pseudomonas); không có mốc 4 giờ trong văn bản.",
-    "de_xuat": "Ca CURB-65 2 điểm, không nặng: ATS/IDSA không khuyến cáo cấy máu/đờm thường quy (chỉ khi nặng hoặc có yếu tố nguy cơ MRSA/P. aeruginosa); dùng kháng sinh sớm, bỏ mốc 4 giờ hoặc ghi là mục tiêu thực hành địa phương.",
-    "dot": 1
+    "nguon": "ATS/IDSA 2019 CAP guideline: https://doi.org/10.1164/rccm.201908-1581ST ; NICE Pneumonia NG250: https://www.nice.org.uk/guidance/NG250/chapt",
+    "trich": "ATS/IDSA: “suggest not routinely obtaining blood cultures in adults with CAP managed in the hospital setting”; “ceftriaxone 1–2 g daily ... and ... azithromycin 500 mg daily”. NICE: “within 4 hours of presentation to hos",
+    "de_xuat": "Không cấy máu/đờm thường quy ở CAP không nặng nếu không có chỉ định bổ sung; ceftriaxone + azithromycin là phác đồ phù hợp cho CAP nội trú không nặng; theo NICE bắt đầu kháng sinh càng sớm càng tốt sau chẩn đoán và trong 4 giờ từ lúc đến viện.",
+    "dot": 4
    },
    {
     "loc": "action",
@@ -2215,10 +2215,10 @@
     "loc": "hbu.dieu_tri",
     "text": "oxy khi SpO2 dưới 92%;",
     "verdict": "lech",
-    "nguon": "BTS CAP; NICE CG191",
-    "trich": "BTS: SpO2 muc tieu 94-98%; NICE: <90% la dau hieu nang. Khong co 92%",
-    "de_xuat": "Doi thanh: oxy khi SpO2 duoi 90% (hoac de duy tri 94-98%)",
-    "dot": 2
+    "nguon": "BTS Guidelines for the Management of Community Acquired Pneumonia in Adults 2009 update: https://brit-thoracic.org.uk/document-library/guide",
+    "trich": "“maintain ... SpO2 94–98%”; “Oxygen saturation below 94% ... is ... an indication for oxygen therapy”.",
+    "de_xuat": "Với người lớn CAP không có nguy cơ tăng CO2, dùng oxy để duy trì SpO2 94–98%; không dùng ngưỡng dưới 92% theo BTS.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -2280,10 +2280,10 @@
     "loc": "hbu.dieu_tri",
     "text": "Theo dõi nước tiểu, creatinin, kali, bicarbonat mỗi 12 đến 24 giờ.",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 22890468 (khong co abstract/toan van)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc nguon nao neu moc 12-24 gio.",
-    "dot": 2
+    "nguon": "KDIGO 2012 Clinical Practice Guideline for Acute Kidney Injury: https://kdigo.org/wp-content/uploads/2019/01/KDIGO-2012-AKI-Guideline-Englis",
+    "trich": "EBMG: “Re-check creatinine concentration after 12–24 hours if it is unexpectedly increased.” NICE: “daily measurement is typical while in hospital.” Không tìm thấy mốc 12–24 giờ chung cho creatinin, kali và bicarbonat.",
+    "de_xuat": "",
+    "dot": 4
    }
   ],
   "noi-tim-mach-004": [
@@ -2308,11 +2308,11 @@
    {
     "loc": "action_why",
     "text": "Đánh giá đáp ứng lợi tiểu (đủ trên 100–150 ml/giờ ở 6 giờ đầu).",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "ESC 2021 (PMID 34447992) khong doc duoc toan van; da thu pascar.org, shfnf.co.uk, OUP (bi cat), Europe PMC (loi)",
-    "trich": "Khong tim thay \"100-150 mL/gio trong 6 gio dau\" trong van ban doc duoc.",
-    "de_xuat": "Chua xac minh.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure: https://academic.oup.com/eurheartj/article/42/36/359",
+    "trich": "“a urine output >100–150 mL/h during the first 6 h.”",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -2561,37 +2561,37 @@
     "loc": "action",
     "text": "Ngồi hoặc nằm đầu cao, monitor, thở oxy giữ SpO2 trên 92%",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 31504429 (khong co abstract/toan van)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
-    "dot": 2
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136",
+    "trich": "“Administration of supplemental oxygen is indicated in patients with PE and SaO2 <90%.” Không tìm thấy trong ESC 2019 mục tiêu SpO2 >92% để đối chiếu đúng con số 92.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Bắt đầu chống đông ngay (enoxaparin 1 mg/kg tiêm dưới da mỗi 12 giờ hoặc UFH tĩnh mạch) trong khi chờ CTPA vì xác suất lâm sàng cao",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 31504429 (khong co abstract/toan van)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136 ; FDA Lovenox label: https://w",
+    "trich": "ESC: “In patients with high or intermediate clinical probability of PE, anticoagulation should be initiated while awaiting the results of diagnostic tests.” FDA: “1 mg/kg every 12 hours”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "enoxaparin 1 mg/kg mỗi 12 giờ hoặc UFH tĩnh mạch rồi chuyển apixaban/rivaroxaban hoặc kháng vitamin K, tối thiểu 3 tháng (huyết khối có yếu tố thuận lợi thoáng qua);",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 31504429 (khong co abstract/toan van)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136 ; FDA Lovenox label: https://w",
+    "trich": "ESC: “NOACs are recommended as the first choice ... VKAs are an alternative”; “all patients with PE should receive ≥3 months of anticoagulant treatment.” FDA: “1 mg/kg every 12 hours”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "theo dõi sát huyết động 48–72 giờ, sẵn sàng tiêu sợi huyết hoặc can thiệp nếu tụt huyết áp, sốc;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 31504429 (khong co abstract/toan van)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van ESC 2019; chua xac nhan.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136",
+    "trich": "“leave patients with intermediate−high-risk PE on LMWH anticoagulation over the first 2−3 days”; “Rescue thrombolytic therapy ... should be reserved for patients who develop signs of haemodynamic instability.”",
+    "de_xuat": "",
+    "dot": 4
    }
   ],
   "noi-than-002": [
@@ -2998,38 +2998,38 @@
    {
     "loc": "action",
     "text": "Đánh giá lại sau 48 đến 72 giờ;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-",
+    "trich": "“Nếu vẫn sốt, vi khuẩn niệu tồn tại 48 giờ đến 72 giờ... cần tìm kiếm tắc nghẽn, ổ nhiễm khuẩn lan rộng hoặc hình thành ổ áp xe thận.”",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "Chuyển sang đường uống khi hết sốt 24 đến 48 giờ và ăn uống được;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-",
+    "trich": "QĐ 708: “hết sốt, từ ngày thứ 10 đến ngày thứ 14 chuyển sang kháng sinh đường uống.” NICE: “Review intravenous antibiotics by 48 hours and consider stepping down to oral antibiotics where possible.”",
+    "de_xuat": "Nếu bám Quyết định 708/QĐ-BYT: không dùng mốc hết sốt 24-48 giờ; văn bản ghi hết sốt và từ ngày 10 đến ngày 14 mới chuyển đường uống. Nếu dùng hướng dẫn NICE hiện hành, đánh giá kháng sinh tĩnh mạch tại 48 giờ và chuyển uống khi phù hợp lâm sàng.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "tổng 7 đến 14 ngày.",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-",
+    "trich": "“VTBT không biến chứng trong 7 – 14 ngày bằng đường uống nếu triệu chứng không nặng”; kháng sinh đường tiêm ampicilin/cephalosporin ghi “10 – 14 ngày”.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "Tái đánh giá, chụp CT nếu không đáp ứng sau 48 đến 72 giờ.",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "",
-    "trich": "708/QD-BYT tren luatvietnam chi co phan quyet dinh, noi dung huong dan viem dai bthe than nam o file dinh kem khong doc duoc.",
-    "de_xuat": "Giu nguyen, danh dau chua kiem chung; can doc ban toan van/PDF nguon.",
-    "dot": 2
+    "verdict": "khop",
+    "nguon": "Bộ Y tế, Quyết định 708/QĐ-BYT ngày 02/03/2015, Hướng dẫn sử dụng kháng sinh. Trang Cục Quản lý Khám, chữa bệnh: https://kcb.vn/van-ban/tai-",
+    "trich": "“Nếu vẫn sốt, vi khuẩn niệu tồn tại 48 giờ đến 72 giờ... Siêu âm, chụp cắt lớp (CT) thận có thể phát hiện... ổ áp xe quanh thận.”",
+    "de_xuat": "",
+    "dot": 4
    }
   ],
   "noi-tim-mach-006": [
