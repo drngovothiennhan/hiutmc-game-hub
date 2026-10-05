@@ -429,11 +429,11 @@
       {
         "loc": "hbu.dieu_tri",
         "text": "Nâng đầu 30 độ, giảm đau, kiểm soát nôn, đường huyết 7,8 đến 10 mmol/L, điều chỉnh điện giải, hạ sốt.",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "StatPearls NBK553103; AHA 2022 WebFetch khong co muc lien quan",
-        "trich": "30 do khop; muc duong huyet chi neu \"normoglycemia\", khong co 7,8-10 mmol/L (140-180 mg/dL).",
-        "de_xuat": "Bo con so 7,8-10 mmol/L hoac them nguon.",
-        "dot": 2
+        "verdict": "lech",
+        "nguon": "AHA/ASA 2015 Guideline for the Management of Spontaneous Intracerebral Hemorrhage: https://www.ahajournals.org/doi/10.1161/STR.0000000000000069 ; AHA/ASA 2022 Guideline for the Management of Patients With Spontaneous Intracerebral Hemorrhage: https://www.ahajournals.org/doi/10.1161/STR.0000000000000407",
+        "trich": "AHA/ASA 2015: “Basic principles include elevation of the head of the bed to 30°”. AHA/ASA 2022: “the optimal glucose level at which treatment should be initiated and the target range are not clear”; “a blood glucose target of <180 mg/dL was associated with lower mortality than a target of 81 to 108 mg/dL”; treating “moderate to severe hyperglycemia (>180–200 mg/dL, >10.0–11.1 mmol/L) is reasonable”.",
+        "de_xuat": "Giữ nâng đầu 30° khi phù hợp kiểm soát áp lực nội sọ; bỏ mục tiêu cố định 7,8–10 mmol/L. Theo AHA/ASA 2022, theo dõi glucose, tránh hạ đường huyết và cân nhắc điều trị tăng đường huyết mức >180–200 mg/dL (>10,0–11,1 mmol/L).",
+        "dot": 6
       }
     ],
     "suy-tim-mat-bu-thuy-thung": [
@@ -1926,11 +1926,11 @@
       {
         "loc": "action",
         "text": "Nằm đầu cao 30 độ, monitor, hai đường truyền, theo dõi huyết áp mỗi 5 phút",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "2018 ESC/ESH Guidelines for arterial hypertension: https://academic.oup.com/eurheartj/article/39/33/3021/5079119?login=false ; 2017 ACC/AHA ",
-        "trich": "ESC/ESH yêu cầu “continuous haemodynamic monitoring”; ACC/AHA khuyến cáo ICU “for continuous monitoring of BP”. Không tìm thấy đoạn nguồn quy định 30° hoặc đo HA mỗi 5 phút.",
-        "de_xuat": "",
-        "dot": 4
+        "verdict": "lech",
+        "nguon": "2017 ACC/AHA Guideline for High Blood Pressure in Adults, section Hypertensive Crises: https://www.ahajournals.org/doi/10.1161/HYP.0000000000000065",
+        "trich": "Nguồn đọc được yêu cầu “admission to an intensive care unit ... for continuous monitoring of BP and target organ damage”. Không tìm thấy trong khuyến cáo này quy định nâng đầu 30° hoặc đo huyết áp đúng mỗi 5 phút.",
+        "de_xuat": "Bỏ con số không có nguồn.",
+        "dot": 6
       },
       {
         "loc": "action",
@@ -2158,11 +2158,11 @@
       {
         "loc": "hbu.dieu_tri",
         "text": "Mục tiêu: SpO2 từ 94% trở lên, hết liệt tiến triển, không chèn ép khoang.",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "",
-        "trich": "STG An Do: \"Oxygen saturation <90% ... indicates requirement for ventilator support\"; TCCC khong neu muc tieu SpO2. Khong tim thay muc 94%.",
-        "de_xuat": "Neu can, dung nguon ngoai (BTS/AHA) hoac bo con so 94%.",
-        "dot": 2
+        "verdict": "lech",
+        "nguon": "British Thoracic Society Guideline for oxygen use in adults in healthcare and emergency settings: https://thorax.bmj.com/content/72/Suppl_1/ii1 ; WHO Guidelines for the management of snakebites, 2nd edition: https://www.who.int/publications/i/item/9789290225300",
+        "trich": "BTS: “The recommended target saturation range for acutely ill patients not at risk of hypercapnic respiratory failure is 94–98%”; với nguy cơ tăng CO2 gồm “neuromuscular disorders”, mục tiêu “88–92% ... pending the availability of blood gas results”. WHO yêu cầu hỗ trợ hô hấp khi có liệt hô hấp nhưng không nêu mục tiêu SpO2 94%.",
+        "de_xuat": "Ca này đã có tăng CO2 và toan hô hấp, nên không dùng mục tiêu đơn thuần SpO2 ≥94%. Theo BTS, mục tiêu oxy 88–92% khi có nguy cơ/suy hô hấp tăng CO2, đồng thời ưu tiên bảo đảm thông khí và theo dõi khí máu.",
+        "dot": 6
       }
     ],
     "noi-ho-hap-003": [
@@ -2279,11 +2279,11 @@
       {
         "loc": "hbu.dieu_tri",
         "text": "Theo dõi nước tiểu, creatinin, kali, bicarbonat mỗi 12 đến 24 giờ.",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "KDIGO 2012 Clinical Practice Guideline for Acute Kidney Injury: https://kdigo.org/wp-content/uploads/2019/01/KDIGO-2012-AKI-Guideline-Englis",
-        "trich": "EBMG: “Re-check creatinine concentration after 12–24 hours if it is unexpectedly increased.” NICE: “daily measurement is typical while in hospital.” Không tìm thấy mốc 12–24 giờ chung cho creatinin, kali và bicarbonat.",
-        "de_xuat": "",
-        "dot": 4
+        "verdict": "lech",
+        "nguon": "KDIGO 2012 Clinical Practice Guideline for Acute Kidney Injury: https://kdigo.org/guidelines/acute-kidney-injury/kdigo-2012-aki-guideline-english/ ; KDIGO recommendation summary: https://pmc.ncbi.nlm.nih.gov/articles/PMC4089654/",
+        "trich": "KDIGO: “Test patients at increased risk for AKI with measurements of SCr and urine output”; “Individualize frequency and duration of monitoring based on patient risk and clinical course.” KDIGO also states: “Monitor patients with AKI with measurements of SCr and urine output to stage the severity.”",
+        "de_xuat": "Không ấn định chung creatinin, kali và bicarbonat mỗi 12–24 giờ. Tần suất theo dõi phải cá thể hóa theo mức độ AKI, diễn biến lâm sàng và rối loạn điện giải/toan kiềm.",
+        "dot": 6
       }
     ],
     "noi-tim-mach-004": [
@@ -2540,31 +2540,31 @@
       {
         "loc": "hbu.dieu_tri",
         "text": "tái dùng huyết thanh nếu còn không đông, theo dõi INR, fibrinogen, tiểu cầu mỗi 6 đến 12 giờ.",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "Ralph et al., Managing snakebite, BMJ 2022 (PMID 34996773, PMCID PMC9278408): https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
-        "trich": "Nguồn đọc được xác nhận tái dùng: “Repeat administration of antivenom ... if a 20WBCT is positive at six hours after antivenom administration.” Nguồn chỉ nói xét nghiệm đông máu bổ sung và theo dõi định kỳ, không tìm thấ",
-        "de_xuat": "",
-        "dot": 4
+        "verdict": "lech",
+        "nguon": "WHO Guidelines for the management of snakebites, 2nd edition, 2016: https://cdn.who.int/media/docs/default-source/searo/india/health-topic-pdf/who-guidance-on-management-of-snakebites.pdf ; Ralph R et al. Managing snakebite, BMJ 2022, PMID 34996773: https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
+        "trich": "WHO: “If the blood remains incoagulable (as measured by 20WBCT) six hours after the initial dose of antivenom, the same dose should be repeated.” BMJ: “Repeat administration of antivenom ... if a 20WBCT is positive at six hours after antivenom administration.” BMJ liệt kê PT/aPTT, D-dimer, fibrinogen và tiểu cầu là xét nghiệm hữu ích nhưng không quy định lặp lại tất cả mỗi 6–12 giờ.",
+        "de_xuat": "Giữ mốc đánh giá 20WBCT sau 6 giờ và tái dùng huyết thanh nếu vẫn không đông theo WHO. Bỏ tần suất cố định INR, fibrinogen, tiểu cầu mỗi 6–12 giờ; theo dõi các xét nghiệm này theo diễn biến lâm sàng và khả năng xét nghiệm.",
+        "dot": 6
       },
       {
         "loc": "hbu.dieu_tri",
         "text": "Mục tiêu: 20WBCT đông, INR dưới 1,5, fibrinogen trên 1,5 g/L, không chảy máu mới.",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "Ralph et al., Managing snakebite, BMJ 2022 (PMID 34996773, PMCID PMC9278408): https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
-        "trich": "Nguồn dùng 20WBCT để theo dõi; khi đánh giá độ chính xác, coagulopathy được định nghĩa là “INR >1.4 or fibrinogen <100 mg/dL”. Không tìm thấy trong nguồn mục tiêu điều trị bắt buộc INR <1,5 và fibrinogen >1,5 g/L.",
-        "de_xuat": "",
-        "dot": 4
+        "verdict": "lech",
+        "nguon": "WHO Guidelines for the management of snakebites, 2nd edition, 2016: https://www.who.int/publications/i/item/9789290225300 ; Ralph R et al. Managing snakebite, BMJ 2022, PMID 34996773: https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
+        "trich": "WHO dùng phục hồi khả năng đông của máu theo 20WBCT để đánh giá đáp ứng. BMJ mô tả coagulopathy trong nghiên cứu độ chính xác của 20WBCT là “INR >1.4 or fibrinogen <100 mg/dL”, nhưng đây là định nghĩa nghiên cứu chứ không phải mục tiêu điều trị. Không tìm thấy nguồn đọc được quy định bắt buộc mục tiêu INR <1,5 và fibrinogen >1,5 g/L sau huyết thanh.",
+        "de_xuat": "Bỏ con số không có nguồn.",
+        "dot": 6
       }
     ],
     "noi-ho-hap-004": [
       {
         "loc": "action",
         "text": "Ngồi hoặc nằm đầu cao, monitor, thở oxy giữ SpO2 trên 92%",
-        "verdict": "khong_doi_chieu_duoc",
-        "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136",
-        "trich": "“Administration of supplemental oxygen is indicated in patients with PE and SaO2 <90%.” Không tìm thấy trong ESC 2019 mục tiêu SpO2 >92% để đối chiếu đúng con số 92.",
-        "de_xuat": "",
-        "dot": 4
+        "verdict": "lech",
+        "nguon": "2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136 ; British Thoracic Society Guideline for oxygen use in adults in healthcare and emergency settings: https://thorax.bmj.com/content/72/Suppl_1/ii1",
+        "trich": "ESC: “Administration of supplemental oxygen is indicated in patients with PE and SaO2 <90%.” BTS, mục pulmonary embolism: “aim at an oxygen saturation of 94–98% (or 88–92% if the patient is at risk of hypercapnic respiratory failure).”",
+        "de_xuat": "Nếu cần oxy và không có nguy cơ suy hô hấp tăng CO2, dùng mục tiêu SpO2 94–98% thay vì chỉ ghi trên 92%; nếu có nguy cơ tăng CO2, mục tiêu 88–92%.",
+        "dot": 6
       },
       {
         "loc": "action",
