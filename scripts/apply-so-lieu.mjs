@@ -83,6 +83,17 @@ export const FIXES = [
   { id: 'noi-ho-hap-003', from: 'Cấy máu và lấy đờm trước, rồi kháng sinh sớm trong 4 giờ (ceftriaxon + azithromycin)', to: 'Kháng sinh sớm trong 4 giờ kể từ lúc đến viện (ceftriaxon + azithromycin); chỉ cấy máu và đờm khi có chỉ định (bệnh nặng, nguy cơ MRSA hoặc P. aeruginosa)' },
   { id: 'noi-ho-hap-003', from: 'cấy máu, đờm; đánh giá', to: 'cấy máu, đờm khi có chỉ định; đánh giá' },
   { id: 'noi-ho-hap-003', from: 'chọn nơi điều trị dựa vào PSI hoặc CURB-65 kèm đánh giá lâm sàng, kháng sinh sớm phù hợp và đánh giá lại sau 48–72 giờ.', to: 'chọn nơi điều trị dựa vào PSI (ATS/IDSA ưu tiên) hoặc CURB-65 kèm đánh giá lâm sàng, kháng sinh sớm phù hợp và đánh giá lại kháng sinh tĩnh mạch sau 48 giờ (NICE).' },
+  // Việc 1 Lô E-F (ChatGPT: JSBI/ISBI, ERAS RCT, ADA/EASD 2024, BTS, CDC).
+  { id: 'ngoai-chan-thuong-005', from: 'điều chỉnh 10 đến 20% mỗi giờ theo nước tiểu 0,5 mL mỗi kg mỗi giờ.', to: 'điều chỉnh tốc độ truyền mỗi giờ (khoảng 10 đến 20%, hoặc 1/3 theo JSBI) khi nước tiểu lệch mục tiêu 0,5 mL mỗi kg mỗi giờ.' },
+  { id: 'ngoai-bung-001', from: 'cho uống sau 6 đến 12 giờ khi có nhu động; xuất viện thường trong 24 đến 48 giờ;', to: 'cho uống và ăn sớm theo dung nạp sau hồi phục gây mê; ca không biến chứng chọn lọc có thể xuất viện sớm, kể cả cùng ngày, khi đạt tiêu chí;' },
+  { id: 'noi-cap-cuu-004', from: 'Truyền NaCl 0,9% 15 đến 20 mL/kg trong giờ đầu, sau đó điều chỉnh', to: 'Truyền NaCl 0,9% hoặc dịch tinh thể cân bằng 500 đến 1000 mL/giờ trong 2 đến 4 giờ đầu (người lớn không suy tim, suy thận), sau đó điều chỉnh' },
+  { id: 'noi-cap-cuu-004', from: 'chỉ khởi insulin thường tiêm tĩnh mạch 0,05 đến 0,1 UI/kg/giờ khi kali trên 3,3 mmol/L', to: 'chỉ khởi insulin truyền tĩnh mạch cố định (0,05 đến 0,1 UI/kg/giờ tùy bệnh cảnh) khi kali trên 3,5 mmol/L' },
+  { id: 'noi-cap-cuu-004', from: 'mỗi giờ, điện giải mỗi 2 đến 4 giờ, thêm dextrose khi đường huyết dưới 16,7 mmol/L', to: 'mỗi 1 đến 2 giờ, điện giải mỗi 4 giờ, thêm dextrose 5 đến 10% khi đường huyết dưới 13,9 mmol/L' },
+  { id: 'noi-cap-cuu-102', from: 'Tiếp tục thở oxy cho đến khi COHb dưới 5% và hết triệu chứng;', to: 'Tiếp tục thở oxy 100% đến khi hết triệu chứng (thường khoảng 4 đến 5 giờ; COHb dưới 5% không phải tiêu chí duy nhất);' },
+  { id: 'noi-cap-cuu-102', from: 'mặt nạ có túi dự trữ lưu lượng 10 đến 15 L/phút', to: 'mặt nạ có túi dự trữ lưu lượng 15 L/phút' },
+  { id: 'noi-cap-cuu-102', from: 'mặt nạ túi dự trữ 10 đến 15 L/phút, duy trì cho đến khi COHb dưới 5% và hết triệu chứng (thường ít nhất 6 giờ).', to: 'mặt nạ túi dự trữ 15 L/phút, duy trì đến khi hết triệu chứng (thường khoảng 4 đến 5 giờ).' },
+  { id: 'noi-cap-cuu-102', from: 'Mục tiêu: COHb dưới 5%, lactate trở về bình thường, ổn định điện tâm đồ.', to: 'Mục tiêu: hết triệu chứng, cải thiện thần kinh trên đánh giá nối tiếp, lactate và điện tâm đồ ổn định.' },
+  { id: 'noi-cap-cuu-102', from: 'thời gian thở oxy 100% (ít nhất 6 giờ)', to: 'thời gian thở oxy 100% (khoảng 4 đến 5 giờ)' },
 ];
 
 // Cờ xét nghiệm (e = nên làm, n = trung tính, w = lãng phí) chỉnh theo nguồn.
@@ -93,7 +104,6 @@ export const TEST_FLAGS = [
 // Ca còn con số nghi lệch hoặc nguồn thứ cấp chưa đủ tin: chưa tự quyết, không nâng trạng thái.
 export const CAN_XEM_LAI = {
   'noi-nhiem-001': 'Tốc độ truyền dịch đã sửa theo QĐ 3705. Còn mở: tần suất theo dõi (các bản đọc được ghi 1-2 giờ, 2-4 giờ và 4-6 giờ); cần đọc nguyên văn mục theo dõi người lớn.',
-  'ngoai-chan-thuong-005': 'Mức chỉnh dịch bỏng "10 đến 20% mỗi giờ" so với "khoảng 1/3": cần đối chiếu hướng dẫn ABA nguyên văn.',
 };
 
 const WRONG = /^(-|!)/; // tiền tố của lựa chọn sai chủ ý: -, --, !

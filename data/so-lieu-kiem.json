@@ -694,19 +694,19 @@
     "loc": "action_why",
     "text": "điều chỉnh 10 đến 20% mỗi giờ theo nước tiểu 0,5 mL mỗi kg mỗi giờ.",
     "verdict": "lech",
-    "nguon": "https://guidance.nattrauma.org/media/wetjtmrg/american-burn-association-clinical-practice-guidelines-on-burn-shock-resuscitation.pdf",
-    "trich": "ABA: titrate theo nước tiểu 0,5 mL/kg/giờ; nguồn nhắc \"one-third increases or decreases in the infusion rate\", không phải 10-20%",
-    "de_xuat": "\"điều chỉnh khoảng 1/3 tốc độ truyền mỗi giờ theo nước tiểu 0,5 mL/kg/giờ\" (hoặc nêu rõ nguồn của 10-20%).",
-    "dot": 1
+    "nguon": "Japanese Society for Burn Injuries (JSBI) Clinical Practice Guidelines for Management of Burn Care, 3rd Edition (2022): https://onlinelibrar",
+    "trich": "“target urine output (0.5 mL/kg/h...) for 2 consecutive hours, the infusion rate should be reduced/increased ... by one-third”",
+    "de_xuat": "Nếu lượng nước tiểu lệch mục tiêu 0,5 mL/kg/giờ trong 2 giờ liên tiếp, tăng hoặc giảm tốc độ truyền khoảng 1/3.",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Hạn chế dịch trong 24 giờ đầu và dùng lợi tiểu sớm để tránh phù phổi",
     "verdict": "lech",
-    "nguon": "https://www.aafp.org/afp/2025/0800/practice-guidelines-resuscitation-patients-burns (tom tat ABA CPG 2024, PMID 38051821) ; https://www.vumc",
-    "trich": "ABA: \"Resuscitation should be titrated by urine output\"; \"fluid resuscitation may increase local and pulmonary edema\". VUMC: phai bao burn attending \"Prior to initiation of... Diuretics\"; khong co khuyen cao han che dich",
-    "de_xuat": "Sua: \"Tranh bu dich qua tay (fluid creep): bat dau theo cong thuc (Rule of 10 hoac 2 mL/kg/%TBSA), dieu chinh moi gio theo nuoc tieu 0,5 mL/kg/gio (30-50 mL/gio); khong dung loi tieu som, chi khi hoi chuyen khoa bong.\" ",
-    "dot": 2
+    "nguon": "ISBI Practice Guidelines for Burn Care (2016): https://www.sciencedirect.com/science/article/abs/pii/S0305417916301449",
+    "trich": "“between 2 and 4 mL/kg ... should be administered within the first 24 h after injury, with alertness to over-resuscitation.” Không thấy khuyến cáo dùng lợi tiểu sớm thường quy.",
+    "de_xuat": "Hồi sức dịch theo diện tích bỏng và cân nặng, tránh quá hồi sức; bỏ chỉ định lợi tiểu sớm thường quy nếu không có chỉ định chuyên biệt.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -1740,11 +1740,11 @@
    {
     "loc": "action",
     "text": "Đưa người bệnh ra khỏi nguồn khí CO, cho thở oxy 100% qua mặt nạ có túi dự trữ lưu lượng 10 đến 15 L/phút",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Da doc StatPearls NBK430740, Merck: khong nguon nao neu luu luong",
-    "trich": "StatPearls: \"does not specify oxygen flow rates\"; Merck: \"does not provide specific flow rates\".",
-    "de_xuat": "Chua xac minh 10-15 L/phut; neu giu thi can nguon (vd. huong dan cap cuu quoc gia) hoac bo con so.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "British Thoracic Society Guideline for oxygen use in adults in healthcare and emergency settings: https://thorax.bmj.com/content/72/Suppl_1/",
+    "trich": "“In cases of carbon monoxide poisoning ... aim at an oxygen saturation of 100% and use a reservoir mask at 15 L/min irrespective of the oximeter reading and PaO2.”",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "action_why",
@@ -1767,11 +1767,11 @@
    {
     "loc": "action",
     "text": "Tiếp tục thở oxy cho đến khi COHb dưới 5% và hết triệu chứng;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
-    "trich": "StatPearls: \"does not specify a COHb target of <5%\"; Merck: no stop criterion given.",
-    "de_xuat": "Chua xac minh COHb <5%.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "CDC Clinical Guidance for Carbon Monoxide Poisoning: https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html ; S2k guideline di",
+    "trich": "CDC: “Administer 100% oxygen until the patient is symptom-free, usually about 4-5 hours.” S2k: “Clinical symptoms do not correlate with COHb elimination ... COHb monitoring alone is unsuitable for treatment management”; ",
+    "de_xuat": "Duy trì oxy 100% đến khi hết triệu chứng, thường khoảng 4–5 giờ; không dùng COHb <5% như tiêu chí bắt buộc duy nhất để ngừng oxy.",
+    "dot": 4
    },
    {
     "loc": "action_why",
@@ -1794,11 +1794,11 @@
    {
     "loc": "hbu.dieu_tri",
     "text": "oxy 100% qua mặt nạ túi dự trữ 10 đến 15 L/phút, duy trì cho đến khi COHb dưới 5% và hết triệu chứng (thường ít nhất 6 giờ).",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/; Merck Manual Professional, Carbon monoxide poisoning http",
-    "trich": "Khong nguon nao neu 10-15 L/phut, COHb <5% hay >=6 gio; NBK470531 chi noi HBO som \"within the first 6 hours after exposure\".",
-    "de_xuat": "Chua xac minh; bo hoac them nguon.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "British Thoracic Society Guideline for oxygen use in adults: https://thorax.bmj.com/content/72/Suppl_1/ii1 ; CDC Clinical Guidance for Carbo",
+    "trich": "BTS: “use a reservoir mask at 15 L/min”; CDC: “Administer 100% oxygen until the patient is symptom-free, usually about 4-5 hours.” S2k: COHb monitoring alone “is unsuitable for treatment management.”",
+    "de_xuat": "Sửa thành: oxy nồng độ cao/100% qua mặt nạ túi dự trữ 15 L/phút, duy trì đến khi hết triệu chứng, thường khoảng 4–5 giờ; không ấn định tối thiểu 6 giờ hay COHb <5% như tiêu chí ngừng bắt buộc.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
@@ -1812,11 +1812,11 @@
    {
     "loc": "hbu.dieu_tri",
     "text": "Mục tiêu: COHb dưới 5%, lactate trở về bình thường, ổn định điện tâm đồ.",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "StatPearls Carbon Monoxide Toxicity https://www.ncbi.nlm.nih.gov/books/NBK430740/",
-    "trich": "StatPearls: no COHb <5% target; lactate/ECG goals not stated.",
-    "de_xuat": "Chua xac minh muc tieu COHb <5%.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "CDC Clinical Guidance for Carbon Monoxide Poisoning: https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html ; S2k guideline di",
+    "trich": "CDC dùng tiêu chí lâm sàng: “until the patient is symptom-free, usually about 4-5 hours.” S2k nêu “COHb monitoring alone is unsuitable for treatment management.” Không tìm thấy bộ mục tiêu bắt buộc COHb <5%, lactate bình",
+    "de_xuat": "Mục tiêu chính nên là hết triệu chứng và cải thiện thần kinh trên đánh giá nối tiếp; không dùng COHb <5%, lactate bình thường và ECG ổn định như bộ tiêu chí bắt buộc chung.",
+    "dot": 4
    }
   ],
   "noi-ho-hap-002": [
@@ -2013,20 +2013,20 @@
    {
     "loc": "action",
     "text": "Ngâm ngồi nước ấm 2 đến 3 lần mỗi ngày sau dẫn lưu, thay băng",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "ASCRS 2022 (PMID 35732009), PDF https://src.wiremedia.ro/wp-content/uploads/2023/05/2022-Anorectal-Abscess-Fistula-in-Ano-Rectovaginal-Fistu",
-    "trich": "Văn bản đọc được không đề cập ngâm ngồi sau dẫn lưu; chỉ nêu không nhồi gạc cho kết quả tương đương hoặc tốt hơn",
-    "de_xuat": "Bỏ con số '2-3 lần/ngày' hoặc dẫn nguồn khác.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "PubMed PMID 38390277: https://pubmed.ncbi.nlm.nih.gov/38390277/ ; PubMed PMID 18380741: https://pubmed.ncbi.nlm.nih.gov/18380741/",
+    "trich": "PMID 38390277: “three times a day, especially after every defecation.” PMID 18380741: “a twice-daily sitz bath”. Dữ liệu trực tiếp sau I&D là ở trẻ em.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "ngâm ngồi nước ấm 2 đến 3 lần mỗi ngày;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "ASCRS 2022 (PMID 35732009), PDF https://src.wiremedia.ro/wp-content/uploads/2023/05/2022-Anorectal-Abscess-Fistula-in-Ano-Rectovaginal-Fistu",
-    "trich": "Như trên, không có khuyến cáo ngâm ngồi sau dẫn lưu trong văn bản đọc được",
-    "de_xuat": "Như trên.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "PubMed PMID 38390277: https://pubmed.ncbi.nlm.nih.gov/38390277/ ; PubMed PMID 18380741: https://pubmed.ncbi.nlm.nih.gov/18380741/",
+    "trich": "PMID 38390277: “three times a day, especially after every defecation.” PMID 18380741: “a twice-daily sitz bath”. Dữ liệu trực tiếp sau I&D là ở trẻ em.",
+    "de_xuat": "",
+    "dot": 4
    }
   ],
   "ngoai-cap-cuu-008": [
@@ -2366,20 +2366,20 @@
    {
     "loc": "hbu.dieu_tri",
     "text": "cho uống sau 6 đến 12 giờ khi có nhu động;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "WSES 2020 PMC7386163 doc toan van (khong thay moc)",
-    "trich": "Khong co moc cho an uong 6-12 gio sau mo trong toan van.",
-    "de_xuat": "Chua xac minh; bo con so hoac them nguon (ERAS).",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "RCT ERAS ở viêm ruột thừa cấp không biến chứng, PubMed PMID 29987566: https://pubmed.ncbi.nlm.nih.gov/29987566/",
+    "trich": "“significant reduction in time to resume diet (110 vs. 360 min, p < 0.001)”",
+    "de_xuat": "Sau cắt ruột thừa nội soi không biến chứng, cho uống/ăn sớm theo dung nạp sau hồi phục gây mê; không chờ một mốc giờ cố định hoặc bắt buộc có nhu động.",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "xuất viện thường trong 24 đến 48 giờ;",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "WSES 2020 PMC7386163 doc toan van",
-    "trich": "Chi neu fast-track xuat vien trong ngay o mot nghien cuu (median LOS 20 vs 23 h o mot RCT TULAA); khong co moc 24-48 gio.",
-    "de_xuat": "Chua xac minh.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "RCT ngoại trú sau cắt ruột thừa nội soi, PubMed PMID 36419071: https://pubmed.ncbi.nlm.nih.gov/36419071/ ; Systematic review/meta-analysis, ",
+    "trich": "PMID 36419071: “mean 8.82 h” so với “mean 43.53 h”. PMID 33575890: “same-day discharge ... is safe” ở ca không biến chứng chọn lọc.",
+    "de_xuat": "Ở ca không biến chứng chọn lọc, có thể xuất viện cùng ngày khi đạt tiêu chí; không ấn định khoảng thời gian cố định sau mổ.",
+    "dot": 4
    }
   ],
   "ngoai-cap-cuu-001": [
@@ -2475,47 +2475,47 @@
    {
     "loc": "action",
     "text": "Truyền NaCl 0,9% 15 đến 20 mL/kg trong giờ đầu, sau đó điều chỉnh theo natri hiệu chỉnh và huyết động",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 39052901 (chi doc abstract)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.or",
+    "trich": "“initial rate of 500–1,000 mL/h during the first 2–4 h”; sau đó lựa chọn dịch dựa vào “blood pressure, heart rate, fluid input-output balance, and sodium concentration.”",
+    "de_xuat": "Sửa thành: bắt đầu NaCl 0,9% hoặc dịch tinh thể cân bằng 500–1.000 mL/giờ trong 2–4 giờ đầu ở người lớn không suy tim/suy thận, sau đó điều chỉnh theo tình trạng dịch, huyết động, cân bằng vào-ra và natri.",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "chỉ khởi insulin thường tiêm tĩnh mạch 0,05 đến 0,1 UI/kg/giờ khi kali trên 3,3 mmol/L",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 39052901 (chi doc abstract)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.or",
+    "trich": "“fixed-rate intravenous insulin infusion started at 0.1 units/kg/h”; khi K thấp: “insulin therapy should be delayed until the potassium level increases to >3.5 mmol/L”; 0,05 units/kg/h được dùng khi glucose <250 mg/dL ho",
+    "de_xuat": "Với DKA: insulin tĩnh mạch cố định 0,1 UI/kg/giờ; nếu K <3,5 mmol/L thì bù kali và hoãn insulin đến khi K >3,5 mmol/L. Khi glucose <13,9 mmol/L, giảm insulin xuống 0,05 UI/kg/giờ.",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Bù kali khi kali dưới 5,0 mmol/L và có nước tiểu",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 39052901 (chi doc abstract)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
-    "dot": 2
+    "verdict": "nhat_quan",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.or",
+    "trich": "“potassium replacement should be started after serum levels fall below 5.0 mmol/L to maintain a potassium level of 4–5 mmol/L.” Nguồn này không nêu điều kiện “có nước tiểu” trong cùng khuyến cáo.",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Đo đường huyết mao mạch mỗi giờ, điện giải mỗi 2 đến 4 giờ, thêm dextrose khi đường huyết dưới 16,7 mmol/L",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 39052901 (chi doc abstract)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.or",
+    "trich": "“Capillary blood glucose testing ... every 1–2 h”; “blood should be drawn every 4 h for determination of electrolytes...” ; “once the plasma glucose concentration is <250 mg/dL (13.9 mmol/L), ... contain 5–10% dextrose”.",
+    "de_xuat": "Sửa thành: đường huyết mao mạch mỗi 1–2 giờ; điện giải và các xét nghiệm theo dõi chính mỗi 4 giờ; thêm dextrose 5–10% khi glucose <13,9 mmol/L (250 mg/dL).",
+    "dot": 4
    },
    {
     "loc": "action",
     "text": "Cho dung dịch glucose 5% làm dịch bù ban đầu",
-    "verdict": "khong_doi_chieu_duoc",
-    "nguon": "PMID 39052901 (chi doc abstract)",
-    "trich": "",
-    "de_xuat": "Khong doc duoc toan van: PubMed PMC11272983 full_text rong; PMC/EuropePMC WebFetch loi (reCAPTCHA/500); gioi han toc do.",
-    "dot": 2
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.or",
+    "trich": "Ban đầu: “isotonic saline or balanced crystalloid solutions at an initial rate of 500–1,000 mL/h during the first 2–4 h.” Dextrose chỉ thêm khi glucose “<250 mg/dL (13.9 mmol/L)” và dùng “5–10% dextrose”.",
+    "de_xuat": "Không dùng glucose 5% làm dịch bù ban đầu; bắt đầu bằng NaCl 0,9% hoặc dịch tinh thể cân bằng, chỉ thêm dextrose 5–10% khi glucose <13,9 mmol/L.",
+    "dot": 4
    }
   ],
   "noi-cap-cuu-104": [
@@ -2541,19 +2541,19 @@
     "loc": "hbu.dieu_tri",
     "text": "tái dùng huyết thanh nếu còn không đông, theo dõi INR, fibrinogen, tiểu cầu mỗi 6 đến 12 giờ.",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "BMJ 2022 Managing snakebite (PMID 34996773, PMC9278408; tong quan dua tren huong dan WHO); WHO SEARO PDF khong tai duoc (403)",
-    "trich": "Doc duoc: tai dung huyet thanh neu 20WBCT duong tinh sau 6 gio (khop phan dau). Khong thay \"INR, fibrinogen, tieu cau moi 6-12 gio\".",
-    "de_xuat": "Phan tai dung huyet thanh dung; bo hoac xac minh tan suat 6-12 gio.",
-    "dot": 2
+    "nguon": "Ralph et al., Managing snakebite, BMJ 2022 (PMID 34996773, PMCID PMC9278408): https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
+    "trich": "Nguồn đọc được xác nhận tái dùng: “Repeat administration of antivenom ... if a 20WBCT is positive at six hours after antivenom administration.” Nguồn chỉ nói xét nghiệm đông máu bổ sung và theo dõi định kỳ, không tìm thấ",
+    "de_xuat": "",
+    "dot": 4
    },
    {
     "loc": "hbu.dieu_tri",
     "text": "Mục tiêu: 20WBCT đông, INR dưới 1,5, fibrinogen trên 1,5 g/L, không chảy máu mới.",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "BMJ 2022 Managing snakebite (PMID 34996773, PMC9278408; tong quan dua tren huong dan WHO)",
-    "trich": "BMJ chi dinh nghia roi loan dong mau \"INR >1.4 or fibrinogen <100 mg/dL\"; khong neu muc tieu INR <1,5 / fibrinogen >1,5 g/L.",
-    "de_xuat": "Khong gan cac nguong nay cho WHO; neu giu, ghi la muc tieu cua giao vien.",
-    "dot": 2
+    "nguon": "Ralph et al., Managing snakebite, BMJ 2022 (PMID 34996773, PMCID PMC9278408): https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
+    "trich": "Nguồn dùng 20WBCT để theo dõi; khi đánh giá độ chính xác, coagulopathy được định nghĩa là “INR >1.4 or fibrinogen <100 mg/dL”. Không tìm thấy trong nguồn mục tiêu điều trị bắt buộc INR <1,5 và fibrinogen >1,5 g/L.",
+    "de_xuat": "",
+    "dot": 4
    }
   ],
   "noi-ho-hap-004": [
