@@ -1,56 +1,326 @@
 [
   {
-    "id": "chan-tam-thong",
-    "loc": "yhct_hau_cap.opt.phuong[0]",
-    "text": "Huyết phủ trục ứ thang",
+    "id": "vi-quan-thong",
+    "loc": "opt.phuong",
+    "text": "Hoàng kỳ kiến trung thang",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức Cục Quản lý Y Dược cổ truyền: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
-    "trich": "Ca hiện chỉ ghi tên bài “Huyết phủ trục ứ thang”, không có liều từng vị nên không có số trong ca để đối chiếu Dược điển Việt Nam V. Quyết định 5013/QĐ-BYT, mục thể khí trệ huyết ứ, ghi: “Đương quy 12g Ngưu tất 12g; Sinh địa 12g Xích thược 08g; Đào nhân 16g Sài hồ 04g; Hồng hoa 12g Cát cánh 06g; Xuyên khung 06g Cam thảo 04g; Chỉ xác 08g”. Không được tự suy ra rằng đây là liều đang có trong ca khi dữ liệu ca chưa ghi liều.",
-    "de_xuat": ""
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Hoàng kỳ kiến trung thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
   },
   {
-    "id": "trung-phong",
-    "loc": "yhct_hau_cap.opt.phuong[0]",
-    "text": "Hóa đàm thông lạc thang",
+    "id": "yeu-thong",
+    "loc": "opt.phuong",
+    "text": "Can khương Linh truật thang (Thận trước thang)",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
-    "trich": "Ca chỉ ghi “Hóa đàm thông lạc thang”, không ghi thành phần và liều từng vị. Trong bản toàn văn Quyết định 5013/QĐ-BYT đã đọc không tìm thấy tên bài “Hóa đàm thông lạc thang” để lấy một công thức liều chính thức; vì vậy không thể đối chiếu từng vị với Dược điển Việt Nam V mà không đoán.",
-    "de_xuat": ""
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Can khương Linh truật thang (Thận trước thang)\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
   },
   {
-    "id": "trung-thu",
-    "loc": "yhct_hau_cap.opt.phuong[0]",
-    "text": "Bạch hổ gia nhân sâm thang",
+    "id": "thong-phong",
+    "loc": "opt.phuong",
+    "text": "Tứ diệu hoàn gia giảm",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
-    "trich": "Ca chỉ ghi “Bạch hổ gia nhân sâm thang”, không ghi liều từng vị. Bản toàn văn Quyết định 5013/QĐ-BYT đã đọc có các bài Bạch hổ quế chi thang/Bạch hổ gia quế chi thang nhưng không tìm thấy đúng tên “Bạch hổ gia nhân sâm thang”; không được lấy liều của bài khác để thay thế.",
-    "de_xuat": ""
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Tứ diệu hoàn gia giảm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
   },
   {
-    "id": "hao-suyen",
-    "loc": "yhct_hau_cap.opt.phuong[0]",
-    "text": "Tiểu thanh long thang",
+    "id": "mat-ngu-tam-ty-luong-hu",
+    "loc": "opt.phuong",
+    "text": "Quy tỳ thang",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
-    "trich": "Ca chỉ ghi tên bài, không ghi liều từng vị. Quyết định 5013/QĐ-BYT có công thức “Tiểu thanh long thang” trong mục thể thủy ẩm của bệnh phổi tắc nghẽn mạn tính: “Ma hoàng 06g Nhục quế 08g; Tế tân 04g Can khương 06g; Bán hạ chế 12g Ngũ vị tử 06g; Bạch thược 12g Cam thảo 06g”. Vì nguồn này thuộc bối cảnh bệnh khác và ca hiện không có liều, không thể coi các số trên là liều đã được đối chiếu cho ca hen.",
-    "de_xuat": ""
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Quy tỳ thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
   },
   {
-    "id": "tiet-ta",
-    "loc": "yhct_hau_cap.opt.phuong[0]",
-    "text": "Cát căn cầm liên thang",
+    "id": "liet-day-vii-ngoai-bien",
+    "loc": "opt.phuong",
+    "text": "Khiên chính tán gia giảm",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
-    "trich": "Ca chỉ ghi “Cát căn cầm liên thang”, không ghi thành phần và liều từng vị. Trong bản toàn văn Quyết định 5013/QĐ-BYT đã đọc không tìm thấy đúng tên bài này; các mục có Cát căn thuộc những phương khác, nên không thể dùng thay để suy ra liều.",
-    "de_xuat": ""
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Khiên chính tán gia giảm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
   },
   {
-    "id": "huyen-vung",
-    "loc": "yhct_hau_cap.opt.phuong[0]",
+    "id": "kham-tyc-viem-mui-di-ung",
+    "loc": "opt.phuong",
+    "text": "Ngọc bình phong tán gia Tân di, Thương nhĩ tử",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Ngọc bình phong tán gia Tân di, Thương nhĩ tử\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-nhi-bieng-an-ty-hu",
+    "loc": "opt.phuong",
+    "text": "Dị công tán",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Dị công tán\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-ho-man-viem-phe-quan-dam-thap",
+    "loc": "opt.phuong",
+    "text": "Nhị trần thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Nhị trần thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-dau-nua-dau-can-duong",
+    "loc": "opt.phuong",
     "text": "Thiên ma câu đằng ẩm",
     "verdict": "khong_doi_chieu_duoc",
-    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; bản toàn văn đọc được: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3 ; Cục Quản lý Dược, Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
-    "trich": "Ca hiện chỉ ghi “Thiên ma câu đằng ẩm”, không có liều từng vị để đối chiếu. Quyết định 5013/QĐ-BYT, thể can dương thượng cang, ghi: “Thiên ma 08g Câu đằng 12g; Ngưu tất 12g Thạch quyết minh 20g; Đỗ trọng 12g Tang ký sinh 16g; Chi tử 12g Hoàng cầm 12g; Ích mẫu 12g Dạ giao đằng 12g; Phục thần 12g”. Các số này là liều của phương trong nguồn, không phải số đang tồn tại trong ca.",
-    "de_xuat": ""
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Thiên ma câu đằng ẩm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-thong-ta-ruot-kich-thich",
+    "loc": "opt.phuong",
+    "text": "Thống tả yếu phương",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Thống tả yếu phương\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-thong-kinh-khi-tre-huyet-u",
+    "loc": "opt.phuong",
+    "text": "Cách hạ trục ứ thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Cách hạ trục ứ thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-tieu-khat-dai-thao-duong-tip-2",
+    "loc": "opt.phuong",
+    "text": "Sinh mạch tán gia vị",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Sinh mạch tán gia vị\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "kham-tao-bon-man-cao-tuoi-da-benh",
+    "loc": "opt.phuong",
+    "text": "Nhuận tràng hoàn",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Nhuận tràng hoàn\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "canh-vai-tay-thoai-hoa-csc",
+    "loc": "opt.phuong",
+    "text": "Cát căn thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Cát căn thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "thoai-hoa-khop-goi-han-that",
+    "loc": "opt.phuong",
+    "text": "Độc hoạt tang ký sinh thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Độc hoạt tang ký sinh thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "toa-cot-phong-thoat-vi-dia-dem",
+    "loc": "opt.phuong",
+    "text": "Thân thống trục ứ thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Thân thống trục ứ thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "hoi-chung-ong-co-tay-huyet-hu",
+    "loc": "opt.phuong",
+    "text": "Đương quy tứ nghịch thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Đương quy tứ nghịch thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "viem-quanh-khop-vai-dong-cung",
+    "loc": "opt.phuong",
+    "text": "Quyên tý thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Quyên tý thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "dau-nua-dau-can-duong-thuong-cang",
+    "loc": "opt.phuong",
+    "text": "Thiên ma câu đằng ẩm",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Thiên ma câu đằng ẩm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "di-chung-tai-bien-khi-hu-huyet-u",
+    "loc": "opt.phuong",
+    "text": "Bổ dương hoàn ngũ thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Bổ dương hoàn ngũ thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-001",
+    "loc": "opt.phuong",
+    "text": "Bạch hổ quế chi thang gia giảm",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Bạch hổ quế chi thang gia giảm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-002",
+    "loc": "opt.phuong",
+    "text": "Bổ phế thang hợp Thận khí hoàn",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Bổ phế thang hợp Thận khí hoàn\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-003",
+    "loc": "opt.phuong",
+    "text": "Tứ thần hoàn",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Tứ thần hoàn\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-004",
+    "loc": "opt.phuong",
+    "text": "Ôn phế chỉ lưu đan",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Ôn phế chỉ lưu đan\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-005",
+    "loc": "opt.phuong",
+    "text": "Hòe hoa tán gia giảm",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Hòe hoa tán gia giảm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-006",
+    "loc": "opt.phuong",
+    "text": "Thiên ma câu đằng ẩm",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Thiên ma câu đằng ẩm\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-007",
+    "loc": "opt.phuong",
+    "text": "Bát chính tán gia Kim tiền thảo, Hải kim sa",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Bát chính tán gia Kim tiền thảo, Hải kim sa\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-008",
+    "loc": "opt.phuong",
+    "text": "Long đởm tả can thang",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html",
+    "trich": "Ca chỉ ghi tên phương \"Long đởm tả can thang\", không ghi thành phần và liều từng vị. Vì không có số liều trong dữ liệu ca, không thể trích liều từng vị để đối chiếu với Dược điển Việt Nam V và Quyết định 5013/QĐ-BYT mà không tự suy diễn.",
+    "de_xuat": "Bổ sung thành phần và liều từng vị của phương đang thực sự dùng trong ca; sau đó mới đối chiếu từng vị với Dược điển Việt Nam V và QĐ 5013/QĐ-BYT hoặc giáo trình HIU."
+  },
+  {
+    "id": "yhct-kham-101",
+    "loc": "actions[3]",
+    "text": "+Thiếu phúc trục ứ thang gia giảm, sắc uống mỗi ngày một thang: Tiểu hồi hương 2 g, Can khương 3 g, Diên hồ sách 6 g, Một dược 6 g, Đương quy 9 g, Xuyên khung 6 g, Quan quế 3 g, Xích thược 6 g, Bồ hoàng 9 g, Ngũ linh chi 6 g; bắt đầu 5 đến 7 ngày trước kỳ kinh sau",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Thiếu phúc trục ứ thang gia giảm, sắc uống mỗi ngày một thang: Tiểu hồi hương 2 g, Can khương 3 g, Diên hồ sách 6 g, Một dược 6 g, Đương quy 9 g, Xuyên khung 6 g, Quan quế 3 g, Xích thược 6 g, Bồ hoàng 9 g, Ngũ linh chi 6 g; bắt đầu 5 đến 7 ngày trước kỳ kinh sau”. Bản QĐ 5013 đọc được không tìm thấy đúng công thức Thiếu phúc trục ứ thang với bộ liều này; không được suy từ phương khác. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-102",
+    "loc": "actions[4]",
+    "text": "+Thông nhũ đan gia giảm sắc uống mỗi ngày một thang: Hoàng kỳ 20 g, Đương quy 12 g, Đảng sâm 12 g, Mạch môn 12 g, Thông thảo 6 g, Cát cánh 6 g, Vương bất lưu hành 10 g",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Thông nhũ đan gia giảm sắc uống mỗi ngày một thang: Hoàng kỳ 20 g, Đương quy 12 g, Đảng sâm 12 g, Mạch môn 12 g, Thông thảo 6 g, Cát cánh 6 g, Vương bất lưu hành 10 g”. Bản QĐ 5013 đọc được không cho công thức Thông nhũ đan đúng với biến thể dùng Vương bất lưu hành của ca; chưa thể xác nhận toàn bộ từng vị. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-103",
+    "loc": "actions[5]",
+    "text": "+Nhị trần thang gia giảm cho trẻ 4 tuổi, sắc uống mỗi ngày 1 thang chia 2 lần: Bán hạ chế 4 g, Trần bì 3 g, Phục linh 6 g, Cam thảo 2 g, Sinh khương 2 lát, Cát cánh 3 g, Tiền hồ 4 g (khoảng một phần ba liều người lớn)",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Nhị trần thang gia giảm cho trẻ 4 tuổi, sắc uống mỗi ngày 1 thang chia 2 lần: Bán hạ chế 4 g, Trần bì 3 g, Phục linh 6 g, Cam thảo 2 g, Sinh khương 2 lát, Cát cánh 3 g, Tiền hồ 4 g (khoảng một phần ba liều người lớn)”. QĐ 5013 có Nhị trần thang người lớn: “Trần bì 10g Phục linh 10g; Bán hạ chế 08g Cam thảo 12g; Sắc uống ngày 1 thang, chia 2 lần.” Ca lại dùng liều trẻ và ghi “khoảng một phần ba liều người lớn”; chưa có nguồn HIU/BYT đọc được xác nhận quy tắc giảm liều này. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-104",
+    "loc": "actions[4]",
+    "text": "+Tứ quân tử thang gia Sơn tra, Mạch nha, sắc uống mỗi ngày 1 thang cho trẻ 3 tuổi: Đảng sâm 6 g, Bạch truật 6 g, Phục linh 6 g, Chích thảo 2 g, Sơn tra 5 g, Mạch nha 8 g (khoảng một phần ba liều người lớn)",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Tứ quân tử thang gia Sơn tra, Mạch nha, sắc uống mỗi ngày 1 thang cho trẻ 3 tuổi: Đảng sâm 6 g, Bạch truật 6 g, Phục linh 6 g, Chích thảo 2 g, Sơn tra 5 g, Mạch nha 8 g (khoảng một phần ba liều người lớn)”. Ca áp dụng liều trẻ và ghi “khoảng một phần ba liều người lớn”; chưa đọc được nguồn BYT/HIU quy định chính xác hệ số này cho phương trong ca. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-105",
+    "loc": "actions[5]",
+    "text": "+Tang phiêu tiêu tán gia giảm cho trẻ 7 tuổi, sắc uống mỗi ngày 1 thang: Tang phiêu tiêu 8 g, Long cốt 10 g sắc trước, Quy bản 8 g, Đảng sâm 8 g, Phục linh 8 g, Đương quy 6 g, Viễn chí 4 g, Thạch xương bồ 4 g (khoảng một nửa liều người lớn)",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Tang phiêu tiêu tán gia giảm cho trẻ 7 tuổi, sắc uống mỗi ngày 1 thang: Tang phiêu tiêu 8 g, Long cốt 10 g sắc trước, Quy bản 8 g, Đảng sâm 8 g, Phục linh 8 g, Đương quy 6 g, Viễn chí 4 g, Thạch xương bồ 4 g (khoảng một nửa liều người lớn)”. Ca áp dụng liều trẻ và ghi “khoảng một nửa liều người lớn”; chưa đọc được nguồn BYT/HIU quy định chính xác hệ số này cho Tang phiêu tiêu tán. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-106",
+    "loc": "actions[3]",
+    "text": "+Quế chi thang hợp Ngọc bình phong tán sắc uống mỗi ngày một thang: Quế chi 8 g, Bạch thược 12 g, Chích thảo 6 g, Sinh khương 3 lát, Đại táo 4 quả, Hoàng kỳ 20 g, Bạch truật 12 g, Phòng phong 10 g",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Quế chi thang hợp Ngọc bình phong tán sắc uống mỗi ngày một thang: Quế chi 8 g, Bạch thược 12 g, Chích thảo 6 g, Sinh khương 3 lát, Đại táo 4 quả, Hoàng kỳ 20 g, Bạch truật 12 g, Phòng phong 10 g”. Bản QĐ 5013 đọc được không cung cấp một công thức ghép Quế chi thang hợp Ngọc bình phong tán đúng như liều của ca; vì vậy chưa thể xác nhận toàn bộ từng vị. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-107",
+    "loc": "actions[4]",
+    "text": "+Bát trân thang gia giảm sắc uống mỗi ngày một thang, dùng khi hết kinh: Đảng sâm 12 g, Bạch truật 12 g, Phục linh 12 g, Chích thảo 6 g, Đương quy 12 g, Xuyên khung 6 g, Bạch thược 12 g, Thục địa 12 g, Sinh khương 3 lát, Đại táo 3 quả",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Bát trân thang gia giảm sắc uống mỗi ngày một thang, dùng khi hết kinh: Đảng sâm 12 g, Bạch truật 12 g, Phục linh 12 g, Chích thảo 6 g, Đương quy 12 g, Xuyên khung 6 g, Bạch thược 12 g, Thục địa 12 g, Sinh khương 3 lát, Đại táo 3 quả”. QĐ 5013 có các công thức Bát trân thang gia giảm theo từng bệnh cảnh, ví dụ: “Đảng sâm 08g ... Thục địa 12g; Đương quy 12g; Bạch thược 08g; Bạch truật 12g; Cam thảo 04g”, không trùng hoàn toàn công thức của ca; không được thay công thức theo bệnh cảnh khác. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
+  },
+  {
+    "id": "yhct-kham-108",
+    "loc": "actions[4]",
+    "text": "+Cát căn thang sắc uống mỗi ngày một thang, dùng ngắn ngày: Cát căn 12 g, Ma hoàng 6 g, Quế chi 6 g, Bạch thược 6 g, Chích thảo 6 g, Sinh khương 9 g, Đại táo 3 quả; thận trọng Ma hoàng nếu có tăng huyết áp, tim mạch",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Dữ liệu ca: https://raw.githubusercontent.com/drngovothiennhan/hiutmc-game-hub/main/public/tu-chan/index.html ; Bộ Y tế, Quyết định 5013/QĐ-BYT ngày 01/12/2020, bản chính thức: https://ydct.moh.gov.vn/static/files/uploads/115614b1adf972c55b73c5fbf7fbd0f3d63b1418b099a9b5f45340f42489bfe5.pdf ; Hướng dẫn kèm QĐ 5013: https://ydct.moh.gov.vn/static/files/uploads/cb6139c812419edf247b25207c0d868e6f29db5dbc4ec7358e1995f6ccbcde8e.pdf ; Cục Quản lý Dược, Quyết định 5358/QĐ-BYT ngày 28/11/2017 ban hành Dược điển Việt Nam V: https://dav.gov.vn/quyet-dinh-ban-hanh-duoc-dien-viet-nam-v-ne1696.html ; Bản toàn văn QĐ 5013 có thể tìm kiếm: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5013-QD-BYT-2020-chan-doan-va-dieu-tri-benh-theo-y-hoc-co-truyen-458502.aspx?tab=3",
+    "trich": "Dữ liệu ca ghi nguyên văn: “+Cát căn thang sắc uống mỗi ngày một thang, dùng ngắn ngày: Cát căn 12 g, Ma hoàng 6 g, Quế chi 6 g, Bạch thược 6 g, Chích thảo 6 g, Sinh khương 9 g, Đại táo 3 quả; thận trọng Ma hoàng nếu có tăng huyết áp, tim mạch”. Bản QĐ 5013 đọc được không tìm thấy đúng Cát căn thang với bộ liều của ca để đối chiếu toàn công thức; Dược điển V cần kiểm từng vị riêng. Dược điển Việt Nam V được ban hành theo QĐ 5358/QĐ-BYT, nhưng trong nguồn chính thức đọc được ở phiên này không có toàn văn từng chuyên luận vị thuốc để kiểm đủ mọi liều trong phương.",
+    "de_xuat": "Giữ trạng thái chưa đối chiếu; cần bản chuyên luận Dược điển Việt Nam V đọc được cho từng vị và/hoặc giáo trình HIU có công thức đúng bệnh cảnh, đặc biệt với liều trẻ em."
   }
 ]
