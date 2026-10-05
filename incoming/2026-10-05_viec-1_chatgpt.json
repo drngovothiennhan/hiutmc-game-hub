@@ -151,5 +151,104 @@
     "nguon": "2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure: https://academic.oup.com/eurheartj/article/42/36/3599/6358045",
     "trich": "“a urine output >100–150 mL/h during the first 6 h.”",
     "de_xuat": ""
+  },
+  {
+    "id": "noi-ho-hap-002",
+    "loc": "teach",
+    "text": "Đợt cấp COPD có toan hô hấp cần oxy mục tiêu 88–92%, thông khí không xâm nhập khi pH dưới 7,35 kèm PaCO2 trên 45;",
+    "verdict": "nhat_quan",
+    "nguon": "GOLD 2025 Report: https://goldcopd.org/wp-content/uploads/2024/11/GOLD-2025-Report-v1.0-15Nov2024_WMV.pdf ; BTS/ICS Guideline for acute hypercapnic respiratory failure: https://thorax.bmj.com/content/71/Suppl_2/ii1",
+    "trich": "GOLD 2025: “PaCO₂ ≥ 6.0 kPa or 45 mmHg and arterial pH ≤ 7.35”. BTS/ICS: “targeting an oxygen saturation of 88–92%”; “pH<7.35 and pCO₂ >6.5 kPa”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-ho-hap-002",
+    "loc": "action",
+    "text": "Phun khí dung salbutamol kèm ipratropium mỗi 4–6 giờ",
+    "verdict": "lech",
+    "nguon": "GOLD 2025 Report: https://goldcopd.org/wp-content/uploads/2024/11/GOLD-2025-Report-v1.0-15Nov2024_WMV.pdf",
+    "trich": "“one or two puffs every one hour for two or three doses and then every 2-4 hours based on the patient’s response.”",
+    "de_xuat": "Theo GOLD 2025: dùng SABA, có thể phối hợp SAMA; sau các liều ban đầu mỗi giờ trong 2–3 liều, chỉnh khoảng dùng tiếp theo mỗi 2–4 giờ theo đáp ứng, không cố định 4–6 giờ."
+  },
+  {
+    "id": "noi-ho-hap-002",
+    "loc": "hbu.dieu_tri",
+    "text": "BiPAP với áp lực hỗ trợ khởi đầu IPAP 10–12, EPAP 4–5 và theo dõi khí máu sau 1–2 giờ;",
+    "verdict": "lech",
+    "nguon": "BTS/ICS Guideline for the ventilatory management of acute hypercapnic respiratory failure in adults: https://thorax.bmj.com/content/71/Suppl_2/ii1",
+    "trich": "“started on NIV with IPAP of 15 ... increased to reach an IPAP of 20–30 within 10–30 min”; “ABG measurement is needed prior to and following starting NIV.”",
+    "de_xuat": "Theo BTS/ICS: có thể khởi IPAP 15 cmH2O và tăng dần đến 20–30 cmH2O trong 10–30 phút tùy đáp ứng; EPAP điều chỉnh theo oxy hóa/tắc nghẽn, không xác nhận được mức cố định 4–5 từ nguồn này; khí máu cần đo trước và sau khi bắt đầu NIV, nhưng nguồn này không ấn định đúng mốc 1–2 giờ."
+  },
+  {
+    "id": "noi-ho-hap-003",
+    "loc": "teach",
+    "text": "chọn nơi điều trị dựa vào CURB-65, kháng sinh sớm phù hợp và đánh giá lại sau 48–72 giờ.",
+    "verdict": "lech",
+    "nguon": "ATS/IDSA 2019 CAP guideline: https://pmc.ncbi.nlm.nih.gov/articles/PMC6812437/ ; NICE Pneumonia NG250: https://www.nice.org.uk/guidance/NG250/chapter/recommendations",
+    "trich": "ATS/IDSA: “preferentially the Pneumonia Severity Index (PSI) ... over the CURB-65”. NICE: “If intravenous antibiotics are given, review by 48 hours”.",
+    "de_xuat": "Dùng PSI ưu tiên hơn CURB-65 để hỗ trợ quyết định nơi điều trị theo ATS/IDSA; nếu dùng kháng sinh tĩnh mạch, NICE khuyến cáo đánh giá lại ở 48 giờ. Không gán mốc 48–72 giờ chung cho ATS/IDSA 2019."
+  },
+  {
+    "id": "noi-ho-hap-003",
+    "loc": "action",
+    "text": "Nhập viện, thở oxy nếu SpO2 dưới 92%, đường truyền, theo dõi sinh hiệu",
+    "verdict": "lech",
+    "nguon": "BTS Guidelines for the Management of Community Acquired Pneumonia in Adults 2009 update: https://brit-thoracic.org.uk/document-library/guidelines/pneumonia-adults/bts-guidelines-for-the-management-of-community-acquired-pneumonia-in-adults-2009-update/",
+    "trich": "“maintain ... SpO2 94–98%”; “Oxygen saturation below 94% ... is ... an indication for oxygen therapy”.",
+    "de_xuat": "Ở người lớn CAP không có nguy cơ suy hô hấp tăng CO2, dùng oxy để duy trì SpO2 94–98%; không dùng ngưỡng cố định dưới 92% theo BTS."
+  },
+  {
+    "id": "noi-ho-hap-003",
+    "loc": "action",
+    "text": "Cấy máu và lấy đờm trước, rồi kháng sinh sớm trong 4 giờ (ceftriaxon + azithromycin)",
+    "verdict": "lech",
+    "nguon": "ATS/IDSA 2019 CAP guideline: https://doi.org/10.1164/rccm.201908-1581ST ; NICE Pneumonia NG250: https://www.nice.org.uk/guidance/NG250/chapter/recommendations",
+    "trich": "ATS/IDSA: “suggest not routinely obtaining blood cultures in adults with CAP managed in the hospital setting”; “ceftriaxone 1–2 g daily ... and ... azithromycin 500 mg daily”. NICE: “within 4 hours of presentation to hospital.”",
+    "de_xuat": "Không cấy máu/đờm thường quy ở CAP không nặng nếu không có chỉ định bổ sung; ceftriaxone + azithromycin là phác đồ phù hợp cho CAP nội trú không nặng; theo NICE bắt đầu kháng sinh càng sớm càng tốt sau chẩn đoán và trong 4 giờ từ lúc đến viện."
+  },
+  {
+    "id": "noi-ho-hap-003",
+    "loc": "hbu.dieu_tri",
+    "text": "oxy khi SpO2 dưới 92%;",
+    "verdict": "lech",
+    "nguon": "BTS Guidelines for the Management of Community Acquired Pneumonia in Adults 2009 update: https://brit-thoracic.org.uk/document-library/guidelines/pneumonia-adults/bts-guidelines-for-the-management-of-community-acquired-pneumonia-in-adults-2009-update/",
+    "trich": "“maintain ... SpO2 94–98%”; “Oxygen saturation below 94% ... is ... an indication for oxygen therapy”.",
+    "de_xuat": "Với người lớn CAP không có nguy cơ tăng CO2, dùng oxy để duy trì SpO2 94–98%; không dùng ngưỡng dưới 92% theo BTS."
+  },
+  {
+    "id": "noi-ho-hap-004",
+    "loc": "action",
+    "text": "Ngồi hoặc nằm đầu cao, monitor, thở oxy giữ SpO2 trên 92%",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136",
+    "trich": "“Administration of supplemental oxygen is indicated in patients with PE and SaO2 <90%.” Không tìm thấy trong ESC 2019 mục tiêu SpO2 >92% để đối chiếu đúng con số 92.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-ho-hap-004",
+    "loc": "action",
+    "text": "Bắt đầu chống đông ngay (enoxaparin 1 mg/kg tiêm dưới da mỗi 12 giờ hoặc UFH tĩnh mạch) trong khi chờ CTPA vì xác suất lâm sàng cao",
+    "verdict": "khop",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136 ; FDA Lovenox label: https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020164s129lbl.pdf",
+    "trich": "ESC: “In patients with high or intermediate clinical probability of PE, anticoagulation should be initiated while awaiting the results of diagnostic tests.” FDA: “1 mg/kg every 12 hours”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-ho-hap-004",
+    "loc": "hbu.dieu_tri",
+    "text": "enoxaparin 1 mg/kg mỗi 12 giờ hoặc UFH tĩnh mạch rồi chuyển apixaban/rivaroxaban hoặc kháng vitamin K, tối thiểu 3 tháng (huyết khối có yếu tố thuận lợi thoáng qua);",
+    "verdict": "khop",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136 ; FDA Lovenox label: https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020164s129lbl.pdf",
+    "trich": "ESC: “NOACs are recommended as the first choice ... VKAs are an alternative”; “all patients with PE should receive ≥3 months of anticoagulant treatment.” FDA: “1 mg/kg every 12 hours”.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-ho-hap-004",
+    "loc": "hbu.dieu_tri",
+    "text": "theo dõi sát huyết động 48–72 giờ, sẵn sàng tiêu sợi huyết hoặc can thiệp nếu tụt huyết áp, sốc;",
+    "verdict": "khop",
+    "nguon": "2019 ESC Guidelines for acute pulmonary embolism: https://academic.oup.com/eurheartj/article/41/4/543/5556136",
+    "trich": "“leave patients with intermediate−high-risk PE on LMWH anticoagulation over the first 2−3 days”; “Rescue thrombolytic therapy ... should be reserved for patients who develop signs of haemodynamic instability.”",
+    "de_xuat": ""
   }
 ]
