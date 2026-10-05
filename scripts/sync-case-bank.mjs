@@ -8,7 +8,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const TC = new URL('../public/tu-chan/index.html', import.meta.url);
 const PH = new URL('../public/phong-hoc/index.html', import.meta.url);
 export const OWN_FIELDS = ['intro', 'name'];
-export const EXTRA_FIELDS = ['track', 'mode', 'nguon_kiem', 'nguon_yhct', 'so_lieu_kiem'];
+export const EXTRA_FIELDS = ['track', 'mode', 'nguon_kiem', 'nguon_yhct', 'so_lieu_kiem', 'min_tier'];
 
 export function readBank(html) {
   const m = html.match(/id="bank-data">([\s\S]*?)<\/script>/);

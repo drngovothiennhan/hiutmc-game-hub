@@ -1,0 +1,13 @@
+{
+  "ghi_chu": "Phân quyền ca. guest = ca trải nghiệm cho khách (không cần tài khoản). full = chỉ thành viên HIU TMC. Ca không nằm trong hai danh sách là outside: thành viên đăng ký ngoài và thành viên HIU TMC đều chơi được. Sửa file này rồi chạy node scripts/apply-tier.mjs.",
+  "guest": [
+    "co-giat-do-sot-cao-tre-em", "noi-tieu-hoa-002", "noi-tim-mach-006", "noi-ho-hap-003",
+    "ngoai-bung-001", "ngoai-bung-004", "ngoai-chan-thuong-006",
+    "vi-quan-thong", "kham-tyc-viem-mui-di-ung", "thoai-hoa-khop-goi-han-that"
+  ],
+  "full": [
+    "noi-noi-tiet-003", "noi-huyet-hoc-002", "noi-than-004", "noi-co-xuong-khop-001", "noi-than-kinh-003",
+    "noi-tieu-hoa-011", "noi-tim-mach-007", "noi-ho-hap-006", "noi-nhiem-003", "noi-noi-tiet-004",
+    "noi-tieu-hoa-012", "noi-than-005", "noi-than-kinh-004", "noi-huyet-hoc-003", "noi-co-xuong-khop-002"
+  ]
+}
