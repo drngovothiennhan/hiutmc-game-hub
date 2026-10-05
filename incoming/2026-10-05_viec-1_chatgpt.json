@@ -304,5 +304,104 @@
     "nguon": "RCT ngoại trú sau cắt ruột thừa nội soi, PubMed PMID 36419071: https://pubmed.ncbi.nlm.nih.gov/36419071/ ; Systematic review/meta-analysis, PubMed PMID 33575890: https://pubmed.ncbi.nlm.nih.gov/33575890/",
     "trich": "PMID 36419071: “mean 8.82 h” so với “mean 43.53 h”. PMID 33575890: “same-day discharge ... is safe” ở ca không biến chứng chọn lọc.",
     "de_xuat": "Ở ca không biến chứng chọn lọc, có thể xuất viện cùng ngày khi đạt tiêu chí; không ấn định khoảng thời gian cố định sau mổ."
+  },
+  {
+    "id": "noi-cap-cuu-004",
+    "loc": "action",
+    "text": "Truyền NaCl 0,9% 15 đến 20 mL/kg trong giờ đầu, sau đó điều chỉnh theo natri hiệu chỉnh và huyết động",
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.org/10.2337/dci24-0032 ; bản mở: https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+    "trich": "“initial rate of 500–1,000 mL/h during the first 2–4 h”; sau đó lựa chọn dịch dựa vào “blood pressure, heart rate, fluid input-output balance, and sodium concentration.”",
+    "de_xuat": "Sửa thành: bắt đầu NaCl 0,9% hoặc dịch tinh thể cân bằng 500–1.000 mL/giờ trong 2–4 giờ đầu ở người lớn không suy tim/suy thận, sau đó điều chỉnh theo tình trạng dịch, huyết động, cân bằng vào-ra và natri."
+  },
+  {
+    "id": "noi-cap-cuu-004",
+    "loc": "action",
+    "text": "chỉ khởi insulin thường tiêm tĩnh mạch 0,05 đến 0,1 UI/kg/giờ khi kali trên 3,3 mmol/L",
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.org/10.2337/dci24-0032 ; bản mở: https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+    "trich": "“fixed-rate intravenous insulin infusion started at 0.1 units/kg/h”; khi K thấp: “insulin therapy should be delayed until the potassium level increases to >3.5 mmol/L”; 0,05 units/kg/h được dùng khi glucose <250 mg/dL hoặc HHS không toan.",
+    "de_xuat": "Với DKA: insulin tĩnh mạch cố định 0,1 UI/kg/giờ; nếu K <3,5 mmol/L thì bù kali và hoãn insulin đến khi K >3,5 mmol/L. Khi glucose <13,9 mmol/L, giảm insulin xuống 0,05 UI/kg/giờ."
+  },
+  {
+    "id": "noi-cap-cuu-004",
+    "loc": "action",
+    "text": "Bù kali khi kali dưới 5,0 mmol/L và có nước tiểu",
+    "verdict": "nhat_quan",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.org/10.2337/dci24-0032 ; bản mở: https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+    "trich": "“potassium replacement should be started after serum levels fall below 5.0 mmol/L to maintain a potassium level of 4–5 mmol/L.” Nguồn này không nêu điều kiện “có nước tiểu” trong cùng khuyến cáo.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-cap-cuu-004",
+    "loc": "action",
+    "text": "Đo đường huyết mao mạch mỗi giờ, điện giải mỗi 2 đến 4 giờ, thêm dextrose khi đường huyết dưới 16,7 mmol/L",
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.org/10.2337/dci24-0032 ; bản mở: https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+    "trich": "“Capillary blood glucose testing ... every 1–2 h”; “blood should be drawn every 4 h for determination of electrolytes...” ; “once the plasma glucose concentration is <250 mg/dL (13.9 mmol/L), ... contain 5–10% dextrose”.",
+    "de_xuat": "Sửa thành: đường huyết mao mạch mỗi 1–2 giờ; điện giải và các xét nghiệm theo dõi chính mỗi 4 giờ; thêm dextrose 5–10% khi glucose <13,9 mmol/L (250 mg/dL)."
+  },
+  {
+    "id": "noi-cap-cuu-004",
+    "loc": "action",
+    "text": "Cho dung dịch glucose 5% làm dịch bù ban đầu",
+    "verdict": "lech",
+    "nguon": "ADA/EASD/JBDS/AACE/DTS, Hyperglycemic Crises in Adults With Diabetes: A Consensus Report, Diabetes Care 2024 (PMID 39052901): https://doi.org/10.2337/dci24-0032 ; bản mở: https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+    "trich": "Ban đầu: “isotonic saline or balanced crystalloid solutions at an initial rate of 500–1,000 mL/h during the first 2–4 h.” Dextrose chỉ thêm khi glucose “<250 mg/dL (13.9 mmol/L)” và dùng “5–10% dextrose”.",
+    "de_xuat": "Không dùng glucose 5% làm dịch bù ban đầu; bắt đầu bằng NaCl 0,9% hoặc dịch tinh thể cân bằng, chỉ thêm dextrose 5–10% khi glucose <13,9 mmol/L."
+  },
+  {
+    "id": "noi-cap-cuu-102",
+    "loc": "action",
+    "text": "Đưa người bệnh ra khỏi nguồn khí CO, cho thở oxy 100% qua mặt nạ có túi dự trữ lưu lượng 10 đến 15 L/phút",
+    "verdict": "nhat_quan",
+    "nguon": "British Thoracic Society Guideline for oxygen use in adults in healthcare and emergency settings: https://thorax.bmj.com/content/72/Suppl_1/ii1",
+    "trich": "“In cases of carbon monoxide poisoning ... aim at an oxygen saturation of 100% and use a reservoir mask at 15 L/min irrespective of the oximeter reading and PaO2.”",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-cap-cuu-102",
+    "loc": "action",
+    "text": "Tiếp tục thở oxy cho đến khi COHb dưới 5% và hết triệu chứng;",
+    "verdict": "lech",
+    "nguon": "CDC Clinical Guidance for Carbon Monoxide Poisoning: https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html ; S2k guideline diagnosis and treatment of carbon monoxide poisoning: https://pmc.ncbi.nlm.nih.gov/articles/PMC8607608/",
+    "trich": "CDC: “Administer 100% oxygen until the patient is symptom-free, usually about 4-5 hours.” S2k: “Clinical symptoms do not correlate with COHb elimination ... COHb monitoring alone is unsuitable for treatment management”; mức “Up to 5% COHb” được nêu cho quyết định nhập viện ở người không triệu chứng, không phải tiêu chí ngừng oxy.",
+    "de_xuat": "Duy trì oxy 100% đến khi hết triệu chứng, thường khoảng 4–5 giờ; không dùng COHb <5% như tiêu chí bắt buộc duy nhất để ngừng oxy."
+  },
+  {
+    "id": "noi-cap-cuu-102",
+    "loc": "hbu.dieu_tri",
+    "text": "oxy 100% qua mặt nạ túi dự trữ 10 đến 15 L/phút, duy trì cho đến khi COHb dưới 5% và hết triệu chứng (thường ít nhất 6 giờ).",
+    "verdict": "lech",
+    "nguon": "British Thoracic Society Guideline for oxygen use in adults: https://thorax.bmj.com/content/72/Suppl_1/ii1 ; CDC Clinical Guidance for Carbon Monoxide Poisoning: https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html ; S2k guideline: https://pmc.ncbi.nlm.nih.gov/articles/PMC8607608/",
+    "trich": "BTS: “use a reservoir mask at 15 L/min”; CDC: “Administer 100% oxygen until the patient is symptom-free, usually about 4-5 hours.” S2k: COHb monitoring alone “is unsuitable for treatment management.”",
+    "de_xuat": "Sửa thành: oxy nồng độ cao/100% qua mặt nạ túi dự trữ 15 L/phút, duy trì đến khi hết triệu chứng, thường khoảng 4–5 giờ; không ấn định tối thiểu 6 giờ hay COHb <5% như tiêu chí ngừng bắt buộc."
+  },
+  {
+    "id": "noi-cap-cuu-102",
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: COHb dưới 5%, lactate trở về bình thường, ổn định điện tâm đồ.",
+    "verdict": "lech",
+    "nguon": "CDC Clinical Guidance for Carbon Monoxide Poisoning: https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html ; S2k guideline diagnosis and treatment of carbon monoxide poisoning: https://pmc.ncbi.nlm.nih.gov/articles/PMC8607608/",
+    "trich": "CDC dùng tiêu chí lâm sàng: “until the patient is symptom-free, usually about 4-5 hours.” S2k nêu “COHb monitoring alone is unsuitable for treatment management.” Không tìm thấy bộ mục tiêu bắt buộc COHb <5%, lactate bình thường và ECG ổn định.",
+    "de_xuat": "Mục tiêu chính nên là hết triệu chứng và cải thiện thần kinh trên đánh giá nối tiếp; không dùng COHb <5%, lactate bình thường và ECG ổn định như bộ tiêu chí bắt buộc chung."
+  },
+  {
+    "id": "noi-cap-cuu-104",
+    "loc": "hbu.dieu_tri",
+    "text": "tái dùng huyết thanh nếu còn không đông, theo dõi INR, fibrinogen, tiểu cầu mỗi 6 đến 12 giờ.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Ralph et al., Managing snakebite, BMJ 2022 (PMID 34996773, PMCID PMC9278408): https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
+    "trich": "Nguồn đọc được xác nhận tái dùng: “Repeat administration of antivenom ... if a 20WBCT is positive at six hours after antivenom administration.” Nguồn chỉ nói xét nghiệm đông máu bổ sung và theo dõi định kỳ, không tìm thấy tần suất INR, fibrinogen, tiểu cầu mỗi 6–12 giờ.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-cap-cuu-104",
+    "loc": "hbu.dieu_tri",
+    "text": "Mục tiêu: 20WBCT đông, INR dưới 1,5, fibrinogen trên 1,5 g/L, không chảy máu mới.",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "Ralph et al., Managing snakebite, BMJ 2022 (PMID 34996773, PMCID PMC9278408): https://pmc.ncbi.nlm.nih.gov/articles/PMC9278408/",
+    "trich": "Nguồn dùng 20WBCT để theo dõi; khi đánh giá độ chính xác, coagulopathy được định nghĩa là “INR >1.4 or fibrinogen <100 mg/dL”. Không tìm thấy trong nguồn mục tiêu điều trị bắt buộc INR <1,5 và fibrinogen >1,5 g/L.",
+    "de_xuat": ""
   }
 ]
