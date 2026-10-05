@@ -1,0 +1,83 @@
+[
+  {
+    "id": "noi-cap-cuu-106",
+    "loc": "action",
+    "text": "Bảo đảm đường thở, thở oxy 100% qua mặt nạ túi dự trữ;",
+    "verdict": "khop",
+    "nguon": "Resuscitation Council UK. Paediatric Life Support (basic and advanced), 2025/2026: https://www.resus.org.uk/cy/node/36439",
+    "trich": "“Initially give 100% oxygen for all children with respiratory, circulatory, or neurological failure.”; mục Drowning: “Give 100% oxygen as soon as it is available.”",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-cap-cuu-106",
+    "loc": "action",
+    "text": "Bù dịch đẳng trương NaCl 0,9% 10 mL/kg (200 mL) bolus, đánh giá lại tưới máu, tránh quá tải",
+    "verdict": "khop",
+    "nguon": "Resuscitation Council UK. Paediatric Life Support (basic and advanced), 2025/2026: https://www.resus.org.uk/cy/node/36439 ; RCUK Paediatric emergency drug chart, January 2026: https://www.resus.org.uk/sites/default/files/2026-01/RCUK%20Paediatric%20emergency%20algorithms%20and%20resources%20Jan%2026%20V4_0.pdf",
+    "trich": "“Give one or more fluid boluses of 10 mL kg−1”; “Use balanced isotonic crystalloids as the first-line choice of fluids. If unavailable, use normal saline”; “Reassess the child after each bolus, looking for signs of fluid overload or cardiac failure”. Drug chart: “Balanced isotonic crystalloid OR, 0.9% saline”; “Dose 10 mL kg-1”; hàng 6 years, weight 20 kg ghi fluid bolus “200” mL.",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-cap-cuu-106",
+    "loc": "hbu.dieu_tri",
+    "text": "1) Oxy 100% qua mặt nạ túi dự trữ;",
+    "verdict": "khop",
+    "nguon": "Resuscitation Council UK. Paediatric Life Support (basic and advanced), 2025/2026: https://www.resus.org.uk/cy/node/36439",
+    "trich": "Mục Drowning: “Give 100% oxygen as soon as it is available.”; phần Breathing: “Initially give 100% oxygen for all children with respiratory, circulatory, or neurological failure.”",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-cap-cuu-106",
+    "loc": "hbu.dieu_tri",
+    "text": "2) Cởi bỏ đồ ướt, ủ ấm bằng chăn ấm và dịch ấm đến khi nhiệt độ trên 36 độ C.",
+    "verdict": "lech",
+    "nguon": "Resuscitation Council UK. Paediatric Life Support (basic and advanced), 2025/2026: https://www.resus.org.uk/cy/node/36439",
+    "trich": "Mục Drowning: “Start rewarming if < 35°C and rewarm at a rate of at least 1°C h−1. Aim for normothermia but stop active rewarming at 35°C to avoid overshoot hyperthermia.”; “Give warmed and humidified 100% oxygen and warmed IV/IO fluids (39-42°C)”.",
+    "de_xuat": "Bắt đầu làm ấm khi nhiệt độ trung tâm <35°C; mục tiêu là trở về thân nhiệt bình thường nhưng ngừng làm ấm chủ động khi đạt 35°C để tránh tăng thân nhiệt quá mức."
+  },
+  {
+    "id": "noi-cap-cuu-106",
+    "loc": "hbu.dieu_tri",
+    "text": "3) NaCl 0,9% 10 mL/kg (200 mL) bolus, đánh giá lại.",
+    "verdict": "khop",
+    "nguon": "Resuscitation Council UK. Paediatric Life Support (basic and advanced), 2025/2026: https://www.resus.org.uk/cy/node/36439 ; RCUK Paediatric emergency drug chart, January 2026: https://www.resus.org.uk/sites/default/files/2026-01/RCUK%20Paediatric%20emergency%20algorithms%20and%20resources%20Jan%2026%20V4_0.pdf",
+    "trich": "“Give one or more fluid boluses of 10 mL kg−1”; “If unavailable, use normal saline”; “Reassess the child after each bolus”. Drug chart: “Balanced isotonic crystalloid OR, 0.9% saline”; “Dose 10 mL kg-1”; hàng 6 years, weight 20 kg ghi fluid bolus “200” mL.",
+    "de_xuat": ""
+  },
+  {
+    "id": "ngoai-san-001",
+    "loc": "action",
+    "text": "siêu âm theo dõi sau 6 đến 8 tuần",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "ACOG Committee Opinion No. 783: Adnexal Torsion in Adolescents, 2019: https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2019/08/adnexal-torsion-in-adolescents ; RCOG Ovarian cysts before the menopause: https://www.rcog.org.uk/for-the-public/browse-our-patient-information/ovarian-cysts-before-the-menopause/",
+    "trich": "ACOG ghi: “If a cystectomy is not performed ... Ultrasonography to reevaluate the cyst at 6–12 weeks is recommended” và “Simple cysts typically resolve within 6–8 weeks.” Tuy nhiên ca này là người lớn 27 tuổi và đã bóc u/cystectomy; không tìm thấy nguồn chính thức đọc được quy định siêu âm hậu phẫu đúng 6–8 tuần trong bối cảnh này.",
+    "de_xuat": ""
+  },
+  {
+    "id": "ngoai-san-001",
+    "loc": "hbu.dieu_tri",
+    "text": "siêu âm 6 đến 8 tuần sau mổ",
+    "verdict": "khong_doi_chieu_duoc",
+    "nguon": "ACOG Committee Opinion No. 783: Adnexal Torsion in Adolescents, 2019: https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2019/08/adnexal-torsion-in-adolescents ; RCOG Ovarian cysts before the menopause: https://www.rcog.org.uk/for-the-public/browse-our-patient-information/ovarian-cysts-before-the-menopause/",
+    "trich": "ACOG ghi: “If a cystectomy is not performed ... Ultrasonography to reevaluate the cyst at 6–12 weeks is recommended.” Khuyến cáo này áp dụng khi không thực hiện cystectomy ở nhóm vị thành niên; không tìm thấy nguồn chính thức đọc được quy định siêu âm 6–8 tuần sau mổ bóc u ở người lớn như ca này.",
+    "de_xuat": ""
+  },
+  {
+    "id": "stemi-thanh-duoi",
+    "loc": "action",
+    "text": "ECG 12 chuyển đạo ngay",
+    "verdict": "khop",
+    "nguon": "2023 ESC Guidelines for the management of acute coronary syndromes: https://academic.oup.com/eurheartj/article/44/38/3720/7243210",
+    "trich": "“The resting 12-lead ECG is the first-line diagnostic tool”; “It is recommended that an ECG is obtained immediately upon FMC ... within 10 min.”",
+    "de_xuat": ""
+  },
+  {
+    "id": "noi-tieu-hoa-002",
+    "loc": "action",
+    "text": "ít nhất 4 tuần sau kháng sinh và ngừng PPI 2 tuần trước xét nghiệm",
+    "verdict": "khop",
+    "nguon": "American College of Gastroenterology. ACG Guideline on Treatment of Helicobacter pylori: New Recommendations… Will Practice Change?, 2024: https://gi.org/journals-publications/ebgi/schoenfeld_sep2024/ ; ACG Guideline Highlights 2024: https://gi.org/wp-content/uploads/2025/01/ACG-Hpylori-Guidelines-Highlights-2024-FINAL.pdf.pdf",
+    "trich": "ACG 2024: “testing should not be done until at least 4 weeks after the patient has completed antibiotics and after the patient has been off PPIs/PCABs for at least 2 weeks”. Guideline Highlights: “Complete test of cure at least four weeks after therapy”; “hold PPI x 2 weeks”.",
+    "de_xuat": ""
+  }
+]
