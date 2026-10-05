@@ -1193,7 +1193,12 @@ function patPick() {
   const c = S.c, er = c.rate > 0, st = S.stab, txt = [c.title, c.intro].join(' ').toLowerCase();
   let base = 0;
   if (/đau ngực|nhồi máu|đau thắt/.test(txt)) base = 3; else if (/khó thở|suyễn|hen |co thắt|ngạt/.test(txt)) base = 4; else if (/đau|co giật|chấn thương/.test(txt)) base = 2;
-  if (!er) return base ? 1 : 0;
+  if (!er) {
+    /* ca giường (ổn định): biểu cảm theo mức nặng của triệu chứng, không mặc định "Đau nhẹ" */
+    if (/li bì|lơ mơ|hôn mê/.test(txt)) return 5;
+    if (/yếu nửa người|liệt|đột quỵ|co giật|ngất|dữ dội|nôn|vã mồ hôi/.test(txt)) return 2;
+    return base ? 1 : 0;
+  }
   if (st <= 15) return 7; if (st < 35) return 5; if ((base === 3 || base === 4) && st < 85) return base; if (st < 60) return 6; if (st < 85 && base) return base;
   return S.log && S.log.length > 3 && st >= 80 ? 9 : base;
 }
