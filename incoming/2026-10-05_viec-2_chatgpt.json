@@ -1,0 +1,630 @@
+[
+  {
+    "id": "noi-noi-tiet-003",
+    "title": "Mệt mỏi, sụt cân và sạm da",
+    "kind": "Nội",
+    "setting": "phongkham",
+    "level": "Vừa",
+    "name": "Người bệnh A",
+    "age": 38,
+    "sex": "nữ",
+    "intro": "Người bệnh đến khám vì mệt kéo dài, chán ăn, sụt cân, chóng mặt khi đứng và da sạm dần.",
+    "vitals": {
+      "hr": 92,
+      "sbp": 92,
+      "dbp": 60,
+      "rr": 18,
+      "t": 36.7,
+      "spo2": 98
+    },
+    "ask": [
+      [
+        "Tình trạng mệt và sụt cân xuất hiện từ khi nào?",
+        "Mệt tăng dần nhiều tháng, chán ăn và sút cân không chủ ý.",
+        "e"
+      ],
+      [
+        "Có chóng mặt khi đứng hoặc thèm ăn mặn không?",
+        "Có chóng mặt khi thay đổi tư thế và gần đây thích thức ăn mặn hơn.",
+        "e"
+      ],
+      [
+        "Có nôn, đau bụng hoặc tiêu chảy kéo dài không?",
+        "Không nôn, thỉnh thoảng buồn nôn nhẹ, không tiêu chảy kéo dài.",
+        "n"
+      ],
+      [
+        "Có dùng glucocorticoid kéo dài hoặc vừa ngừng thuốc steroid không?",
+        "Không dùng glucocorticoid kéo dài.",
+        "e"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Quan sát da và niêm mạc",
+        "Tăng sắc tố da rõ ở nếp gấp bàn tay và vùng niêm mạc miệng.",
+        "e"
+      ],
+      [
+        "K",
+        "Đánh giá huyết áp tư thế",
+        "Có choáng váng khi đứng, gợi ý giảm thể tích tuần hoàn.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám tuyến giáp",
+        "Không thấy bướu giáp rõ.",
+        "n"
+      ],
+      [
+        "K",
+        "Khám bụng",
+        "Bụng mềm, không phản ứng thành bụng.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "Cortisol huyết thanh buổi sáng",
+        10,
+        "Giảm rõ.",
+        "e"
+      ],
+      [
+        "ACTH huyết tương",
+        10,
+        "Tăng, phù hợp suy thượng thận nguyên phát.",
+        "e"
+      ],
+      [
+        "Natri và kali huyết thanh",
+        10,
+        "Hạ natri máu kèm tăng kali máu.",
+        "e"
+      ],
+      [
+        "Nghiệm pháp kích thích corticotropin",
+        15,
+        "Cortisol không đạt đáp ứng bình thường.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Suy thượng thận nguyên phát",
+        "Suy giáp nguyên phát",
+        "Cường giáp",
+        "Suy thượng thận trung ương"
+      ]
+    },
+    "actions": [
+      "+Làm nghiệm pháp kích thích corticotropin khi tình trạng cho phép|2|Endocrine Society khuyến cáo nghiệm pháp corticotropin để xác nhận chẩn đoán.",
+      "+Điều trị thay thế glucocorticoid khi đã xác định suy thượng thận nguyên phát|2|Hydrocortisone là lựa chọn chuẩn cho điều trị thay thế.",
+      "+Bổ sung mineralocorticoid khi xác nhận thiếu aldosterone|2|Fludrocortisone được khuyến cáo ở người thiếu aldosterone.",
+      "Dùng dexamethasone dài hạn làm lựa chọn thay thế thường quy|0|Endocrine Society không ưu tiên dexamethasone do khó chỉnh liều và nguy cơ tác dụng phụ."
+    ],
+    "teach": "Suy thượng thận nguyên phát cần nghĩ đến khi mệt, sụt cân, hạ huyết áp, tăng sắc tố, hạ natri và tăng kali. Nếu người bệnh không trong cơn suy thượng thận cấp, nghiệm pháp kích thích corticotropin giúp xác nhận chẩn đoán.",
+    "hbu": {
+      "ly_do_vao_vien": "Mệt kéo dài, sụt cân, chóng mặt khi đứng và sạm da.",
+      "benh_su": "Triệu chứng tiến triển từ từ với mệt, chán ăn, sụt cân, hạ huyết áp tư thế và tăng sắc tố da. Không có tiền sử dùng glucocorticoid kéo dài.",
+      "tien_su": "Chưa ghi nhận bệnh thượng thận trước đây; cần khai thác thêm bệnh tự miễn cá nhân và gia đình.",
+      "tom_tat": "Người bệnh nữ trưởng thành có hội chứng suy thượng thận gồm mệt, sụt cân, hạ huyết áp, tăng sắc tố, hạ natri và tăng kali; ACTH tăng và cortisol giảm.",
+      "bien_luan": "Tăng sắc tố kèm ACTH tăng hướng đến suy thượng thận nguyên phát hơn suy thượng thận trung ương. Cần nghiệm pháp corticotropin và khảo sát nguyên nhân, bao gồm tự kháng thể 21-hydroxylase khi phù hợp.",
+      "sinh_ly_benh": "Thiếu cortisol và aldosterone gây giảm đáp ứng với stress, mất natri, giữ kali và giảm thể tích tuần hoàn; ACTH tăng liên quan tăng sắc tố.",
+      "chan_doan_phan_biet": "Suy thượng thận trung ương, suy giáp, rối loạn điện giải do thuốc, bệnh tiêu hóa mạn gây sụt cân.",
+      "dieu_tri": "Endocrine Society khuyến cáo hydrocortisone 15–25 mg/ngày chia 2 hoặc 3 lần; nếu thiếu aldosterone, fludrocortisone liều khởi đầu 50–100 microgam/ngày. Giáo dục tăng liều glucocorticoid khi stress và chuẩn bị thuốc cấp cứu.",
+      "tien_luong": "Tiên lượng tốt nếu dùng hormon thay thế đúng và nhận biết sớm cơn suy thượng thận.",
+      "du_phong": "Mang thẻ cảnh báo, được hướng dẫn sick-day rules và kế hoạch glucocorticoid cấp cứu."
+    },
+    "nguon": [
+      "Endocrine Society, Diagnosis and Treatment of Primary Adrenal Insufficiency, 2016: https://www.endocrine.org/clinical-practice-guidelines/primary-adrenal-insufficiency . Trích: “standard dose (250 μg for adults ... ) iv corticotropin stimulation”; “hydrocortisone (15–25 mg) ... in two or three divided oral doses per day”; “fludrocortisone (starting dose, 50–100 μg in adults)”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-huyet-hoc-002",
+    "title": "Xuất huyết dưới da và giảm tiểu cầu đơn độc",
+    "kind": "Nội",
+    "setting": "phongkham",
+    "level": "Vừa",
+    "name": "Người bệnh B",
+    "age": 34,
+    "sex": "nữ",
+    "intro": "Người bệnh đến khám vì xuất hiện nhiều chấm xuất huyết ở hai chân và dễ bầm tím.",
+    "vitals": {
+      "hr": 80,
+      "sbp": 112,
+      "dbp": 72,
+      "rr": 17,
+      "t": 36.6,
+      "spo2": 99
+    },
+    "ask": [
+      [
+        "Có chảy máu mũi, chảy máu chân răng hoặc rong kinh không?",
+        "Có chảy máu chân răng nhẹ và kinh nguyệt nhiều hơn bình thường.",
+        "e"
+      ],
+      [
+        "Gần đây có dùng thuốc mới, heparin hoặc thuốc chống kết tập tiểu cầu không?",
+        "Không dùng các thuốc trên.",
+        "e"
+      ],
+      [
+        "Có sốt kéo dài, sụt cân hoặc nổi hạch không?",
+        "Không sốt kéo dài, không sụt cân, không tự phát hiện hạch.",
+        "e"
+      ],
+      [
+        "Có tiền sử bệnh gan, bệnh tự miễn hoặc nhiễm virus gần đây không?",
+        "Chưa ghi nhận bệnh gan hay bệnh tự miễn.",
+        "n"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Khám da",
+        "Nhiều chấm xuất huyết và mảng bầm nhỏ ở hai chi dưới.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám niêm mạc",
+        "Có điểm xuất huyết niêm mạc miệng, không chảy máu ồ ạt.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám gan lách",
+        "Không ghi nhận gan lách to rõ.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám hạch ngoại vi",
+        "Không phát hiện hạch ngoại vi bất thường.",
+        "e"
+      ]
+    ],
+    "tests": [
+      [
+        "Công thức máu",
+        10,
+        "Tiểu cầu 22×10^9/L; hemoglobin và bạch cầu không giảm đáng kể.",
+        "e"
+      ],
+      [
+        "Phết máu ngoại biên",
+        10,
+        "Không thấy blast; không có kết cụm tiểu cầu giả tạo.",
+        "e"
+      ],
+      [
+        "Chức năng gan",
+        10,
+        "Không gợi ý bệnh gan mất bù.",
+        "n"
+      ],
+      [
+        "Xét nghiệm nguyên nhân thứ phát theo chỉ định",
+        10,
+        "Không phát hiện nguyên nhân thứ phát trong tình huống mô phỏng.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Giảm tiểu cầu miễn dịch nguyên phát",
+        "Ban xuất huyết giảm tiểu cầu huyết khối",
+        "Suy tủy xương",
+        "Bạch cầu cấp"
+      ]
+    },
+    "actions": [
+      "+Đánh giá mức độ chảy máu, thuốc đang dùng và nguyên nhân giảm tiểu cầu thứ phát|2|ITP là chẩn đoán loại trừ và quyết định điều trị phải cá thể hóa.",
+      "+Hội chẩn Huyết học để quyết định điều trị thay vì chỉ quan sát|2|ASH giữ ngưỡng dưới 30×10^9/L cho người lớn mới chẩn đoán, không triệu chứng hoặc chảy máu nhẹ, cần điều trị hơn là chỉ quan sát.",
+      "+Nếu cần điều trị ban đầu, áp dụng lựa chọn theo ASH 2026 và điều kiện người bệnh|2|ASH 2026 cập nhật lựa chọn điều trị ban đầu, ưu tiên quyết định chung.",
+      "Cắt lách ngay khi mới chẩn đoán|0|Không phải lựa chọn điều trị đầu tay cho ITP mới chẩn đoán."
+    ],
+    "teach": "ITP thường biểu hiện bằng giảm tiểu cầu đơn độc và xuất huyết da-niêm mạc sau khi loại trừ nguyên nhân khác. Ngưỡng tiểu cầu chỉ là một phần của quyết định; mức chảy máu, bệnh kèm, thuốc và ưu tiên người bệnh đều quan trọng.",
+    "hbu": {
+      "ly_do_vao_vien": "Xuất huyết dưới da và dễ bầm tím.",
+      "benh_su": "Xuất hiện chấm xuất huyết và bầm tím tự nhiên, kèm chảy máu niêm mạc nhẹ, không sốt và không có biểu hiện thiếu máu rõ.",
+      "tien_su": "Chưa ghi nhận bệnh gan, bệnh ác tính huyết học hoặc sử dụng thuốc thường gây giảm tiểu cầu.",
+      "tom_tat": "Người bệnh nữ trưởng thành, tình trạng toàn thân ổn, tiểu cầu 22×10^9/L, giảm tiểu cầu đơn độc kèm xuất huyết da-niêm mạc nhẹ, không gan lách to hay hạch ngoại vi.",
+      "bien_luan": "Kiểu giảm tiểu cầu đơn độc, không blast và không dấu hiệu bệnh hệ thống nổi bật gợi ý ITP sau khi loại trừ nguyên nhân thuốc, nhiễm trùng, bệnh tự miễn và bệnh huyết học khác.",
+      "sinh_ly_benh": "ITP là rối loạn miễn dịch gây tăng phá hủy tiểu cầu và giảm sản xuất tiểu cầu.",
+      "chan_doan_phan_biet": "Giảm tiểu cầu do thuốc, bệnh gan-cường lách, TTP, DIC, suy tủy, leukemia cấp.",
+      "dieu_tri": "Với tiểu cầu dưới 30×10^9/L và chảy máu nhẹ, cần hội chẩn Huyết học để điều trị. ASH 2026 gợi ý ở người lớn cần điều trị ban đầu: rituximab cộng corticosteroid hoặc thuốc kích thích tạo tiểu cầu cộng corticosteroid, có thể kèm IVIG; nếu các lựa chọn này không phù hợp hoặc không sẵn có, corticosteroid có hoặc không IVIG là lựa chọn được nêu trong hướng dẫn.",
+      "tien_luong": "Có thể đáp ứng tốt nhưng một số trường hợp trở thành bệnh dai dẳng hoặc mạn tính, cần theo dõi.",
+      "du_phong": "Tránh tự dùng aspirin hoặc NSAID khi chưa có chỉ định, hạn chế chấn thương và tái khám ngay khi xuất huyết tăng."
+    },
+    "nguon": [
+      "American Society of Hematology, Summary of Changes to the 2026 Updated Recommendations: https://www.hematology.org/-/media/hematology/files/clinicians/guidelines/ash-itp-summary-of-changes_20260824.pdf . Trích: “Adults, newly dx ITP, platelets <30×10⁹/L, asymptomatic/minor bleeding”; “The threshold for initiating therapy has not been updated.”",
+      "American Society of Hematology, 2026 ITP Visual Summary: https://www.hematology.org/-/media/hematology/files/clinicians/guidelines/ash-cpg-itp-guidelines-visual-summary-0824.pdf . Trích: “Suggests rituximab + corticosteroids (with or without IVIG)” và “Suggests thrombopoietic agent + corticosteroids (with or without IVIG)”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-than-004",
+    "title": "Bệnh thận mạn kèm albumin niệu nhiều",
+    "kind": "Nội",
+    "setting": "phongkham",
+    "level": "Vừa",
+    "name": "Người bệnh C",
+    "age": 58,
+    "sex": "nam",
+    "intro": "Người bệnh được phát hiện chức năng thận giảm kéo dài khi theo dõi tăng huyết áp.",
+    "vitals": {
+      "hr": 76,
+      "sbp": 138,
+      "dbp": 82,
+      "rr": 17,
+      "t": 36.5,
+      "spo2": 98
+    },
+    "ask": [
+      [
+        "Đã từng có kết quả creatinin hoặc eGFR bất thường trước đây chưa?",
+        "Các lần xét nghiệm cách nhau hơn ba tháng đều ghi nhận chức năng thận giảm.",
+        "e"
+      ],
+      [
+        "Có phù, tiểu bọt hoặc tiểu máu không?",
+        "Có tiểu bọt, phù mắt cá chân nhẹ cuối ngày, không thấy tiểu máu đại thể.",
+        "e"
+      ],
+      [
+        "Có dùng NSAID hoặc thuốc không rõ nguồn gốc kéo dài không?",
+        "Thỉnh thoảng tự dùng thuốc giảm đau khi đau lưng.",
+        "e"
+      ],
+      [
+        "Có tiền sử đái tháo đường hoặc tăng huyết áp không?",
+        "Có tăng huyết áp nhiều năm.",
+        "e"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Khám phù",
+        "Phù nhẹ hai mắt cá chân.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám tim phổi",
+        "Chưa ghi nhận dấu sung huyết phổi.",
+        "n"
+      ],
+      [
+        "K",
+        "Khám bụng và hố thận",
+        "Không đau hông lưng, không cầu bàng quang.",
+        "n"
+      ],
+      [
+        "K",
+        "Đánh giá tình trạng dịch",
+        "Không có dấu mất nước cấp.",
+        "e"
+      ]
+    ],
+    "tests": [
+      [
+        "Creatinin huyết thanh và eGFR",
+        10,
+        "eGFR 42 mL/phút/1,73 m², giảm dai dẳng trên ba tháng.",
+        "e"
+      ],
+      [
+        "Tỷ số albumin/creatinin niệu",
+        10,
+        "ACR 420 mg/g.",
+        "e"
+      ],
+      [
+        "Điện giải đồ",
+        10,
+        "Chưa có rối loạn điện giải nặng.",
+        "e"
+      ],
+      [
+        "Siêu âm thận-tiết niệu",
+        15,
+        "Không ghi nhận tắc nghẽn đường niệu.",
+        "e"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Bệnh thận mạn có albumin niệu mức cao",
+        "Tổn thương thận cấp trước thận",
+        "Viêm bể thận cấp",
+        "Sỏi niệu quản gây tắc nghẽn cấp"
+      ]
+    },
+    "actions": [
+      "+Phân tầng bệnh thận mạn theo eGFR và albumin niệu, đồng thời tìm nguyên nhân nền|2|KDIGO phân loại CKD theo GFR và albumin niệu.",
+      "+Dùng ACEi hoặc ARB khi có chỉ định và theo dõi creatinin, kali sau khi bắt đầu hoặc tăng liều|2|KDIGO yêu cầu theo dõi sau thay đổi RASi.",
+      "+Cân nhắc SGLT2i theo tiêu chuẩn KDIGO|2|Người bệnh có eGFR và ACR nằm trong nhóm được khuyến cáo SGLT2i.",
+      "Ngừng theo dõi albumin niệu nếu creatinin ổn định|0|Albumin niệu và GFR đều có giá trị theo dõi nguy cơ CKD."
+    ],
+    "teach": "CKD cần xác định tính mạn và phân tầng đồng thời theo GFR cùng albumin niệu. Điều trị bảo vệ thận tập trung vào nguyên nhân, kiểm soát huyết áp, RASi khi phù hợp và SGLT2i ở các nhóm có bằng chứng lợi ích.",
+    "hbu": {
+      "ly_do_vao_vien": "Theo dõi chức năng thận giảm kéo dài và tiểu bọt.",
+      "benh_su": "Nhiều lần xét nghiệm cách nhau trên ba tháng ghi nhận giảm chức năng thận, kèm albumin niệu và tăng huyết áp kéo dài.",
+      "tien_su": "Tăng huyết áp nhiều năm; có sử dụng thuốc giảm đau không kê đơn không thường xuyên.",
+      "tom_tat": "Người bệnh nam trung niên có eGFR 42 mL/phút/1,73 m² kéo dài, ACR 420 mg/g và tăng huyết áp, không có bằng chứng tắc nghẽn hoặc bệnh cảnh AKI rõ.",
+      "bien_luan": "Tính mạn được xác lập bởi bất thường tồn tại trên ba tháng. Cần phân tầng GFR-ACR, tìm nguyên nhân và ước tính nguy cơ tiến triển.",
+      "sinh_ly_benh": "Tổn thương nephron kéo dài gây giảm GFR và albumin niệu; albumin niệu liên quan nguy cơ tiến triển thận và tim mạch.",
+      "chan_doan_phan_biet": "AKI trên nền CKD, bệnh cầu thận nguyên phát, bệnh thận do thuốc, bệnh thận tắc nghẽn.",
+      "dieu_tri": "Điều trị nguyên nhân và yếu tố nguy cơ. Khi dùng ACEi hoặc ARB, kiểm tra huyết áp, creatinin và kali trong 2–4 tuần sau bắt đầu hoặc tăng liều. KDIGO 2024 khuyến cáo SGLT2i cho người lớn CKD có eGFR từ 20 mL/phút/1,73 m² trở lên kèm ACR từ 200 mg/g trở lên hoặc có suy tim.",
+      "tien_luong": "Phụ thuộc giai đoạn GFR, mức albumin niệu, nguyên nhân nền và kiểm soát yếu tố nguy cơ.",
+      "du_phong": "Tránh NSAID không cần thiết, kiểm soát huyết áp và theo dõi định kỳ eGFR cùng albumin niệu."
+    },
+    "nguon": [
+      "KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of CKD: https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf . Trích: “Changes in BP, serum creatinine, and serum potassium should be checked within 2–4 weeks of initiation or increase in the dose of a RASi”; “eGFR ≥20 ml/min per 1.73 m² with urine ACR ≥200 mg/g”.",
+      "KDIGO CKD Evaluation and Management page, current status 2026: https://kdigo.org/guidelines/ckd-evaluation-and-management/ . Trích: “KDIGO 2024 ... remains the current global standard”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-co-xuong-khop-001",
+    "title": "Đau và sưng nhiều khớp nhỏ hai bàn tay",
+    "kind": "Nội",
+    "setting": "phongkham",
+    "level": "Vừa",
+    "name": "Người bệnh D",
+    "age": 46,
+    "sex": "nữ",
+    "intro": "Người bệnh đến khám vì đau và sưng đối xứng các khớp bàn-ngón và liên đốt gần, cứng khớp buổi sáng kéo dài.",
+    "vitals": {
+      "hr": 78,
+      "sbp": 116,
+      "dbp": 72,
+      "rr": 17,
+      "t": 36.7,
+      "spo2": 99
+    },
+    "ask": [
+      [
+        "Cứng khớp buổi sáng kéo dài bao lâu và có đỡ khi vận động không?",
+        "Cứng khớp kéo dài hơn một giờ, đỡ dần khi vận động.",
+        "e"
+      ],
+      [
+        "Triệu chứng đã kéo dài bao lâu?",
+        "Đau và sưng khớp tiến triển nhiều tuần, chưa tự hết.",
+        "e"
+      ],
+      [
+        "Có đau lưng kiểu viêm, vảy nến hoặc viêm mắt không?",
+        "Không ghi nhận.",
+        "n"
+      ],
+      [
+        "Có sốt, sụt cân hoặc nhiễm trùng gần đây không?",
+        "Không sốt, không có bệnh nhiễm trùng gần đây.",
+        "e"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Khám khớp bàn-ngón và liên đốt gần",
+        "Nhiều khớp sưng đau đối xứng hai bàn tay.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám khớp liên đốt xa",
+        "Không phải vị trí tổn thương nổi bật.",
+        "e"
+      ],
+      [
+        "K",
+        "Đánh giá biến dạng khớp",
+        "Chưa có biến dạng cố định.",
+        "n"
+      ],
+      [
+        "K",
+        "Khám ngoài khớp",
+        "Chưa ghi nhận nốt dưới da hoặc biểu hiện cơ quan khác.",
+        "n"
+      ]
+    ],
+    "tests": [
+      [
+        "RF",
+        10,
+        "Dương tính.",
+        "e"
+      ],
+      [
+        "Anti-CCP",
+        10,
+        "Dương tính mạnh.",
+        "e"
+      ],
+      [
+        "CRP hoặc tốc độ lắng máu",
+        10,
+        "Tăng, phù hợp tình trạng viêm hoạt động.",
+        "e"
+      ],
+      [
+        "X-quang bàn tay và cổ tay",
+        15,
+        "Chưa thấy phá hủy khớp nặng; dùng làm mốc theo dõi ban đầu.",
+        "n"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Viêm khớp dạng thấp giai đoạn sớm",
+        "Thoái hóa khớp bàn tay",
+        "Gout mạn",
+        "Viêm khớp vảy nến"
+      ]
+    },
+    "actions": [
+      "+Áp dụng tiêu chuẩn ACR/EULAR và loại trừ chẩn đoán khác giải thích viêm màng hoạt dịch|2|Phân loại RA dựa trên viêm màng hoạt dịch và tổng điểm tiêu chuẩn.",
+      "+Khởi DMARD sớm; ưu tiên methotrexate đơn trị ở người chưa dùng DMARD có hoạt tính bệnh vừa-cao nếu không chống chỉ định|2|ACR 2021 ưu tiên methotrexate đơn trị.",
+      "+Theo chiến lược treat-to-target và đánh giá đáp ứng định kỳ|2|Mục tiêu là kiểm soát hoạt tính bệnh và phòng tổn thương khớp.",
+      "Chỉ dùng thuốc giảm đau và trì hoãn DMARD cho tới khi có biến dạng|0|Trì hoãn DMARD làm tăng nguy cơ tổn thương khớp không hồi phục."
+    ],
+    "teach": "Tiêu chuẩn ACR/EULAR 2010 phân loại RA xác định khi có viêm màng hoạt dịch ít nhất một khớp, không có chẩn đoán khác giải thích tốt hơn và tổng điểm từ 6/10 trở lên. DMARD nên được bắt đầu sớm.",
+    "hbu": {
+      "ly_do_vao_vien": "Đau, sưng khớp nhỏ hai bàn tay và cứng khớp buổi sáng.",
+      "benh_su": "Viêm đa khớp nhỏ đối xứng tiến triển nhiều tuần, cứng khớp buổi sáng kéo dài và cải thiện khi vận động.",
+      "tien_su": "Chưa dùng DMARD; chưa ghi nhận vảy nến, gout hoặc bệnh mô liên kết đã biết.",
+      "tom_tat": "Người bệnh nữ trưởng thành có viêm đa khớp nhỏ đối xứng, RF và anti-CCP dương tính, phản ứng viêm tăng.",
+      "bien_luan": "Mô hình tổn thương khớp, thời gian kéo dài, huyết thanh học và phản ứng pha cấp phù hợp RA sau khi loại trừ nguyên nhân khác.",
+      "sinh_ly_benh": "Viêm màng hoạt dịch mạn qua cơ chế miễn dịch có thể gây pannus và phá hủy sụn-xương nếu không kiểm soát.",
+      "chan_doan_phan_biet": "Viêm khớp vảy nến, lupus ban đỏ hệ thống, gout đa khớp, viêm khớp sau nhiễm, thoái hóa khớp.",
+      "dieu_tri": "Khởi DMARD sớm. ACR 2021 ưu tiên methotrexate đơn trị ở người chưa dùng DMARD có hoạt tính bệnh vừa-cao. Nếu lựa chọn methotrexate, khuyến cáo khởi và tăng đến liều ít nhất 15 mg mỗi tuần trong vòng 4–6 tuần nếu dung nạp và không chống chỉ định.",
+      "tien_luong": "Tiên lượng chức năng tốt hơn khi chẩn đoán và bắt đầu DMARD sớm trước khi xuất hiện phá hủy khớp.",
+      "du_phong": "Ngừng hút thuốc nếu có, vận động phù hợp, tiêm chủng cần thiết trước liệu pháp ức chế miễn dịch và theo dõi độc tính thuốc."
+    },
+    "nguon": [
+      "ACR/EULAR 2010 Rheumatoid Arthritis Classification Criteria, PMID 20872595: https://pubmed.ncbi.nlm.nih.gov/20872595/ . Trích: “achievement of a total score of 6 or greater (of a possible 10)”.",
+      "2021 American College of Rheumatology Guideline for the Treatment of Rheumatoid Arthritis: https://pmc.ncbi.nlm.nih.gov/articles/PMC9273041/ . Trích: “Methotrexate monotherapy is strongly recommended over ... Hydroxychloroquine or sulfasalazine” cho người chưa dùng DMARD có hoạt tính vừa-cao; “weekly dose of at least 15 mg within 4 to 6 weeks”."
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  },
+  {
+    "id": "noi-than-kinh-003",
+    "title": "Run tay khi nghỉ kèm chậm vận động",
+    "kind": "Nội",
+    "setting": "phongkham",
+    "level": "Dễ",
+    "name": "Người bệnh E",
+    "age": 64,
+    "sex": "nam",
+    "intro": "Người bệnh đến khám vì run tay phải khi nghỉ, đi chậm và khó thực hiện các động tác tinh tế.",
+    "vitals": {
+      "hr": 72,
+      "sbp": 126,
+      "dbp": 76,
+      "rr": 16,
+      "t": 36.6,
+      "spo2": 98
+    },
+    "ask": [
+      [
+        "Run xuất hiện khi nghỉ hay khi làm động tác?",
+        "Run rõ khi tay nghỉ, giảm khi chủ động sử dụng tay.",
+        "e"
+      ],
+      [
+        "Có cảm giác vận động chậm hoặc khó trở mình, cài nút áo không?",
+        "Có chậm vận động và làm các động tác tinh tế lâu hơn trước.",
+        "e"
+      ],
+      [
+        "Có dùng thuốc chống loạn thần hoặc thuốc chẹn dopamine không?",
+        "Không dùng.",
+        "e"
+      ],
+      [
+        "Có té ngã sớm, rối loạn vận nhãn hoặc tụt huyết áp tư thế nặng không?",
+        "Chưa ghi nhận các đặc điểm không điển hình này.",
+        "e"
+      ]
+    ],
+    "exam": [
+      [
+        "K",
+        "Đánh giá vận động chủ ý",
+        "Có bradykinesia rõ hơn bên phải.",
+        "e"
+      ],
+      [
+        "K",
+        "Khám trương lực cơ",
+        "Tăng trương lực kiểu cứng đờ bên phải.",
+        "e"
+      ],
+      [
+        "K",
+        "Quan sát run",
+        "Run khi nghỉ ưu thế một bên.",
+        "e"
+      ],
+      [
+        "K",
+        "Đánh giá dáng đi",
+        "Bước ngắn, giảm vung tay bên phải.",
+        "e"
+      ]
+    ],
+    "tests": [
+      [
+        "Đánh giá thần kinh bởi bác sĩ chuyên khoa",
+        10,
+        "Bệnh cảnh lâm sàng phù hợp hội chứng Parkinson.",
+        "e"
+      ],
+      [
+        "MRI não",
+        15,
+        "Không dùng thường quy để xác lập chẩn đoán Parkinson điển hình; cân nhắc khi cần phân biệt hội chứng Parkinson khác.",
+        "n"
+      ],
+      [
+        "123I-FP-CIT SPECT",
+        20,
+        "Chỉ cân nhắc khi không phân biệt được run vô căn với parkinsonism trên lâm sàng.",
+        "n"
+      ],
+      [
+        "PET não thường quy",
+        20,
+        "Không dùng để chẩn đoán phân biệt hội chứng Parkinson thường quy.",
+        "w"
+      ]
+    ],
+    "opt": {
+      "ydx": [
+        "+Bệnh Parkinson",
+        "Run vô căn",
+        "Parkinson do thuốc",
+        "Bệnh lý tiểu não"
+      ]
+    },
+    "actions": [
+      "+Chuyển sớm người bệnh chưa điều trị đến bác sĩ chuyên khoa thần kinh/rối loạn vận động|2|NICE khuyến cáo chuyển nhanh và chưa điều trị khi nghi Parkinson.",
+      "+Nếu chẩn đoán xác lập và triệu chứng vận động ảnh hưởng chất lượng cuộc sống, cân nhắc levodopa|2|NICE khuyến cáo levodopa trong tình huống này.",
+      "Chụp MRI để xác nhận Parkinson ở mọi người bệnh|0|NICE không khuyến cáo MRI cấu trúc để chẩn đoán Parkinson.",
+      "Làm PET não thường quy để phân biệt hội chứng Parkinson|0|NICE không khuyến cáo PET ngoài nghiên cứu cho mục đích này."
+    ],
+    "teach": "Parkinson là chẩn đoán lâm sàng; các đặc điểm gợi ý gồm bradykinesia, cứng đờ và run khi nghỉ. Người bệnh nghi Parkinson nên được chuyển sớm khi chưa điều trị đến bác sĩ có chuyên môn về chẩn đoán phân biệt.",
+    "hbu": {
+      "ly_do_vao_vien": "Run tay khi nghỉ và chậm vận động.",
+      "benh_su": "Run khởi phát ưu thế một bên, rõ khi nghỉ, kèm bradykinesia, cứng đờ và giảm vung tay khi đi; triệu chứng ảnh hưởng sinh hoạt hàng ngày.",
+      "tien_su": "Không sử dụng thuốc chẹn dopamine; chưa ghi nhận đột quỵ tái diễn hoặc chấn thương sọ não liên tiếp.",
+      "tom_tat": "Người bệnh nam lớn tuổi có hội chứng Parkinson với bradykinesia, run nghỉ và cứng đờ không đối xứng, chưa có dấu hiệu cảnh báo hội chứng Parkinson không điển hình.",
+      "bien_luan": "Sự phối hợp bradykinesia với run nghỉ và rigidity, ưu thế một bên, phù hợp Parkinson. Cần bác sĩ chuyên khoa xác lập chẩn đoán lâm sàng và theo dõi tiến triển.",
+      "sinh_ly_benh": "Thoái hóa neuron dopaminergic ở substantia nigra làm giảm dopamine tại thể vân và rối loạn điều hòa vòng hạch nền-vỏ não.",
+      "chan_doan_phan_biet": "Run vô căn, Parkinson do thuốc, Parkinson mạch máu, teo đa hệ thống, liệt trên nhân tiến triển.",
+      "dieu_tri": "Chuyển chuyên khoa để xác lập chẩn đoán. NICE khuyến cáo levodopa ở giai đoạn sớm khi triệu chứng vận động ảnh hưởng chất lượng cuộc sống; lựa chọn và chỉnh liều được cá thể hóa.",
+      "tien_luong": "Bệnh tiến triển mạn tính; cần đánh giá định kỳ biến chứng vận động và ngoài vận động.",
+      "du_phong": "Duy trì vận động thể lực phù hợp, phòng té ngã, rà soát thuốc và theo dõi nhận thức, tâm trạng, nuốt và chức năng tự chủ."
+    },
+    "nguon": [
+      "NICE NG71 Parkinson's disease in adults, Recommendations: https://www.nice.org.uk/guidance/ng71/chapter/Recommendations . Trích: “If Parkinson's disease is suspected, refer people quickly and untreated to a specialist”; “Offer levodopa to people in the early stages of Parkinson's disease whose motor symptoms impact on their quality of life”; “Do not use structural MRI to diagnose Parkinson's disease”; “Consider 123I-FP-CIT ... SPECT for people with tremor if essential tremor cannot be clinically differentiated from parkinsonism.”"
+    ],
+    "can_doi_chieu": [],
+    "status": "draft"
+  }
+]
