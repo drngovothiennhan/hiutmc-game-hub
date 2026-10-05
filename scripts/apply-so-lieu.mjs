@@ -48,8 +48,6 @@ export const FIXES = [
   // Trạng thái động kinh: AES chỉ nói lặp lại 1 lần; midazolam IM là liều đơn
   { id: 'noi-cap-cuu-003', from: 'Diazepam 10 mg tiêm tĩnh mạch chậm (hoặc midazolam 10 mg tiêm bắp nếu chưa có đường truyền), lặp lại 1 lần sau 5 phút nếu còn co giật', to: 'Diazepam 10 mg tiêm tĩnh mạch chậm, lặp lại 1 lần nếu còn co giật (hoặc midazolam 10 mg tiêm bắp liều đơn nếu chưa có đường truyền)' },
   // Viêm phổi cộng đồng: ngưỡng oxy 90%; chọn nơi điều trị bằng PSI hoặc CURB-65
-  { id: 'noi-ho-hap-003', from: 'SpO2 dưới 92%', to: 'SpO2 dưới 90%' },
-  { id: 'noi-ho-hap-003', from: 'chọn nơi điều trị dựa vào CURB-65,', to: 'chọn nơi điều trị dựa vào PSI hoặc CURB-65 kèm đánh giá lâm sàng,' },
   // STEMI: ESC 2023
   { id: 'noi-tim-mach-001', from: 'Thời gian cửa đến bóng dưới 90 phút (trong 120 phút nếu chuyển viện) quyết định lượng cơ tim cứu được.', to: 'Thời gian từ chẩn đoán đến luồn dây càng ngắn càng tốt: mục tiêu trong 60 phút nếu đến thẳng cơ sở có can thiệp, tối đa 120 phút nếu chuyển viện (ESC 2023); thời gian này quyết định lượng cơ tim cứu được.' },
   { id: 'noi-tim-mach-001', from: 'mục tiêu cửa đến bóng dưới 90 phút (tổng thời gian từ chẩn đoán đến luồn dây dưới 120 phút nếu chuyển viện)', to: 'mục tiêu từ chẩn đoán đến luồn dây trong 60 phút (tối đa 120 phút nếu chuyển viện, ESC 2023)' },
@@ -75,14 +73,27 @@ export const FIXES = [
   { id: 'noi-nhiem-001', from: 'bắt đầu 5 đến 7 mL/kg/giờ trong 1 đến 2 giờ rồi giảm dần', to: 'bắt đầu 6 mL/kg/giờ trong 1 đến 2 giờ, sau đó 3 mL/kg/giờ trong 2 đến 4 giờ rồi giảm dần' },
   { id: 'noi-nhiem-001', from: '5 đến 7 mL/kg/giờ trong 1 đến 2 giờ, đánh giá lại; nếu hematocrit giảm và ổn định thì giảm dần 3 đến 5 mL/kg/giờ, 2 đến 3 mL/kg/giờ;', to: '6 mL/kg/giờ trong 1 đến 2 giờ, sau đó 3 mL/kg/giờ trong 2 đến 4 giờ, đánh giá lại; nếu mạch, huyết áp ổn định và hematocrit giảm thì giảm còn 1,5 mL/kg/giờ trong 6 đến 18 giờ;' },
   { id: 'noi-nhiem-001', from: 'Sốc: bù dịch nhanh 20 mL/kg trong 15 phút, cân nhắc chất keo.', to: 'Sốc (người lớn): Ringer lactate hoặc NaCl 0,9% 15 mL/kg/giờ trong 1 giờ; nếu không cải thiện thì cân nhắc chất keo 10 đến 15 mL/kg/giờ.' },
+  // Việc 1 Lô B-D (ChatGPT, đối chiếu lại: GOLD 2025, BTS/ICS, BTS CAP, ATS/IDSA 2019, NICE NG250, QĐ 708).
+  { id: 'noi-than-003', from: 'Chuyển sang đường uống khi hết sốt 24 đến 48 giờ và ăn uống được;', to: 'Đánh giá lại kháng sinh tĩnh mạch sau 48 giờ và chuyển sang đường uống khi ổn định lâm sàng (NICE; QĐ 708 ghi chuyển uống khi hết sốt, từ ngày 10 đến ngày 14);' },
+  { id: 'noi-ho-hap-002', from: 'Phun khí dung salbutamol kèm ipratropium mỗi 4–6 giờ', to: 'Phun khí dung salbutamol kèm ipratropium: mỗi giờ trong 2 đến 3 liều đầu, sau đó mỗi 2 đến 4 giờ theo đáp ứng' },
+  { id: 'noi-ho-hap-002', from: 'BiPAP với áp lực hỗ trợ khởi đầu IPAP 10–12, EPAP 4–5 và theo dõi khí máu sau 1–2 giờ', to: 'BiPAP khởi đầu IPAP 15 cmH2O rồi tăng dần đến 20–30 cmH2O trong 10–30 phút theo đáp ứng, chỉnh EPAP theo oxy hóa; đo khí máu trước và sau khi bắt đầu thông khí' },
+  { id: 'noi-ho-hap-003', from: 'thở oxy nếu SpO2 dưới 90%', to: 'thở oxy để duy trì SpO2 94–98% (chỉ định khi dưới 94%)' },
+  { id: 'noi-ho-hap-003', from: 'SpO2 93% cần theo dõi sát', to: 'SpO2 93% là dưới 94% nên cần oxy và theo dõi sát' },
+  { id: 'noi-ho-hap-003', from: 'oxy khi SpO2 dưới 90%;', to: 'oxy duy trì SpO2 94–98%;' },
+  { id: 'noi-ho-hap-003', from: 'Cấy máu và lấy đờm trước, rồi kháng sinh sớm trong 4 giờ (ceftriaxon + azithromycin)', to: 'Kháng sinh sớm trong 4 giờ kể từ lúc đến viện (ceftriaxon + azithromycin); chỉ cấy máu và đờm khi có chỉ định (bệnh nặng, nguy cơ MRSA hoặc P. aeruginosa)' },
+  { id: 'noi-ho-hap-003', from: 'cấy máu, đờm; đánh giá', to: 'cấy máu, đờm khi có chỉ định; đánh giá' },
+  { id: 'noi-ho-hap-003', from: 'chọn nơi điều trị dựa vào PSI hoặc CURB-65 kèm đánh giá lâm sàng, kháng sinh sớm phù hợp và đánh giá lại sau 48–72 giờ.', to: 'chọn nơi điều trị dựa vào PSI (ATS/IDSA ưu tiên) hoặc CURB-65 kèm đánh giá lâm sàng, kháng sinh sớm phù hợp và đánh giá lại kháng sinh tĩnh mạch sau 48 giờ (NICE).' },
+];
+
+// Cờ xét nghiệm (e = nên làm, n = trung tính, w = lãng phí) chỉnh theo nguồn.
+export const TEST_FLAGS = [
+  { id: 'noi-ho-hap-003', name: 'Cấy máu trước kháng sinh', flag: 'n' }, // ATS/IDSA 2019: không cấy máu thường quy ở viêm phổi nội trú không nặng
 ];
 
 // Ca còn con số nghi lệch hoặc nguồn thứ cấp chưa đủ tin: chưa tự quyết, không nâng trạng thái.
 export const CAN_XEM_LAI = {
   'noi-nhiem-001': 'Tốc độ truyền dịch đã sửa theo QĐ 3705. Còn mở: tần suất theo dõi (các bản đọc được ghi 1-2 giờ, 2-4 giờ và 4-6 giờ); cần đọc nguyên văn mục theo dõi người lớn.',
   'ngoai-chan-thuong-005': 'Mức chỉnh dịch bỏng "10 đến 20% mỗi giờ" so với "khoảng 1/3": cần đối chiếu hướng dẫn ABA nguyên văn.',
-  'noi-ho-hap-002': 'Ngưỡng PaCO2 để thở không xâm nhập: BTS dùng trên 6,5 kPa (khoảng 49 mmHg), ca ghi 45 mmHg (GOLD); cần chọn một nguồn.',
-  'noi-ho-hap-003': 'Cấy máu/đờm thường quy và mốc kháng sinh trong 4 giờ: ATS/IDSA 2019 không khuyến cáo thường quy cho viêm phổi không nặng.',
 };
 
 const WRONG = /^(-|!)/; // tiền tố của lựa chọn sai chủ ý: -, --, !
@@ -109,11 +120,14 @@ function mapStrings(o, fn, path = '') {
 
 export function applyFixes(c) {
   const mine = FIXES.filter(f => f.id === c.id);
-  if (!mine.length) return c;
-  return mapStrings(c, (p, s) => {
+  let out = c;
+  if (mine.length) out = mapStrings(c, (p, s) => {
     for (const f of mine) s = s.split(f.from).join(f.to);
     return s;
   });
+  const flags = TEST_FLAGS.filter(f => f.id === c.id);
+  if (flags.length) out = { ...out, tests: out.tests.map(t => { const f = flags.find(x => String(t[0]).startsWith(x.name)); return f ? [t[0], t[1], t[2], f.flag] : t; }) };
+  return out;
 }
 
 function isWrongOption(c, claim) {
