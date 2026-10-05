@@ -272,9 +272,10 @@ test('Respiratory cases show oxygen equipment and the matching patient state por
   assert.match(html, /\(base === 3 \|\| base === 4\) && st < 85\) return base/);
 });
 
-test('bed scenes use the 59 side-view bed images with a fallback for the flawed one', async () => {
+test('bed scenes use the 59 side-view bed images; the missing nam_gia-2 maps to a real image, never the code-drawn composite', async () => {
   const html = await read('../public/tu-chan/index.html');
-  assert.match(html, /const BED_OLD = \['nam_gia-2'\];/);
+  assert.match(html, /const BED_OLD = \[\];/);
+  assert.match(html, /const BED_ALIAS = \{ 'nam_gia-2': 'nam_gia-1' \};/);
   for (const v of ['nam_gia', 'nu_gia', 'nam_tre', 'nu_tre', 'be_trai', 'be_gai'])
     for (let i = 1; i <= 10; i++) {
       if (v === 'nam_gia' && i === 2) continue;
