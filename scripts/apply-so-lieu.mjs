@@ -19,6 +19,11 @@ const NGAY = '2026-10-05';
 
 // Sửa theo nguồn đọc được. Áp dụng cho mọi trường chữ của ca (trừ nguon*, verify).
 export const FIXES = [
+  // Việc 1d (ChatGPT, 07/10): RCUK PLS 2025/26 (làm ấm khi đuối nước), ACOG 783 (siêu âm sau mổ không có mốc 6-8 tuần).
+  { id: 'noi-cap-cuu-106', from: 'dịch ấm đến khi nhiệt độ trên 36 độ C.', to: 'dịch ấm khi nhiệt độ trung tâm dưới 35 độ C; ngừng làm ấm chủ động ở 35 độ C để tránh tăng thân nhiệt quá mức.' },
+  { id: 'noi-cap-cuu-106', from: 'nhiệt độ trên 36 độ C, huyết áp ổn định', to: 'nhiệt độ trung tâm trở về bình thường, huyết áp ổn định' },
+  { id: 'ngoai-san-001', from: 'siêu âm theo dõi sau 6 đến 8 tuần', to: 'siêu âm theo dõi sau mổ theo chỉ định' },
+  { id: 'ngoai-san-001', from: 'siêu âm 6 đến 8 tuần sau mổ', to: 'siêu âm theo dõi sau mổ theo chỉ định' },
   // Việc 1c (ChatGPT, 07/10): AHA/ASA 2022 (đường huyết ICH), BTS (oxy), KDIGO (tần suất), WHO (rắn cắn), ESC (PE).
   { id: 'noi-than-kinh-002', from: 'đường huyết 7,8 đến 10 mmol/L', to: 'theo dõi đường huyết, tránh hạ đường huyết và điều trị khi tăng trên 10 đến 11 mmol/L' },
   { id: 'noi-tim-mach-003', from: 'Nằm đầu cao 30 độ, monitor, hai đường truyền, theo dõi huyết áp mỗi 5 phút', to: 'Nằm đầu cao, monitor, hai đường truyền, theo dõi huyết áp liên tục' },
