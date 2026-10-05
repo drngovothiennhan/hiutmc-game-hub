@@ -19,6 +19,14 @@ const NGAY = '2026-10-05';
 
 // Sửa theo nguồn đọc được. Áp dụng cho mọi trường chữ của ca (trừ nguon*, verify).
 export const FIXES = [
+  // Việc 1c (ChatGPT, 07/10): AHA/ASA 2022 (đường huyết ICH), BTS (oxy), KDIGO (tần suất), WHO (rắn cắn), ESC (PE).
+  { id: 'noi-than-kinh-002', from: 'đường huyết 7,8 đến 10 mmol/L', to: 'theo dõi đường huyết, tránh hạ đường huyết và điều trị khi tăng trên 10 đến 11 mmol/L' },
+  { id: 'noi-tim-mach-003', from: 'Nằm đầu cao 30 độ, monitor, hai đường truyền, theo dõi huyết áp mỗi 5 phút', to: 'Nằm đầu cao, monitor, hai đường truyền, theo dõi huyết áp liên tục' },
+  { id: 'noi-cap-cuu-103', from: 'Mục tiêu: SpO2 từ 94% trở lên, hết liệt tiến triển', to: 'Mục tiêu: bảo đảm thông khí (hỗ trợ hô hấp khi liệt hô hấp), SpO2 88 đến 92% khi đã có tăng CO2, hết liệt tiến triển' },
+  { id: 'noi-than-001', from: 'creatinin, kali, bicarbonat mỗi 12 đến 24 giờ', to: 'creatinin, kali, bicarbonat với tần suất cá thể hóa theo mức độ AKI và diễn biến lâm sàng' },
+  { id: 'noi-cap-cuu-104', from: 'theo dõi INR, fibrinogen, tiểu cầu mỗi 6 đến 12 giờ', to: 'theo dõi INR, fibrinogen, tiểu cầu theo diễn biến lâm sàng' },
+  { id: 'noi-cap-cuu-104', from: 'Mục tiêu: 20WBCT đông, INR dưới 1,5, fibrinogen trên 1,5 g/L, không chảy máu mới.', to: 'Mục tiêu: 20WBCT đông (máu phục hồi khả năng đông), không chảy máu mới.' },
+  { id: 'noi-ho-hap-004', from: 'thở oxy giữ SpO2 trên 92%', to: 'thở oxy khi SpO2 dưới 90% (mục tiêu 94 đến 98%, hoặc 88 đến 92% nếu có nguy cơ tăng CO2)' },
   // Việc 1b (ChatGPT, 06/10): tần suất theo dõi TG18, ngưỡng truyền hồng cầu AABB 2023, bỏ mốc 5 phút không có nguồn.
   { id: 'ngoai-bung-004', from: 'Theo dõi sinh hiệu, đau bụng, bilirubin và men gan mỗi 12 giờ', to: 'Theo dõi sinh hiệu, đau bụng và đánh giá lại mức độ nặng (lúc chẩn đoán, trong 24 giờ và lúc 24 đến 48 giờ); bilirubin, men gan theo diễn biến lâm sàng' },
   { id: 'ngoai-bung-005', from: 'Theo dõi lactate, creatinin, bilirubin mỗi 6 đến 12 giờ', to: 'Đánh giá lại đáp ứng và suy cơ quan (lactate, creatinin, bilirubin) theo diễn biến lâm sàng; phân độ lại lúc chẩn đoán, trong 24 giờ và lúc 24 đến 48 giờ' },
