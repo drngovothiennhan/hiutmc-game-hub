@@ -3,8 +3,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { generateScenario, toPublicScenario } from "../../src/can-lam-sang/cbc/generator.mjs";
-import { classifyScenario } from "../../src/can-lam-sang/cbc/classify.mjs";
+import { generateScenario, toPublicScenario } from "../../../src/can-lam-sang/cbc/generator.mjs";
+import { classifyScenario } from "../../../src/can-lam-sang/cbc/classify.mjs";
 
 const LEVELS = new Set(["co_ban", "trung_binh", "nang_cao"]);
 const KEYS = [
