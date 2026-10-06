@@ -53,9 +53,6 @@ function buildRow(pattern, level, variant, sex) {
     sex,
     profile: "vn_lab"
   });
-    sex,
-    profile: "vn_lab"
-  });
   const classifications = classifyScenario(
     scenario,
     pattern,
