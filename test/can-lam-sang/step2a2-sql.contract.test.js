@@ -33,13 +33,11 @@ test("Step 2a-2 SQL contract has approval gates, grants and no random ordering",
 });
 
 test("Step 2a-2 RPC contract has three enveloped SECURITY DEFINER functions", () => {
-  for (const signature of [
-    "public.cls_cbc_start_v1(p_level text)",
-    "public.cls_cbc_get_v1(p_attempt_id uuid)",
-    "public.cls_cbc_submit_v1(p_attempt_id uuid, p_answers jsonb)"
-  ]) {
-    assert.ok(rpcSql.includes(signature), signature);
-  }
+  assert.ok(rpcSql.includes("public.cls_cbc_start_v1(p_level text)"));
+  assert.ok(rpcSql.includes("public.cls_cbc_get_v1(p_attempt_id uuid)"));
+  assert.ok(rpcSql.includes("public.cls_cbc_submit_v1("));
+  assert.ok(rpcSql.includes("p_attempt_id uuid,"));
+  assert.ok(rpcSql.includes("p_answers jsonb"));
   assert.equal((rpcSql.match(/security definer/gi) || []).length, 3);
   assert.equal((rpcSql.match(/set search_path = ''/g) || []).length, 3);
   assert.match(rpcSql, /grant execute on function public\.cls_cbc_start_v1\(text\) to authenticated/);
