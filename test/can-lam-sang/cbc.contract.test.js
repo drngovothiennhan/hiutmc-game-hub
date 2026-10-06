@@ -304,13 +304,16 @@ test("public scenario exposes only scenario id, sex, values and display units", 
   assert.ok(!serialized.includes("generation_attempts"));
 
   for (const key of ["Hb", "RBC", "Hct", "MCV", "MCH", "MCHC", "WBC", "PLT"]) {
-    const back = convertValue(
-      key,
-      publicConventional.values[key].value,
-      "conventional",
-      "vn_lab"
+    assert.deepEqual(
+      publicVietnam.values[key],
+      scenario.display_profiles.vn_lab[key],
+      key
     );
-    assert.ok(Math.abs(back - publicVietnam.values[key].value) < 0.11, key);
+    assert.deepEqual(
+      publicConventional.values[key],
+      scenario.display_profiles.conventional[key],
+      key
+    );
   }
 });
 
