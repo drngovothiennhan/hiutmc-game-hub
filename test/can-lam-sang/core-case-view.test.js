@@ -7,3 +7,5 @@ test('core UI uses no dependency',()=>{assert.doesNotMatch(ui,/from ['"](?:react
 test('core page points to the bundled lazy entry and uses the real submit signature',()=>{const page=fs.readFileSync('public/can-lam-sang/core/index.html','utf8');const js=fs.readFileSync('public/can-lam-sang/core/core.js','utf8');const build=fs.readFileSync('scripts/build.mjs','utf8');assert.match(page,/\/assets\/can-lam-sang\/core\/core\.js/);assert.match(build,/splitting:\s*true/);assert.match(build,/outdir:\s*['"]dist\/assets['"]/);assert.match(js,/p_module:'core'/);assert.match(js,/p_answers:value/);});
 
 test('review label stays server-owned and cannot be hidden by UI helpers',()=>{assert.match(ui,/if \(label == null\) return/);assert.match(ui,/textContent = label/);assert.doesNotMatch(ui,/hide|dismiss|close.*review/i);});
+
+test('core UI does not invent a decision answer key',()=>{const ui=fs.readFileSync('src/can-lam-sang/core/case-ui.mjs','utf8');const js=fs.readFileSync('public/can-lam-sang/core/core.js','utf8');assert.doesNotMatch(ui,/decision:value/);assert.match(ui,/JSON đáp án/);assert.match(js,/JSON\.parse\(value\)/);assert.doesNotMatch(js,/p_answers:\{decision/);});
