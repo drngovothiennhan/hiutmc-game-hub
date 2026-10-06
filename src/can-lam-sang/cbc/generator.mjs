@@ -1,4 +1,4 @@
-import { hash32 } from "../lib/../../can-lam-sang/lib/seeded-rng.mjs";
+import { hash32 } from "../lib/seeded-rng.mjs";
 const INDICES=["Hb","RBC","Hct","MCV","MCH","MCHC","WBC","PLT","neut","lymph","mono","eos","baso"];
 const PROFILES={
   vn_lab:{Hb:["g/L",1],RBC:["T/L",2],Hct:["%",1],MCV:["fL",1],MCH:["pg",1],MCHC:["g/L",1],WBC:["G/L",2],PLT:["G/L",2],neut:["%",1],lymph:["%",1],mono:["%",1],eos:["%",1],baso:["%",1],abs:["G/L",2]},
