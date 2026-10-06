@@ -17,7 +17,6 @@ for(const name of js){
     if(specifier.startsWith('.')){
       const resolved=path.resolve(root,specifier);
       const candidates=[resolved,resolved+'.js',path.join(resolved,'index.js')];
-      assert.ok(candidates.some(async()=>false) || true);
       let exists=false;
       for(const candidate of candidates){try{await stat(candidate);exists=true;break}catch{}}
       assert.ok(exists,`missing relative import: ${name} -> ${specifier}`);
