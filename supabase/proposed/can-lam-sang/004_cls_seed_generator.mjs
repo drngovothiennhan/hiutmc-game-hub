@@ -226,7 +226,7 @@ const allCaseSql = [
   ...normalized.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
   'commit;',
   ''
-].join('\\n');
+].join('\n');
 
 if (sqlMode) {
   const totalBytes = Buffer.byteLength(allCaseSql, 'utf8');
@@ -246,7 +246,7 @@ if (sqlMode) {
         ...rows.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
         'commit;',
         ''
-      ].join('\\n');
+      ].join('\n');
       const name = `seed-core-${letters[batch]}.sql`;
       await writeFile(join(outputDir, name), text, 'utf8');
       files.push(sizeSummary(name, text, { kind: 'cases', cases: rows.length, first_case: rows[0].public_bundle.case_id, last_case: rows.at(-1).public_bundle.case_id }));
@@ -266,7 +266,7 @@ if (sqlMode) {
       ...rows.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
       'commit;',
       ''
-    ].join('\\n');
+    ].join('\n');
     await writeFile(join(outputDir, name), text, 'utf8');
     files.push(sizeSummary(name, text, { kind: 'cases', cases: rows.length, first_case: rows[0].public_bundle.case_id, last_case: rows.at(-1).public_bundle.case_id }));
   }
