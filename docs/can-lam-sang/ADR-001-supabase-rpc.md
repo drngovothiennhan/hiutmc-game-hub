@@ -53,6 +53,8 @@ Thiếu reviewer hoặc license thì resource không thể đạt `DA_DUYET`.
 
 Mọi CaseBundle bắt buộc `data_origin` thuộc `synthetic|anonymized`. Adapter legacy hiện đặt `synthetic` vì ngân hàng hiện hữu được khai báo là ca mô phỏng/giả định. Không dùng dữ liệu định danh bệnh nhân thật.
 
+Chủ dự án xác nhận 2026-10-06: 156 ca là ca mô phỏng, không dùng bệnh án thật.
+
 ### Sinh dữ liệu xác định
 
 Mọi generator của module phải lấy seed từ hash của:

@@ -1,10 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { adaptLegacyCase } from '../src/can-lam-sang/adapters/legacy-case-adapter.mjs';
+import {
+  adaptLegacyCase,
+  blockingDiagnosisChoices,
+  hasWordBoundedMatch,
+  sha256Hex
+} from '../src/can-lam-sang/adapters/legacy-case-adapter.mjs';
 import { createSeededRng, hash32 } from '../src/can-lam-sang/lib/seeded-rng.mjs';
 
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
+const BLOCKING_GROUPS = new Set(['ydx', 'bd', 'bc', 'the']);
 
 async function readLegacyBank() {
   const html = await read('../public/tu-chan/index.html');
@@ -21,28 +27,26 @@ function walk(value, visit, path = '$') {
   }
 }
 
-function normalizeLeakText(value) {
-  return String(value ?? '')
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'D')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
+function normalizeExact(value) {
+  return String(value ?? '').normalize('NFC').toLocaleLowerCase('vi-VN').replace(/\s+/g, ' ').trim();
 }
 
-function protectedAnswerTexts(answerKey) {
-  const out = [];
-  for (const [group, choices] of Object.entries(answerKey.diagnosis_options || {})) {
-    if (!Array.isArray(choices)) continue;
-    for (const choice of choices) {
-      if (!choice || !['full', 'partial'].includes(choice.credit)) continue;
-      const normalized = normalizeLeakText(choice.text);
-      if (normalized.length > 5) out.push({ group, text: choice.text, normalized, credit: choice.credit });
-    }
-  }
-  return out;
+function stripAccents(value) {
+  return normalizeExact(value)
+    .replace(/đ/g, 'd')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
+}
+
+function hasWordBoundedAccentlessMatch(value, choice) {
+  const haystack = stripAccents(value);
+  const needle = stripAccents(choice);
+  if (needle.length <= 5) return false;
+  return new RegExp(`(?<![\\p{L}\\p{N}_])${escapeRegExp(needle)}(?![\\p{L}\\p{N}_])`, 'iu').test(haystack);
 }
 
 function publicClinicalStrings(bundle) {
@@ -138,6 +142,19 @@ function approvalGateFromSchema(schema, resource) {
   return true;
 }
 
+function getLegacyPath(caseItem, path) {
+  const match = /^investigations\[(\d+)\]\.(name|result)$/.exec(path);
+  assert.ok(match, `unsupported test path ${path}`);
+  const row = caseItem.tests[Number(match[1])];
+  return row[match[2] === 'name' ? 0 : 2];
+}
+
+function getPublicPath(bundle, path) {
+  const match = /^investigations\[(\d+)\]\.(name|result)$/.exec(path);
+  assert.ok(match, `unsupported test path ${path}`);
+  return bundle.investigations[Number(match[1])][match[2]];
+}
+
 test('Step 1A converts all 156 legacy cases into public bundle + server-only answer key', async () => {
   const bank = await readLegacyBank();
   assert.equal(bank.length, 156);
@@ -152,14 +169,14 @@ test('Step 1A converts all 156 legacy cases into public bundle + server-only ans
   }
 });
 
-test('F1 masks titles containing a full/partial answer and keeps original title server-only', async () => {
+test('D1 masks title only for full/partial diagnosis or pattern groups using exact accents and word boundaries', async () => {
   const bank = await readLegacyBank();
   const touched = [];
   for (const legacy of bank) {
     const { public_bundle, answer_key } = adaptLegacyCase(legacy);
-    const protectedAnswers = protectedAnswerTexts(answer_key);
-    const original = normalizeLeakText(legacy.title);
-    const shouldMask = protectedAnswers.some(answer => original.includes(answer.normalized));
+    const protectedChoices = blockingDiagnosisChoices(answer_key.diagnosis_options);
+    assert.ok(protectedChoices.every(choice => BLOCKING_GROUPS.has(choice.group)));
+    const shouldMask = protectedChoices.some(choice => hasWordBoundedMatch(legacy.title, choice.text));
     if (shouldMask) {
       touched.push(legacy.id);
       assert.equal(public_bundle.title, `Ca bệnh ${legacy.id}`);
@@ -170,11 +187,12 @@ test('F1 masks titles containing a full/partial answer and keeps original title 
     }
   }
   assert.ok(touched.includes('noi-than-005'), 'known F1 case noi-than-005 must be masked');
+  assert.equal(hasWordBoundedMatch('ứ huyết hai bên', 'Huyết hải'), false);
 });
 
 test('Public bundle is whitelist-only and contains no legacy answer keys, source metadata, or answer-marker prefixes', async () => {
   const bank = await readLegacyBank();
-  const bannedKeys = new Set(['opt','actions','teach','answer_key','resources','resources_after_submission','title_reveal']);
+  const bannedKeys = new Set(['opt','actions','teach','answer_key','resources','resources_after_submission','after_submission_notes','title_reveal']);
   const answerMarker = /^(?:\+\+|\+|~|-|!)(?=\S)/;
   for (const legacy of bank) {
     const { public_bundle } = adaptLegacyCase(legacy);
@@ -230,7 +248,7 @@ test('Resource schema makes reviewer and license mandatory before DA_DUYET', asy
   assert.equal(approvalGateFromSchema(schema, { ...base, license: '' }), false);
 });
 
-test('F3 validates all 156 public bundles and answer keys against their schemas', async () => {
+test('D4 validates all 156 public bundles and answer keys against their schemas', async () => {
   const [publicSchema, answerSchema, resourceSchema, bank] = await Promise.all([
     read('../schemas/can-lam-sang/case-bundle.v1.schema.json').then(JSON.parse),
     read('../schemas/can-lam-sang/answer-key.v1.schema.json').then(JSON.parse),
@@ -251,15 +269,13 @@ test('F3 validates all 156 public bundles and answer keys against their schemas'
 });
 
 test('F3 schema validator rejects an unknown public bundle key when additionalProperties is false', async () => {
-  const [publicSchema, answerSchema, resourceSchema, bank] = await Promise.all([
+  const [publicSchema, resourceSchema, bank] = await Promise.all([
     read('../schemas/can-lam-sang/case-bundle.v1.schema.json').then(JSON.parse),
-    read('../schemas/can-lam-sang/answer-key.v1.schema.json').then(JSON.parse),
     read('../schemas/can-lam-sang/resource.v1.schema.json').then(JSON.parse),
     readLegacyBank()
   ]);
   const schemas = new Map([
     ['case-bundle.v1.schema.json', publicSchema],
-    ['answer-key.v1.schema.json', answerSchema],
     ['resource.v1.schema.json', resourceSchema]
   ]);
   const { public_bundle } = adaptLegacyCase(bank[0]);
@@ -269,28 +285,70 @@ test('F3 schema validator rejects an unknown public bundle key when additionalPr
   );
 });
 
-test('F4 public clinical strings contain no full/partial answer text after accent/case normalization', async () => {
+test('D1 has zero blocking diagnosis leaks after overrides; accent-stripped matches are warnings only', async (t) => {
   const bank = await readLegacyBank();
-  const leaks = [];
+  const violations = [];
+  const warnings = [];
   for (const legacy of bank) {
     const { public_bundle, answer_key } = adaptLegacyCase(legacy);
-    const protectedAnswers = protectedAnswerTexts(answer_key);
+    const choices = blockingDiagnosisChoices(answer_key.diagnosis_options);
     for (const field of publicClinicalStrings(public_bundle)) {
-      const normalizedValue = normalizeLeakText(field.value);
-      for (const answer of protectedAnswers) {
-        if (normalizedValue.includes(answer.normalized)) {
-          leaks.push({
-            case_id: legacy.id,
-            field: field.path,
-            answer_group: answer.group,
-            answer: answer.text,
-            excerpt: String(field.value).slice(0, 220)
-          });
+      for (const choice of choices) {
+        if (hasWordBoundedMatch(field.value, choice.text)) {
+          violations.push({ case_id: legacy.id, field: field.path, group: choice.group, choice: choice.text, excerpt: field.value });
+        } else if (hasWordBoundedAccentlessMatch(field.value, choice.text)) {
+          warnings.push({ case_id: legacy.id, field: field.path, group: choice.group, choice: choice.text, excerpt: field.value });
         }
       }
     }
   }
-  assert.deepEqual(leaks, [], 'F4 answer-text leaks outside the protected answer key:\n' + JSON.stringify(leaks, null, 2));
+  for (const warning of warnings) t.diagnostic('accentless-only warning: ' + JSON.stringify(warning));
+  assert.deepEqual(violations, []);
+});
+
+test('D4 override schema is valid and every override only deletes content or moves the whole original server-side', async () => {
+  const [config, schema, bank] = await Promise.all([
+    read('../data/can-lam-sang/legacy-content-overrides.json').then(JSON.parse),
+    read('../schemas/can-lam-sang/legacy-content-overrides.v1.schema.json').then(JSON.parse),
+    readLegacyBank()
+  ]);
+  const schemas = new Map([['legacy-content-overrides.v1.schema.json', schema]]);
+  validateSchema(config, schema, { schemas });
+  assert.equal(config.overrides.length, 4);
+
+  for (const override of config.overrides) {
+    const legacy = bank.find(item => item.id === override.case_id);
+    assert.ok(legacy, override.case_id + ': case missing');
+    const original = getLegacyPath(legacy, override.path);
+    assert.equal(sha256Hex(original), override.original_sha256);
+    const { public_bundle, answer_key } = adaptLegacyCase(legacy);
+    const result = getPublicPath(public_bundle, override.path);
+    assert.ok(result.length <= original.length, override.case_id + ': override lengthened content');
+
+    if (override.op === 'move_to_after_submission') {
+      assert.equal(result, '');
+      assert.ok(answer_key.after_submission_notes.some(note => note.path === override.path && note.text === original));
+    } else {
+      assert.equal(override.op, 'remove_substring');
+      assert.equal(result, original.replace(override.remove_substring, ''));
+      assert.notEqual(result, original);
+      assert.ok(!answer_key.after_submission_notes.some(note => note.path === override.path));
+    }
+  }
+});
+
+test('D4 negative: modifying an override target makes adapter fail closed on sha256 mismatch', async () => {
+  const [config, bank] = await Promise.all([
+    read('../data/can-lam-sang/legacy-content-overrides.json').then(JSON.parse),
+    readLegacyBank()
+  ]);
+  const override = config.overrides[0];
+  const legacy = structuredClone(bank.find(item => item.id === override.case_id));
+  const match = /^investigations\[(\d+)\]\.(name|result)$/.exec(override.path);
+  const row = legacy.tests[Number(match[1])];
+  const slot = match[2] === 'name' ? 0 : 2;
+  row[slot] = row[slot] + ' thay đổi';
+  assert.throws(() => adaptLegacyCase(legacy), /override sha256 mismatch/);
 });
 
 test('Adapter rejects every non-finite or non-number required legacy vital', async () => {

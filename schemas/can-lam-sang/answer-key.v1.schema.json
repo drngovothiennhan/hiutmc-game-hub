@@ -11,6 +11,7 @@
     "server_only",
     "title_reveal",
     "resources_after_submission",
+    "after_submission_notes",
     "history_essential_indices",
     "examination_essential_indices",
     "investigation_roles",
@@ -39,6 +40,32 @@
       "type": "array",
       "items": {
         "$ref": "resource.v1.schema.json"
+      }
+    },
+    "after_submission_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "text",
+          "reason"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       }
     },
     "history_essential_indices": {

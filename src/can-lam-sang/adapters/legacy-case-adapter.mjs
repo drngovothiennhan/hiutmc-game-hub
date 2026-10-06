@@ -1,7 +1,10 @@
+import overrideConfig from '../../../data/can-lam-sang/legacy-content-overrides.json' with { type: 'json' };
+
 const PUBLIC_SCHEMA_VERSION = '1.0.0';
 const ANSWER_SCHEMA_VERSION = '1.0.0';
 const RESOURCE_SCHEMA_VERSION = '1.0.0';
 const LEGACY_REVIEW_STATUS = 'CHUA_DUYET';
+const BLOCKING_DIAGNOSIS_GROUPS = Object.freeze(['ydx', 'bd', 'bc', 'the']);
 
 const SOURCE_TYPE = Object.freeze({
   pubmed: 'article',
@@ -10,7 +13,71 @@ const SOURCE_TYPE = Object.freeze({
   sach_giao_trinh: 'textbook'
 });
 
+const SHA256_K = new Uint32Array([
+  0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+]);
+
 const safeText = value => value == null ? '' : String(value);
+const rotr = (value, bits) => (value >>> bits) | (value << (32 - bits));
+
+export function sha256Hex(value) {
+  const bytes = new TextEncoder().encode(String(value));
+  const bitLength = bytes.length * 8;
+  const totalLength = Math.ceil((bytes.length + 9) / 64) * 64;
+  const padded = new Uint8Array(totalLength);
+  padded.set(bytes);
+  padded[bytes.length] = 0x80;
+  const view = new DataView(padded.buffer);
+  view.setUint32(totalLength - 8, Math.floor(bitLength / 0x100000000), false);
+  view.setUint32(totalLength - 4, bitLength >>> 0, false);
+
+  const state = new Uint32Array([
+    0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,
+    0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
+  ]);
+  const words = new Uint32Array(64);
+
+  for (let offset = 0; offset < totalLength; offset += 64) {
+    for (let i = 0; i < 16; i += 1) words[i] = view.getUint32(offset + i * 4, false);
+    for (let i = 16; i < 64; i += 1) {
+      const a = words[i - 15];
+      const b = words[i - 2];
+      const s0 = rotr(a, 7) ^ rotr(a, 18) ^ (a >>> 3);
+      const s1 = rotr(b, 17) ^ rotr(b, 19) ^ (b >>> 10);
+      words[i] = (words[i - 16] + s0 + words[i - 7] + s1) >>> 0;
+    }
+
+    let [a,b,c,d,e,f,g,h] = state;
+    for (let i = 0; i < 64; i += 1) {
+      const s1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const ch = (e & f) ^ (~e & g);
+      const t1 = (h + s1 + ch + SHA256_K[i] + words[i]) >>> 0;
+      const s0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const maj = (a & b) ^ (a & c) ^ (b & c);
+      const t2 = (s0 + maj) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0;
+      d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+
+    state[0] = (state[0] + a) >>> 0;
+    state[1] = (state[1] + b) >>> 0;
+    state[2] = (state[2] + c) >>> 0;
+    state[3] = (state[3] + d) >>> 0;
+    state[4] = (state[4] + e) >>> 0;
+    state[5] = (state[5] + f) >>> 0;
+    state[6] = (state[6] + g) >>> 0;
+    state[7] = (state[7] + h) >>> 0;
+  }
+
+  return Array.from(state, n => n.toString(16).padStart(8, '0')).join('');
+}
 
 function requireLegacyCase(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new TypeError('legacy case must be an object');
@@ -33,15 +100,20 @@ function normalizeId(value) {
   return x || 'unknown';
 }
 
-function normalizeLeakText(value) {
-  return safeText(value)
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'D')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
+function normalizeExact(value) {
+  return safeText(value).normalize('NFC').toLocaleLowerCase('vi-VN').replace(/\s+/g, ' ').trim();
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
+}
+
+export function hasWordBoundedMatch(value, choice) {
+  const haystack = normalizeExact(value);
+  const needle = normalizeExact(choice);
+  if (needle.length <= 5) return false;
+  const pattern = new RegExp(`(?<![\\p{L}\\p{N}_])${escapeRegExp(needle)}(?![\\p{L}\\p{N}_])`, 'iu');
+  return pattern.test(haystack);
 }
 
 function sourceFor(caseId, sourceText, verification, index) {
@@ -90,14 +162,14 @@ function diagnosisChoice(raw) {
   return { text, credit: 'none' };
 }
 
-function answerTexts(diagnosisOptions) {
+export function blockingDiagnosisChoices(diagnosisOptions) {
   const out = [];
-  for (const choices of Object.values(diagnosisOptions)) {
+  for (const group of BLOCKING_DIAGNOSIS_GROUPS) {
+    const choices = diagnosisOptions[group];
     if (!Array.isArray(choices)) continue;
     for (const choice of choices) {
       if (!choice || !['full', 'partial'].includes(choice.credit)) continue;
-      const normalized = normalizeLeakText(choice.text);
-      if (normalized.length > 5) out.push(normalized);
+      if (normalizeExact(choice.text).length > 5) out.push({ group, ...choice });
     }
   }
   return out;
@@ -105,8 +177,7 @@ function answerTexts(diagnosisOptions) {
 
 function protectTitle(caseId, title, diagnosisOptions) {
   const original = safeText(title);
-  const normalizedTitle = normalizeLeakText(original);
-  const leaked = answerTexts(diagnosisOptions).some(answer => normalizedTitle.includes(answer));
+  const leaked = blockingDiagnosisChoices(diagnosisOptions).some(choice => hasWordBoundedMatch(original, choice.text));
   return leaked
     ? { publicTitle: `Ca bệnh ${caseId}`, titleReveal: original }
     : { publicTitle: original, titleReveal: null };
@@ -143,6 +214,63 @@ function modeOf(c) {
   return c.setting === 'capcuu' || c.setting === 'giuong' ? 'tay' : 'dongtay';
 }
 
+function parseInvestigationPath(path) {
+  const match = /^investigations\[(\d+)\]\.(name|result)$/.exec(path);
+  if (!match) throw new TypeError(`unsupported legacy content override path: ${path}`);
+  return { index: Number(match[1]), field: match[2] };
+}
+
+function originalAtOverridePath(c, path) {
+  const { index, field } = parseInvestigationPath(path);
+  const row = Array.isArray(c.tests) ? c.tests[index] : undefined;
+  if (!Array.isArray(row)) throw new TypeError(`${c.id}: override path missing: ${path}`);
+  const value = row[field === 'name' ? 0 : 2];
+  if (typeof value !== 'string') throw new TypeError(`${c.id}: override target must be a string: ${path}`);
+  return value;
+}
+
+function applyOverrides(c) {
+  const fieldValues = new Map();
+  const afterSubmissionNotes = [];
+  const matching = overrideConfig.overrides.filter(item => item.case_id === c.id);
+
+  for (const override of matching) {
+    if (override.status !== LEGACY_REVIEW_STATUS) throw new TypeError(`${c.id}: override status must be CHUA_DUYET`);
+    const original = originalAtOverridePath(c, override.path);
+    const actualSha = sha256Hex(original);
+    if (actualSha !== override.original_sha256) {
+      throw new Error(`${c.id}: override sha256 mismatch at ${override.path}; expected ${override.original_sha256}, got ${actualSha}`);
+    }
+
+    if (override.op === 'move_to_after_submission') {
+      fieldValues.set(override.path, '');
+      afterSubmissionNotes.push({ path: override.path, text: original, reason: override.reason });
+      continue;
+    }
+
+    if (override.op === 'remove_substring') {
+      const remove = override.remove_substring;
+      if (typeof remove !== 'string' || remove.length === 0) throw new TypeError(`${c.id}: remove_substring text missing at ${override.path}`);
+      const first = original.indexOf(remove);
+      const last = original.lastIndexOf(remove);
+      if (first < 0 || first !== last) throw new Error(`${c.id}: remove_substring must occur exactly once at ${override.path}`);
+      const next = original.slice(0, first) + original.slice(first + remove.length);
+      if (next.length > original.length) throw new Error(`${c.id}: override unexpectedly lengthened ${override.path}`);
+      fieldValues.set(override.path, next);
+      continue;
+    }
+
+    throw new TypeError(`${c.id}: unsupported override op ${override.op}`);
+  }
+
+  return { fieldValues, afterSubmissionNotes };
+}
+
+function investigationValue(overrides, index, field, fallback) {
+  const path = `investigations[${index}].${field}`;
+  return overrides.has(path) ? overrides.get(path) : fallback;
+}
+
 export function adaptLegacyCase(input) {
   const c = requireLegacyCase(input);
   const v = requireFiniteVitals(c.vitals);
@@ -151,6 +279,7 @@ export function adaptLegacyCase(input) {
     if (Array.isArray(c.opt?.[key])) diagnosisOptions[key] = c.opt[key].map(diagnosisChoice);
   }
   const title = protectTitle(c.id, c.title, diagnosisOptions);
+  const overrideResult = applyOverrides(c);
 
   const public_bundle = {
     schema_version: PUBLIC_SCHEMA_VERSION,
@@ -190,10 +319,10 @@ export function adaptLegacyCase(input) {
       item: safeText(item?.[1]),
       finding: safeText(item?.[2])
     })),
-    investigations: (Array.isArray(c.tests) ? c.tests : []).map(item => ({
-      name: safeText(item?.[0]),
+    investigations: (Array.isArray(c.tests) ? c.tests : []).map((item, index) => ({
+      name: investigationValue(overrideResult.fieldValues, index, 'name', safeText(item?.[0])),
       duration_minutes: Number.isFinite(Number(item?.[1])) ? Number(item[1]) : 0,
-      result: safeText(item?.[2])
+      result: investigationValue(overrideResult.fieldValues, index, 'result', safeText(item?.[2]))
     }))
   };
 
@@ -203,6 +332,7 @@ export function adaptLegacyCase(input) {
     server_only: true,
     title_reveal: title.titleReveal,
     resources_after_submission: legacyResources(c),
+    after_submission_notes: overrideResult.afterSubmissionNotes,
     history_essential_indices: (Array.isArray(c.ask) ? c.ask : []).flatMap((item, index) => item?.[2] === 'e' ? [index] : []),
     examination_essential_indices: (Array.isArray(c.exam) ? c.exam : []).flatMap((item, index) => item?.[3] === 'e' ? [index] : []),
     investigation_roles: (Array.isArray(c.tests) ? c.tests : []).map((item, index) => ({
