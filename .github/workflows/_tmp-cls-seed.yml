@@ -6,7 +6,12 @@ on:
       - feat/can-lam-sang-step1b-sql
 
 jobs:
-  seed:
+  seed-tail:
+    strategy:
+      matrix:
+        file:
+          - 007_cases_121-140.sql
+          - 008_cases_141-156.sql
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,17 +19,10 @@ jobs:
         with:
           node-version: 22
       - run: node supabase/proposed/can-lam-sang/004_cls_seed_generator.mjs --output-dir build/can-lam-sang/seed --chunk-size 20
-      - name: Emit seed for QA handoff
+      - name: Emit one seed chunk
         shell: bash
         run: |
-          for file in build/can-lam-sang/seed/*.sql; do
-            name="$(basename "$file")"
-            echo "CLS_SEED_BEGIN:$name"
-            base64 -w 50000 "$file"
-            echo "CLS_SEED_END:$name"
-          done
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cls-seed-step1b
-          path: build/can-lam-sang/seed
-          if-no-files-found: error
+          file="build/can-lam-sang/seed/${{ matrix.file }}"
+          echo "CLS_SEED_BEGIN:${{ matrix.file }}"
+          base64 -w 10000 "$file"
+          echo "CLS_SEED_END:${{ matrix.file }}"
