@@ -29,7 +29,8 @@ test("Step 2a-2 SQL contract has approval gates, grants and no random ordering",
   assert.match(tablesSql, /cbc_scenarios/);
   assert.match(tablesSql, /public_scenario jsonb/);
   assert.match(tablesSql, /answer_key jsonb/);
-  assert.match(tablesSql, /position\(pattern_id in public_scenario::text\) = 0/);
+  assert.match(tablesSql, /pg_catalog\.strpos\(public_scenario::text, pattern_id\) = 0/);
+  assert.doesNotMatch(tablesSql, /pg_catalog\.position\(/i, "regression: use strpos() for PostgreSQL text search");
   assert.match(tablesSql, /revoke all on table/);
   assert.doesNotMatch(tablesSql, /ORDER\s+BY\s+random\s*\(/i);
   assert.doesNotMatch(rpcSql, /ORDER\s+BY\s+random\s*\(/i);
@@ -149,3 +150,5 @@ test("seed JSON is byte-identical across two runs and SQL mode is deterministic"
   assert.equal(filtered.rows.length, 2);
   assert.ok(filtered.rows.every((row) => row.pattern_id === fixture.pattern_id));
 });
+
+// PostgreSQL compatibility regression: use jsonb_object_keys/count instead of unavailable jsonb_object_length.
