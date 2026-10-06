@@ -312,3 +312,11 @@ bc708d0e1d26587c51e282a789845354ecd2a7d3c3a827dfcc10b77d3c2bef70  ./y-quan-live/
 2cfff625322faba4b3fca2e0e52beb7737708151b4357a5de7da0a42f7312534  ./y-quan-live/game.css
 5c8f6c5dae5306877f7ad25d346d17a49e4169faf859a7cf761dedba79c90f78  ./y-quan-live/game.js
 7a493087b369878546623e6d79ba4ee81e7dbe0dcbcc636d21783aa45a3701b7  ./y-quan-live/index.html
+84f8e7dd78c278aae1693cfa5bad901576f5e42953038e24e16a6b494c00a87f  ./y-quan-live/interview/app.js
+aca6ca5b1c9e5216ba8a0b80f4e8e1338b0c513e0a78a7ecc24a365b4ff773c3  ./y-quan-live/interview/cases-extra.js
+9ce72d86bece93d2d33d209f40b59bdaa10cbc77f3b035e5a6734933ee12e1cd  ./y-quan-live/interview/data.js
+62fec2386872e84be6fb5d3e9143817aa955ce104df123b14c2e420cdf8dc5ea  ./y-quan-live/interview/engine.js
+94814eb777dbef2db6898eb928f246f18cd40358bbb96f797a40b3c5d132829a  ./y-quan-live/interview/index.html
+c0d7da51b1e5877985cb6238b16ce84e332cbba4f05e4d9a62d896fd1a7bcf5b  ./y-quan-live/interview/interview.css
+7b214de331c7a193c2ea11fdb2b9a5cee56bc0049a796fbbeac0bfe6eeb65031  ./y-quan-live/interview/question-bank.js
+8c3ec8d4eae8d9b44918c86fec1725bc4b7cba8df6e28eb5fad8d982aab7865f  ./y-quan-live/paths.js
