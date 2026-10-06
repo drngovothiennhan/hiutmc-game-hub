@@ -1,3 +1,5 @@
+begin;
+
 create table if not exists can_lam_sang_private.cls_publish_config (
   config_id boolean primary key default true,
   unreviewed_enabled boolean not null default false,
@@ -39,7 +41,47 @@ begin
 end
 $function$;
 
-begin;
+
+create or replace function public.cls_get_case_v1(p_case_id text)
+returns jsonb
+language plpgsql
+security definer
+set search_path = ''
+as $function$
+declare
+  v_bundle jsonb;
+  v_review_status text;
+begin
+  if not can_lam_sang_private.cls_user_enabled_v1(auth.uid()) then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_mo', 'data', null);
+  end if;
+
+  select c.public_bundle, c.review_status
+  into v_bundle, v_review_status
+  from can_lam_sang_private.case_bundles as c
+  where c.case_id = p_case_id;
+
+  if v_bundle is null
+     or not can_lam_sang_private.cls_content_visible_v1(v_review_status)
+  then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
+  end if;
+
+  return pg_catalog.jsonb_build_object(
+    'ok', true,
+    'code', null,
+    'data',
+      (v_bundle - 'review_status' - 'review_label')
+      || can_lam_sang_private.cls_review_fields_v1(v_review_status)
+  );
+end
+$function$;
+
+revoke all on function public.cls_get_case_v1(text)
+  from public, anon, authenticated;
+
+grant execute on function public.cls_get_case_v1(text)
+  to authenticated;
 
 create or replace function public.cls_cbc_start_v1(p_level text)
 returns jsonb
@@ -370,5 +412,15 @@ revoke all on function public.cls_cbc_submit_v1(uuid, jsonb)
 grant execute on function public.cls_cbc_start_v1(text) to authenticated;
 grant execute on function public.cls_cbc_get_v1(uuid) to authenticated;
 grant execute on function public.cls_cbc_submit_v1(uuid, jsonb) to authenticated;
+
+
+alter table can_lam_sang_private.cls_publish_config enable row level security;
+revoke all on table can_lam_sang_private.cls_publish_config
+  from public, anon, authenticated;
+
+revoke all on function can_lam_sang_private.cls_content_visible_v1(text)
+  from public, anon, authenticated;
+revoke all on function can_lam_sang_private.cls_review_fields_v1(text)
+  from public, anon, authenticated;
 
 commit;
