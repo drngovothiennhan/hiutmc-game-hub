@@ -297,6 +297,115 @@ function publicChoices(caseId, diagnosisOptions, actionOptions) {
   return { diagnosis, actions: shuffleTextChoices(actionOptions.map(option => option.text), rng) };
 }
 
+function redactAnswerText(publicBundle, answerKey) {
+  const secrets = [
+    answerKey.teaching_explanation,
+    ...(answerKey.action_options || []).map(option => option.rationale),
+    ...(answerKey.after_submission_notes || []).flatMap(note => [note.text, note.reason])
+  ].filter(value => typeof value === 'string' && value.length > 5);
+  const notes = [];
+  const walk = (node, path) => {
+    if (Array.isArray(node)) node.forEach((item, index) => walk(item, `${path}[${index}]`));
+    else if (node && typeof node === 'object') {
+      for (const [key, value] of Object.entries(node)) {
+        if (key === 'choices') continue;
+        if (typeof value === 'string') {
+          let next = value;
+          for (const secret of secrets) {
+            if (next.includes(secret)) {
+              notes.push({ path: `${path}.${key}`, text: secret, reason: 'server_only_answer_text' });
+              next = next.split(secret).join('');
+            }
+          }
+          node[key] = next;
+        } else walk(value, `${path}.${key}`);
+      }
+    }
+  };
+  walk(publicBundle, '
+  const c = requireLegacyCase(input);
+  const v = requireFiniteVitals(c.vitals);
+  const diagnosisOptions = {};
+  for (const key of ['ydx','bd','bc','the','phap','phuong','huyet']) {
+    if (Array.isArray(c.opt?.[key])) diagnosisOptions[key] = c.opt[key].map(diagnosisChoice);
+  }
+  const title = protectTitle(c.id, c.title, diagnosisOptions);
+  const overrideResult = applyOverrides(c);
+  const actionOptions = (Array.isArray(c.actions) ? c.actions : []).map(actionChoice);
+
+  const public_bundle = {
+    schema_version: PUBLIC_SCHEMA_VERSION,
+    case_id: c.id,
+    data_origin: 'synthetic',
+    review_status: LEGACY_REVIEW_STATUS,
+    title: title.publicTitle,
+    setting: c.setting,
+    level: c.level,
+    track: trackOf(c),
+    mode: modeOf(c),
+    specialty: c.specialty ?? c.chuyen_khoa ?? null,
+    demographics: {
+      age: c.age,
+      sex: c.sex,
+      patient_label: safeText(c.name)
+    },
+    presentation: {
+      intro: safeText(c.intro),
+      place: c.place == null ? null : safeText(c.place),
+      clock: c.clock == null ? null : safeText(c.clock),
+      night: Boolean(c.night)
+    },
+    vitals: {
+      hr: v.hr,
+      sbp: v.sbp,
+      dbp: v.dbp,
+      rr: v.rr,
+      temperature_c: v.t,
+      spo2: v.spo2
+    },
+    history: (Array.isArray(c.ask) ? c.ask : []).map(item => ({
+      question: safeText(item?.[0]),
+      response: safeText(item?.[1])
+    })),
+    examination: (Array.isArray(c.exam) ? c.exam : []).map(item => ({
+      group: safeText(item?.[0]),
+      item: safeText(item?.[1]),
+      finding: safeText(item?.[2])
+    })),
+    investigations: (Array.isArray(c.tests) ? c.tests : []).map((item, index) => ({
+      name: investigationValue(overrideResult.fieldValues, index, 'name', safeText(item?.[0])),
+      duration_minutes: Number.isFinite(Number(item?.[1])) ? Number(item[1]) : 0,
+      result: investigationValue(overrideResult.fieldValues, index, 'result', safeText(item?.[2]))
+    })),
+    choices: publicChoices(c.id, diagnosisOptions, actionOptions)
+  };
+
+  const answer_key = {
+    schema_version: ANSWER_SCHEMA_VERSION,
+    case_id: c.id,
+    server_only: true,
+    title_reveal: title.titleReveal,
+    resources_after_submission: legacyResources(c),
+    after_submission_notes: overrideResult.afterSubmissionNotes,
+    history_essential_indices: (Array.isArray(c.ask) ? c.ask : []).flatMap((item, index) => item?.[2] === 'e' ? [index] : []),
+    examination_essential_indices: (Array.isArray(c.exam) ? c.exam : []).flatMap((item, index) => item?.[3] === 'e' ? [index] : []),
+    investigation_roles: (Array.isArray(c.tests) ? c.tests : []).map((item, index) => ({
+      index,
+      role: item?.[3] === 'e' ? 'essential' : item?.[3] === 'w' ? 'waste' : 'neutral'
+    })),
+    diagnosis_options: diagnosisOptions,
+    action_options: actionOptions,
+    teaching_explanation: safeText(c.teach)
+  };
+
+  return { public_bundle, answer_key };
+}
+
+export default adaptLegacyCase;
+);
+  return notes;
+}
+
 export function adaptLegacyCase(input) {
   const c = requireLegacyCase(input);
   const v = requireFiniteVitals(c.vitals);
