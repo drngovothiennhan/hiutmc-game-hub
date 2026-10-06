@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiutmc.com/schemas/can-lam-sang/answer-key.v1.schema.json",
+  "title": "HIU TMC Clinical Lab Server-only Answer Key v1",
+  "description": "Server-only payload. Never serialize this object into the pre-submission learner response.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "server_only",
+    "title_reveal",
+    "resources_after_submission",
+    "after_submission_notes",
+    "history_essential_indices",
+    "examination_essential_indices",
+    "investigation_roles",
+    "diagnosis_options",
+    "action_options",
+    "teaching_explanation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{2,80}$"
+    },
+    "server_only": {
+      "const": true
+    },
+    "title_reveal": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "resources_after_submission": {
+      "type": "array",
+      "items": {
+        "$ref": "resource.v1.schema.json"
+      }
+    },
+    "after_submission_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "text",
+          "reason"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "history_essential_indices": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "uniqueItems": true
+    },
+    "examination_essential_indices": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "uniqueItems": true
+    },
+    "investigation_roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "role"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "role": {
+            "enum": [
+              "essential",
+              "neutral",
+              "waste"
+            ]
+          }
+        }
+      }
+    },
+    "diagnosis_options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ydx": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        },
+        "bd": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        },
+        "bc": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        },
+        "the": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        },
+        "phap": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        },
+        "phuong": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        },
+        "huyet": {
+          "$ref": "#/$defs/diagnosisChoiceList"
+        }
+      }
+    },
+    "action_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "time_minutes",
+          "grade",
+          "rationale"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "time_minutes": {
+            "type": "number",
+            "minimum": 0
+          },
+          "grade": {
+            "enum": [
+              "critical",
+              "recommended",
+              "neutral",
+              "waste",
+              "harmful"
+            ]
+          },
+          "rationale": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "teaching_explanation": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "diagnosisChoiceList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "credit"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "credit": {
+            "enum": [
+              "full",
+              "partial",
+              "none"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
