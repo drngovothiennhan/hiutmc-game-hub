@@ -1,17 +1,67 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://hiutmc.com/schemas/can-lam-sang/cbc-pattern.v1.schema.json",
-  "type":"object","additionalProperties":false,
-  "required":["schema_version","pattern_id","name","population","sex","reference_id","review_status"],
-  "properties":{
-    "schema_version":{"const":"1.0.0"},
-    "pattern_id":{"type":"string","pattern":"^[A-Z0-9-]+$"},
-    "name":{"type":"string","minLength":1},
-    "population":{"const":"adult"},
-    "sex":{"enum":["nam","nữ"]},
-    "reference_id":{"type":"string","minLength":1},
-    "review_status":{"enum":["CHUA_DUYET","DA_DUYET"]},
-    "indices":{"type":"object"},
-    "reference_notes":{"type":"string"}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiutmc.com/schemas/can-lam-sang/cbc-pattern.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pattern_id",
+    "name",
+    "population",
+    "sex",
+    "reference_id",
+    "review_status"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "pattern_id": { "type": "string", "pattern": "^[A-Z0-9-]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "population": { "const": "adult" },
+    "sex": { "enum": ["nam", "nữ"] },
+    "reference_id": { "type": "string", "minLength": 1 },
+    "review_status": { "enum": ["FIXTURE_ONLY", "CHUA_DUYET", "DA_DUYET"] },
+    "reviewer": { "type": "string", "minLength": 1 },
+    "approved_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "approval_ref": { "type": "string", "minLength": 1 },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource_id",
+        "type",
+        "source",
+        "document_name",
+        "agency",
+        "year_or_version",
+        "citation",
+        "checked_at",
+        "reviewer",
+        "approval_status",
+        "license"
+      ],
+      "properties": {
+        "resource_id": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "minLength": 1 },
+        "document_name": { "type": "string", "minLength": 1 },
+        "agency": { "type": "string", "minLength": 1 },
+        "year_or_version": { "type": "string", "minLength": 1 },
+        "citation": { "type": "string", "minLength": 1 },
+        "checked_at": { "type": "string", "minLength": 1 },
+        "reviewer": { "type": "string", "minLength": 1 },
+        "approval_status": { "enum": ["CHUA_DUYET", "DA_DUYET"] },
+        "license": { "type": "string", "minLength": 1 }
+      }
+    },
+    "indices": { "type": "object" },
+    "expected_classifications": { "type": "object" },
+    "accepted_interpretations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reference_notes": { "type": "string" }
   }
 }
