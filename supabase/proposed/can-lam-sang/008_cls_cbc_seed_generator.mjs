@@ -30,11 +30,11 @@ function requirePattern(pattern) {
   }
 }
 
-function buildRow(pattern, level, variant, sex) {
+function buildRow(pattern, patternIndex, level, variant, sex) {
   const scenario = generateScenario({
     pattern,
     variant,
-    scenario_id: `${pattern.pattern_id}-${level}-${sex}-${variant}`,
+    scenario_id: `cbc-${level}-${patternIndex}-${sex}-${variant}`,
     sex,
     profile: "vn_lab"
   });
@@ -89,11 +89,12 @@ const loaded = readJson(input);
 const patterns = Array.isArray(loaded) ? loaded : [loaded];
 const rows = [];
 
-for (const pattern of patterns) {
+for (let patternIndex = 0; patternIndex < patterns.length; patternIndex += 1) {
+  const pattern = patterns[patternIndex];
   requirePattern(pattern);
   for (const sex of ["nam", "nữ"]) {
     for (let variant = 0; variant < variantCount; variant += 1) {
-      rows.push(buildRow(pattern, requestedLevel, variant, sex));
+      rows.push(buildRow(pattern, patternIndex, requestedLevel, variant, sex));
     }
   }
 }
