@@ -200,7 +200,7 @@ test('D1 masks title only for full/partial diagnosis or pattern groups using exa
 
 test('Public bundle is whitelist-only and contains no legacy answer keys, source metadata, or answer-marker prefixes', async () => {
   const bank = await readLegacyBank();
-  const bannedKeys = new Set(['opt','actions','teach','answer_key','resources','resources_after_submission','after_submission_notes','title_reveal']);
+  const bannedKeys = new Set(['opt','teach','answer_key','resources','resources_after_submission','after_submission_notes','title_reveal','diagnosis_options','action_options']);
   const answerMarker = /^(?:\+\+|\+|~|-|!)(?=\S)/;
   for (const legacy of bank) {
     const { public_bundle } = adaptLegacyCase(legacy);
