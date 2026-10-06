@@ -1,6 +1,6 @@
 # Runbook phát hành CBC Step 2a-5 — Production
 
-> **Tài liệu בלבד — KHÔNG THỰC THI trong bước 2a-5 hiện tại.**
+> **Tài liệu — KHÔNG THỰC THI trong bước 2a-5 hiện tại.**
 >
 > Không có bước nào dưới đây được phép chạy chỉ vì tài liệu này tồn tại.
 
@@ -53,7 +53,7 @@
 
 **Lệnh áp dụng:** `006_cls_cbc_rpc.sql`
 
-**Lệnh kiểm sau:** chạy kiểm hợp đồng RPC ở production với dữ liệu thử nghiệm được phê duyệt; không in JWT/token.
+**Lệnh kiểm sau:** chỉ kiểm tra cấu trúc/quyền/RPC contract theo hồ sơ đã phê duyệt; **không dùng dữ liệu thử nghiệm trên production** và không in JWT/token.
 
 **Điểm dừng:** mọi return-code hoặc quyền khác kỳ vọng => DỪNG.
 
