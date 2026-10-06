@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+test('publish gate is fail-closed and server-owned',()=>{const s=read('supabase/proposed/can-lam-sang/009_cls_publish_gate.sql');assert.match(s,/unreviewed_enabled boolean not null default false/);assert.match(s,/unreviewed_expires_at timestamptz/);assert.match(s,/p_review_status='DA_DUYET'/);assert.match(s,/pg_catalog\.now\(\) <= c\.unreviewed_expires_at/);assert.match(s,/review_label/);assert.match(s,/review_status/);});
+test('rollback only removes L1 proposal objects',()=>{const s=read('supabase/proposed/can-lam-sang/010_cls_publish_gate_rollback.sql');assert.match(s,/cls_publish_config/);assert.doesNotMatch(s,/drop table.*cbc_/i);});
+test('core submit validates keys against each case answer structure',()=>{const s=read('supabase/proposed/can-lam-sang/011_cls_core_submit_validation.sql');assert.match(s,/jsonb_object_keys\(p_answers\)/);assert.match(s,/if not\(v_key \? v_name\)/);assert.match(s,/answers_khong_hop_le/);});
