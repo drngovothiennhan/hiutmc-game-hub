@@ -1,5 +1,4 @@
 import test from "node:test";
-  assert.doesNotMatch(tablesSql, /pg_catalog\\.position\\(/i, "regression: use strpos() for PostgreSQL text search");
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
@@ -30,7 +29,8 @@ test("Step 2a-2 SQL contract has approval gates, grants and no random ordering",
   assert.match(tablesSql, /cbc_scenarios/);
   assert.match(tablesSql, /public_scenario jsonb/);
   assert.match(tablesSql, /answer_key jsonb/);
-  assert.match(tablesSql, /position\(pattern_id in public_scenario::text\) = 0/);
+  assert.match(tablesSql, /pg_catalog\.strpos\(public_scenario::text, pattern_id\) = 0/);
+  assert.doesNotMatch(tablesSql, /pg_catalog\.position\(/i, "regression: use strpos() for PostgreSQL text search");
   assert.match(tablesSql, /revoke all on table/);
   assert.doesNotMatch(tablesSql, /ORDER\s+BY\s+random\s*\(/i);
   assert.doesNotMatch(rpcSql, /ORDER\s+BY\s+random\s*\(/i);
