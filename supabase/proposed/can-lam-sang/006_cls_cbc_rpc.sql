@@ -88,7 +88,13 @@ begin
       where prior.user_id = v_user
         and prior.scenario_key = s.scenario_key
     )
-  order by pg_catalog.mod(abs(v_hash + pg_catalog.hashtextextended(s.scenario_key, 0)), v_total),
+  order by pg_catalog.mod(
+  pg_catalog.hashtextextended(
+    v_hash::text || pg_catalog.chr(31) || s.scenario_key,
+    0
+  ),
+  v_total
+),
            s.scenario_key
   limit 1;
 
@@ -211,7 +217,8 @@ begin
   into v_attempt
   from can_lam_sang_private.cbc_attempts as a
   where a.id = p_attempt_id
-    and a.user_id = v_user;
+    and a.user_id = v_user
+  for update;
 
   if v_attempt.id is null then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
@@ -248,8 +255,9 @@ begin
 
   if exists (
     select 1
-    from pg_catalog.jsonb_each_text(p_answers -> 'classifications') as e(k, v)
-    where v not in ('thap', 'binh_thuong', 'cao')
+    from pg_catalog.jsonb_each(p_answers -> 'classifications') as e(k, v)
+    where pg_catalog.jsonb_typeof(e.v) <> 'string'
+       or e.v #>> '{}' not in ('thap', 'binh_thuong', 'cao')
   ) then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
