@@ -40,6 +40,32 @@ function pick(rng, low, high) {
   return low + (high - low) * rng();
 }
 
+function convertFromInternal(key, value, profile) {
+  if (key === "Hct") {
+    return value * 100;
+  }
+  if (key === "Hb" && profile === "conventional") {
+    return value / 10;
+  }
+  if (key === "MCHC" && profile === "conventional") {
+    return value / 10;
+  }
+  return value;
+}
+
+function convertToInternal(key, value, profile) {
+  if (key === "Hct") {
+    return value / 100;
+  }
+  if (key === "Hb" && profile === "conventional") {
+    return value * 10;
+  }
+  if (key === "MCHC" && profile === "conventional") {
+    return value * 10;
+  }
+  return value;
+}
+
 function requireSex(sex) {
   if (!SEXES.includes(sex)) {
     throw new Error("sex_thieu_hoac_khong_hop_le");
