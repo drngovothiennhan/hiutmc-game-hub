@@ -38,15 +38,23 @@ function stripAccents(value) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
-function escapeRegExp(value) {
-  return value.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
+function isWordChar(value) {
+  return typeof value === 'string' && value.length > 0 && /[\\p{L}\\p{N}_]/u.test(value);
 }
 
 function hasWordBoundedAccentlessMatch(value, choice) {
   const haystack = stripAccents(value);
   const needle = stripAccents(choice);
   if (needle.length <= 5) return false;
-  return new RegExp(`(?<![\\p{L}\\p{N}_])${escapeRegExp(needle)}(?![\\p{L}\\p{N}_])`, 'iu').test(haystack);
+  let index = haystack.indexOf(needle);
+  while (index >= 0) {
+    const before = index === 0 ? '' : haystack[index - 1];
+    const end = index + needle.length;
+    const after = end >= haystack.length ? '' : haystack[end];
+    if (!isWordChar(before) && !isWordChar(after)) return true;
+    index = haystack.indexOf(needle, index + 1);
+  }
+  return false;
 }
 
 function publicClinicalStrings(bundle) {

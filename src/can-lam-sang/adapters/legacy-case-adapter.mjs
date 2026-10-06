@@ -104,16 +104,23 @@ function normalizeExact(value) {
   return safeText(value).normalize('NFC').toLocaleLowerCase('vi-VN').replace(/\s+/g, ' ').trim();
 }
 
-function escapeRegExp(value) {
-  return value.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
+function isWordChar(value) {
+  return typeof value === 'string' && value.length > 0 && /[\\p{L}\\p{N}_]/u.test(value);
 }
 
 export function hasWordBoundedMatch(value, choice) {
   const haystack = normalizeExact(value);
   const needle = normalizeExact(choice);
   if (needle.length <= 5) return false;
-  const pattern = new RegExp(`(?<![\\p{L}\\p{N}_])${escapeRegExp(needle)}(?![\\p{L}\\p{N}_])`, 'iu');
-  return pattern.test(haystack);
+  let index = haystack.indexOf(needle);
+  while (index >= 0) {
+    const before = index === 0 ? '' : haystack[index - 1];
+    const end = index + needle.length;
+    const after = end >= haystack.length ? '' : haystack[end];
+    if (!isWordChar(before) && !isWordChar(after)) return true;
+    index = haystack.indexOf(needle, index + 1);
+  }
+  return false;
 }
 
 function sourceFor(caseId, sourceText, verification, index) {
