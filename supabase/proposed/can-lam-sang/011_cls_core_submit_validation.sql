@@ -139,6 +139,7 @@ begin
     if v_key_name = 'actions' then
       if pg_catalog.jsonb_typeof(p_answers -> v_key_name) <> 'array'
          or pg_catalog.jsonb_array_length(p_answers -> v_key_name) = 0
+         or pg_catalog.jsonb_array_length(p_answers -> v_key_name) > v_max_selected
       then
         return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
       end if;
