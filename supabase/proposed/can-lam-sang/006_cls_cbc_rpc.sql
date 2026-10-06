@@ -42,16 +42,24 @@ begin
   select count(*) into v_today
   from can_lam_sang_private.cbc_attempts
   where user_id = v_user
-    and started_at >= pg_catalog.date_trunc('day', pg_catalog.now() at time zone 'UTC')
-    and started_at < pg_catalog.date_trunc('day', pg_catalog.now() at time zone 'UTC') + interval '1 day';
+    and started_at >= (
+      pg_catalog.date_trunc('day', pg_catalog.now() at time zone 'UTC')
+      at time zone 'UTC'
+    )
+    and started_at < (
+      pg_catalog.date_trunc('day', pg_catalog.now() at time zone 'UTC') + interval '1 day'
+    ) at time zone 'UTC';
 
   if v_today >= 10 then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'qua_10_luot_ngay', 'data', null);
   end if;
 
   select count(*) into v_total
-  from can_lam_sang_private.cbc_scenarios
-  where level = p_level;
+  from can_lam_sang_private.cbc_scenarios as s
+  join can_lam_sang_private.cbc_patterns as p
+    on p.pattern_id = s.pattern_id
+  where s.level = p_level
+    and p.review_status = 'DA_DUYET';
 
   if v_total = 0 then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_co_scenario', 'data', null);
@@ -62,7 +70,10 @@ begin
   select s.*
   into v_scenario
   from can_lam_sang_private.cbc_scenarios as s
+  join can_lam_sang_private.cbc_patterns as p
+    on p.pattern_id = s.pattern_id
   where s.level = p_level
+    and p.review_status = 'DA_DUYET'
   order by s.scenario_key
   offset v_offset
   limit 1;
@@ -183,9 +194,8 @@ begin
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
 
-  if (
-    select count(*) from pg_catalog.jsonb_object_keys(p_answers -> 'classifications')
-  ) <> 13 then
+  if pg_catalog.jsonb_object_length(p_answers) <> 1
+     or pg_catalog.jsonb_object_length(p_answers -> 'classifications') <> 13 then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
 
@@ -215,9 +225,7 @@ begin
 
   v_expected := v_scenario.answer_key -> 'classifications';
 
-  if (
-    select count(*) from pg_catalog.jsonb_object_keys(v_expected)
-  ) <> 13 then
+  if pg_catalog.jsonb_object_length(v_expected) <> 13 then
     raise exception 'cbc_answer_key_invalid';
   end if;
 
