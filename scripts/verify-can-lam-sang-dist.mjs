@@ -29,6 +29,6 @@ assert.match(bootstrap,/import\(["'][^"']*chunk-[^"']+\.js["']\)/,'bootstrap mus
 assert.doesNotMatch(bootstrap,/function mountCBC|const mountCBC|export \{ mountCBC/,'CBC implementation must remain in a separate chunk');
 const chunks=js.filter(name=>name.startsWith('chunk-'));
 let hasCbc=false;
-for(const name of chunks){if((await readFile(path.join(root,name),'utf8')).includes('13 chỉ số')) hasCbc=true;}
+for(const name of chunks){if((await readFile(path.join(root,name),'utf8')).includes('mountCBC')) hasCbc=true;}
 assert.ok(hasCbc,'CBC implementation was not found in a lazy chunk');
 console.log('2a-3 dist runtime test: PASS');
