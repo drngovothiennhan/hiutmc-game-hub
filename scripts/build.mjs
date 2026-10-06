@@ -19,6 +19,8 @@ await build({
   assetNames: 'assets/[name]-[hash]',
   minify: true
 });
+// Publish each Y Quan entry as one module. A proxy or stale cache must not
+// leave an entry page pointing at a missing transitive import.
 await build({
   entryPoints: {
     'y-quan-live/game': 'public/y-quan-live/game.js',
