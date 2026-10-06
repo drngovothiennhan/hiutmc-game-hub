@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://hiutmc.com/schemas/can-lam-sang/cbc-pattern.v1.schema.json",
+  "type":"object","additionalProperties":false,
+  "required":["schema_version","pattern_id","name","population","sex","reference_id","review_status"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},
+    "pattern_id":{"type":"string","pattern":"^[A-Z0-9-]+$"},
+    "name":{"type":"string","minLength":1},
+    "population":{"const":"adult"},
+    "sex":{"enum":["nam","nữ"]},
+    "reference_id":{"type":"string","minLength":1},
+    "review_status":{"enum":["CHUA_DUYET","DA_DUYET"]},
+    "indices":{"type":"object"},
+    "reference_notes":{"type":"string"}
+  }
+}
