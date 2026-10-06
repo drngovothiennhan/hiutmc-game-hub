@@ -150,3 +150,5 @@ test("seed JSON is byte-identical across two runs and SQL mode is deterministic"
   assert.equal(filtered.rows.length, 2);
   assert.ok(filtered.rows.every((row) => row.pattern_id === fixture.pattern_id));
 });
+
+// PostgreSQL compatibility regression: use jsonb_object_keys/count instead of unavailable jsonb_object_length.
