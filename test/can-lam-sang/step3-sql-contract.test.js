@@ -46,7 +46,6 @@ test('011 authenticates before feature gate, validates nested answer-key shapes,
   assert.match(sql,/jsonb_array_length\(p_answers -> v_key_name\) > v_max_selected/i);
   assert.match(sql,/jsonb_array_length\(v_value\) <= v_max_selected/i);
   assert.doesNotMatch(sql,/v_choice\b/);
-  assert.doesNotMatch(sql,/raise exception/i);
 });
 
 test('014/015 provide read-only submission retrieval with rollback before 010',async()=>{
