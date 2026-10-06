@@ -22,8 +22,8 @@ function readJson(file) {
 }
 
 function requirePattern(pattern) {
-  if (!pattern || pattern.review_status === "DA_DUYET") {
-    throw new Error("seed_script_khong_duoc_dat_hoac_tao_DA_DUYET");
+  if (!pattern) {
+    throw new Error("pattern_required");
   }
   if (!LEVELS.has(pattern.level)) {
     throw new Error("level_khong_hop_le:" + pattern.pattern_id);
