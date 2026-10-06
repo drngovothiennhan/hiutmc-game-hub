@@ -36,7 +36,18 @@
 | Tình trạng phê duyệt nguồn | [CHƯA DUYỆT / ĐÃ DUYỆT] |
 | Giấy phép/quyền sử dụng | [Điền] |
 
-## 3. Bảng khoảng tham chiếu
+## 3. Pattern CBC-P01 CHUA_DUYET — dev-reference
+
+Nguồn dữ liệu mẫu: `test/fixtures/can-lam-sang/cbc/cbc-p01-dev-reference.fixture.json`, sao chép từ fixture `r1-r2-bounds` để phục vụ phát triển/kiểm thử. Đây **không phải số liệu lâm sàng** và không được dùng để đặt `DA_DUYET`.
+
+| Trường | Giá trị |
+|---|---|
+| Pattern ID | CBC-P01 |
+| review_status | CHUA_DUYET |
+| Nguồn | dev-reference / fixture r1-r2-bounds |
+| Mục đích | Test engine, contract và phiếu duyệt |
+
+## 4. Bảng khoảng tham chiếu
 
 **Không tự điền số.** Người duyệt ghi đúng theo nguồn.
 
@@ -56,7 +67,7 @@
 | Eosinophil | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
 | Basophil | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
 
-## 4. Kiểm tra phương pháp chuyển đổi đơn vị
+## 5. Kiểm tra phương pháp chuyển đổi đơn vị
 
 | Chỉ số | Đơn vị nội bộ | Hồ sơ hiển thị VN | Hồ sơ conventional | Công thức/chuyển đổi được nguồn xác nhận |
 |---|---|---|---|---|
@@ -70,7 +81,7 @@
 | PLT | [ ] | [ ] | [ ] | [ ] |
 | Differential | [ ] | [ ] | [ ] | [ ] |
 
-## 5. Câu hỏi bắt buộc cho người duyệt
+## 6. Câu hỏi bắt buộc cho người duyệt
 
 1. Khoảng tham chiếu này áp dụng cho **giới nào, độ tuổi nào và quần thể nào**?
 2. Khoảng tham chiếu có phụ thuộc phương pháp xét nghiệm, máy xét nghiệm hoặc labo không?
@@ -81,7 +92,7 @@
 7. Người duyệt có xác nhận toàn bộ 13 phân loại thấp/bình thường/cao được sinh từ chính khoảng đã duyệt không?
 8. Có yêu cầu ghi chú/giới hạn sử dụng đặc biệt cho học viên không?
 
-## 6. Kết luận duyệt
+## 7. Kết luận duyệt
 
 - [ ] Chưa đủ hồ sơ — không được mở cho học viên.
 - [ ] Đủ hồ sơ, cần sửa.
