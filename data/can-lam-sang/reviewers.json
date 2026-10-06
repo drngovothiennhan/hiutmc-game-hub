@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "reviewers": [
+    {
+      "reviewer": "Ths. Ngô Võ Thiện Nhân (sinh viên Y khoa ngành YHCT)",
+      "role": "Người kiểm định chính",
+      "approval_authority": "Chỉ được dùng khi kiến trúc sư cho phép đặt DA_DUYET"
+    }
+  ],
+  "note": "Khuyến nghị có giảng viên Huyết học/Nội khoa xác nhận lần hai trước khi mở cho học viên ngoài nhóm phát triển; đây là khuyến nghị, chưa chặn phát hành."
+}
