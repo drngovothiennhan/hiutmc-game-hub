@@ -45,7 +45,8 @@ export async function mountCBC(root,{rpc,onHome}) {
       '<div class="muted">Mức: '+esc(LEVEL_LABELS[scenario.level]||LEVEL_LABELS[LEVEL])+' · Chỉ nộp một lần.</div>'+
       '<table><thead><tr><th>Chỉ số</th><th>Giá trị</th><th>Phân loại</th></tr></thead><tbody>'+rows+'</tbody></table>'+
       '<button id="submit" class="primary" style="width:100%;margin-top:10px" '+(submitted?'disabled':'')+'>Nộp bài</button>'+result;
-    root.querySelector('#cbc-home')?.addEventListener('click',onHome);\n    root.querySelector('#profile').onchange=e=>{profile=e.target.value;render()};
+    root.querySelector('#cbc-home')?.addEventListener('click',onHome);
+    root.querySelector('#profile').onchange=e=>{profile=e.target.value;render()};
     root.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{if(submitted)return;answers[b.dataset.key]=b.dataset.answer;render()});
     root.querySelector('#submit').onclick=submit;
     root.querySelector('#new-attempt')?.addEventListener('click',async()=>{clearStoredAttempt();answers={};submitted=null;scenario=null;attemptId=null;await start()});
