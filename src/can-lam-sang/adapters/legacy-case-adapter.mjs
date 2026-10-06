@@ -405,6 +405,7 @@ export function adaptLegacyCase(input) {
     teaching_explanation: safeText(c.teach)
   };
 
+  answer_key.after_submission_notes.push(...redactAnswerText(public_bundle, answer_key));
   return { public_bundle, answer_key };
 }
 
