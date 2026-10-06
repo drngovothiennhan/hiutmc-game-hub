@@ -11,7 +11,8 @@ declare
   v_started integer;
   v_today integer;
   v_total integer;
-  v_offset integer;
+  v_attempt_no bigint;
+  v_hash bigint;
   v_scenario can_lam_sang_private.cbc_scenarios%rowtype;
   v_attempt_id uuid;
 begin
@@ -65,7 +66,14 @@ begin
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_co_scenario', 'data', null);
   end if;
 
-  v_offset := v_today % v_total;
+  select count(*) into v_attempt_no
+  from can_lam_sang_private.cbc_attempts
+  where user_id = v_user;
+
+  v_hash := pg_catalog.hashtextextended(
+    v_user::text || pg_catalog.chr(31) || v_attempt_no::text,
+    0
+  );
 
   select s.*
   into v_scenario
@@ -74,9 +82,28 @@ begin
     on p.pattern_id = s.pattern_id
   where s.level = p_level
     and p.review_status = 'DA_DUYET'
-  order by s.scenario_key
-  offset v_offset
+    and not exists (
+      select 1
+      from can_lam_sang_private.cbc_attempts as prior
+      where prior.user_id = v_user
+        and prior.scenario_key = s.scenario_key
+    )
+  order by pg_catalog.mod(abs(v_hash + pg_catalog.hashtextextended(s.scenario_key, 0)), v_total),
+           s.scenario_key
   limit 1;
+
+  if v_scenario.scenario_key is null then
+    select s.*
+    into v_scenario
+    from can_lam_sang_private.cbc_scenarios as s
+    join can_lam_sang_private.cbc_patterns as p
+      on p.pattern_id = s.pattern_id
+    where s.level = p_level
+      and p.review_status = 'DA_DUYET'
+    order by pg_catalog.mod(abs(v_hash + pg_catalog.hashtextextended(s.scenario_key, 0)), v_total),
+             s.scenario_key
+    limit 1;
+  end if;
 
   insert into can_lam_sang_private.cbc_attempts (
     user_id, scenario_key, level, variant, sex
@@ -113,11 +140,16 @@ begin
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
   end if;
 
+  if not can_lam_sang_private.cls_user_enabled_v1(v_user) then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_mo', 'data', null);
+  end if;
+
   select a.*
   into v_attempt
   from can_lam_sang_private.cbc_attempts as a
   where a.id = p_attempt_id
-    and a.user_id = v_user;
+    and a.user_id = v_user
+  for update;
 
   if v_attempt.id is null then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
@@ -171,6 +203,10 @@ begin
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
   end if;
 
+  if not can_lam_sang_private.cls_user_enabled_v1(v_user) then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_mo', 'data', null);
+  end if;
+
   select a.*
   into v_attempt
   from can_lam_sang_private.cbc_attempts as a
@@ -189,13 +225,13 @@ begin
      or pg_catalog.jsonb_typeof(p_answers) <> 'object'
      or p_answers = '{}'::jsonb
      or pg_catalog.octet_length(p_answers::text) > 65536
-     or pg_catalog.jsonb_typeof(p_answers -> 'classifications') <> 'object'
+     or coalesce(pg_catalog.jsonb_typeof(p_answers -> 'classifications'), '') <> 'object'
   then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
 
   if pg_catalog.jsonb_object_length(p_answers) <> 1
-     or pg_catalog.jsonb_object_length(p_answers -> 'classifications') <> 13 then
+     or coalesce(pg_catalog.jsonb_object_length(p_answers -> 'classifications'), -1) <> 13 then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
 
@@ -256,6 +292,10 @@ begin
   where id = v_attempt.id
     and user_id = v_user
     and status = 'started';
+
+  if not found then
+    return pg_catalog.jsonb_build_object('ok', true, 'code', 'da_nop', 'data', v_attempt.result);
+  end if;
 
   return pg_catalog.jsonb_build_object(
     'ok', true,
