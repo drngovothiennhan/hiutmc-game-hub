@@ -26,6 +26,7 @@ jobs:
       - run: npm test
       - name: Build baseline dist from approved 2a-2c merge
         run: |
+          git fetch --no-tags origin 6ffe6dd225c31ff0e07ae9e91db04c9aa7e8e58f --depth=1
           git worktree add --detach /tmp/step2a3-base 6ffe6dd225c31ff0e07ae9e91db04c9aa7e8e58f
           cd /tmp/step2a3-base
           npm ci --ignore-scripts --no-audit --no-fund
