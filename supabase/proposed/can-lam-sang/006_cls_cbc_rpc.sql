@@ -88,13 +88,10 @@ begin
       where prior.user_id = v_user
         and prior.scenario_key = s.scenario_key
     )
-  order by pg_catalog.mod(
-  pg_catalog.hashtextextended(
-    v_hash::text || pg_catalog.chr(31) || s.scenario_key,
-    0
-  ),
-  v_total
-),
+  order by pg_catalog.hashtextextended(
+             v_hash::text || pg_catalog.chr(31) || s.scenario_key,
+             0
+           ),
            s.scenario_key
   limit 1;
 
@@ -106,7 +103,10 @@ begin
       on p.pattern_id = s.pattern_id
     where s.level = p_level
       and p.review_status = 'DA_DUYET'
-    order by pg_catalog.mod(abs(v_hash + pg_catalog.hashtextextended(s.scenario_key, 0)), v_total),
+    order by pg_catalog.hashtextextended(
+               v_hash::text || pg_catalog.chr(31) || s.scenario_key,
+               0
+             ),
              s.scenario_key
     limit 1;
   end if;
