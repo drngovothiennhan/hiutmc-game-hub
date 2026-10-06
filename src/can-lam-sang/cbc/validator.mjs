@@ -1,4 +1,4 @@
-import { convertToInternal, PROFILES } from "./generator.mjs";
+import { convertToInternal, convertFromInternal, PROFILES } from "./generator.mjs";
 
 /**
  * Build the display-precision interval for a value.
@@ -100,11 +100,6 @@ export function validateInvariants(scenario, profile = "vn_lab") {
  */
 export function roundTripUnit(key, value, fromProfile, toProfile) {
   const internal = convertToInternal(key, value, fromProfile);
-  const displayed = fromProfile === toProfile
-    ? value
-    : convertToInternal(key, value, fromProfile) === internal
-      ? value
-      : value;
-
+  const displayed = convertFromInternal(key, internal, toProfile);
   return convertToInternal(key, displayed, toProfile);
 }
