@@ -24,7 +24,7 @@ export function renderCase(root, data, { onSubmit } = {}) {
   const input = document.createElement('textarea');
   input.name = 'answers';
   input.required = true;
-  input.placeholder = 'Nhập quyết định của bạn';
+  input.placeholder = 'Nhập JSON đáp án theo cấu trúc của ca';
   form.append(input);
   const submit = document.createElement('button');
   submit.type = 'submit';
