@@ -43,4 +43,5 @@ await build({
   chunkNames: 'can-lam-sang/chunk-[name]-[hash]',
   target: ['es2022']
 });
+await rm('dist/can-lam-sang/cbc.js', { force: true });
 console.log('Game Hub shell, isolated Garden runtime, and CBC draft runtime built to dist/.');
