@@ -30,7 +30,7 @@ Giai đoạn này chỉ **người lớn**. Không bao gồm trẻ em; không x�
 | Tiểu cầu | PLT | ×10^9/L |
 
 CBC/differential đo RBC, Hb, Hct, WBC, platelets và các loại bạch cầu; MCV/MCH/MCHC là các chỉ số hồng cầu. MedlinePlus và Merck mô tả cùng nhóm chỉ số này.  
-Nguồn: MedlinePlus, *CBC blood test* (review 2025/2026), https://medlineplus.gov/ency/article/003642.htm ; Merck Manual, *Complete Blood Count (CBC)*, truy xuất 2026-10-06.
+Nguồn: MedlinePlus, *CBC blood test* (Review Date 10/14/2024), https://medlineplus.gov/ency/article/003642.htm ; Merck Manual, *Complete Blood Count (CBC)*, truy xuất 2026-10-06.
 
 ## D2. Thư viện mẫu bệnh cảnh (pattern)
 
@@ -64,7 +64,11 @@ Mọi pattern mặc định `CHUA_DUYET`. Không coi pattern có nguồn là đ�
 
 ### Nguồn đã truy xuất ngày 2026-10-06
 
-**R1 — MedlinePlus, National Library of Medicine/NIH, “CBC blood test”, truy xuất 2026-10-06.**  
+**R1 — MedlinePlus, National Library of Medicine/NIH, “CBC blood test”.**  
+- Ngày truy xuất: 2026-10-06.  
+- Ngày cập nhật/review trên trang: **10/14/2024**.  
+- Nơi chứa số liệu: mục **“Normal Results”**, các dòng RBC/WBC/Hematocrit/Hemoglobin/Red blood cell indices/Platelet count.  
+- Ghi chú đơn vị PLT: trang gốc hiển thị `150,000 to 400,000/dL`; module chuẩn hóa sang **×10^9/L (150–400 ×10^9/L)**, không chép `/dL`.  
 https://medlineplus.gov/ency/article/003642.htm
 
 Trang này công bố các khoảng tham khảo chung:
@@ -79,7 +83,10 @@ Trang này công bố các khoảng tham khảo chung:
 
 MedlinePlus cảnh báo reference range có thể thay đổi giữa các labo. Vì vậy các khoảng trên chỉ là **nguồn tham khảo**, không tự biến thành khoảng chuẩn của module.
 
-**R2 — MedlinePlus, “Blood differential test”, review 2025, truy xuất 2026-10-06.**  
+**R2 — MedlinePlus, “Blood differential test”.**  
+- Ngày truy xuất: 2026-10-06.  
+- Ngày review trên trang: **2/3/2025**.  
+- Nơi chứa số liệu: mục **“Normal Results”** (Neutrophils, Lymphocytes, Monocytes, Eosinophils, Basophils).  
 https://medlineplus.gov/ency/article/003657.htm
 
 Khoảng tỷ lệ tham khảo được trang này nêu:
@@ -91,10 +98,13 @@ Khoảng tỷ lệ tham khảo được trang này nêu:
 
 Trang này cũng nêu tổng WBC và differential phải được đọc cùng nhau; tỷ lệ một dòng tăng có thể làm tỷ lệ dòng khác giảm.
 
-**R3 — WHO, “Guideline on haemoglobin cutoffs to define anaemia in individuals and populations”, 2024, truy xuất 2026-10-06.**  
+**R3 — WHO, “Guideline on haemoglobin cutoffs to define anaemia in individuals and populations”.**  
+- Ngày truy xuất: 2026-10-06.  
+- Nơi chứa số liệu: **CHƯA MỞ được PDF**; trang gốc chỉ hiển thị metadata và liên kết tải PDF. PDF trả lỗi 403 trong môi trường kiểm tra.  
+- Vì vậy: **CHƯA XÁC MINH — cần đối chiếu PDF trang ? / bảng ? trước khi dùng bất kỳ ngưỡng Hb số nào.**  
 https://www.who.int/publications/i/item/9789240088542
 
-WHO 2024 là nguồn ưu tiên cho ngưỡng Hb xác định thiếu máu. Với người lớn, nguồn hiện truy xuất được xác nhận ngưỡng Hb <13 g/dL ở nam và <12 g/dL ở nữ không mang thai; các quần thể đặc biệt cần reference riêng. Không dùng các ngưỡng thai nhi/nhi khoa trong giai đoạn này.
+WHO 2024 là nguồn ưu tiên cho ngưỡng Hb xác định thiếu máu. **Không ghi ngưỡng số trong tài liệu/runtime ở bước này** vì PDF chưa đối chiếu được. Các quần thể đặc biệt cần reference riêng.
 
 ### Tối đa 8 pattern khởi đầu
 
@@ -192,9 +202,9 @@ Nguồn nền: MedlinePlus RBC indices, https://medlineplus.gov/ency/article/003
 
 ### Dung sai đề xuất
 
-- Lưu giá trị nội bộ ở độ chính xác cao hơn giá trị hiển thị.
-- So sánh invariant bằng sai số tuyệt đối + tương đối, đề xuất `<=0.5%` cho các quan hệ tính toán sau làm tròn.
-- **Con số dung sai 0.5% là đề xuất kỹ thuật, CHƯA ĐƯỢC DUYỆT**, không phải ngưỡng sinh lý.
+- Lưu giá trị nội bộ ở một hệ đơn vị cố định; chuyển đổi khi hiển thị theo cấu hình reference.
+- Không dùng dung sai `0.5%` cố định.
+- Dung sai của từng quan hệ được tính bằng **interval arithmetic**, từ tổng sai số làm tròn tối đa của các đại lượng tham gia ở độ chính xác hiển thị.
 - UI đề xuất:
   - RBC: 2 chữ số thập phân
   - Hb: 1 chữ số thập phân
@@ -239,7 +249,7 @@ Không gửi rubric/answer key xuống browser trước submit.
 ```text
 cls_cbc_flag_status_v1()
 cls_cbc_get_case_v1(p_case_id)
-cls_cbc_start_practice_v1(p_pattern_id)
+cls_cbc_start_practice_v1(p_level)
 cls_cbc_submit_v1(p_attempt_id, p_answers)
 ```
 
@@ -272,10 +282,19 @@ hoặc lỗi nghiệp vụ tương ứng.
 
 ### (a) Luyện riêng
 
-- Người học chọn pattern đã `DA_DUYET`.
-- Server tạo giá trị từ seed ổn định.
-- Không phụ thuộc ca cũ.
-- Không AI.
+- Người học **không chọn pattern** vì chọn pattern sẽ lộ đáp án.
+- Người học chỉ chọn `level` (`co_ban,...`).
+- Server tự giao pattern đã `DA_DUYET` và variant; giữ kín pattern đến khi nộp.
+- Danh sách lựa chọn “nhận định” là danh sách cố định cho cả level, không mã hóa pattern trong lựa chọn.
+- Không phụ thuộc ca cũ; không AI.
+
+### Attempt và giới hạn
+
+- Trạng thái: `started → submitted`.
+- Attempt thuộc `auth.uid()`; mọi đọc/submit phải kiểm tra quyền sở hữu.
+- Nộp lặp lại cùng attempt phải **idempotent**, trả lại cùng kết quả.
+- **Đề xuất để duyệt:** tối đa **3 attempt `started` đồng thời / user** và tối đa **10 attempt mới / user / UTC day**. Khi đạt giới hạn, server trả mã nghiệp vụ và không tạo attempt mới.
+- `variant` được server xác định từ user + số lần luyện, không nhận tùy ý từ client.
 
 ### (b) Trong ca
 
@@ -418,9 +437,9 @@ Checklist bắt buộc:
 
 ### Q1 — Reference range chính
 
-**A.** Một nguồn chuẩn chung đã duyệt cho module.  
+**A.** Một nguồn chuẩn chung do người kiểm định chọn.  
 Ưu: deterministic, dễ audit. Nhược: có thể khác labo thực tế.  
-**Đề xuất: A**, nhưng reviewer phải chọn nguồn.
+**Đã quyết định: A.** Trước khi chọn nguồn chuẩn, R1/R2 chỉ là `dev-reference`, không đưa vào learner.
 
 **B.** Reference theo từng labo.  
 Ưu: sát thực tế. Nhược: nhiều version và mapping.
@@ -430,15 +449,15 @@ Checklist bắt buộc:
 
 ### Q2 — Pattern bệnh lý chưa có vector nguồn
 
-**A.** Chỉ đưa pattern vào runtime khi có đủ số liệu đã duyệt.  
-Ưu: an toàn nguồn. **Đề xuất.**
+**A.** Chỉ đưa pattern vào đường người học khi `review_status=DA_DUYET`. Cộng thêm fixture riêng cho test, không thuộc enum learner.  
+**Đã quyết định: A.**
 
 **B.** Cho phép pattern CHUA_DUYET chạy nội bộ reviewer.  
 Ưu: phát triển nhanh. Nhược: nguy cơ lọt learner nếu gate lỗi.
 
 ### Q3 — Mapping case → CBC
 
-**A.** Chỉ mapping thủ công được duyệt. **Đề xuất.**  
+**A.** Chỉ mapping thủ công được người kiểm định duyệt. **Đã quyết định: A.**  
 **B.** AI/gợi ý tự động rồi tự áp. Không đề xuất ở giai đoạn này.  
 **C.** Tự suy từ diagnosis. **Cấm** theo yêu cầu.
 
@@ -450,11 +469,8 @@ Checklist bắt buộc:
 
 ### Q5 — Practice seed
 
-**A.** Seed từ `pattern_id + "cbc" + schema_version`.  
-Ưu: cùng pattern luôn tái hiện.  
-**B.** Seed từ user + pattern.  
-Ưu: mỗi user có vector riêng; khó golden cross-user.  
-**Đề xuất A** cho practice.
+**A.** `seed = hash(pattern_id + "cbc" + schema_version + variant)`. `variant` do server chọn xác định theo `(user_id, số_lần_luyện)`.  
+**Đã quyết định: A có variant.** Pattern không được lộ trước submit.
 
 ## Kết luận đề xuất
 
@@ -469,3 +485,32 @@ Nguồn nền đã truy xuất ngày 2026-10-06:
 6. Merck Manual — *Complete Blood Count (CBC)*. https://www.merckmanuals.com/en-ca/home/multimedia/table/complete-blood-count-cbc
 
 Tất cả pattern và dữ liệu số trong thiết kế này mặc định **CHUA_DUYET**; các số bệnh lý chưa có nguồn trực tiếp được để trống, không suy diễn.
+
+
+## QUYẾT ĐỊNH KIẾN TRÚC SƯ 2a-0
+
+Ngày quyết định: 2026-10-06.
+
+### D10 đã quyết định
+- Q1 = **A**: một nguồn chuẩn chung do người kiểm định chọn. Trước khi chọn, R1/R2 chỉ dùng cho phát triển với nhãn `dev-reference`, không đưa vào nội dung người học.
+- Q2 = **A**: đường người học chỉ dùng pattern `DA_DUYET`; fixture test tách riêng.
+- Q3 = **A**: mapping `case_id → pattern_id` chỉ thủ công và do người kiểm định duyệt.
+- Q4 = **C**: độ chính xác và đơn vị hiển thị cấu hình từng chỉ số trong reference; mặc định theo D4, reviewer có thể ghi đè.
+- Q5 = **A có variant**: `seed = hash(pattern_id + "cbc" + schema_version + variant)`; variant do server xác định theo `user_id` và số lần luyện.
+
+### Sửa đổi kiến trúc A1–A6
+- **A1:** Luyện riêng nhận `p_level` thay vì `p_pattern_id`; server tự giao pattern + variant và giữ kín pattern đến submit. Danh sách “nhận định” cố định theo level.
+- **A2:** Attempt `started → submitted`, thuộc `auth.uid()`, kiểm tra ownership, submit lặp idempotent. **Giới hạn đề xuất cần duyệt:** 3 attempt mở đồng thời/user và 10 attempt mới/user/UTC day.
+- **A3:** Invariant dùng interval arithmetic. Dung sai từng quan hệ = tổng sai số làm tròn tối đa của các đại lượng tham gia. Sinh bằng Hb, RBC, MCV đã làm tròn làm gốc; suy Hct, MCH, MCHC từ gốc rồi làm tròn và kiểm lại. Differential dùng **largest remainder method** để tổng đúng 100.0% sau làm tròn; absolute count tính từ WBC × percentage / 100 rồi kiểm tra.
+- **A4:** Generator nhận `sex` từ CaseBundle hoặc kịch bản luyện; thiếu sex thì từ chối, không đoán.
+- **A5:** Fixture chỉ ở `test/fixtures/can-lam-sang/cbc/`, `pattern_id` bắt đầu `FIXTURE-`, `review_status=FIXTURE_ONLY`, có dòng **“KHÔNG PHẢI SỐ LIỆU LÂM SÀNG”**. Fixture không thuộc enum learner; test chứng minh src/public không tham chiếu fixtures và approval gate từ chối mọi status khác `DA_DUYET`.
+- **A6:** Đơn vị hiển thị (g/dL, g/L, ×10^12/L, T/L, ×10^9/L, G/L) là cấu hình reference. Engine lưu một hệ đơn vị cố định và chuyển đổi khi hiển thị; test hai chiều.
+
+### Sửa nguồn bắt buộc
+- R3 WHO: trang gốc chỉ xác nhận metadata; PDF 79 trang có link nhưng lần mở PDF trả 403. **Không ghi ngưỡng Hb số; ghi `CHƯA XÁC MINH — cần đối chiếu PDF trang ? / bảng ?`.**
+- R1 MedlinePlus CBC: Review Date **10/14/2024**. PLT trên trang gốc in `/dL`; module dùng **150–400 ×10^9/L**, không chép `/dL`.
+- R1–R6 đều có “nơi chứa số liệu” và “ngày truy xuất”; nguồn chưa mở thật được ghi **CHƯA MỞ**.
+- R1/R2 chỉ là `dev-reference` trước khi người kiểm định chọn nguồn chuẩn.
+
+### Trạng thái
+Đây là quyết định kiến trúc của Bước 2a-0. Các giới hạn attempt 3 mở / 10 mỗi UTC day là **đề xuất cụ thể để kiến trúc sư duyệt tiếp**, không được coi là đã được phê duyệt chỉ vì nằm trong tài liệu.
