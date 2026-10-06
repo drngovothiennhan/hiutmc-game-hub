@@ -66,7 +66,7 @@ test("approval gate rejects fixture-only and unapproved content",()=>{
 });
 
 test("fixture is unreachable from src/public",()=>{
-  const roots=[path.join(here,"../../../src"),path.join(here,"../../../public")];
+  const roots=[path.join(here,"../../src"),path.join(here,"../../public")];
   for(const root of roots){
     if(!fs.existsSync(root)) continue;
     const stack=[root];
