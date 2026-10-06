@@ -32,4 +32,18 @@ await build({
   outdir: 'dist',
   minify: true
 });
-console.log('Game Hub shell and isolated Garden runtime built to dist/.');
+// Step 2a-3: this is intentionally the final build call. Code splitting keeps
+// CBC behind the flag-gated dynamic import while resolving all source imports.
+await build({
+  entryPoints: ['public/can-lam-sang/bootstrap.js'],
+  bundle: true,
+  format: 'esm',
+  splitting: true,
+  outdir: 'dist',
+  outbase: 'public',
+  entryNames: 'can-lam-sang/[name]',
+  chunkNames: 'can-lam-sang/chunk-[name]-[hash]',
+  target: ['es2022']
+});
+await rm('dist/can-lam-sang/cbc.js', { force: true });
+console.log('Game Hub shell, isolated Garden runtime, and CBC draft runtime built to dist/.');
