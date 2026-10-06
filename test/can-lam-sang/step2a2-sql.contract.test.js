@@ -44,8 +44,8 @@ test("Step 2a-2 RPC contract has three enveloped SECURITY DEFINER functions", ()
   assert.match(rpcSql, /grant execute on function public\.cls_cbc_get_v1\(uuid\) to authenticated/);
   assert.match(rpcSql, /grant execute on function public\.cls_cbc_submit_v1\(uuid, jsonb\) to authenticated/);
   assert.match(rpcSql, /pg_catalog\.pg_advisory_xact_lock/);
-  assert.match(rpcSql, /cbc_attempts_user_status_idx/);
-  assert.match(rpcSql, /cbc_attempts_user_created_at_idx/);
+  assert.match(tablesSql, /cbc_attempts_user_status_idx/);
+  assert.match(tablesSql, /cbc_attempts_user_created_at_idx/);
   assert.match(rpcSql, /'answers_khong_hop_le'/);
   assert.match(rpcSql, /user_id = v_user/);
   assert.match(rpcSql, /'khong_tim_thay'/);
