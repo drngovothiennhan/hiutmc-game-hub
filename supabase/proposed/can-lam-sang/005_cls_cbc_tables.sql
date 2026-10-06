@@ -86,7 +86,7 @@ create table if not exists can_lam_sang_private.cbc_scenarios (
       not (
         public_scenario ?| array['pattern_id','review_status','reviewer','approval_ref','answer_key']
       )
-      and pg_catalog.position(pattern_id in public_scenario::text) = 0
+      and pg_catalog.strpos(public_scenario::text, pattern_id) = 0
     ),
   constraint cbc_scenarios_answer_classifications_check
     check (
