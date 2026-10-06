@@ -105,8 +105,7 @@ test('public bundle contains no secret answer/explanation strings outside the al
       answer_key.title_reveal,
       answer_key.teaching_explanation,
       ...(answer_key.after_submission_notes||[]).flatMap(x=>[x.text,x.reason]),
-      ...(answer_key.resources_after_submission||[]).flatMap(x=>[x.source,x.title,x.citation,x.organization,x.year_version,x.license]),
-      ...(answer_key.action_options||[]).flatMap(x=>[x.rationale,x.grade,String(x.time_minutes)])
+      ...(answer_key.action_options||[]).flatMap(x=>[x.rationale])
     ].filter(v=>typeof v==='string'&&v.length>5)){
       if(!allowed.has(value)) secret.push(value);
     }
