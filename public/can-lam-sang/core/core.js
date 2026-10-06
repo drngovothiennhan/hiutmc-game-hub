@@ -14,7 +14,7 @@ if(!caseId){root.textContent='Chưa chọn ca.';}else{
  const response=await rpc('cls_get_case_v1',{p_case_id:caseId});
  if(!response?.ok){root.textContent='Ca hiện chưa mở.';}else{
    renderCase(root,response.data,{onSubmit:async(value)=>{
-     const submit=await rpc('cls_submit_v1',{p_case_id:caseId,p_answers:{decision:value}});
+     const submit=await rpc('cls_submit_v1',{p_case_id:caseId,p_module:'core',p_answers:value});
      if(submit?.ok) renderResult(root,submit.data);
    }});
  }
