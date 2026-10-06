@@ -1,4 +1,5 @@
 import test from "node:test";
+  assert.doesNotMatch(tablesSql, /pg_catalog\\.position\\(/i, "regression: use strpos() for PostgreSQL text search");
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
