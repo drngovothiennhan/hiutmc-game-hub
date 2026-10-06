@@ -29,6 +29,7 @@ test("Step 2a-2 SQL contract has approval gates, grants and no random ordering",
   assert.match(tablesSql, /cbc_scenarios/);
   assert.match(tablesSql, /public_scenario jsonb/);
   assert.match(tablesSql, /answer_key jsonb/);
+  assert.match(tablesSql, /position\(pattern_id in public_scenario::text\) = 0/);
   assert.match(tablesSql, /revoke all on table/);
   assert.doesNotMatch(tablesSql, /ORDER\s+BY\s+random\s*\(/i);
   assert.doesNotMatch(rpcSql, /ORDER\s+BY\s+random\s*\(/i);
@@ -78,6 +79,8 @@ test("seed generator produces separate public_scenario and answer_key without pa
     assert.ok(row.answer_key);
     assert.equal(row.public_scenario.pattern_id, undefined);
     assert.equal(JSON.stringify(row.public_scenario).includes(row.pattern_id), false);
+    assert.equal(JSON.stringify(row.public_scenario).includes("co_ban"), false);
+    assert.equal(JSON.stringify(row.public_scenario).includes("-0-"), false);
     assert.equal(Object.keys(row.answer_key.classifications).length, 13);
   }
 });
@@ -135,4 +138,13 @@ test("seed JSON is byte-identical across two runs and SQL mode is deterministic"
   execFileSync(process.execPath, [seedScript, input, sql, "co_ban", "1", "--sql"], {cwd: repoRoot});
   assert.equal(fs.readFileSync(a, "utf8"), fs.readFileSync(b, "utf8"));
   assert.match(fs.readFileSync(sql, "utf8"), /insert into can_lam_sang_private\.cbc_scenarios/);
+
+  const mismatch = path.join(dir, "mismatch.json");
+  const second = { ...fixture, pattern_id: "fixture-other", level: "trung_binh" };
+  fs.writeFileSync(mismatch, JSON.stringify([fixture, second]), "utf8");
+  const mismatchOut = path.join(dir, "mismatch-out.json");
+  execFileSync(process.execPath, [seedScript, mismatch, mismatchOut, "co_ban", "1"], {cwd: repoRoot});
+  const filtered = JSON.parse(fs.readFileSync(mismatchOut, "utf8"));
+  assert.equal(filtered.rows.length, 2);
+  assert.ok(filtered.rows.every((row) => row.pattern_id === fixture.pattern_id));
 });
