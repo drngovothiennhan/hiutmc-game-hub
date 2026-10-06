@@ -460,7 +460,7 @@ function drawScene(){
   updateMapDot();
 }
 
-function paintMural(function paintMural(x,y,w,h){
+function paintMural(x,y,w,h){
   ctx.save();
   ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
   const g=ctx.createLinearGradient(0,y,0,y+h); g.addColorStop(0,'#95cdbb'); g.addColorStop(1,'#6aa583');
@@ -573,7 +573,7 @@ function drawHotspots(scene){
   });
 }
 
-function drawPolygon(function drawPolygon(points,fill,stroke='rgba(255,255,255,.08)'){
+function drawPolygon(points,fill,stroke='rgba(255,255,255,.08)'){
   ctx.beginPath(); points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); if(fill){ctx.fillStyle=fill; ctx.fill();} if(stroke){ctx.strokeStyle=stroke; ctx.stroke();}
 }
 function drawLine(x1,y1,x2,y2,stroke,width){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
@@ -642,7 +642,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){e.preventDefault();focusBtn.click();}
 });
 
-markAnswerBtn.onclick=()=>{markAnswerBtn.onclick=()=>{
+markAnswerBtn.onclick=()=>{
   if(!selectedPlantId){alert('Hãy chọn một cây trước.'); return;}
   const q=currentQuest();
   if(selectedPlantId===q.plantId){
