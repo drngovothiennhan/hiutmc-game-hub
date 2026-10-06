@@ -71,26 +71,49 @@ function boundsPermitDifferential(pattern, sex) {
   }
 }
 
-function largestRemainder(values, precision = 1) {
+function largestRemainder(rawValues, ranges, precision = 1) {
   const scale = 10 ** precision;
-  const scaled = values.map((value) => value * scale);
-  const floors = scaled.map(Math.floor);
+  const floors = rawValues.map((value) => Math.floor(value * scale));
   const target = Math.round(100 * scale);
-  let remainder = target - floors.reduce((sum, value) => sum + value, 0);
-
-  const order = scaled
-    .map((value, index) => ({ index, fraction: value - Math.floor(value) }))
+  const order = rawValues
+    .map((value, index) => ({
+      index,
+      fraction: value * scale - Math.floor(value * scale)
+    }))
     .sort((a, b) => b.fraction - a.fraction || a.index - b.index);
 
-  if (remainder < 0 || remainder > order.length * 2) {
-    throw new Error("cong_thuc_bach_cau_phan_du_khong_hop_le");
+  let remainder = target - floors.reduce((sum, value) => sum + value, 0);
+
+  while (remainder > 0) {
+    let changed = false;
+    for (const item of order) {
+      const upper = Math.round(ranges[item.index].high * scale);
+      if (floors[item.index] < upper) {
+        floors[item.index] += 1;
+        remainder -= 1;
+        changed = true;
+        if (remainder === 0) break;
+      }
+    }
+    if (!changed) {
+      throw new Error("cong_thuc_bach_cau_khong_kha_thi");
+    }
   }
 
-  let index = 0;
-  while (remainder > 0) {
-    floors[order[index].index] += 1;
-    remainder -= 1;
-    index += 1;
+  while (remainder < 0) {
+    let changed = false;
+    for (const item of [...order].reverse()) {
+      const lower = Math.round(ranges[item.index].low * scale);
+      if (floors[item.index] > lower) {
+        floors[item.index] -= 1;
+        remainder += 1;
+        changed = true;
+        if (remainder === 0) break;
+      }
+    }
+    if (!changed) {
+      throw new Error("cong_thuc_bach_cau_khong_kha_thi");
+    }
   }
 
   return floors.map((value) => value / scale);
@@ -99,21 +122,17 @@ function largestRemainder(values, precision = 1) {
 function sampleDifferential(rng, pattern, sex) {
   boundsPermitDifferential(pattern, sex);
 
-  const raw = DIFFERENTIAL.map((key) => {
-    const range = pattern.indices[key].ranges[sex];
-    return pick(rng, range.low, range.high);
-  });
+  const ranges = DIFFERENTIAL.map((key) => pattern.indices[key].ranges[sex]);
+  const raw = ranges.map((range) => pick(rng, range.low, range.high));
+  const rounded = largestRemainder(raw, ranges, 1);
 
-  const rounded = largestRemainder(raw, 1);
   const valid = DIFFERENTIAL.every((key, index) =>
     inRange(rounded[index], pattern.indices[key].ranges[sex])
   );
 
-  if (!valid) {
-    return null;
-  }
-
-  return Object.fromEntries(DIFFERENTIAL.map((key, index) => [key, rounded[index]]));
+  return valid
+    ? Object.fromEntries(DIFFERENTIAL.map((key, index) => [key, rounded[index]]))
+    : null;
 }
 
 function deriveCore(rng, pattern, sex) {
