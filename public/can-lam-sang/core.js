@@ -76,8 +76,8 @@ export async function mountCore(root,{rpc,onHome}) {
       const item=cases.find(x=>x.case_id===caseId);
       selected={};
       if(item?.submitted){
-        const result=await rpc('cls_submit_v1',{p_case_id:caseId,p_module:'core',p_answers:{}});
-        if(result?.code==='da_nop' || result?.ok) renderCase(bundle,response.data,result.data);
+        const result=await rpc('cls_get_submission_v1',{p_case_id:caseId});
+        if(result?.ok && result?.code==='da_nop') renderCase(bundle,response.data,result.data);
         else renderCase(bundle,response.data,null);
       } else renderCase(bundle,response.data,null);
     } catch(error) {root.innerHTML=notice(messageForCoreCode(error.code),true);}
