@@ -158,7 +158,7 @@ jobs:
           await page.goto(process.env.PREVIEW_URL + "/can-lam-sang/", { waitUntil: "networkidle", timeout: 60000 });
           await page.screenshot({ path: "qa-game-hub/cbc/flag-off.png", fullPage: true });
           const offText = await page.locator("#app").innerText();
-          if (!offText.includes("Phòng CBC hiện chưa mở")) throw new Error("Flag-off gate was not shown");
+          if (!offText.includes("Phòng Cận Lâm Sàng hiện chưa mở")) throw new Error("Flag-off gate was not shown");
           flagEnabled = true;
           await page.reload({ waitUntil: "networkidle", timeout: 60000 });
           await page.locator("table tbody tr").nth(12).waitFor({ state: "visible", timeout: 15000 });
