@@ -237,7 +237,7 @@ begin
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
 
-  if (select count(*) from pg_catalog.jsonb_object_keys(p_answers)) <> 1
+  if pg_catalog.jsonb_array_length(pg_catalog.jsonb_path_query_array(p_answers, '$.*')) <> 1
      or coalesce((select count(*) from pg_catalog.jsonb_object_keys(p_answers -> 'classifications')), -1) <> 13 then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
@@ -269,7 +269,7 @@ begin
 
   v_expected := v_scenario.answer_key -> 'classifications';
 
-  if (select count(*) from pg_catalog.jsonb_object_keys(v_expected)) <> 13 then
+  if pg_catalog.jsonb_array_length(pg_catalog.jsonb_path_query_array(v_expected, '$.*')) <> 13 then
     raise exception 'cbc_answer_key_invalid';
   end if;
 
