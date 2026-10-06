@@ -42,7 +42,10 @@ function opaqueScenarioId(scenarioKey) {
 }
 
 function buildRow(pattern, level, variant, sex) {
-  const scenarioKey = `${pattern.pattern_id}.hash-${level}-${sex}-${variant}`;
+  const scenarioKey = `${pattern.pattern_id}.hash-${crypto.createHash("sha256")
+    .update(`${pattern.pattern_id}${level}${sex}${variant}`, "utf8")
+    .digest("hex")
+    .slice(0, 16)}`;
   const scenario = generateScenario({
     pattern,
     variant,
