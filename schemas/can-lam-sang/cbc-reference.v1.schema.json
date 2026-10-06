@@ -1,28 +1,91 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://hiutmc.com/schemas/can-lam-sang/cbc-reference.v1.schema.json",
-  "type":"object","additionalProperties":false,
-  "required":["schema_version","reference_id","population","profiles","indices"],
-  "properties":{
-    "schema_version":{"const":"1.0.0"},
-    "reference_id":{"type":"string","minLength":1},
-    "population":{"enum":["adult"]},
-    "profiles":{"type":"object","additionalProperties":false,"required":["vn_lab","conventional"],"properties":{
-      "vn_lab":{"type":"object","additionalProperties":false,"required":["label","units"],"properties":{"label":{"type":"string"},"units":{"type":"object"}}},
-      "conventional":{"type":"object","additionalProperties":false,"required":["label","units"],"properties":{"label":{"type":"string"},"units":{"type":"object"}}}
-    }},
-    "indices":{"type":"object","additionalProperties":false,"required":["Hb","RBC","Hct","MCV","MCH","MCHC","WBC","PLT","neut","lymph","mono","eos","baso"],"properties":{
-      "Hb":{"$ref":"#/$defs/index"},"RBC":{"$ref":"#/$defs/index"},"Hct":{"$ref":"#/$defs/index"},"MCV":{"$ref":"#/$defs/index"},"MCH":{"$ref":"#/$defs/index"},"MCHC":{"$ref":"#/$defs/index"},"WBC":{"$ref":"#/$defs/index"},"PLT":{"$ref":"#/$defs/index"},
-      "neut":{"$ref":"#/$defs/index"},"lymph":{"$ref":"#/$defs/index"},"mono":{"$ref":"#/$defs/index"},"eos":{"$ref":"#/$defs/index"},"baso":{"$ref":"#/$defs/index"}
-    }}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiutmc.com/schemas/can-lam-sang/cbc-reference.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "reference_id", "population", "profiles", "indices"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "reference_id": { "type": "string", "minLength": 1 },
+    "population": { "enum": ["adult"] },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vn_lab", "conventional"],
+      "properties": {
+        "vn_lab": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "units"],
+          "properties": {
+            "label": { "type": "string" },
+            "units": { "type": "object" }
+          }
+        },
+        "conventional": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "units"],
+          "properties": {
+            "label": { "type": "string" },
+            "units": { "type": "object" }
+          }
+        }
+      }
+    },
+    "indices": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Hb", "RBC", "Hct", "MCV", "MCH", "MCHC", "WBC", "PLT",
+        "neut", "lymph", "mono", "eos", "baso"
+      ],
+      "properties": {
+        "Hb": { "$ref": "#/$defs/index" }, "RBC": { "$ref": "#/$defs/index" },
+        "Hct": { "$ref": "#/$defs/index" }, "MCV": { "$ref": "#/$defs/index" },
+        "MCH": { "$ref": "#/$defs/index" }, "MCHC": { "$ref": "#/$defs/index" },
+        "WBC": { "$ref": "#/$defs/index" }, "PLT": { "$ref": "#/$defs/index" },
+        "neut": { "$ref": "#/$defs/index" }, "lymph": { "$ref": "#/$defs/index" },
+        "mono": { "$ref": "#/$defs/index" }, "eos": { "$ref": "#/$defs/index" },
+        "baso": { "$ref": "#/$defs/index" }
+      }
+    }
   },
-  "$defs":{"index":{"type":"object","additionalProperties":false,"required":["internal_unit","display","source_resource_id","review_status"],"properties":{
-    "internal_unit":{"type":"string","minLength":1},
-    "display":{"type":"object","additionalProperties":false,"required":["vn_lab","conventional"],"properties":{
-      "vn_lab":{"type":"object","additionalProperties":false,"required":["unit","precision"],"properties":{"unit":{"type":"string"},"precision":{"type":"integer","minimum":0,"maximum":6}}},
-      "conventional":{"type":"object","additionalProperties":false,"required":["unit","precision"],"properties":{"unit":{"type":"string"},"precision":{"type":"integer","minimum":0,"maximum":6}}}
-    }},
-    "source_resource_id":{"type":"string","minLength":1},
-    "review_status":{"enum":["CHUA_DUYET","DA_DUYET"]}
-  }}}
+  "$defs": {
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["internal_unit", "display", "source_resource_id", "review_status"],
+      "properties": {
+        "internal_unit": { "type": "string", "minLength": 1 },
+        "display": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["vn_lab", "conventional"],
+          "properties": {
+            "vn_lab": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["unit", "precision"],
+              "properties": {
+                "unit": { "type": "string" },
+                "precision": { "type": "integer", "minimum": 0, "maximum": 6 }
+              }
+            },
+            "conventional": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["unit", "precision"],
+              "properties": {
+                "unit": { "type": "string" },
+                "precision": { "type": "integer", "minimum": 0, "maximum": 6 }
+              }
+            }
+          }
+        },
+        "source_resource_id": { "type": "string", "minLength": 1 },
+        "review_status": { "enum": ["CHUA_DUYET", "DA_DUYET"] }
+      }
+    }
+  }
 }
