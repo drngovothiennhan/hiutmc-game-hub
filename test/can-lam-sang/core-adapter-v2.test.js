@@ -41,7 +41,13 @@ test('v2 creates text-only shuffled choices for every one of 156 cases',async()=
   for(const legacy of cases){
     const {public_bundle,answer_key}=adaptLegacyCase(legacy);
     assert.ok(public_bundle.choices);
+    assert.equal(typeof answer_key.diagnosis_options, 'object');
+    assert.ok(answer_key.diagnosis_options && !Array.isArray(answer_key.diagnosis_options));
+    assert.ok(Array.isArray(answer_key.action_options));
     for(const [group,options] of Object.entries(answer_key.diagnosis_options||{})){
+      assert.ok(Array.isArray(options), legacy.id+': '+group+' answer options must be an array');
+      assert.ok(options.every(option => option && typeof option === 'object' && typeof option.text === 'string'), legacy.id+': '+group+' option shape');
+
       assert.deepEqual([...public_bundle.choices.diagnosis[group]].sort(),options.map(x=>x.text).filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).sort(),legacy.id+': '+group);
       assert.ok(public_bundle.choices.diagnosis[group].every(x=>typeof x==='string'));
     }
@@ -110,5 +116,29 @@ test('public bundle contains no secret answer/explanation strings outside the al
       if(!allowed.has(value)) secret.push(value);
     }
     for(const value of secret) assert.equal(publicText.includes(value),false,legacy.id+': leaked answer string '+value);
+  }
+});
+
+
+test('K-L1-10: nested diagnosis option keys are validated, not only the top-level object',async()=>{
+  const cases=await bank();
+  const firstTen=cases.slice(0,10);
+  assert.equal(firstTen.length,10);
+  for(const legacy of firstTen){
+    const { public_bundle, answer_key }=adaptLegacyCase(legacy);
+    const diagnosisOptions=answer_key.diagnosis_options;
+    const publicDiagnosis=public_bundle.choices?.diagnosis;
+    assert.ok(diagnosisOptions && typeof diagnosisOptions==='object' && !Array.isArray(diagnosisOptions),legacy.id);
+    assert.ok(publicDiagnosis && typeof publicDiagnosis==='object' && !Array.isArray(publicDiagnosis),legacy.id);
+    assert.deepEqual(Object.keys(publicDiagnosis).sort(),Object.keys(diagnosisOptions).sort(),legacy.id+': nested diagnosis keys');
+    for(const [group,options] of Object.entries(diagnosisOptions)){
+      assert.ok(Array.isArray(options),legacy.id+': '+group);
+      assert.ok(Array.isArray(publicDiagnosis[group]),legacy.id+': public '+group);
+      const expected=options.map(option=>option.text).filter(Boolean);
+      assert.deepEqual([...publicDiagnosis[group]].sort(),[...new Set(expected)].sort(),legacy.id+': '+group+' text');
+      assert.ok(publicDiagnosis[group].every(value=>typeof value==='string'),legacy.id+': '+group+' public values');
+    }
+    const expectedActions=answer_key.action_options.map(option=>option.text).filter(Boolean);
+    assert.deepEqual([...public_bundle.choices.actions].sort(),[...new Set(expectedActions)].sort(),legacy.id+': actions text');
   }
 });
