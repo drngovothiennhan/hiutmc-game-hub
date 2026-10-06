@@ -47,7 +47,7 @@ begin
      or p_answers = '{}'::jsonb
      or pg_catalog.octet_length(p_answers::text) > 65536
   then
-    return pg_catalog.jsonb_build_object('ok', false, 'code', 'du_lieu_khong_hop_le', 'data', null);
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
   end if;
 
   select c.review_status
