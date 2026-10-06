@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiutmc.com/schemas/can-lam-sang/cbc-scenario.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "pattern_id",
+    "sex",
+    "values",
+    "display_profiles",
+    "internal_units",
+    "generation_attempts",
+    "classifications"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "scenario_id": { "type": "string", "minLength": 1 },
+    "pattern_id": { "type": "string", "minLength": 1 },
+    "sex": { "enum": ["nam", "nữ"] },
+    "generation_attempts": { "type": "integer", "minimum": 1, "maximum": 200 },
+    "values": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Hb", "RBC", "Hct", "MCV", "MCH", "MCHC", "WBC", "PLT",
+        "neut", "lymph", "mono", "eos", "baso",
+        "abs_neut", "abs_lymph", "abs_mono", "abs_eos", "abs_baso"
+      ],
+      "properties": {
+        "Hb": { "type": "number" }, "RBC": { "type": "number" },
+        "Hct": { "type": "number" }, "MCV": { "type": "number" },
+        "MCH": { "type": "number" }, "MCHC": { "type": "number" },
+        "WBC": { "type": "number" }, "PLT": { "type": "number" },
+        "neut": { "type": "number" }, "lymph": { "type": "number" },
+        "mono": { "type": "number" }, "eos": { "type": "number" },
+        "baso": { "type": "number" },
+        "abs_neut": { "type": "number" }, "abs_lymph": { "type": "number" },
+        "abs_mono": { "type": "number" }, "abs_eos": { "type": "number" },
+        "abs_baso": { "type": "number" }
+      }
+    },
+    "display_profiles": { "type": "object" },
+    "internal_units": { "type": "object" },
+    "classifications": { "type": "object" }
+  }
+}
