@@ -14,6 +14,15 @@ jobs:
         with:
           node-version: 22
       - run: node supabase/proposed/can-lam-sang/004_cls_seed_generator.mjs --output-dir build/can-lam-sang/seed --chunk-size 20
+      - name: Emit seed for QA handoff
+        shell: bash
+        run: |
+          for file in build/can-lam-sang/seed/*.sql; do
+            name="$(basename "$file")"
+            echo "CLS_SEED_BEGIN:$name"
+            base64 -w 50000 "$file"
+            echo "CLS_SEED_END:$name"
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: cls-seed-step1b
