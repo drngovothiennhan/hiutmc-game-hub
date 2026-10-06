@@ -1,0 +1,21 @@
+name: Temporary CLS Seed Artifact
+
+on:
+  push:
+    branches:
+      - feat/can-lam-sang-step1b-sql
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node supabase/proposed/can-lam-sang/004_cls_seed_generator.mjs --output-dir build/can-lam-sang/seed --chunk-size 20
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cls-seed-step1b
+          path: build/can-lam-sang/seed
+          if-no-files-found: error
