@@ -24,7 +24,23 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
+      - name: Build baseline dist from approved 2a-2c merge
+        run: |
+          git worktree add --detach /tmp/step2a3-base 6ffe6dd225c31ff0e07ae9e91db04c9aa7e8e58f
+          cd /tmp/step2a3-base
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build
+          find dist -type f ! -path 'dist/can-lam-sang/*' -printf '%P\\n' | sort > /tmp/dist-before-files
+          (cd dist && find . -type f ! -path './can-lam-sang/*' -print0 | sort -z | xargs -0 sha256sum) > /tmp/dist-before-sha
       - run: npm run build
+      - name: Verify existing dist files and hashes are unchanged
+        run: |
+          find dist -type f ! -path 'dist/can-lam-sang/*' -printf '%P\\n' | sort > /tmp/dist-after-files
+          (cd dist && find . -type f ! -path './can-lam-sang/*' -print0 | sort -z | xargs -0 sha256sum) > /tmp/dist-after-sha
+          diff -u /tmp/dist-before-files /tmp/dist-after-files
+          diff -u /tmp/dist-before-sha /tmp/dist-after-sha
+          echo 'Existing dist file list/hash comparison: PASS'
+          cat /tmp/dist-before-sha
       - name: Verify Step 2a-3 bundled CBC runtime
         run: node scripts/verify-can-lam-sang-dist.mjs
       - name: Verify production entry assets
