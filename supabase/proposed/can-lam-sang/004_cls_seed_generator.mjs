@@ -14,10 +14,14 @@ const defaultOutputDir = resolve(repoRoot, 'build/can-lam-sang/seed');
 function parseArgs(argv) {
   let outputDir = defaultOutputDir;
   let chunkSize = 20;
+  let sqlMode = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
-    if (arg === '--output-dir') {
+    if (arg === '--sql') {
+      sqlMode = true;
+      outputDir = resolve(repoRoot, 'supabase/proposed/can-lam-sang/seed');
+    } else if (arg === '--output-dir') {
       outputDir = resolve(argv[++i]);
     } else if (arg === '--chunk-size') {
       chunkSize = Number(argv[++i]);
@@ -30,7 +34,7 @@ function parseArgs(argv) {
     throw new Error('--chunk-size must be an integer from 1 to 156');
   }
 
-  return { outputDir, chunkSize };
+  return { outputDir, chunkSize, sqlMode };
 }
 
 function sqlText(value) {
@@ -144,7 +148,7 @@ function caseSql(publicBundle, answerKey) {
   ].join('\n');
 }
 
-const { outputDir, chunkSize } = parseArgs(process.argv.slice(2));
+const { outputDir, chunkSize, sqlMode } = parseArgs(process.argv.slice(2));
 const html = await readFile(bankPath, 'utf8');
 const match = html.match(/id="bank-data">([\s\S]*?)<\/script>/);
 if (!match) throw new Error('legacy bank-data missing');
@@ -215,27 +219,57 @@ const resourcesText = [
 await writeFile(join(outputDir, resourcesName), resourcesText, 'utf8');
 files.push(sizeSummary(resourcesName, resourcesText, { kind: 'resources', resources: resourceMap.size }));
 
-for (let start = 0, chunk = 1; start < normalized.length; start += chunkSize, chunk += 1) {
-  const rows = normalized.slice(start, start + chunkSize);
-  const first = String(start + 1).padStart(3, '0');
-  const last = String(start + rows.length).padStart(3, '0');
-  const name = `${String(chunk).padStart(3, '0')}_cases_${first}-${last}.sql`;
-  const text = [
-    'begin;',
-    '',
-    '-- Idempotent case/answer-key seed. This file does not modify runtime flags.',
-    ...rows.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
-    'commit;',
-    ''
-  ].join('\n');
+const allCaseSql = [
+  'begin;',
+  '',
+  '-- Idempotent core case/answer-key seed. Never set DA_DUYET.',
+  ...normalized.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
+  'commit;',
+  ''
+].join('\\n');
 
-  await writeFile(join(outputDir, name), text, 'utf8');
-  files.push(sizeSummary(name, text, {
-    kind: 'cases',
-    cases: rows.length,
-    first_case: rows[0].public_bundle.case_id,
-    last_case: rows.at(-1).public_bundle.case_id
-  }));
+if (sqlMode) {
+  const totalBytes = Buffer.byteLength(allCaseSql, 'utf8');
+  if (totalBytes <= 400 * 1024) {
+    const name = 'core-cases-seed.sql';
+    await writeFile(join(outputDir, name), allCaseSql, 'utf8');
+    files.push(sizeSummary(name, allCaseSql, { kind: 'cases', cases: normalized.length }));
+  } else {
+    const letters = 'ABCDEFGH';
+    if (normalized.length > 160) throw new Error('core SQL mode supports at most 160 cases');
+    for (let batch = 0, start = 0; start < normalized.length; batch += 1) {
+      const rows = normalized.slice(start, start + 20);
+      const text = [
+        'begin;',
+        '',
+        '-- Idempotent core case/answer-key seed. Never set DA_DUYET.',
+        ...rows.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
+        'commit;',
+        ''
+      ].join('\\n');
+      const name = `seed-core-${letters[batch]}.sql`;
+      await writeFile(join(outputDir, name), text, 'utf8');
+      files.push(sizeSummary(name, text, { kind: 'cases', cases: rows.length, first_case: rows[0].public_bundle.case_id, last_case: rows.at(-1).public_bundle.case_id }));
+      start += rows.length;
+    }
+  }
+} else {
+  for (let start = 0, chunk = 1; start < normalized.length; start += chunkSize, chunk += 1) {
+    const rows = normalized.slice(start, start + chunkSize);
+    const first = String(start + 1).padStart(3, '0');
+    const last = String(start + rows.length).padStart(3, '0');
+    const name = `${String(chunk).padStart(3, '0')}_cases_${first}-${last}.sql`;
+    const text = [
+      'begin;',
+      '',
+      '-- Idempotent case/answer-key seed. This file does not modify runtime flags.',
+      ...rows.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
+      'commit;',
+      ''
+    ].join('\\n');
+    await writeFile(join(outputDir, name), text, 'utf8');
+    files.push(sizeSummary(name, text, { kind: 'cases', cases: rows.length, first_case: rows[0].public_bundle.case_id, last_case: rows.at(-1).public_bundle.case_id }));
+  }
 }
 
 console.log(JSON.stringify({
