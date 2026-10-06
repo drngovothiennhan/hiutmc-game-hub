@@ -62,13 +62,24 @@ review_status
 
 Mọi pattern mặc định `CHUA_DUYET`. Không coi pattern có nguồn là đã được duyệt.
 
+### Nguồn R1–R6 và đối chiếu số liệu
+
+| Mã | Nguồn | Nơi chứa số liệu | Ngày truy xuất |
+|---|---|---|---|
+| R1 | MedlinePlus, CBC blood test | “Normal Results” | 2026-10-06 |
+| R2 | MedlinePlus, Blood differential test | “Normal Results” | 2026-10-06 |
+| R3 | WHO 2024, Guideline on haemoglobin cutoffs | **CHƯA MỞ PDF**; chưa xác định trang/bảng | 2026-10-06 |
+| R4 | MedlinePlus, RBC indices | **CHƯA MỞ** | 2026-10-06 |
+| R5 | Merck Manual, Evaluation of anemia | **CHƯA MỞ** | 2026-10-06 |
+| R6 | Merck Manual, Complete Blood Count (CBC) | **CHƯA MỞ** | 2026-10-06 |
+
 ### Nguồn đã truy xuất ngày 2026-10-06
 
 **R1 — MedlinePlus, National Library of Medicine/NIH, “CBC blood test”.**  
 - Ngày truy xuất: 2026-10-06.  
 - Ngày cập nhật/review trên trang: **10/14/2024**.  
 - Nơi chứa số liệu: mục **“Normal Results”**, các dòng RBC/WBC/Hematocrit/Hemoglobin/Red blood cell indices/Platelet count.  
-- Ghi chú đơn vị PLT: trang gốc hiển thị `150,000 to 400,000/dL`; module chuẩn hóa sang **×10^9/L (150–400 ×10^9/L)**, không chép `/dL`.  
+- Ghi chú đơn vị PLT: trang gốc hiển thị `150,000 to 400,000/dL`; đây là lỗi đơn vị hiển thị của trang gốc. Module dùng **×10^9/L (150–400 ×10^9/L)**, KHÔNG chép `/dL`.  
 https://medlineplus.gov/ency/article/003642.htm
 
 Trang này công bố các khoảng tham khảo chung:
@@ -293,7 +304,7 @@ hoặc lỗi nghiệp vụ tương ứng.
 - Trạng thái: `started → submitted`.
 - Attempt thuộc `auth.uid()`; mọi đọc/submit phải kiểm tra quyền sở hữu.
 - Nộp lặp lại cùng attempt phải **idempotent**, trả lại cùng kết quả.
-- **Đề xuất để duyệt:** tối đa **3 attempt `started` đồng thời / user** và tối đa **10 attempt mới / user / UTC day**. Khi đạt giới hạn, server trả mã nghiệp vụ và không tạo attempt mới.
+- **Đề xuất để kiến trúc sư duyệt:** tối đa **3 attempt `started` đồng thời / user** và tối đa **10 attempt mới / user / UTC day**. Chưa được coi là đã duyệt. Khi đạt giới hạn, server trả mã nghiệp vụ và không tạo attempt mới.
 - `variant` được server xác định từ user + số lần luyện, không nhận tùy ý từ client.
 
 ### (b) Trong ca
@@ -514,3 +525,8 @@ Ngày quyết định: 2026-10-06.
 
 ### Trạng thái
 Đây là quyết định kiến trúc của Bước 2a-0. Các giới hạn attempt 3 mở / 10 mỗi UTC day là **đề xuất cụ thể để kiến trúc sư duyệt tiếp**, không được coi là đã được phê duyệt chỉ vì nằm trong tài liệu.
+
+
+### Người kiểm định chính
+
+**Ths. Ngô Võ Thiện Nhân (sinh viên Y khoa ngành YHCT)** là reviewer chính khi và chỉ khi kiến trúc sư cho phép đặt `DA_DUYET`. Khuyến nghị có giảng viên Huyết học/Nội khoa xác nhận lần hai trước khi mở cho học viên ngoài nhóm phát triển; đây là khuyến nghị, chưa phải blocker.
