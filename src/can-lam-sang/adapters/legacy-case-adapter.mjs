@@ -306,6 +306,7 @@ export function adaptLegacyCase(input) {
   }
   const title = protectTitle(c.id, c.title, diagnosisOptions);
   const overrideResult = applyOverrides(c);
+  const actionOptions = (Array.isArray(c.actions) ? c.actions : []).map(actionChoice);
 
   const public_bundle = {
     schema_version: PUBLIC_SCHEMA_VERSION,
@@ -351,7 +352,7 @@ export function adaptLegacyCase(input) {
       duration_minutes: Number.isFinite(Number(item?.[1])) ? Number(item[1]) : 0,
       result: investigationValue(overrideResult.fieldValues, index, 'result', safeText(item?.[2]))
     })),
-    choices: publicChoices(c.id, diagnosisOptions, answer_key.action_options)
+    choices: publicChoices(c.id, diagnosisOptions, actionOptions)
   };
 
   const answer_key = {
@@ -368,7 +369,7 @@ export function adaptLegacyCase(input) {
       role: item?.[3] === 'e' ? 'essential' : item?.[3] === 'w' ? 'waste' : 'neutral'
     })),
     diagnosis_options: diagnosisOptions,
-    action_options: (Array.isArray(c.actions) ? c.actions : []).map(actionChoice),
+    action_options: actionOptions,
     teaching_explanation: safeText(c.teach)
   };
 
