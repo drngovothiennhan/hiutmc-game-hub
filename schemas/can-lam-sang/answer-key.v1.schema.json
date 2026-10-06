@@ -9,6 +9,8 @@
     "schema_version",
     "case_id",
     "server_only",
+    "title_reveal",
+    "resources_after_submission",
     "history_essential_indices",
     "examination_essential_indices",
     "investigation_roles",
@@ -26,6 +28,18 @@
     },
     "server_only": {
       "const": true
+    },
+    "title_reveal": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "resources_after_submission": {
+      "type": "array",
+      "items": {
+        "$ref": "resource.v1.schema.json"
+      }
     },
     "history_essential_indices": {
       "type": "array",

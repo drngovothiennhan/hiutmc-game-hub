@@ -18,9 +18,30 @@ function requireLegacyCase(input) {
   return input;
 }
 
+function requireFiniteVitals(vitals) {
+  const v = vitals && typeof vitals === 'object' ? vitals : {};
+  for (const key of ['hr', 'sbp', 'dbp', 'rr', 't', 'spo2']) {
+    if (typeof v[key] !== 'number' || !Number.isFinite(v[key])) {
+      throw new TypeError(`legacy case vital ${key} must be a finite number`);
+    }
+  }
+  return v;
+}
+
 function normalizeId(value) {
   const x = safeText(value).toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
   return x || 'unknown';
+}
+
+function normalizeLeakText(value) {
+  return safeText(value)
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function sourceFor(caseId, sourceText, verification, index) {
@@ -69,6 +90,28 @@ function diagnosisChoice(raw) {
   return { text, credit: 'none' };
 }
 
+function answerTexts(diagnosisOptions) {
+  const out = [];
+  for (const choices of Object.values(diagnosisOptions)) {
+    if (!Array.isArray(choices)) continue;
+    for (const choice of choices) {
+      if (!choice || !['full', 'partial'].includes(choice.credit)) continue;
+      const normalized = normalizeLeakText(choice.text);
+      if (normalized.length > 5) out.push(normalized);
+    }
+  }
+  return out;
+}
+
+function protectTitle(caseId, title, diagnosisOptions) {
+  const original = safeText(title);
+  const normalizedTitle = normalizeLeakText(original);
+  const leaked = answerTexts(diagnosisOptions).some(answer => normalizedTitle.includes(answer));
+  return leaked
+    ? { publicTitle: `Ca bệnh ${caseId}`, titleReveal: original }
+    : { publicTitle: original, titleReveal: null };
+}
+
 function actionChoice(raw) {
   const text = safeText(raw);
   const marker = text.startsWith('++') ? '++' : ['+','-','!'].includes(text[0]) ? text[0] : '';
@@ -102,18 +145,19 @@ function modeOf(c) {
 
 export function adaptLegacyCase(input) {
   const c = requireLegacyCase(input);
-  const v = c.vitals || {};
+  const v = requireFiniteVitals(c.vitals);
   const diagnosisOptions = {};
   for (const key of ['ydx','bd','bc','the','phap','phuong','huyet']) {
     if (Array.isArray(c.opt?.[key])) diagnosisOptions[key] = c.opt[key].map(diagnosisChoice);
   }
+  const title = protectTitle(c.id, c.title, diagnosisOptions);
 
   const public_bundle = {
     schema_version: PUBLIC_SCHEMA_VERSION,
     case_id: c.id,
     data_origin: 'synthetic',
     review_status: LEGACY_REVIEW_STATUS,
-    title: safeText(c.title),
+    title: title.publicTitle,
     setting: c.setting,
     level: c.level,
     track: trackOf(c),
@@ -130,12 +174,12 @@ export function adaptLegacyCase(input) {
       night: Boolean(c.night)
     },
     vitals: {
-      hr: Number(v.hr),
-      sbp: Number(v.sbp),
-      dbp: Number(v.dbp),
-      rr: Number(v.rr),
-      temperature_c: Number(v.t),
-      spo2: Number(v.spo2)
+      hr: v.hr,
+      sbp: v.sbp,
+      dbp: v.dbp,
+      rr: v.rr,
+      temperature_c: v.t,
+      spo2: v.spo2
     },
     history: (Array.isArray(c.ask) ? c.ask : []).map(item => ({
       question: safeText(item?.[0]),
@@ -150,14 +194,15 @@ export function adaptLegacyCase(input) {
       name: safeText(item?.[0]),
       duration_minutes: Number.isFinite(Number(item?.[1])) ? Number(item[1]) : 0,
       result: safeText(item?.[2])
-    })),
-    resources: legacyResources(c)
+    }))
   };
 
   const answer_key = {
     schema_version: ANSWER_SCHEMA_VERSION,
     case_id: c.id,
     server_only: true,
+    title_reveal: title.titleReveal,
+    resources_after_submission: legacyResources(c),
     history_essential_indices: (Array.isArray(c.ask) ? c.ask : []).flatMap((item, index) => item?.[2] === 'e' ? [index] : []),
     examination_essential_indices: (Array.isArray(c.exam) ? c.exam : []).flatMap((item, index) => item?.[3] === 'e' ? [index] : []),
     investigation_roles: (Array.isArray(c.tests) ? c.tests : []).map((item, index) => ({
