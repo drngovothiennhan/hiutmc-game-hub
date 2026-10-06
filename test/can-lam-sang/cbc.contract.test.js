@@ -10,8 +10,8 @@ import { scoreAnswers } from "../../src/can-lam-sang/cbc/rubric.mjs";
 import { assertFixtureNeverLearner } from "../../src/can-lam-sang/cbc/approval-gate.mjs";
 
 const here=path.dirname(fileURLToPath(import.meta.url));
-const fixture=JSON.parse(fs.readFileSync(path.join(here,"../../fixtures/can-lam-sang/cbc/normal-adult.fixture.json"),"utf8"));
-const schemaDir=path.join(here,"../../../schemas/can-lam-sang");
+const fixture=JSON.parse(fs.readFileSync(path.join(here,"../fixtures/can-lam-sang/cbc/normal-adult.fixture.json"),"utf8"));
+const schemaDir=path.join(here,"../../schemas/can-lam-sang");
 const schemas=["cbc-reference.v1.schema.json","cbc-pattern.v1.schema.json","cbc-scenario.v1.schema.json"].map(f=>JSON.parse(fs.readFileSync(path.join(schemaDir,f),"utf8")));
 const pattern=fixture;
 
@@ -101,7 +101,7 @@ test("missing sex is rejected",()=>{
 });
 
 test("no nondeterministic/random ordering primitives",()=>{
-  const roots=[path.join(here,"../../../src/can-lam-sang/cbc"),path.join(here,"../../../schemas/can-lam-sang")];
+  const roots=[path.join(here,"../../src/can-lam-sang/cbc"),path.join(here,"../../../schemas/can-lam-sang")];
   const stack=[...roots];
   while(stack.length){
     const dir=stack.pop(); if(!fs.existsSync(dir)) continue;
