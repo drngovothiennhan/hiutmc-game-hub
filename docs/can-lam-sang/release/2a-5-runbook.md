@@ -32,6 +32,7 @@
 - `cls_list_cases_v1()`: chỉ trả metadata công khai, review fields và trạng thái đã nộp của chính user.
 - `cls_get_case_v1(case_id)`: chỉ trả public bundle khi content gate cho phép.
 - `cls_submit_v1(case_id,'core',answers)`: kiểm tra choices theo answer key server-side; chỉ sau submit mới trả title reveal, resources, notes và teaching explanation.
+- `cls_get_submission_v1(case_id)`: chỉ đọc kết quả đã nộp của chính user; không dùng `cls_submit_v1(...,{})` để truy hồi.
 - `da_nop`: UI hiển thị lại kết quả đã nộp, không coi là lỗi.
 - `chua_mo`: UI hiển thị phòng chưa mở.
 - `khong_tim_thay`: UI hiển thị không tìm thấy ca.
@@ -61,6 +62,12 @@ Không áp SQL production trong Bước 3. Kiến trúc sư tự áp SQL, mở c
 
 ## 7. Rollback
 
-- Rollback RPC list: `013_cls_list_cases_v1_rollback.sql`.
+- Thứ tự rollback bắt buộc: `015_cls_get_submission_v1_rollback.sql` → `013_cls_list_cases_v1_rollback.sql` → `010_cls_publish_gate_rollback.sql`.
 - Không tự drop foundation hoặc dữ liệu đã seed.
 - Nếu rollback bị guard dữ liệu chặn, dừng và báo kiến trúc sư.
+
+## 8. Script bật cờ (không chạy trong Bước 3)
+
+- Script tách riêng: `016_cls_enable_unreviewed_2026-10-12.sql`.
+- Script đặt `unreviewed_enabled=true` và hạn `2026-10-12T23:59:59+07:00`.
+- Chỉ kiến trúc sư quyết định và thực thi sau khi QA đạt; PR này không chạy script.
