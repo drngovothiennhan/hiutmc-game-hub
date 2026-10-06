@@ -33,6 +33,7 @@ test("Step 2a-2 SQL contract has approval gates, grants and no random ordering",
   assert.match(tablesSql, /revoke all on table/);
   assert.doesNotMatch(tablesSql, /ORDER\s+BY\s+random\s*\(/i);
   assert.doesNotMatch(rpcSql, /ORDER\s+BY\s+random\s*\(/i);
+  assert.doesNotMatch(rpcSql, /abs\(v_hash \+/, "F1: fallback must not add bigint hashes before abs()");
 });
 
 test("Step 2a-2 RPC contract has three enveloped SECURITY DEFINER functions", () => {
