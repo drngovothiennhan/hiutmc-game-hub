@@ -160,11 +160,3 @@ const outputText = sqlMode ? toSql(rows) : JSON.stringify(payload, null, 2) + "\
 fs.mkdirSync(path.dirname(path.resolve(output)), { recursive: true });
 fs.writeFileSync(path.resolve(output), outputText, "utf8");
 console.log(JSON.stringify({ rows: rows.length, output: path.resolve(output), mode: sqlMode ? "sql" : "json" }));
-
-fs.mkdirSync(path.dirname(path.resolve(output)), { recursive: true });
-fs.writeFileSync(
-  path.resolve(output),
-  JSON.stringify(payload, null, 2) + "\n",
-  "utf8"
-);
-console.log(JSON.stringify({ rows: rows.length, output: path.resolve(output) }));
