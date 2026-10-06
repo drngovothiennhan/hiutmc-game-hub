@@ -1,13 +1,30 @@
 begin;
 
--- Established HIU TMC pattern from y_quan_private:
--- private tables + public RPC wrappers. New CLS RPCs tighten the function
--- environment to SET search_path = '' and schema-qualify every relation.
---
--- Feature flag semantics:
---   enabled = false => nobody is enabled, including allowlisted users.
---   enabled = true + empty allowlist => every authenticated user is enabled.
---   enabled = true + non-empty allowlist => only listed authenticated users.
+-- Internal feature gate. No client role receives EXECUTE.
+create or replace function can_lam_sang_private.cls_user_enabled_v1(p_user_id uuid)
+returns boolean
+language sql
+stable
+set search_path = ''
+as $function$
+  select coalesce((
+    select
+      f.enabled
+      and case f.audience
+        when 'allowlist' then (
+          p_user_id is not null
+          and p_user_id = any(f.allowlist_user_ids)
+        )
+        when 'all_authenticated' then p_user_id is not null
+        else false
+      end
+    from can_lam_sang_private.feature_flags as f
+    where f.flag_key = 'clinical_lab_room_v1'
+  ), false)
+$function$;
+
+revoke all on function can_lam_sang_private.cls_user_enabled_v1(uuid)
+  from public, anon, authenticated;
 
 create or replace function public.cls_flag_status_v1()
 returns jsonb
@@ -16,25 +33,14 @@ security definer
 set search_path = ''
 as $function$
 declare
-  v_user uuid := auth.uid();
-  v_enabled boolean := false;
+  v_enabled boolean;
 begin
-  select
-    f.enabled
-    and (
-      pg_catalog.cardinality(f.allowlist_user_ids) = 0
-      or (
-        v_user is not null
-        and v_user = any(f.allowlist_user_ids)
-      )
-    )
-  into v_enabled
-  from can_lam_sang_private.feature_flags as f
-  where f.flag_key = 'clinical_lab_room_v1';
+  v_enabled := can_lam_sang_private.cls_user_enabled_v1(auth.uid());
 
   return pg_catalog.jsonb_build_object(
-    'enabled',
-    coalesce(v_enabled, false)
+    'ok', true,
+    'code', null,
+    'data', pg_catalog.jsonb_build_object('enabled', v_enabled)
   );
 end
 $function$;
@@ -46,26 +52,14 @@ security definer
 set search_path = ''
 as $function$
 declare
-  v_user uuid := auth.uid();
-  v_enabled boolean := false;
   v_bundle jsonb;
 begin
-  -- R1: flag is checked before any case bundle is read.
-  select
-    f.enabled
-    and (
-      pg_catalog.cardinality(f.allowlist_user_ids) = 0
-      or (
-        v_user is not null
-        and v_user = any(f.allowlist_user_ids)
-      )
-    )
-  into v_enabled
-  from can_lam_sang_private.feature_flags as f
-  where f.flag_key = 'clinical_lab_room_v1';
-
-  if not coalesce(v_enabled, false) then
-    return pg_catalog.jsonb_build_object('code', 'chua_mo');
+  if not can_lam_sang_private.cls_user_enabled_v1(auth.uid()) then
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'chua_mo',
+      'data', null
+    );
   end if;
 
   select c.public_bundle
@@ -74,11 +68,18 @@ begin
   where c.case_id = p_case_id;
 
   if v_bundle is null then
-    return pg_catalog.jsonb_build_object('code', 'khong_tim_thay');
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'khong_tim_thay',
+      'data', null
+    );
   end if;
 
-  -- A5/R3: enabled path returns the public whitelist object only.
-  return v_bundle;
+  return pg_catalog.jsonb_build_object(
+    'ok', true,
+    'code', null,
+    'data', v_bundle
+  );
 end
 $function$;
 
@@ -94,42 +95,55 @@ set search_path = ''
 as $function$
 declare
   v_user uuid := auth.uid();
-  v_enabled boolean := false;
   v_submission_id uuid;
   v_key jsonb;
+  v_reveal jsonb;
+  v_code text := null;
 begin
-  -- R1: flag is checked before case/answer data or submission writes.
-  select
-    f.enabled
-    and (
-      pg_catalog.cardinality(f.allowlist_user_ids) = 0
-      or (
-        v_user is not null
-        and v_user = any(f.allowlist_user_ids)
-      )
-    )
-  into v_enabled
-  from can_lam_sang_private.feature_flags as f
-  where f.flag_key = 'clinical_lab_room_v1';
-
-  if not coalesce(v_enabled, false) then
-    return pg_catalog.jsonb_build_object('code', 'chua_mo');
+  if not can_lam_sang_private.cls_user_enabled_v1(v_user) then
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'chua_mo',
+      'data', null
+    );
   end if;
 
   if v_user is null then
-    return pg_catalog.jsonb_build_object('code', 'khong_xac_thuc');
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'khong_xac_thuc',
+      'data', null
+    );
   end if;
 
   if p_module is null
      or p_module not in ('core', 'cbc', 'ecg_monitor', 'xray', 'auscultation')
   then
-    return pg_catalog.jsonb_build_object('code', 'module_khong_hop_le');
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'module_khong_hop_le',
+      'data', null
+    );
+  end if;
+
+  if p_module <> 'core' then
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'module_chua_ho_tro',
+      'data', null
+    );
   end if;
 
   if p_answers is null
      or pg_catalog.jsonb_typeof(p_answers) <> 'object'
+     or p_answers = '{}'::jsonb
+     or pg_catalog.octet_length(p_answers::text) > 65536
   then
-    return pg_catalog.jsonb_build_object('code', 'du_lieu_khong_hop_le');
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'du_lieu_khong_hop_le',
+      'data', null
+    );
   end if;
 
   if not exists (
@@ -137,7 +151,11 @@ begin
     from can_lam_sang_private.case_bundles as c
     where c.case_id = p_case_id
   ) then
-    return pg_catalog.jsonb_build_object('code', 'khong_tim_thay');
+    return pg_catalog.jsonb_build_object(
+      'ok', false,
+      'code', 'khong_tim_thay',
+      'data', null
+    );
   end if;
 
   insert into can_lam_sang_private.submissions (
@@ -156,10 +174,9 @@ begin
   returning id into v_submission_id;
 
   if v_submission_id is null then
-    return pg_catalog.jsonb_build_object('code', 'da_nop');
+    v_code := 'da_nop';
   end if;
 
-  -- A5: answer material is read only after the successful submission write.
   select a.answer_key
   into v_key
   from can_lam_sang_private.answer_keys as a
@@ -169,11 +186,17 @@ begin
     raise exception 'answer_key_missing';
   end if;
 
-  return pg_catalog.jsonb_build_object(
+  v_reveal := pg_catalog.jsonb_build_object(
     'title_reveal', v_key -> 'title_reveal',
     'resources_after_submission', v_key -> 'resources_after_submission',
     'after_submission_notes', v_key -> 'after_submission_notes',
     'teaching_explanation', v_key -> 'teaching_explanation'
+  );
+
+  return pg_catalog.jsonb_build_object(
+    'ok', true,
+    'code', v_code,
+    'data', v_reveal
   );
 end
 $function$;

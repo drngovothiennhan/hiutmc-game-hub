@@ -8,7 +8,7 @@
 
 Phòng Cận Lâm Sàng dùng frontend tĩnh trên Cloudflare Pages và backend dữ liệu/chấm bài qua Supabase schema riêng + RPC server-side. Không tạo D1 hoặc Worker API mới ở giai đoạn này. Media/R2 để quyết định ở Bước 2c/2d.
 
-Module mới chỉ nối hệ thống cũ bằng `case_id`. Không sửa/refactor engine, ngân hàng ca, Y Quán, Phòng Học hoặc Trực hiện tại.
+Module mới chỉ nối hệ thống cũ bằng `case_id`. Không sửa/refactor engine, ngân hàng ca, Y Quán, Phòng Học hoặc Trực hiện tại. Đối tượng duy nhất ngoài schema `can_lam_sang_private` được phép tạo/drop là 3 hàm `public.cls_*_v1`.
 
 ## Lý do
 

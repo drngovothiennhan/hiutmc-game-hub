@@ -7,9 +7,12 @@ revoke all on schema can_lam_sang_private from public, anon, authenticated;
 create table if not exists can_lam_sang_private.feature_flags (
   flag_key text primary key,
   enabled boolean not null default false,
+  audience text not null default 'allowlist',
   allowlist_user_ids uuid[] not null default '{}'::uuid[],
   constraint feature_flags_key_check
-    check (flag_key ~ '^[a-z0-9_]+$')
+    check (flag_key ~ '^[a-z0-9_]+$'),
+  constraint feature_flags_audience_check
+    check (audience in ('allowlist', 'all_authenticated'))
 );
 
 create table if not exists can_lam_sang_private.case_bundles (
@@ -107,7 +110,9 @@ create table if not exists can_lam_sang_private.resources (
 
 create table if not exists can_lam_sang_private.submissions (
   id uuid primary key default pg_catalog.gen_random_uuid(),
-  user_id uuid not null,
+  user_id uuid not null
+    references auth.users(id)
+    on delete cascade,
   case_id text not null
     references can_lam_sang_private.case_bundles(case_id),
   module text not null,
@@ -140,11 +145,13 @@ alter default privileges in schema can_lam_sang_private
 insert into can_lam_sang_private.feature_flags (
   flag_key,
   enabled,
+  audience,
   allowlist_user_ids
 )
 values (
   'clinical_lab_room_v1',
   false,
+  'allowlist',
   '{}'::uuid[]
 )
 on conflict (flag_key) do nothing;
