@@ -15,7 +15,7 @@
 ## 1. Chuẩn bị nội dung
 
 1. Adapter legacy tạo `public_bundle` whitelist-only và `answer_key` server-only.
-2. Public bundle có choices văn bản בלבד cho từng nhóm chẩn đoán và hành động.
+2. Public bundle có choices chỉ gồm văn bản cho từng nhóm chẩn đoán và hành động.
 3. Choices được xáo trộn xác định theo `case_id`; không dùng `Math.random()`.
 4. Tất cả ca lõi và resources legacy giữ `CHUA_DUYET`.
 
