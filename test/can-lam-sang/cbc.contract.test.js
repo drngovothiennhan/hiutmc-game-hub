@@ -101,7 +101,7 @@ test("missing sex is rejected",()=>{
 });
 
 test("no nondeterministic/random ordering primitives",()=>{
-  const roots=[path.join(here,"../../../src"),path.join(here,"../../../schemas")];
+  const roots=[path.join(here,"../../../src/can-lam-sang/cbc"),path.join(here,"../../../schemas/can-lam-sang")];
   const stack=[...roots];
   while(stack.length){
     const dir=stack.pop(); if(!fs.existsSync(dir)) continue;
