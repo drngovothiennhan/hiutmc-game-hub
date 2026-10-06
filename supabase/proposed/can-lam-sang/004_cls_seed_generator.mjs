@@ -205,7 +205,7 @@ const resourcesName = '000_resources.sql';
 const resourcesText = [
   'begin;',
   '',
-  '-- Resources run before case chunks. This file never touches feature_flags.',
+  '-- Resources run before case chunks. This file does not modify runtime flags.',
   ...[...resourceMap.values()]
     .sort((a, b) => a.resource_id.localeCompare(b.resource_id))
     .map(resourceSql),
@@ -223,7 +223,7 @@ for (let start = 0, chunk = 1; start < normalized.length; start += chunkSize, ch
   const text = [
     'begin;',
     '',
-    '-- Idempotent case/answer-key seed. This file never touches feature_flags.',
+    '-- Idempotent case/answer-key seed. This file does not modify runtime flags.',
     ...rows.map(({ public_bundle, answer_key }) => caseSql(public_bundle, answer_key)),
     'commit;',
     ''
