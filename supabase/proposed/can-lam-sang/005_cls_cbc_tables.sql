@@ -91,7 +91,7 @@ create table if not exists can_lam_sang_private.cbc_scenarios (
   constraint cbc_scenarios_answer_classifications_check
     check (
       pg_catalog.jsonb_typeof(answer_key -> 'classifications') = 'object'
-      and (select count(*) from pg_catalog.jsonb_object_keys(answer_key -> 'classifications')) = 13
+      and pg_catalog.jsonb_array_length(pg_catalog.jsonb_path_query_array(answer_key -> 'classifications', '$.*')) = 13
     )
 );
 
