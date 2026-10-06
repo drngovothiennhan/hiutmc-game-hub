@@ -14,7 +14,7 @@ function valueFor(item,key,profile){
   return {value:convertProfileValue(key,Number(item.value),'vn_lab','conventional'),unit:profileUnit(key,'conventional')||item.unit};
 }
 
-export async function mountCBC(root,{rpc}) {
+export async function mountCBC(root,{rpc,onHome}) {
   let profile='vn_lab', attemptId=null, scenario=null, answers={}, submitted=null;
   const storageKey='hiutmc-cbc-attempt-id';
   const getStoredAttempt=()=>{
@@ -41,11 +41,11 @@ export async function mountCBC(root,{rpc}) {
       result='<div class="result"><div>Điểm</div><strong>'+score+'/13</strong><div class="muted">'+score+' chỉ số đúng.</div><details><summary>Xem đáp án</summary><pre>'+esc(JSON.stringify(submitted.expected_classifications||{},null,2))+'</pre></details></div>'+
         '<button id="new-attempt" type="button" style="width:100%;margin-top:10px">Làm bài mới</button>';
     }
-    root.innerHTML='<div class="toolbar"><div><strong>Đơn vị hiển thị</strong></div><div><select id="profile">'+Object.entries(profiles).map(([k,v])=>'<option value="'+k+'" '+(k===profile?'selected':'')+'>'+v+'</option>').join('')+'</select></div></div>'+
+    root.innerHTML=(onHome?'<button type="button" id="cbc-home" class="cls-link">← Phòng Cận Lâm Sàng</button>':'')+'<div class="toolbar"><div><strong>Đơn vị hiển thị</strong></div><div><select id="profile">'+Object.entries(profiles).map(([k,v])=>'<option value="'+k+'" '+(k===profile?'selected':'')+'>'+v+'</option>').join('')+'</select></div></div>'+
       '<div class="muted">Mức: '+esc(LEVEL_LABELS[scenario.level]||LEVEL_LABELS[LEVEL])+' · Chỉ nộp một lần.</div>'+
       '<table><thead><tr><th>Chỉ số</th><th>Giá trị</th><th>Phân loại</th></tr></thead><tbody>'+rows+'</tbody></table>'+
       '<button id="submit" class="primary" style="width:100%;margin-top:10px" '+(submitted?'disabled':'')+'>Nộp bài</button>'+result;
-    root.querySelector('#profile').onchange=e=>{profile=e.target.value;render()};
+    root.querySelector('#cbc-home')?.addEventListener('click',onHome);\n    root.querySelector('#profile').onchange=e=>{profile=e.target.value;render()};
     root.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{if(submitted)return;answers[b.dataset.key]=b.dataset.answer;render()});
     root.querySelector('#submit').onclick=submit;
     root.querySelector('#new-attempt')?.addEventListener('click',async()=>{clearStoredAttempt();answers={};submitted=null;scenario=null;attemptId=null;await start()});
