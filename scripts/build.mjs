@@ -32,4 +32,14 @@ await build({
   outdir: 'dist',
   minify: true
 });
+// Core clinical-lab page: lazy-loaded as a dedicated browser entry without changing prior outputs.
+await build({
+  entryPoints: { 'can-lam-sang/core/core': 'public/can-lam-sang/core/core.js' },
+  bundle: true,
+  splitting: true,
+  format: 'esm',
+  target: ['es2022'],
+  outdir: 'dist/assets',
+  minify: true
+});
 console.log('Game Hub shell and isolated Garden runtime built to dist/.');
