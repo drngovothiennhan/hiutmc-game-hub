@@ -10,7 +10,7 @@
   "indices":{
     "Hb":{"ranges":{"nam":{"low":130,"high":180},"nữ":{"low":120,"high":160}},"precision":1},
     "RBC":{"ranges":{"nam":{"low":4.6,"high":6.2},"nữ":{"low":4.2,"high":5.4}},"precision":2},
-    "Hct":{"ranges":{"nam":{"low":40,"high":55},"nữ":{"low":36,"high":48}},"precision":1},
+    "Hct":{"ranges":{"nam":{"low":0.40,"high":0.55},"nữ":{"low":0.36,"high":0.48}},"precision":3},
     "MCV":{"ranges":{"nam":{"low":80,"high":100},"nữ":{"low":80,"high":100}},"precision":1},
     "MCH":{"ranges":{"nam":{"low":20,"high":40},"nữ":{"low":20,"high":40}},"precision":1},
     "MCHC":{"ranges":{"nam":{"low":250,"high":450},"nữ":{"low":250,"high":450}},"precision":1},
