@@ -62,7 +62,7 @@ test("rubric scores fixture answers deterministically",()=>{
 
 test("approval gate rejects fixture-only and unapproved content",()=>{
   assert.throws(()=>assertFixtureNeverLearner(fixture),/fixture_only|pattern_chua_duyet/);
-  assert.throws(()=>assertFixtureNeverLearner({...freshPattern(),review_status:"CHUA_DUYET"}),/pattern_chua_duyet/);
+  assert.throws(()=>assertFixtureNeverLearner({...freshPattern(),pattern_id:"CBC-P01-UNAPPROVED",review_status:"CHUA_DUYET"}),/pattern_chua_duyet/);
 });
 
 test("fixture is unreachable from src/public",()=>{
