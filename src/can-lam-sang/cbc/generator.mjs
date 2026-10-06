@@ -14,7 +14,7 @@ function largestRemainder(r, ranges, precision=1){const scale=10**precision;cons
 function convertFromInternal(key,v,profile){if(key==="Hct"&&profile==="vn_lab")return v*100;if(key==="Hct"&&profile==="conventional")return v*100;if(key==="Hb"&&profile==="conventional")return v/10;if(key==="MCHC"&&profile==="conventional")return v/10;return v}
 function convertToInternal(key,v,profile){if(key==="Hct")return v/100;if(key==="Hb"&&profile==="conventional")return v*10;if(key==="MCHC"&&profile==="conventional")return v*10;return v}
 export function convertValue(key,v,fromProfile,toProfile){const internal=convertToInternal(key,v,fromProfile);return convertFromInternal(key,internal,toProfile)}
-export function generateScenario({pattern,variant=0,scenario_id="fixture",sex=pattern?.sex,profile="vn_lab"}){requireSex(sex);requireRanges(pattern,sex);if(!Number.isInteger(variant)||variant<0)throw new Error("variant_invalid");
+export function generateScenario({pattern,variant=0,scenario_id="fixture",sex,profile="vn_lab"}){requireSex(sex);requireRanges(pattern,sex);if(!Number.isInteger(variant)||variant<0)throw new Error("variant_invalid");
   const seed=hash32(pattern.pattern_id+"cbc"+pattern.schema_version+String(variant));const r=rng(String(seed));const root=pattern.indices;
   const hb=round(pick(r,root.Hb.ranges[sex].low,root.Hb.ranges[sex].high),root.Hb.precision??1);
   const rbc=round(pick(r,root.RBC.ranges[sex].low,root.RBC.ranges[sex].high),root.RBC.precision??2);
