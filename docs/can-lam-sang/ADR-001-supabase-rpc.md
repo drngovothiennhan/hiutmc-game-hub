@@ -87,3 +87,9 @@ Vì module tách route/schema/RPC và feature flag mặc định tắt, rollback
 - Không sửa `service-worker.js`.
 - Không tạo route runtime.
 - Không quyết định R2/media.
+## Quyết định sau QA 2026-10-06
+
+- T11: chấp nhận bằng bằng chứng catalog: foreign key `submissions.user_id → auth.users.id` dùng `ON DELETE CASCADE`.
+- T13: không chặn phát hành; chủ dự án sẽ tự kiểm tra Exposed schemas trên Supabase Dashboard.
+- Không áp SQL lên production ở Bước 1B. Việc áp production sẽ gộp vào lần phát hành module đầu tiên, theo thứ tự `001 → 002 → resources → các chunk seed`, và chỉ chuyển vào `supabase/migrations/` sau khi có lệnh **"DUYỆT ÁP PRODUCTION"**.
+- Hạn chế đã biết: phần reveal của module core hiện mở với mọi bài nộp là object không rỗng ≤64KB; module core phải kiểm tra cấu trúc bài nộp theo từng ca ở Bước 2 trước khi bật cho người học.
