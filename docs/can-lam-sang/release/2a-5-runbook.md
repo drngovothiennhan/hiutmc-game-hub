@@ -119,6 +119,8 @@ Kiểm tối thiểu:
 
 ## 10. Quy tắc không tự ý
 
+- Kiểm tra production sau mở thử chỉ thực hiện theo lệnh **DUYỆT ÁP PRODUCTION** và không dùng dữ liệu thử nghiệm để kiểm chức năng.
+
 - Không áp production khi chưa có **DUYỆT ÁP PRODUCTION**.
 - Không tự đặt pattern thành DA_DUYET.
 - Không thay đổi production project ref.
