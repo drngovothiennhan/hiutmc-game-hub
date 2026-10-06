@@ -22,14 +22,16 @@ declare
   v_allowed_keys integer := 0;
   v_key_name text;
   v_value jsonb;
-  v_choice text;
+  v_diagnosis_options jsonb;
+  v_action_options jsonb;
+  v_max_selected integer := 32;
 begin
-  if not can_lam_sang_private.cls_user_enabled_v1(v_user) then
-    return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_mo', 'data', null);
-  end if;
-
   if v_user is null then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_xac_thuc', 'data', null);
+  end if;
+
+  if not can_lam_sang_private.cls_user_enabled_v1(v_user) then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'chua_mo', 'data', null);
   end if;
 
   if p_module is null
@@ -69,6 +71,40 @@ begin
     raise exception 'answer_key_missing';
   end if;
 
+  v_diagnosis_options := v_key -> 'diagnosis_options';
+  v_action_options := v_key -> 'action_options';
+
+  if pg_catalog.jsonb_typeof(v_diagnosis_options) <> 'object'
+     or pg_catalog.jsonb_typeof(v_action_options) <> 'array'
+     or pg_catalog.jsonb_array_length(v_action_options) > v_max_selected
+  then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
+  end if;
+
+  if exists (
+    select 1
+    from pg_catalog.jsonb_each(v_diagnosis_options) as group_item(group_name, options)
+    where pg_catalog.jsonb_typeof(group_item.options) <> 'array'
+       or pg_catalog.jsonb_array_length(group_item.options) > v_max_selected
+       or exists (
+         select 1
+         from pg_catalog.jsonb_array_elements(group_item.options) as opt
+         where pg_catalog.jsonb_typeof(opt) <> 'object'
+            or pg_catalog.jsonb_typeof(opt -> 'text') <> 'string'
+       )
+  ) then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
+  end if;
+
+  if exists (
+    select 1
+    from pg_catalog.jsonb_array_elements(v_action_options) as opt
+    where pg_catalog.jsonb_typeof(opt) <> 'object'
+       or pg_catalog.jsonb_typeof(opt -> 'text') <> 'string'
+  ) then
+    return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
+  end if;
+
   /*
    * The answer-key schema defines the per-case choice domains:
    * diagnosis_options.<group> and action_options[].text.
@@ -78,7 +114,7 @@ begin
    */
   select count(*)
   into v_allowed_keys
-  from pg_catalog.jsonb_object_keys(coalesce(v_key -> 'diagnosis_options', '{}'::jsonb));
+  from pg_catalog.jsonb_object_keys(v_diagnosis_options);
 
   if not (p_answers ? 'actions') then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
@@ -112,7 +148,7 @@ begin
         from pg_catalog.jsonb_array_elements_text(p_answers -> v_key_name) as a(text_value)
         where not exists (
           select 1
-          from pg_catalog.jsonb_array_elements(coalesce(v_key -> 'action_options', '[]'::jsonb)) as opt
+          from pg_catalog.jsonb_array_elements(v_action_options) as opt
           where opt ->> 'text' = a.text_value
         )
       ) then
@@ -124,13 +160,14 @@ begin
       if pg_catalog.jsonb_typeof(v_value) = 'string' then
         if not exists (
           select 1
-          from pg_catalog.jsonb_array_elements(coalesce(v_key -> 'diagnosis_options' -> v_key_name, '[]'::jsonb)) as opt
+          from pg_catalog.jsonb_array_elements(v_diagnosis_options -> v_key_name) as opt
           where opt ->> 'text' = v_value #>> '{}'
         ) then
           return pg_catalog.jsonb_build_object('ok', false, 'code', 'answers_khong_hop_le', 'data', null);
         end if;
       elsif pg_catalog.jsonb_typeof(v_value) = 'array'
          and pg_catalog.jsonb_array_length(v_value) > 0
+         and pg_catalog.jsonb_array_length(v_value) <= v_max_selected
       then
         if exists (
           select 1
