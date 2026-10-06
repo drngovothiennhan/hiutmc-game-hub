@@ -19,8 +19,6 @@ await build({
   assetNames: 'assets/[name]-[hash]',
   minify: true
 });
-// Publish each Y Quan entry as one module. A proxy or stale cache must not
-// leave an entry page pointing at a missing transitive import.
 await build({
   entryPoints: {
     'y-quan-live/game': 'public/y-quan-live/game.js',
@@ -32,4 +30,17 @@ await build({
   outdir: 'dist',
   minify: true
 });
-console.log('Game Hub shell and isolated Garden runtime built to dist/.');
+// Step 2a-3: this is intentionally the final build call. Code splitting keeps
+// CBC behind the flag-gated dynamic import while resolving all source imports.
+await build({
+  entryPoints: ['public/can-lam-sang/bootstrap.js'],
+  bundle: true,
+  format: 'esm',
+  splitting: true,
+  outdir: 'dist',
+  outbase: 'public',
+  entryNames: 'can-lam-sang/[name]',
+  chunkNames: 'can-lam-sang/chunk-[name]-[hash]',
+  target: ['es2022']
+});
+console.log('Game Hub shell, isolated Garden runtime, and CBC draft runtime built to dist/.');
