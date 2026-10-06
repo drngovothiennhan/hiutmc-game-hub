@@ -293,6 +293,7 @@ declare
   v_key text;
   v_score integer := 0;
   v_result jsonb;
+  v_review_status text;
 begin
   if v_user is null then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
@@ -313,8 +314,19 @@ begin
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'khong_tim_thay', 'data', null);
   end if;
 
+  select p.review_status
+  into v_review_status
+  from can_lam_sang_private.cbc_patterns as p
+  join can_lam_sang_private.cbc_scenarios as s
+    on s.pattern_id = p.pattern_id
+  where s.scenario_key = v_attempt.scenario_key;
+
   if v_attempt.status = 'submitted' then
-    return pg_catalog.jsonb_build_object('ok', true, 'code', 'da_nop', 'data', v_attempt.result);
+    return pg_catalog.jsonb_build_object(
+      'ok', true,
+      'code', 'da_nop',
+      'data', v_attempt.result || can_lam_sang_private.cls_review_fields_v1(v_review_status)
+    );
   end if;
 
   if p_answers is null
@@ -397,7 +409,7 @@ begin
   return pg_catalog.jsonb_build_object(
     'ok', true,
     'code', null,
-    'data', v_result
+    'data', v_result || can_lam_sang_private.cls_review_fields_v1(v_review_status)
   );
 end
 $function$;
