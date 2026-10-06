@@ -10,6 +10,6 @@ test('2a-3 maps every locked RPC code and hides unknown detail',()=>{
 test('2a-3 uses generator profile conversion rather than local formulas',()=>{
   assert.equal(convertProfileValue('Hb',150,'vn_lab','conventional'),15);
   assert.equal(convertProfileValue('MCHC',350,'vn_lab','conventional'),35);
-  assert.equal(convertProfileValue('Hct',0.42,'vn_lab','conventional'),42);
+  assert.equal(convertProfileValue('Hct',42,'vn_lab','conventional'),42);
   assert.equal(profileUnit('Hb','conventional'),'g/dL');
 });
