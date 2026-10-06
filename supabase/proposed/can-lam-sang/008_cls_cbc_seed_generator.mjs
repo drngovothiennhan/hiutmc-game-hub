@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import crypto from "node:crypto";
 import { generateScenario, toPublicScenario } from "../../../src/can-lam-sang/cbc/generator.mjs";
 import { classifyScenario } from "../../../src/can-lam-sang/cbc/classify.mjs";
 
@@ -13,8 +14,11 @@ const KEYS = [
 ];
 const CLASSIFICATIONS = new Set(["thap", "binh_thuong", "cao"]);
 
+const SCENARIO_SALT = "HIU-TMC-CBC-v1-scenario-salt";
+const SQL_TABLE = "can_lam_sang_private.cbc_scenarios";
+
 function usage() {
-  console.error("Usage: node 008_cls_cbc_seed_generator.mjs <patterns.json> <output.json> [level] [variants]");
+  console.error("Usage: node 008_cls_cbc_seed_generator.mjs <patterns.json> <output.(json|sql)> [level] [variants] [--sql]");
 }
 
 function readJson(file) {
@@ -30,11 +34,22 @@ function requirePattern(pattern) {
   }
 }
 
-function buildRow(pattern, patternIndex, level, variant, sex) {
+function opaqueScenarioId(scenarioKey) {
+  return crypto.createHash("sha256")
+    .update(scenarioKey + SCENARIO_SALT, "utf8")
+    .digest("hex")
+    .slice(0, 12);
+}
+
+function buildRow(pattern, level, variant, sex) {
+  const scenarioKey = `${pattern.pattern_id}.hash-${level}-${sex}-${variant}`;
   const scenario = generateScenario({
     pattern,
     variant,
-    scenario_id: `cbc-${level}-${patternIndex}-${sex}-${variant}`,
+    scenario_id: opaqueScenarioId(scenarioKey),
+    sex,
+    profile: "vn_lab"
+  });
     sex,
     profile: "vn_lab"
   });
@@ -56,9 +71,9 @@ function buildRow(pattern, patternIndex, level, variant, sex) {
   }
 
   return {
-    scenario_key: scenario.scenario_id,
+    scenario_key: scenarioKey,
     pattern_id: pattern.pattern_id,
-    level,
+    level: pattern.level,
     variant,
     sex,
     public_scenario: publicScenario,
@@ -69,7 +84,10 @@ function buildRow(pattern, patternIndex, level, variant, sex) {
   };
 }
 
-const [input, output, requestedLevel = "co_ban", requestedVariants = "10"] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const sqlMode = args.includes("--sql");
+const cleanArgs = args.filter((arg) => arg !== "--sql");
+const [input, output, requestedLevel = "co_ban", requestedVariants = "10"] = cleanArgs;
 
 if (!input || !output) {
   usage();
@@ -89,21 +107,59 @@ const loaded = readJson(input);
 const patterns = Array.isArray(loaded) ? loaded : [loaded];
 const rows = [];
 
-for (let patternIndex = 0; patternIndex < patterns.length; patternIndex += 1) {
-  const pattern = patterns[patternIndex];
+for (const pattern of patterns) {
   requirePattern(pattern);
+  if (pattern.level !== requestedLevel) continue;
   for (const sex of ["nam", "nữ"]) {
     for (let variant = 0; variant < variantCount; variant += 1) {
-      rows.push(buildRow(pattern, patternIndex, requestedLevel, variant, sex));
+      rows.push(buildRow(pattern, requestedLevel, variant, sex));
     }
   }
 }
 
 const payload = {
   schema_version: "1.0.0",
-  generated_at: new Date().toISOString(),
   rows
 };
+
+function sqlLiteral(value) {
+  return "'" + String(value).replaceAll("'", "''") + "'";
+}
+
+function sqlJson(value) {
+  return sqlLiteral(JSON.stringify(value));
+}
+
+function toSql(rowsToWrite) {
+  const ordered = [...rowsToWrite].sort((a, b) => a.scenario_key.localeCompare(b.scenario_key));
+  const values = ordered.map((row) =>
+    "(" + [
+      sqlLiteral(row.scenario_key),
+      sqlLiteral(row.pattern_id),
+      sqlLiteral(row.level),
+      row.variant,
+      sqlLiteral(row.sex),
+      sqlJson(row.public_scenario) + "::jsonb",
+      sqlJson(row.answer_key) + "::jsonb"
+    ].join(", ") + ")"
+  );
+  return [
+    "begin;",
+    "",
+    `insert into ${SQL_TABLE} (scenario_key, pattern_id, level, variant, sex, public_scenario, answer_key)`,
+    "values",
+    values.join(",\n"),
+    "on conflict (scenario_key) do nothing;",
+    "",
+    "commit;",
+    ""
+  ].join("\n");
+}
+
+const outputText = sqlMode ? toSql(rows) : JSON.stringify(payload, null, 2) + "\n";
+fs.mkdirSync(path.dirname(path.resolve(output)), { recursive: true });
+fs.writeFileSync(path.resolve(output), outputText, "utf8");
+console.log(JSON.stringify({ rows: rows.length, output: path.resolve(output), mode: sqlMode ? "sql" : "json" }));
 
 fs.mkdirSync(path.dirname(path.resolve(output)), { recursive: true });
 fs.writeFileSync(
