@@ -61,7 +61,6 @@ f0e8d2b108661ec917a7783d6aea4afb230674dfda19c16f829a070d1e5aeb84  ./tu-chan/canh
 c5cc575bbf7aa9c91c28157226aeab717a5286a3afb8f21d8539daa96205387e  ./tu-chan/canh/bn_nam_gia-8.webp
 12eca1524aa7bcac461307e7dcbd62506d88065d0fe93140dd9b784221bfd42f  ./tu-chan/canh/bn_nam_tre-1.webp
 93fa7af123762cd6a09a772820b81b7c25bf5104a2abe50e72171826e0e6e091  ./tu-chan/canh/bn_nam_tre-2.webp
-```
 c8354456f5d89e66ea50d899cb3fa0a5b681c18f5eed53e3a3a570103a22dc0f  ./tu-chan/canh/bn_nam_tre-3.webp
 4034cc4e12c309ca5e05e937c2b5cd54e0b014100b39c85ad6bc3281f53502ff  ./tu-chan/canh/bn_nam_tre-4.webp
 c06a8ce960a9228cdde9c62819499b233ce49b1f46465f5238432f1e47a48eb0  ./tu-chan/canh/bn_nam_tre-5.webp
@@ -320,3 +319,12 @@ aca6ca5b1c9e5216ba8a0b80f4e8e1338b0c513e0a78a7ecc24a365b4ff773c3  ./y-quan-live/
 c0d7da51b1e5877985cb6238b16ce84e332cbba4f05e4d9a62d896fd1a7bcf5b  ./y-quan-live/interview/interview.css
 7b214de331c7a193c2ea11fdb2b9a5cee56bc0049a796fbbeac0bfe6eeb65031  ./y-quan-live/interview/question-bank.js
 8c3ec8d4eae8d9b44918c86fec1725bc4b7cba8df6e28eb5fad8d982aab7865f  ./y-quan-live/paths.js
+
+```
+
+## Verification record
+
+- Existing dist file list/hash comparison: PASS
+- Step 2a-3 bundled CBC runtime: PASS
+- Production entry assets: PASS
+- Runtime secret scan: PASS
