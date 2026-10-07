@@ -129,16 +129,28 @@ async function refreshIfNeeded(session) {
   const hostname = globalThis.window?.location?.hostname || '';
   const onEcoOrigin = hostname === 'hiutmc.com' || hostname.endsWith('.hiutmc.com');
   if (onEcoOrigin && navigator.locks?.request) {
-    let refreshStarted = false;
+    // Do not wait indefinitely for a lock held by another HIU TMC tab/WebView.
+    // If another tab is refreshing, wait briefly for its rotated session to land.
+    let lockUnavailable = false;
     try {
-      return await navigator.locks.request(SESSION_REFRESH_LOCK, () => {
-        refreshStarted = true;
+      const result = await navigator.locks.request(SESSION_REFRESH_LOCK, { ifAvailable: true }, lock => {
+        if (!lock) {
+          lockUnavailable = true;
+          return null;
+        }
         return refresh();
       });
+      if (!lockUnavailable) return result;
+      const deadline = Date.now() + 5_000;
+      while (Date.now() < deadline) {
+        const latest = readStoredSession();
+        if (latest && latest.expiresAt - Date.now() > 90_000) return latest;
+        await new Promise(resolve => setTimeout(resolve, 250));
+      }
+      return refresh();
     } catch (error) {
       // Some embedded WebViews expose Web Locks but do not implement them.
-      // Fall back only if the callback never ran; never repeat a refresh.
-      if (refreshStarted) throw error;
+      throw error;
     }
   }
   return refresh();
