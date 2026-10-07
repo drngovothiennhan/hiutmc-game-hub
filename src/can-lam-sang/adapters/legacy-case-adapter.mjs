@@ -1,4 +1,5 @@
 import overrideConfig from '../../../data/can-lam-sang/legacy-content-overrides.json' with { type: 'json' };
+import { createSeededRng } from '../lib/seeded-rng.mjs';
 
 const PUBLIC_SCHEMA_VERSION = '1.0.0';
 const ANSWER_SCHEMA_VERSION = '1.0.0';
@@ -278,6 +279,56 @@ function investigationValue(overrides, index, field, fallback) {
   return overrides.has(path) ? overrides.get(path) : fallback;
 }
 
+function shuffleTextChoices(values, rng) {
+  const unique = [...new Map((Array.isArray(values) ? values : []).map(value => [safeText(value), safeText(value)])).values()];
+  for (let i = unique.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rng() * (i + 1));
+    [unique[i], unique[j]] = [unique[j], unique[i]];
+  }
+  return unique;
+}
+
+function publicChoices(caseId, diagnosisOptions, actionOptions) {
+  const rng = createSeededRng({ caseId, module: 'core', schemaVersion: PUBLIC_SCHEMA_VERSION });
+  const diagnosis = {};
+  for (const [group, options] of Object.entries(diagnosisOptions)) {
+    diagnosis[group] = shuffleTextChoices(options.map(option => option.text), rng);
+  }
+  return { diagnosis, actions: shuffleTextChoices(actionOptions.map(option => option.text), rng) };
+}
+
+function redactAnswerText(publicBundle, answerKey) {
+  const secrets = [
+    answerKey.teaching_explanation,
+    ...(answerKey.action_options || []).map(option => option.rationale),
+    ...(answerKey.after_submission_notes || []).flatMap(note => [note.text, note.reason])
+  ].filter(value => typeof value === 'string' && value.length > 5);
+  const notes = [];
+  const walk = (node, path) => {
+    if (Array.isArray(node)) {
+      node.forEach((item, index) => walk(item, path + '[' + index + ']'));
+    } else if (node && typeof node === 'object') {
+      for (const [key, value] of Object.entries(node)) {
+        if (key === 'choices') continue;
+        if (typeof value === 'string') {
+          let next = value;
+          for (const secret of secrets) {
+            if (next.includes(secret)) {
+              notes.push({ path: path + '.' + key, text: secret, reason: 'server_only_answer_text' });
+              next = next.split(secret).join('');
+            }
+          }
+          node[key] = next;
+        } else {
+          walk(value, path + '.' + key);
+        }
+      }
+    }
+  };
+  walk(publicBundle, '$');
+  return notes;
+}
+
 export function adaptLegacyCase(input) {
   const c = requireLegacyCase(input);
   const v = requireFiniteVitals(c.vitals);
@@ -287,6 +338,7 @@ export function adaptLegacyCase(input) {
   }
   const title = protectTitle(c.id, c.title, diagnosisOptions);
   const overrideResult = applyOverrides(c);
+  const actionOptions = (Array.isArray(c.actions) ? c.actions : []).map(actionChoice);
 
   const public_bundle = {
     schema_version: PUBLIC_SCHEMA_VERSION,
@@ -298,6 +350,7 @@ export function adaptLegacyCase(input) {
     level: c.level,
     track: trackOf(c),
     mode: modeOf(c),
+    specialty: c.specialty ?? c.chuyen_khoa ?? null,
     demographics: {
       age: c.age,
       sex: c.sex,
@@ -330,7 +383,8 @@ export function adaptLegacyCase(input) {
       name: investigationValue(overrideResult.fieldValues, index, 'name', safeText(item?.[0])),
       duration_minutes: Number.isFinite(Number(item?.[1])) ? Number(item[1]) : 0,
       result: investigationValue(overrideResult.fieldValues, index, 'result', safeText(item?.[2]))
-    }))
+    })),
+    choices: publicChoices(c.id, diagnosisOptions, actionOptions)
   };
 
   const answer_key = {
@@ -347,10 +401,11 @@ export function adaptLegacyCase(input) {
       role: item?.[3] === 'e' ? 'essential' : item?.[3] === 'w' ? 'waste' : 'neutral'
     })),
     diagnosis_options: diagnosisOptions,
-    action_options: (Array.isArray(c.actions) ? c.actions : []).map(actionChoice),
+    action_options: actionOptions,
     teaching_explanation: safeText(c.teach)
   };
 
+  answer_key.after_submission_notes.push(...redactAnswerText(public_bundle, answer_key));
   return { public_bundle, answer_key };
 }
 

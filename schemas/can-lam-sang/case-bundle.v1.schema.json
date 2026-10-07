@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hiutmc.com/schemas/can-lam-sang/case-bundle.v1.schema.json",
-  "title": "HIU TMC Clinical Lab Public CaseBundle v1",
-  "description": "Public whitelist-only case payload. It MUST NOT contain answer keys, grading markers, teaching answers, source metadata, or hidden scoring semantics.",
+  "title": "HIU TMC Clinical Lab Public CaseBundle v1 (choice-enabled)",
+  "description": "Public whitelist-only case payload. It MUST NOT contain answer keys, grading markers, teaching answers, source metadata, or hidden scoring semantics. Choices contain text only; no grading or answer semantics.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -20,7 +20,8 @@
     "vitals",
     "history",
     "examination",
-    "investigations"
+    "investigations",
+    "choices"
   ],
   "properties": {
     "schema_version": {
@@ -229,6 +230,39 @@
           }
         }
       }
+    },
+    "choices": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "diagnosis",
+        "actions"
+      ],
+      "properties": {
+        "diagnosis": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "specialty": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
   }
 }

@@ -46,4 +46,5 @@ await build({
   target: ['es2022']
 });
 await rm('dist/can-lam-sang/cbc.js', { force: true });
+await rm('dist/can-lam-sang/core.js', { force: true });
 console.log('Game Hub shell, isolated Garden runtime, and CBC draft runtime built to dist/.');

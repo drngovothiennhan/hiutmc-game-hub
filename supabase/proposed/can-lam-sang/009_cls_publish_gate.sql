@@ -6,6 +6,7 @@ create table if not exists can_lam_sang_private.cls_publish_config (
   unreviewed_expires_at timestamptz,
   label_text text not null default 'Ca mô phỏng do A.I mô phỏng — CHƯA KIỂM DUYỆT',
   updated_at timestamptz not null default pg_catalog.now(),
+  constraint cls_publish_config_id_check check (config_id = true),
   constraint cls_publish_config_label_check check (pg_catalog.btrim(label_text) <> '')
 );
 insert into can_lam_sang_private.cls_publish_config(config_id) values(true) on conflict(config_id) do nothing;
@@ -34,7 +35,7 @@ begin
     'review_status',p_review_status,
     'review_label',case
       when p_review_status='DA_DUYET' then null
-      when p_review_status='CHUA_DUYET' and can_lam_sang_private.cls_content_visible_v1(p_review_status) then c.label_text
+      when p_review_status='CHUA_DUYET' then c.label_text
       else null
     end
   );
@@ -370,7 +371,7 @@ begin
 
   v_expected := v_scenario.answer_key -> 'classifications';
 
-  if pg_catalog.jsonb_array_length(pg_catalog.jsonb_path_query_array(v_expected, '$.*')) <> 13 then
+  if coalesce(pg_catalog.jsonb_array_length(pg_catalog.jsonb_path_query_array(v_expected, '$.*')), -1) <> 13 then
     raise exception 'cbc_answer_key_invalid';
   end if;
 
