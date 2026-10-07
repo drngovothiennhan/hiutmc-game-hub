@@ -1,9 +1,7 @@
-const APP_PREFIX = globalThis.window?.__HIUTMC_APP_PREFIX || '';
-const src = path => APP_PREFIX + path;
-const { bootstrapSession, getValidAccessToken } = await import(src('/src/auth/session.js'));
-const { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } = await import(src('/src/config.js'));
-const { messageForCode } = await import(src('/src/can-lam-sang/cbc/ui-helpers.mjs'));
-const { messageForCoreCode } = await import(src('/src/can-lam-sang/core/ui-helpers.mjs'));
+import { bootstrapSession, getValidAccessToken } from '../../src/auth/session.js';
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '../../src/config.js';
+import { messageForCode } from '../../src/can-lam-sang/cbc/ui-helpers.mjs';
+import { messageForCoreCode } from '../../src/can-lam-sang/core/ui-helpers.mjs';
 
 const root = document.querySelector('#app');
 
@@ -34,7 +32,7 @@ function home() {
 
 const session=await bootstrapSession();
 if(!session.member||!session.session) {
-  gate(messageForCoreCode('khong_xac_thuc'),true);
+  gate(session.error||messageForCoreCode('khong_xac_thuc'),true);
 } else {
   try {
     const flag=await rpc('cls_flag_status_v1');
