@@ -1,7 +1,9 @@
-import { bootstrapSession, getValidAccessToken } from '../../src/auth/session.js';
-import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '../../src/config.js';
-import { messageForCode } from '../../src/can-lam-sang/cbc/ui-helpers.mjs';
-import { messageForCoreCode } from '../../src/can-lam-sang/core/ui-helpers.mjs';
+const APP_PREFIX = globalThis.window?.__HIUTMC_APP_PREFIX || '';
+const src = path => APP_PREFIX + path;
+const { bootstrapSession, getValidAccessToken } = await import(src('/src/auth/session.js'));
+const { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } = await import(src('/src/config.js'));
+const { messageForCode } = await import(src('/src/can-lam-sang/cbc/ui-helpers.mjs'));
+const { messageForCoreCode } = await import(src('/src/can-lam-sang/core/ui-helpers.mjs'));
 
 const root = document.querySelector('#app');
 
