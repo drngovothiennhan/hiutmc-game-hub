@@ -11,7 +11,7 @@ async function rpc(name, body={}) {
   const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+name,{
     method:'POST',
     headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json',Accept:'application/json'},
-    body:JSON.stringify(body),cache:'no-store'
+    body:JSON.stringify(body),cache:'no-store',signal:AbortSignal.timeout(12000)
   });
   const data=await res.json().catch(()=>null);
   if(!res.ok) throw Object.assign(new Error(data?.code||'unknown'),{code:data?.code||'unknown'});
