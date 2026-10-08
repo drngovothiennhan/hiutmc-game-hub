@@ -1,7 +1,6 @@
 {
   "schema_version": "1.0.0",
   "module": "xquang-nguc",
-  "label": "Ca mô phỏng do A.I mô phỏng — CHƯA KIỂM DUYỆT",
   "review_status": "CHUA_DUYET",
   "cases": [
     {
@@ -18,7 +17,8 @@
         "Viêm phổi thùy dưới phải",
         "Tràn dịch màng phổi phải lượng nhiều",
         "Phim X-quang ngực bình thường"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-02",
@@ -34,7 +34,8 @@
         "Viêm phổi thùy dưới phải",
         "Lao phổi thùy trên phải",
         "Xẹp phổi thùy giữa"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-03",
@@ -50,7 +51,8 @@
         "Xẹp phổi thùy dưới trái",
         "Tràn dịch màng phổi phải lượng vừa đến nhiều",
         "Phù phổi lan tỏa hai bên"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-04",
@@ -66,7 +68,8 @@
         "Lao kê",
         "Tràn khí màng phổi tự phát",
         "Phù phổi do tim"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-05",
@@ -82,7 +85,8 @@
         "Kết luận không có tổn thương, cho về",
         "Kết luận tràn khí màng phổi trái, đặt dẫn lưu ngay",
         "Kết luận tràn dịch màng phổi trái lượng nhiều"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-06",
@@ -98,7 +102,8 @@
         "Chỉ định CT ngực để đánh giá khối và các bước chẩn đoán tiếp theo",
         "Kết luận nang phổi lành tính, không cần theo dõi",
         "Kết luận xẹp phổi và điều trị vật lý trị liệu"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-07",
@@ -114,7 +119,8 @@
         "Phù phổi do tim",
         "Lao phổi thể hang vùng đỉnh",
         "Tràn khí màng phổi phải"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-08",
@@ -130,7 +136,8 @@
         "Tràn khí màng phổi",
         "Viêm phổi",
         "Phim trong giới hạn bình thường"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-09",
@@ -146,7 +153,8 @@
         "Ống quá sâu, nằm trong phế quản gốc phải",
         "Ống nằm trong thực quản",
         "Ống gây tràn khí màng phổi phải"
-      ]
+      ],
+      "review_label": true
     },
     {
       "id": "xq-10",
@@ -162,7 +170,8 @@
         "Đầu catheter nằm ở vùng nối tĩnh mạch chủ trên và nhĩ phải",
         "Đầu catheter nằm trong thất phải",
         "Catheter gây tràn khí màng phổi phải"
-      ]
+      ],
+      "review_label": true
     }
   ]
 }
