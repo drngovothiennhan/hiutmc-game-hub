@@ -36,7 +36,7 @@ begin
   from can_lam_sang_private.cbc_attempts
   where user_id = v_user and status = 'started';
 
-  if v_started >= 3 then
+  if v_started >= 3 and not can_lam_sang_private.cls_is_staff_v1(v_user) then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'qua_3_luot_mo', 'data', null);
   end if;
 

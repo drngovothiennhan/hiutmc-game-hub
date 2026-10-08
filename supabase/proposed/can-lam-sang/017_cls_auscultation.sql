@@ -77,12 +77,12 @@ begin
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(v_user::text, 1));
 
   select count(*) into v_open from can_lam_sang_private.aus_attempts where user_id = v_user and status = 'started';
-  if v_open >= 5 then
+  if v_open >= 5 and not can_lam_sang_private.cls_is_staff_v1(v_user) then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'qua_5_luot_mo', 'data', null);
   end if;
   select count(*) into v_today from can_lam_sang_private.aus_attempts
    where user_id = v_user and started_at >= pg_catalog.date_trunc('day', pg_catalog.now() at time zone 'UTC') at time zone 'UTC';
-  if v_today >= 40 then
+  if v_today >= 40 and not can_lam_sang_private.cls_is_staff_v1(v_user) then
     return pg_catalog.jsonb_build_object('ok', false, 'code', 'qua_40_luot_ngay', 'data', null);
   end if;
 
