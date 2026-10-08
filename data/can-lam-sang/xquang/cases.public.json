@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0.0",
+  "module": "xquang-nguc",
+  "label": "Ca mô phỏng do A.I mô phỏng — CHƯA KIỂM DUYỆT",
+  "review_status": "CHUA_DUYET",
+  "cases": [
+    {
+      "id": "xq-01",
+      "title": "Đau ngực đột ngột, khó thở ở thanh niên gầy",
+      "setting": "cấp cứu",
+      "age": 22,
+      "sex": "nam",
+      "context": "Nam 22 tuổi, gầy, đột ngột đau nhói ngực trái và khó thở sau khi gắng sức khoảng 1 giờ. Không ho, không sốt.",
+      "film": "Phổi trái: đường màng phổi tạng sắc nét, phía ngoài đường này không thấy vân phổi; nhu mô phổi trái xẹp về phía rốn phổi. Phổi phải bình thường. Khí quản ở giữa.",
+      "question": "Chẩn đoán phù hợp nhất với phim này là gì?",
+      "options": [
+        "Tràn khí màng phổi trái",
+        "Viêm phổi thùy dưới phải",
+        "Tràn dịch màng phổi phải lượng nhiều",
+        "Phim X-quang ngực bình thường"
+      ]
+    },
+    {
+      "id": "xq-02",
+      "title": "Sốt, ho đờm rỉ sắt bốn ngày",
+      "setting": "nội",
+      "age": 46,
+      "sex": "nữ",
+      "context": "Nữ 46 tuổi, sốt 39 độ, ho đờm rỉ sắt và đau ngực phải khi hít sâu bốn ngày.",
+      "film": "Đáy phổi phải có đám mờ đồng nhất, bờ không rõ, che khuất bờ cơ hoành phải. Trong đám mờ thấy hình phế quản khí (air bronchogram). Góc sườn hoành phải vẫn sắc.",
+      "question": "Hình ảnh gợi ý nhất là gì?",
+      "options": [
+        "Tràn dịch màng phổi phải",
+        "Viêm phổi thùy dưới phải",
+        "Lao phổi thùy trên phải",
+        "Xẹp phổi thùy giữa"
+      ]
+    },
+    {
+      "id": "xq-03",
+      "title": "Khó thở tăng dần, tức ngực phải",
+      "setting": "nội",
+      "age": 63,
+      "sex": "nam",
+      "context": "Nam 63 tuổi, tiền sử ung thư phổi đang điều trị. Khó thở tăng dần 2 tuần, đau tức ngực phải, ho khan.",
+      "film": "Góc sườn hoành phải bị tù. Bờ hoành phải mờ. Mặt phân cách mờ phía trên hoành cong lên, lõm xuống ở phía trong.",
+      "question": "Phát hiện nào phù hợp nhất với phim này?",
+      "options": [
+        "Tràn khí màng phổi phải",
+        "Xẹp phổi thùy dưới trái",
+        "Tràn dịch màng phổi phải lượng vừa đến nhiều",
+        "Phù phổi lan tỏa hai bên"
+      ]
+    },
+    {
+      "id": "xq-04",
+      "title": "Khó thở khi nằm, phù hai chân",
+      "setting": "nội",
+      "age": 71,
+      "sex": "nữ",
+      "context": "Nữ 71 tuổi, suy tim mạn. Khó thở tăng khi nằm, phải kê gối cao, phù hai chân.",
+      "film": "Bóng tim to, chỉ số tim/ngực khoảng 0,6. Mạch máu vùng đỉnh phổi giãn rõ hơn vùng đáy. Ở hai bên đáy có các đường mờ nhỏ thẳng góc với màng phổi (đường Kerley B). Mờ hai bên rốn phổi.",
+      "question": "Hình ảnh này gợi ý nhất nguyên nhân nào?",
+      "options": [
+        "Viêm phổi kẽ do virus",
+        "Lao kê",
+        "Tràn khí màng phổi tự phát",
+        "Phù phổi do tim"
+      ]
+    },
+    {
+      "id": "xq-05",
+      "title": "Chấn thương ngực sau tai nạn xe máy",
+      "setting": "cấp cứu",
+      "age": 34,
+      "sex": "nam",
+      "context": "Nam 34 tuổi, ngã xe máy, đau sườn trái khi thở sâu. Chưa có khó thở rõ.",
+      "film": "Thấy đường gãy xương sườn 6 bên trái, không di lệch rõ. Không thấy đường màng phổi tạng rõ tách khỏi thành ngực trên phim này. Phổi phải bình thường.",
+      "question": "Việc cần làm tiếp theo với phim này là gì?",
+      "options": [
+        "Kết luận gãy xương sườn 6 trái, không có tràn khí, theo dõi lâm sàng và chụp lại nếu có triệu chứng",
+        "Kết luận không có tổn thương, cho về",
+        "Kết luận tràn khí màng phổi trái, đặt dẫn lưu ngay",
+        "Kết luận tràn dịch màng phổi trái lượng nhiều"
+      ]
+    },
+    {
+      "id": "xq-06",
+      "title": "Ho ra máu, sụt cân ở người hút thuốc lâu năm",
+      "setting": "nội",
+      "age": 66,
+      "sex": "nam",
+      "context": "Nam 66 tuổi, hút thuốc lá 40 năm, ho ra máu lượng ít và sụt cân 4 kg trong 3 tháng.",
+      "film": "Thùy trên phải có khối đậm khoảng 3 cm, bờ không đều, không rõ ràng với nhu mô xung quanh. Không thấy tràn dịch màng phổi.",
+      "question": "Hướng xử trí tiếp theo phù hợp nhất là gì?",
+      "options": [
+        "Kê đơn kháng sinh và hẹn tái khám sau 2 tuần",
+        "Chỉ định CT ngực để đánh giá khối và các bước chẩn đoán tiếp theo",
+        "Kết luận nang phổi lành tính, không cần theo dõi",
+        "Kết luận xẹp phổi và điều trị vật lý trị liệu"
+      ]
+    },
+    {
+      "id": "xq-07",
+      "title": "Ho kéo dài, sốt chiều, sụt cân",
+      "setting": "nội",
+      "age": 38,
+      "sex": "nam",
+      "context": "Nam 38 tuổi, ho kéo dài hơn 3 tuần, sốt chiều, đổ mồ hôi đêm, sụt cân. Từng tiếp xúc với người bệnh lao.",
+      "film": "Vùng đỉnh phổi phải có thâm nhiễm và một hang nhỏ thành dày. Vùng quanh đó có các nốt nhỏ lan tỏa.",
+      "question": "Chẩn đoán cần nghĩ đến nhất là gì?",
+      "options": [
+        "Viêm phổi thùy dưới phải",
+        "Phù phổi do tim",
+        "Lao phổi thể hang vùng đỉnh",
+        "Tràn khí màng phổi phải"
+      ]
+    },
+    {
+      "id": "xq-08",
+      "title": "Khám sức khỏe định kỳ",
+      "setting": "khám",
+      "age": 40,
+      "sex": "nữ",
+      "context": "Nữ 40 tuổi, không có triệu chứng, khám sức khỏe định kỳ cho công việc.",
+      "film": "Khí quản ở giữa. Bóng tim có kích thước bình thường, chỉ số tim/ngực dưới 0,5. Hai phế trường đều nhau, không có đám mờ. Hai góc sườn hoành sắc, hai cơ hoành nhẵn.",
+      "question": "Kết luận phù hợp nhất với phim này là gì?",
+      "options": [
+        "Tim to",
+        "Tràn khí màng phổi",
+        "Viêm phổi",
+        "Phim trong giới hạn bình thường"
+      ]
+    },
+    {
+      "id": "xq-09",
+      "title": "Kiểm tra vị trí ống nội khí quản",
+      "setting": "hồi sức",
+      "age": 58,
+      "sex": "nam",
+      "context": "Nam 58 tuổi đang thở máy sau phẫu thuật. Cần kiểm tra vị trí đầu ống nội khí quản trên phim ngực.",
+      "film": "Đầu ống nội khí quản nằm trong khí quản, cách ngã ba khí quản (carina) khoảng 4 cm. Không thấy đầu ống nằm trong phế quản gốc phải. Không có tràn khí màng phổi.",
+      "question": "Nhận định về vị trí ống nội khí quản là gì?",
+      "options": [
+        "Ống nằm đúng vị trí trong khí quản",
+        "Ống quá sâu, nằm trong phế quản gốc phải",
+        "Ống nằm trong thực quản",
+        "Ống gây tràn khí màng phổi phải"
+      ]
+    },
+    {
+      "id": "xq-10",
+      "title": "Kiểm tra vị trí catheter tĩnh mạch trung tâm",
+      "setting": "hồi sức",
+      "age": 65,
+      "sex": "nữ",
+      "context": "Nữ 65 tuổi được đặt catheter tĩnh mạch trung tâm qua đường tĩnh mạch dưới đòn phải. Cần đánh giá vị trí đầu catheter.",
+      "film": "Đầu catheter nằm ở vùng nối giữa tĩnh mạch chủ trên và nhĩ phải. Không thấy khí tự do quanh tim hay màng phổi. Phổi hai bên thông khí tốt.",
+      "question": "Nhận định về vị trí catheter là gì?",
+      "options": [
+        "Đầu catheter nằm trong tĩnh mạch cảnh trong",
+        "Đầu catheter nằm ở vùng nối tĩnh mạch chủ trên và nhĩ phải",
+        "Đầu catheter nằm trong thất phải",
+        "Catheter gây tràn khí màng phổi phải"
+      ]
+    }
+  ]
+}
