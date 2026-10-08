@@ -35,7 +35,10 @@ function home() {
       '<button type="button" class="cls-entry cls-entry-blood" id="open-cbc">'+iconSvg('drop')+'<strong>Đọc xét nghiệm máu</strong><span>Xem 13 chỉ số công thức máu (CBC) và phân loại từng chỉ số.</span></button>'+
       '<button type="button" class="cls-entry cls-entry-heart" id="open-aus">'+iconSvg('heart')+'<strong>Nghe tim &amp; phổi 3D</strong><span>Nghe âm tim, âm phổi tại các điểm trên mô hình 3D lồng ngực và nhận diện tiếng bất thường.</span></button>'+
       '<button type="button" class="cls-entry cls-entry-case" id="open-core">'+iconSvg('pulse')+'<strong>Luyện ca bệnh</strong><span>156 ca mô phỏng xếp theo chuyên khoa, chọn đáp án và xem giải thích sau khi nộp.</span></button>'+
-    '</div></div>';
+    '</div>'+
+    '<details class="cls-info"><summary>Thông tin về nội dung AI</summary>'+
+    '<p>Các ca mô phỏng, mô tả phim, âm thanh và đáp án trong Phòng Cận Lâm Sàng do AI soạn. Nội dung này chưa có xác nhận của chuyên gia và chưa có nguồn gốc đã kiểm chứng, nên chỉ có giá trị tham khảo thực hành, không dùng để chẩn đoán hay điều trị.</p>'+
+    '<p>Ký hiệu <span class="cls-ai-chip">AI</span> ở góc thẻ ca bệnh cho biết ca đó do AI mô phỏng.</p></details></div>';
   root.querySelector('#open-cbc').onclick=()=>enter(async()=>{const {mountCBC}=await import('./cbc.js');await mountCBC(root,{rpc,onHome:leave});});
   root.querySelector('#open-aus').onclick=()=>enter(async()=>{const {mountAuscultation}=await import('./auscultation.js');await mountAuscultation(root,{rpc,onHome:leave});});
   root.querySelector('#open-core').onclick=()=>enter(async()=>{const {mountCore}=await import('./core.js');await mountCore(root,{rpc,onHome:leave});});
