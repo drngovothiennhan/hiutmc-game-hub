@@ -47,4 +47,6 @@ await build({
 });
 await rm('dist/can-lam-sang/cbc.js', { force: true });
 await rm('dist/can-lam-sang/core.js', { force: true });
+await rm('dist/can-lam-sang/auscultation.js', { force: true });
+await rm('dist/can-lam-sang/chest-viewer.js', { force: true });
 console.log('Game Hub shell, isolated Garden runtime, and CBC draft runtime built to dist/.');

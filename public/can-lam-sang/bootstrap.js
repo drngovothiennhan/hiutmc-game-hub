@@ -24,9 +24,11 @@ function home() {
   root.innerHTML='<div class="cls-home"><div class="cls-header"><div class="cls-muted">HIU TMC · Phòng Cận Lâm Sàng</div><h1>Phòng Cận Lâm Sàng</h1><p>Chọn khu thực hành học tập.</p></div>'+
     '<div class="cls-entry-grid">'+
       '<button type="button" class="cls-entry" id="open-cbc"><strong>Phòng CBC</strong><span>Phân loại 13 chỉ số công thức máu.</span></button>'+
+      '<button type="button" class="cls-entry" id="open-aus"><strong>Nghe tim &amp; phổi 3D</strong><span>Nghe âm tim, âm phổi tại các điểm trên mô hình 3D lồng ngực và nhận diện tiếng bất thường.</span></button>'+
       '<button type="button" class="cls-entry" id="open-core"><strong>Ca bệnh lõi</strong><span>Danh sách 156 ca mô phỏng, chọn đáp án và xem giải thích sau khi nộp.</span></button>'+
     '</div></div>';
   root.querySelector('#open-cbc').onclick=async()=>{const {mountCBC}=await import('./cbc.js');await mountCBC(root,{rpc,onHome:home});};
+  root.querySelector('#open-aus').onclick=async()=>{const {mountAuscultation}=await import('./auscultation.js');await mountAuscultation(root,{rpc,onHome:home});};
   root.querySelector('#open-core').onclick=async()=>{const {mountCore}=await import('./core.js');await mountCore(root,{rpc,onHome:home});};
 }
 

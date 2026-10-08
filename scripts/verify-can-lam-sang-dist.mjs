@@ -55,12 +55,22 @@ for(const name of js){
   assert.doesNotMatch(source,/['"`]\/src\/can-lam-sang\//,`dist must not load source modules at runtime: ${name}`);
   assert.doesNotMatch(source,/__HIUTMC_APP_PREFIX/,`dist must not compute import paths at runtime: ${name}`);
 }
-let cbcSource='',coreSource='';
+let cbcSource='',coreSource='',ausSource='';
 for(const name of chunks){
   const source=await readFile(path.join(root,name),'utf8');
   if(source.includes('mountCBC')) cbcSource=source;
   if(source.includes('mountCore')) coreSource=source;
+  if(source.includes('mountAuscultation')) ausSource=source;
 }
 for(const needle of ['INDICES','convertProfileValue','profileUnit']) assert.ok(cbcSource.includes(needle),`CBC chunk must bundle ${needle}`);
 for(const needle of ['diagnosisGroups','buildAnswers','toggleSelected']) assert.ok(coreSource.includes(needle),`core chunk must bundle ${needle}`);
+for(const needle of ['mountChest','cls_aus_start_v1','cls_aus_submit_v1','webgl']) assert.ok(ausSource.includes(needle),`auscultation chunk must bundle ${needle}`);
+{
+  const audio=await readdir(path.join(root,'audio'));
+  assert.equal(audio.length,100,'auscultation audio must contain 100 clips');
+  for(const f of audio) assert.match(f,/^[0-9a-f]{16}\.mp3$/,`audio file name must be an opaque id: ${f}`);
+  const model=JSON.parse(await readFile(path.join(root,'models/chest.json'),'utf8'));
+  assert.ok(model.parts.length>50&&model.attribution.includes('BodyParts3D'),'chest model must carry its attribution');
+  await stat(path.join(root,'models/chest.bin'));
+}
 console.log('Step 3 dist runtime test: PASS');
