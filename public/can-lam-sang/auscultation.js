@@ -86,7 +86,7 @@ export async function mountAuscultation(root, { rpc, onHome }) {
       sites.map((s) => '<option value="' + s.site + '"' + (sub ? ' disabled' : '') + '>' + (defs[s.site].short) + '. ' + esc(defs[s.site].label) + '</option>').join('') +
       '<option value="none">Không điểm nào bất thường</option>';
     shell(
-      (attempt.review_label ? '<div class="cls-review-label">' + esc(attempt.review_label) + '</div>' : '') +
+      (attempt.review_label ? '<span class="cls-ai-chip" title="Nội dung do AI mô phỏng — chỉ có giá trị tham khảo thực hành" aria-label="Nội dung do AI mô phỏng — chỉ có giá trị tham khảo thực hành">AI</span>' : '') +
       '<div id="aus-viewer" aria-label="Mô hình 3D"></div>' +
       '<div class="toolbar"><div class="aus-help">Kéo để xoay · cuộn/chụm để phóng to · điểm xanh lá là điểm đã nghe.</div>' +
       '<button type="button" id="aus-skin" class="aus-skin">' + (skinOn ? 'Ẩn da' : 'Hiện da') + '</button></div>' +

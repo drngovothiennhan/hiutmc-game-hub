@@ -1,8 +1,12 @@
 import { diagnosisGroups, buildAnswers, esc, messageForCoreCode, toggleSelected } from '../../src/can-lam-sang/core/ui-helpers.mjs';
 import { SPECIALTIES, specialtyOf, groupCases, iconSvg } from '../../src/can-lam-sang/core/specialties.mjs';
 
+const AI_TEXT = 'Nội dung do AI mô phỏng — chỉ có giá trị tham khảo thực hành';
+function aiChip(item, corner=false) {
+  return item?.review_label ? '<span class="cls-ai-chip'+(corner?' cls-ai-chip--corner':'')+'" data-review-label title="'+AI_TEXT+'" aria-label="'+AI_TEXT+'">AI</span>' : '';
+}
 function reviewLabel(item) {
-  return item?.review_label ? '<span class="cls-review-label" data-review-label>'+esc(item.review_label)+'</span>' : '';
+  return aiChip(item, false);
 }
 function trackLabel(value) {
   return ({noi:'Nội',ngoai:'Ngoại',yhct:'YHCT',khac:'Khác'}[value] || value || '');
@@ -30,7 +34,7 @@ export async function mountCore(root,{rpc,onHome}) {
     .filter(Boolean).join(' ').toLocaleLowerCase('vi-VN').includes(q);
 
   const caseCard = item =>
-    '<button type="button" class="cls-case-card" data-case="'+esc(item.case_id)+'"><div><strong>'+esc(item.title)+'</strong><div class="cls-muted">'+esc(trackLabel(item.track))+(specLabel(item.case_id)?' · '+esc(specLabel(item.case_id)):'')+'</div></div><div class="cls-case-meta">'+reviewLabel(item)+(item.submitted?'<span class="cls-submitted">Đã nộp</span>':'')+'</div></button>';
+    '<button type="button" class="cls-case-card" data-case="'+esc(item.case_id)+'">'+aiChip(item, true)+'<div><strong>'+esc(item.title)+'</strong><div class="cls-muted">'+esc(trackLabel(item.track))+(specLabel(item.case_id)?' · '+esc(specLabel(item.case_id)):'')+'</div></div><div class="cls-case-meta">'+(item.submitted?'<span class="cls-submitted">Đã nộp</span>':'')+'</div></button>';
 
   const specCard = group => {
     const done = group.cases.filter(c => c.submitted).length;
