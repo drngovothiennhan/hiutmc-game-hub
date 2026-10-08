@@ -37,6 +37,36 @@ button,input,select{font:inherit}
 #photoStage,#simStage{position:absolute;inset:0;display:none}
 #photoStage.active{display:flex;flex-direction:column;position:relative;inset:auto}
 #simStage.active{display:block}
+/* Góc nhìn thứ nhất 3D: ảnh thật đặt trên mặt trụ/cầu quanh người xem (WebGL) */
+#fpStage{position:absolute;inset:0;display:none;background:#08100d;touch-action:none;user-select:none;-webkit-user-select:none}
+#fpStage.active{display:block}
+#fpCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+#fpCanvas:active{cursor:grabbing}
+.mode-buttons .span2{grid-column:1/-1}
+.fp-hud{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start;pointer-events:none}
+.fp-hud .scene-pill{max-width:70%}
+.fp-badges{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.fp-date,.fp-compass{padding:5px 9px;border-radius:999px;background:rgba(7,12,10,.72);border:1px solid var(--line);font-size:12px;white-space:nowrap}
+.fp-date.now{background:#22453c;color:#def5e4}
+.fp-date.old{background:#5a4522;color:#fff1d1}
+.fp-links{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fp-link{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;border:2px solid rgba(255,255,255,.9);background:rgba(216,177,108,.92);color:#183028;font-weight:700;font-size:12px;padding:8px 12px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.4);cursor:pointer;white-space:nowrap}
+.fp-link[data-dir="up"]::before{content:'⬆ '}
+.fp-link[data-dir="left"]::before{content:'◀ '}
+.fp-link[data-dir="right"]::after{content:' ▶'}
+.fp-link[data-dir="left"],.fp-link[data-dir="right"]{background:rgba(7,12,10,.8);color:#f4e3bf;border-color:var(--gold)}
+.fp-status{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;color:#e4eee8;font-size:14px;pointer-events:none}
+.fp-status.show{display:grid}
+.fp-fade{position:absolute;inset:0;background:#08100d;opacity:0;pointer-events:none;transition:opacity .28s ease}
+.fp-fade.on{opacity:1}
+.fp-tools{position:absolute;right:12px;bottom:104px;display:flex;gap:6px}
+.fp-tools button{border:1px solid var(--line);background:rgba(7,12,10,.78);color:#f5fbf7;border-radius:10px;padding:8px 11px;cursor:pointer;font-size:13px}
+.fp-tools button.on{background:var(--gold);color:#183028}
+.fp-strip{position:absolute;left:10px;right:10px;bottom:10px;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.fp-strip button{flex:0 0 118px;position:relative;border:2px solid transparent;border-radius:12px;overflow:hidden;padding:0;background:#10201b;cursor:pointer}
+.fp-strip button.active{border-color:var(--gold)}
+.fp-strip img{display:block;width:100%;height:62px;object-fit:cover}
+.fp-strip span{position:absolute;left:4px;right:4px;bottom:4px;font-size:10px;line-height:1.25;color:#f4fbf6;background:rgba(0,0,0,.66);padding:2px 5px;border-radius:6px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* Khung ảnh thật: hiển thị TRỌN ảnh (contain), không phủ lớp tối, không che chú thích lên ảnh */
 .photo-frame{position:relative;height:clamp(300px,58vh,600px);overflow:hidden;background:#0a120f}
 .hero-blur{position:absolute;inset:-24px;background-size:cover;background-position:center;filter:blur(18px) brightness(.45);transform:translateZ(0)}
@@ -85,6 +115,8 @@ button,input,select{font:inherit}
 .mapbox .label{position:absolute;font-size:11px;color:#dbeee5;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:6px}
 .mapbox .p{position:absolute;width:9px;height:9px;border-radius:50%;background:#d8b16c;border:2px solid #173127}
 .mapbox .you{background:#7ccaf2;width:12px;height:12px}
+.stage.fp{min-height:0;height:min(78vh,720px)}
+@media (max-width:640px){.fp-hud .scene-pill{max-width:62%;padding:7px 10px}.fp-hud .scene-pill strong{font-size:13px}.fp-hud .scene-pill span{display:none}.fp-tools{bottom:96px}.fp-strip button{flex-basis:104px}}
 @media (max-width:1200px){.app{grid-template-columns:300px 1fr}.right{grid-column:1/-1}.photo-ui{grid-template-columns:1fr}}
 @media (max-width:900px){.app{grid-template-columns:1fr;padding:10px}.main{order:-1}#simStage .hud{flex-direction:column;align-items:flex-start}.left,.right,.main{padding:14px}.stage{min-height:520px}.photo-ui{inset:auto 10px 10px 10px}.thumbs{grid-template-columns:repeat(4,1fr)} }
 @media (max-width:640px){.stage{min-height:500px}.thumb img{height:62px}.photo-ui{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(2,1fr)}.caption h3{font-size:18px}}
@@ -105,6 +137,7 @@ button,input,select{font:inherit}
       <span class="chip">Không dùng ảnh có người</span>
       <span class="chip">Sẵn cho QR + số thứ tự sau</span>
       <span class="chip">11 góc ảnh thật</span>
+      <span class="chip">5 trạm 3D góc nhìn thứ nhất</span>
     </div>
 
     <div class="card">
@@ -112,6 +145,7 @@ button,input,select{font:inherit}
       <div class="mode-buttons">
         <button id="btnPhoto" class="active">Ảnh thật</button>
         <button id="btnSim">Khám phá thực cảnh</button>
+        <button id="btnFp" class="span2">Góc nhìn thứ nhất 3D</button>
       </div>
       <p>Ảnh thật để giữ đúng cảnh quan. Chế độ 2.5D để kiểm tra trước cách chơi, góc nhìn và logic tương tác của khu vườn.</p>
     </div>
@@ -175,6 +209,23 @@ button,input,select{font:inherit}
           </div>
           <div class="thumbs" id="thumbs"></div>
         </div>
+      </div>
+
+      <div id="fpStage">
+        <canvas id="fpCanvas" aria-label="Góc nhìn thứ nhất 3D từ ảnh thật"></canvas>
+        <div class="fp-hud">
+          <div class="scene-pill"><strong id="fpName"></strong><span id="fpDesc"></span></div>
+          <div class="fp-badges"><span class="fp-date" id="fpDate"></span><span class="fp-compass" id="fpCompass">0°</span></div>
+        </div>
+        <div class="fp-links" id="fpLinks"></div>
+        <div class="fp-status" id="fpStatus">Đang tải ảnh toàn cảnh…</div>
+        <div class="fp-fade" id="fpFade"></div>
+        <div class="fp-tools">
+          <button id="fpGyro" title="Xoay điện thoại để nhìn">📱 Xoay máy</button>
+          <button id="fpZoomOut" title="Thu nhỏ">−</button>
+          <button id="fpZoomIn" title="Phóng to">+</button>
+        </div>
+        <div class="fp-strip" id="fpStrip"></div>
       </div>
 
       <div id="simStage">
@@ -456,12 +507,23 @@ function updateQuestUI(){
 
 function setMode(next){
   mode=next;
-  const isPhoto=mode==='photo';
+  const isPhoto=mode==='photo', isFp=mode==='fp';
   photoStage.classList.toggle('active',isPhoto);
-  simStage.classList.toggle('active',!isPhoto);
+  simStage.classList.toggle('active',mode==='sim');
+  fpStage.classList.toggle('active',isFp);
+  document.querySelector('.stage').classList.toggle('fp',isFp);
   btnPhoto.classList.toggle('active',isPhoto);
-  btnSim.classList.toggle('active',!isPhoto);
-  modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':'Khám phá 2.5D'}`;
+  btnSim.classList.toggle('active',mode==='sim');
+  btnFp.classList.toggle('active',isFp);
+  modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isFp?'Góc nhìn thứ nhất 3D':'Khám phá 2.5D'}`;
+  if(isFp){
+    mainTitle.textContent='Góc nhìn thứ nhất 3D · đứng giữa khu vườn thật';
+    mainSub.textContent='Ảnh thật được ghép toàn cảnh và đặt quanh người xem theo đúng tiêu cự máy chụp. Kéo để nhìn quanh, chụm/cuộn để phóng, chạm mũi tên để bước sang trạm kế.';
+    statusText.textContent='Đang ở chế độ góc nhìn thứ nhất';
+    fp.start();
+    return;
+  }
+  fp.stop();
   if(isPhoto){
     mainTitle.textContent='Tham quan ảnh thật không dính người';
     mainSub.textContent='Giữ đúng cảnh quan thật để làm chuẩn cho mô phỏng và gắn QR/số cây về sau.';
@@ -682,13 +744,241 @@ function turnCamera(delta){
   drawScene();
 }
 
+/* =====================================================================
+   GÓC NHÌN THỨ NHẤT 3D — trình xem WebGL không phụ thuộc thư viện ngoài.
+   Mỗi trạm là ẢNH THẬT (không người) đặt quanh mắt người xem:
+   - 'cylinder': toàn cảnh ghép bằng chiếu trụ (x = f·θ, y = f·tanφ)
+   - 'sphere'  : toàn cảnh ghép bằng chiếu cầu (x = f·θ, y = f·φ)
+   - 'plane'   : ảnh đơn rectilinear, đặt đúng góc nhìn của ống kính
+   Góc phủ (hfov/v) tính từ tiêu cự EXIF lúc ghép, nên phối cảnh khớp ảnh gốc.
+   Hướng mũi tên sang trạm kế là ƯỚC TÍNH theo ảnh, chưa phải đo đạc.
+   ===================================================================== */
+const FP_BASE='/gia-vien-duoc-thao-preview/assets/fp/';
+const fpStations=[
+  {id:'s-0912',name:'Đầu sân · nhìn toàn dải vườn',desc:'Đứng ở cuối sân gạch, nhìn dọc dải cây chạy theo tường về phía tranh “Ship of Knowledge”.',date:'12/09/2026',era:'now',file:'2026-09-12-toan-dai.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
+    links:[{to:'s-0926p',yaw:34,label:'Tới giàn & tường tranh'}]},
+  {id:'s-0926p',name:'Trước giàn và tường tranh phong cảnh',desc:'Toàn cảnh ghép từ 2 ảnh thật: giàn thép, bảng danh sách cây, đèn trụ và hàng bồn đen dọc tường.',date:'26/09/2026',era:'now',file:'pano-2026-09-26.webp',proj:'cylinder',hfov:103.4,v:1.826,yaw0:0,
+    links:[{to:'s-0926w',yaw:44,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
+  {id:'s-0926w',name:'Dọc tường về phía “Ship of Knowledge”',desc:'Đi dọc hàng bồn sát tường tranh phong cảnh; cuối tầm nhìn là góc giáp tường tranh thứ hai.',date:'26/09/2026',era:'now',file:'2026-09-26-doc-tuong.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
+    links:[{to:'s-0926p',yaw:-40,label:'Quay lại giàn'}]},
+  {id:'s-0710',name:'Lưu trữ · toàn cảnh trước khi vẽ lại tường',desc:'Toàn cảnh 163° ghép từ 3 ảnh thật ngày 10/07: tường tranh cũ (xanh dương), giàn, bảng danh sách và cụm chậu.',date:'10/07/2026',era:'old',file:'pano-2026-07-10.webp',proj:'sphere',hfov:163.5,v:100.1,yaw0:-10,
+    links:[{to:'s-0606',yaw:-55,label:'Xem góc giàn 06/06'}]},
+  {id:'s-0606',name:'Lưu trữ · góc giàn và bảng tên',desc:'Ghép từ 2 ảnh thật ngày 06/06: giàn mái trong, bảng Gia Viên Dược Thảo, nhãn số trên bồn.',date:'06/06/2026',era:'old',file:'pano-2026-06-06.webp',proj:'sphere',hfov:76,v:58.5,yaw0:0,
+    links:[{to:'s-0710',yaw:30,label:'Toàn cảnh 10/07'}]}
+];
+
+const fpStage=document.getElementById('fpStage');
+const btnFp=document.getElementById('btnFp');
+const fp=(()=>{
+  const cv=document.getElementById('fpCanvas');
+  const nameEl=document.getElementById('fpName'),descEl=document.getElementById('fpDesc'),dateEl=document.getElementById('fpDate');
+  const compassEl=document.getElementById('fpCompass'),linksEl=document.getElementById('fpLinks');
+  const statusEl=document.getElementById('fpStatus'),fadeEl=document.getElementById('fpFade'),stripEl=document.getElementById('fpStrip');
+  const gyroBtn=document.getElementById('fpGyro');
+  const D=Math.PI/180;
+  let gl=null,prog=null,loc={},mesh=null,tex=null,running=false,raf=0,dirty=true;
+  let idx=0,yaw=0,pitch=0,fov=70,loadToken=0,cur=null;
+  let vel=0,gyroOn=false,gyroBase=null;
+
+  function initGL(){
+    if(gl) return true;
+    gl=cv.getContext('webgl',{premultipliedAlpha:true,antialias:true,alpha:false});
+    if(!gl){statusEl.textContent='Thiết bị không hỗ trợ WebGL — hãy dùng chế độ Ảnh thật.';statusEl.classList.add('show');return false;}
+    const vs=`attribute vec3 p;attribute vec2 uv;uniform mat4 m;varying vec2 v;void main(){v=uv;gl_Position=m*vec4(p,1.);}`;
+    const fs=`precision mediump float;varying vec2 v;uniform sampler2D t;void main(){vec4 c=texture2D(t,v);gl_FragColor=vec4(c.rgb*c.a+vec3(.031,.063,.051)*(1.-c.a),1.);}`;
+    const sh=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;};
+    prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);
+    gl.useProgram(prog);
+    loc={p:gl.getAttribLocation(prog,'p'),uv:gl.getAttribLocation(prog,'uv'),m:gl.getUniformLocation(prog,'m'),t:gl.getUniformLocation(prog,'t')};
+    return true;
+  }
+  // Lưới bề mặt theo đúng phép chiếu của ảnh
+  function buildMesh(st){
+    const NX=st.proj==='plane'?2:96, NY=st.proj==='plane'?2:48;
+    const H=st.hfov*D, pos=[], uv=[], ind=[];
+    for(let j=0;j<=NY;j++){
+      const ty=j/NY; // 0 = mép trên ảnh
+      for(let i=0;i<=NX;i++){
+        const tx=i/NX; let x,y,z;
+        if(st.proj==='plane'){
+          const hw=Math.tan(H/2), hh=Math.tan(st.vfov*D/2);
+          x=(tx*2-1)*hw; y=(1-ty*2)*hh; z=-1;
+        } else {
+          const th=(tx-.5)*H;
+          if(st.proj==='cylinder'){ const yy=(.5-ty)*st.v; x=Math.sin(th); y=yy; z=-Math.cos(th); }
+          else { const ph=(.5-ty)*st.v*D; x=Math.cos(ph)*Math.sin(th); y=Math.sin(ph); z=-Math.cos(ph)*Math.cos(th); }
+        }
+        pos.push(x,y,z); uv.push(tx,ty);
+      }
+    }
+    for(let j=0;j<NY;j++)for(let i=0;i<NX;i++){const a=j*(NX+1)+i,b=a+1,c=a+NX+1,d=c+1;ind.push(a,c,b,b,c,d);}
+    const mk=(arr,T,target)=>{const b=gl.createBuffer();gl.bindBuffer(target,b);gl.bufferData(target,new T(arr),gl.STATIC_DRAW);return b;};
+    if(mesh){gl.deleteBuffer(mesh.p);gl.deleteBuffer(mesh.uv);gl.deleteBuffer(mesh.i);}
+    mesh={p:mk(pos,Float32Array,gl.ARRAY_BUFFER),uv:mk(uv,Float32Array,gl.ARRAY_BUFFER),i:mk(ind,Uint16Array,gl.ELEMENT_ARRAY_BUFFER),n:ind.length};
+  }
+  // Biên góc nhìn: không cho quay ra ngoài vùng có ảnh thật
+  function vExtent(st){ return st.proj==='plane'?st.vfov/2: st.proj==='cylinder'?Math.atan(st.v/2)/D : st.v/2; }
+  function hExtent(st){ return st.proj==='plane'?st.hfov/2:st.hfov/2; }
+  function aspect(){return Math.max(.3,cv.clientWidth/Math.max(1,cv.clientHeight));}
+  function hfovView(){return 2*Math.atan(Math.tan(fov*D/2)*aspect())/D;}
+  function maxFov(st){ // fov dọc lớn nhất mà vẫn nằm trong ảnh
+    const vf=2*vExtent(st)*.98, hf=2*hExtent(st)*.98;
+    const vFromH=2*Math.atan(Math.tan(hf*D/2)/aspect())/D;
+    return Math.max(20,Math.min(95,vf,vFromH));
+  }
+  function clamp(){
+    if(!cur) return;
+    fov=Math.max(22,Math.min(maxFov(cur),fov));
+    const hy=Math.max(0,hExtent(cur)-hfovView()/2), vy=Math.max(0,vExtent(cur)-fov/2);
+    yaw=Math.max(-hy,Math.min(hy,yaw)); pitch=Math.max(-vy,Math.min(vy,pitch));
+  }
+  function rotXY(){ // view matrix: quay thế giới ngược hướng nhìn
+    const y=yaw*D,p=pitch*D, cy=Math.cos(y),sy=Math.sin(y),cp=Math.cos(p),sp=Math.sin(p);
+    const Ry=[cy,0,-sy,0, 0,1,0,0, sy,0,cy,0, 0,0,0,1];
+    const Rx=[1,0,0,0, 0,cp,-sp,0, 0,sp,cp,0, 0,0,0,1];
+    return mul(Rx,Ry);
+  }
+  function mul(a,b){const o=new Array(16).fill(0);for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[c*4+r]+=a[k*4+r]*b[c*4+k];return o;}
+  function project(yawDeg,pitchDeg){
+    const th=yawDeg*D,ph=pitchDeg*D, v=[Math.cos(ph)*Math.sin(th),Math.sin(ph),-Math.cos(ph)*Math.cos(th),1];
+    const m=mul([...(()=>{const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;return[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];})()],rotXY());
+    const o=[0,0,0,0];for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[r]+=m[k*4+r]*v[k];
+    if(o[3]<=0) return null;
+    return {x:(o[0]/o[3]*.5+.5)*cv.clientWidth,y:(-o[1]/o[3]*.5+.5)*cv.clientHeight};
+  }
+  function resize(){
+    const dpr=Math.min(2,window.devicePixelRatio||1), w=Math.round(cv.clientWidth*dpr), h=Math.round(cv.clientHeight*dpr);
+    if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;dirty=true;}
+  }
+  function draw(){
+    resize(); clamp();
+    gl.viewport(0,0,cv.width,cv.height); gl.clearColor(.031,.063,.051,1); gl.clear(gl.COLOR_BUFFER_BIT);
+    if(mesh&&tex){
+      const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;
+      const P=[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];
+      gl.uniformMatrix4fv(loc.m,false,new Float32Array(mul(P,rotXY())));
+      gl.bindBuffer(gl.ARRAY_BUFFER,mesh.p);gl.enableVertexAttribArray(loc.p);gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,mesh.uv);gl.enableVertexAttribArray(loc.uv);gl.vertexAttribPointer(loc.uv,2,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.i);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(loc.t,0);
+      gl.drawElements(gl.TRIANGLES,mesh.n,gl.UNSIGNED_SHORT,0);
+    }
+    const heading=Math.round(yaw); compassEl.textContent=`Hướng ${heading>0?'phải ':heading<0?'trái ':''}${Math.abs(heading)}°`;
+    placeLinks();
+  }
+  function placeLinks(){
+    const W=cv.clientWidth,Hh=cv.clientHeight;
+    linksEl.querySelectorAll('.fp-link').forEach((b,i)=>{
+      const pt=project(+b.dataset.yaw,-18), bw=b.offsetWidth||140;
+      const inView=pt&&pt.x>bw/2+6&&pt.x<W-bw/2-6&&pt.y>60&&pt.y<Hh-110;
+      b.style.display='block';
+      if(inView){b.dataset.dir='up';b.style.left=pt.x+'px';b.style.top=pt.y+'px';}
+      else { // ngoài tầm nhìn: bám mép trái/phải, chỉ hướng cần quay
+        const right=(+b.dataset.yaw)>yaw; b.dataset.dir=right?'right':'left';
+        b.style.left=(right?W-bw/2-8:bw/2+8)+'px'; b.style.top=(Hh-150-i*44)+"px";
+      }
+    });
+  }
+  function loop(){
+    if(!running) return;
+    if(Math.abs(vel)>.01&&!dragging){yaw+=vel;vel*=.92;dirty=true;}
+    if(dirty){dirty=false;draw();}
+    raf=requestAnimationFrame(loop);
+  }
+  function upload(img){
+    if(tex) gl.deleteTexture(tex);
+    tex=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,tex);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,true);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  }
+  function renderStrip(){
+    stripEl.innerHTML=fpStations.map((s,i)=>`<button data-i="${i}" class="${i===idx?'active':''}" aria-label="${s.name}"><img src="${FP_BASE}${s.file.replace(/\.(jpg|webp)$/,'-thumb.jpg')}" alt="" loading="lazy"><span>${s.era==='old'?'🗂 ':''}${s.date} · ${s.name}</span></button>`).join('');
+    stripEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i,false));
+    stripEl.querySelector('.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  }
+  function go(i,walk){
+    const st=fpStations[(i+fpStations.length)%fpStations.length]; idx=fpStations.indexOf(st);
+    const token=++loadToken;
+    nameEl.textContent=st.name; descEl.textContent=st.desc;
+    dateEl.textContent=(st.era==='now'?'Hiện trạng · ':'Lưu trữ · ')+st.date; dateEl.className='fp-date '+st.era;
+    linksEl.innerHTML=st.links.map(l=>`<button class="fp-link" data-to="${l.to}" data-yaw="${l.yaw}">${l.label}</button>`).join('');
+    linksEl.querySelectorAll('.fp-link').forEach(b=>b.onclick=e=>{e.stopPropagation();walkTo(b.dataset.to,+b.dataset.yaw);});
+    renderStrip();
+    statusEl.textContent='Đang tải ảnh toàn cảnh…'; statusEl.classList.add('show');
+    const img=new Image(); img.decoding='async';
+    img.onload=()=>{
+      if(token!==loadToken) return;
+      cur=st; buildMesh(st); upload(img);
+      yaw=st.yaw0||0; pitch=-4; fov=maxFov(st)*.82;
+      if(walk){fov=Math.min(maxFov(st),fov*1.15);}
+      statusEl.classList.remove('show'); fadeEl.classList.remove('on'); dirty=true;
+      // tải trước trạm kế
+      st.links.forEach(l=>{const n=fpStations.find(s=>s.id===l.to); if(n){const p=new Image(); p.src=FP_BASE+n.file;}});
+    };
+    img.onerror=()=>{ if(token!==loadToken) return; fadeEl.classList.remove('on'); statusEl.textContent=`Không tải được ${st.file}. Kiểm tra mạng rồi chọn lại trạm.`; statusEl.classList.add('show'); console.error('[gia-vien fp] load failed',st.file); };
+    img.src=FP_BASE+st.file;
+  }
+  // "Bước tới": quay về phía mũi tên, phóng dần như đang đi, rồi chuyển trạm
+  function walkTo(toId,linkYaw){
+    const target=fpStations.findIndex(s=>s.id===toId); if(target<0) return;
+    const y0=yaw,f0=fov,t0=performance.now(),dur=520;
+    const step=t=>{
+      const k=Math.min(1,(t-t0)/dur), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      yaw=y0+(linkYaw-y0)*e; fov=f0*(1-.45*e); dirty=true;
+      if(k>.55) fadeEl.classList.add('on');
+      if(k<1) requestAnimationFrame(step); else go(target,true);
+    };
+    requestAnimationFrame(step);
+  }
+  // Điều khiển: kéo chuột/chạm, chụm 2 ngón, lăn chuột
+  let dragging=false,lastX=0,lastY=0,lastT=0,pts=new Map(),pinch0=0,fov0=0;
+  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,e);dragging=true;vel=0;lastX=e.clientX;lastY=e.clientY;lastT=performance.now();
+    if(pts.size===2){const [a,b]=[...pts.values()];pinch0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);fov0=fov;}});
+  cv.addEventListener('pointermove',e=>{
+    if(!pts.has(e.pointerId)) return; pts.set(e.pointerId,e);
+    if(pts.size===2){const [a,b]=[...pts.values()];const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);if(pinch0>0){fov=fov0*pinch0/d;dirty=true;}return;}
+    const k=fov/Math.max(1,cv.clientHeight), dx=e.clientX-lastX, dy=e.clientY-lastY, now=performance.now();
+    yaw-=dx*k; pitch+=dy*k; vel=-dx*k*Math.min(1,16/Math.max(1,now-lastT)); lastX=e.clientX;lastY=e.clientY;lastT=now; dirty=true;
+  });
+  const up=e=>{pts.delete(e.pointerId); if(pts.size===0) dragging=false; if(pts.size<2) pinch0=0;};
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
+  cv.addEventListener('wheel',e=>{e.preventDefault();fov*=Math.exp(e.deltaY*.0012);dirty=true;},{passive:false});
+  document.getElementById('fpZoomIn').onclick=()=>{fov*=.82;dirty=true;};
+  document.getElementById('fpZoomOut').onclick=()=>{fov/=.82;dirty=true;};
+  // Xoay điện thoại để nhìn (con quay hồi chuyển)
+  function onOrient(e){
+    if(e.alpha==null) return;
+    if(!gyroBase) gyroBase={a:e.alpha,b:e.beta,y:yaw,p:pitch};
+    let da=gyroBase.a-e.alpha; if(da>180)da-=360; if(da<-180)da+=360;
+    yaw=gyroBase.y+da; pitch=gyroBase.p+(e.beta-gyroBase.b)*.8; dirty=true;
+  }
+  gyroBtn.onclick=async()=>{
+    if(gyroOn){window.removeEventListener('deviceorientation',onOrient);gyroOn=false;gyroBtn.classList.remove('on');return;}
+    try{ if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){const r=await DeviceOrientationEvent.requestPermission(); if(r!=='granted') throw new Error('denied');} }
+    catch(err){statusText.textContent='Không bật được cảm biến xoay trên máy này.';return;}
+    gyroBase=null; window.addEventListener('deviceorientation',onOrient); gyroOn=true; gyroBtn.classList.add('on');
+  };
+  window.addEventListener('resize',()=>{dirty=true;});
+  return {
+    start(){ if(!initGL()) return; running=true; if(!cur) go(idx,false); else dirty=true; cancelAnimationFrame(raf); raf=requestAnimationFrame(loop); },
+    stop(){ running=false; cancelAnimationFrame(raf); },
+    turn(d){ yaw+=d; dirty=true; },
+    next(d){ go(idx+d,true); },
+    walk(){ const l=cur&&cur.links[0]; if(l) walkTo(l.to,l.yaw); else go(idx+1,true); },
+    get index(){return idx;}
+  };
+})();
+
 btnPhoto.onclick=()=>setMode('photo');
 btnSim.onclick=()=>setMode('sim');
-backBtn.onclick=()=>{ if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else moveScene(-1); };
-nextBtn.onclick=()=>{ if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else moveScene(1); };
-leftBtn.onclick=()=>{ if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else turnCamera(-.45); };
-rightBtn.onclick=()=>{ if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else turnCamera(.45); };
+btnFp.onclick=()=>setMode('fp');
+backBtn.onclick=()=>{ if(mode==='fp') return fp.next(-1); if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else moveScene(-1); };
+nextBtn.onclick=()=>{ if(mode==='fp') return fp.next(1); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else moveScene(1); };
+leftBtn.onclick=()=>{ if(mode==='fp') return fp.turn(-20); if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else turnCamera(-.45); };
+rightBtn.onclick=()=>{ if(mode==='fp') return fp.turn(20); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else turnCamera(.45); };
 focusBtn.onclick=()=>{
+  if(mode==='fp') return fp.walk();
   if(mode==='photo') setMode('sim');
   const scene=scenes[sceneIndex];
   if(scene.hotspots.length){
@@ -700,6 +990,10 @@ focusBtn.onclick=()=>{
   }
 };
 document.addEventListener('keydown',e=>{
+  if(mode==='fp' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
+    const k={ArrowLeft:()=>fp.turn(-10),ArrowRight:()=>fp.turn(10),ArrowUp:()=>fp.walk(),ArrowDown:()=>fp.next(-1),Enter:()=>fp.walk()}[e.key];
+    if(k){e.preventDefault();k();} return;
+  }
   if(mode!=='sim' || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')) return;
   if(e.key==='ArrowUp'){e.preventDefault();moveScene(1);}
   if(e.key==='ArrowDown'){e.preventDefault();moveScene(-1);}
