@@ -120,6 +120,36 @@ button,input,select{font:inherit}
 @media (max-width:1200px){.app{grid-template-columns:300px 1fr}.right{grid-column:1/-1}.photo-ui{grid-template-columns:1fr}}
 @media (max-width:900px){.app{grid-template-columns:1fr;padding:10px}.main{order:-1}#simStage .hud{flex-direction:column;align-items:flex-start}.left,.right,.main{padding:14px}.stage{min-height:520px}.photo-ui{inset:auto 10px 10px 10px}.thumbs{grid-template-columns:repeat(4,1fr)} }
 @media (max-width:640px){.stage{min-height:500px}.thumb img{height:62px}.photo-ui{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(2,1fr)}.caption h3{font-size:18px}}
+
+/* ===== Hành trình (game) ===== */
+.jr-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.jr-score{font:700 26px Georgia,serif;color:var(--gold)}
+.jr-rank{padding:4px 10px;border-radius:999px;background:#21362f;border:1px solid var(--gold);color:#f4e3bf;font-size:12px;font-weight:700}
+.jr-ch{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.jr-ch h4{margin:0 0 6px;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.jr-m{display:flex;gap:8px;align-items:flex-start;margin:6px 0;color:var(--muted);font-size:13px;line-height:1.35}
+.jr-m i{flex:0 0 18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:11px;color:#183028}
+.jr-m.done{color:#e9f6ee}.jr-m.done i{background:var(--green);border-color:var(--green)}
+.jr-note{font-size:12px;color:var(--muted);margin-top:10px}
+.herb{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.herb-card{border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(255,255,255,.04);font-size:12px;color:var(--muted)}
+.herb-card strong{display:block;color:#f4fbf6;font-size:14px;margin-bottom:2px}
+.herb-card.locked{opacity:.55;text-align:center;border-style:dashed}
+.herb-card .tag{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:999px;background:#21362f;font-size:11px}
+dialog.gv{border:1px solid var(--gold);border-radius:18px;background:#10211b;color:var(--text);padding:0;max-width:min(520px,92vw);width:100%}
+dialog.gv::backdrop{background:rgba(3,8,6,.7)}
+dialog.gv .in{padding:18px}
+dialog.gv h3{margin:0 0 6px}
+dialog.gv .opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px;border-radius:12px;border:1px solid var(--line);background:#1d3329;color:#f2faf5;cursor:pointer;font-size:15px}
+dialog.gv .opt.ok{background:#2f6b3d;border-color:var(--green)}
+dialog.gv .opt.bad{background:#6b2f2f;border-color:var(--red)}
+dialog.gv .opt:disabled{cursor:default}
+dialog.gv .fb{margin:10px 0;color:var(--muted);line-height:1.45}
+dialog.gv .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+dialog.gv .row button{border:1px solid var(--line);background:#244038;color:#f5fbf7;padding:10px 14px;border-radius:12px;cursor:pointer}
+dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#10211b;border:1px solid var(--gold);color:#f4e3bf;padding:10px 16px;border-radius:999px;font-size:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
 </style>
 </head>
 <body>
@@ -252,6 +282,21 @@ button,input,select{font:inherit}
   </main>
 
   <aside class="right panel">
+    <div class="card" id="journeyCard">
+      <div class="jr-head"><h3 style="margin:0">Hành trình người giữ vườn</h3><span class="jr-rank" id="jrRank">Khách tham quan</span></div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><span class="jr-score" id="jrScore">0</span><span style="color:var(--muted);font-size:13px">/ <span id="jrMax">0</span> điểm</span></div>
+      <div class="progress" style="margin-top:8px"><div id="jrBar"></div></div>
+      <div id="jrChapters"></div>
+      <div class="quiz-actions" style="margin-top:12px"><button id="jrReset">Chơi lại từ đầu</button></div>
+      <p class="jr-note">Tiến trình đang lưu trên thiết bị này. Chưa ghi vào Study OS, chưa có tín dụng hay phần thưởng thật.</p>
+    </div>
+
+    <div class="card">
+      <h3>Sổ thẻ cây <span style="color:var(--muted);font-weight:400;font-size:13px" id="herbCount"></span></h3>
+      <div class="herb" id="herbGrid"></div>
+      <p class="jr-note">Tên và thông tin là định danh tạm, chờ danh mục chính thức và mã QR.</p>
+    </div>
+
     <div class="card">
       <h3>Nhiệm vụ định danh</h3>
       <div class="progress"><div id="questBar"></div></div>
@@ -277,6 +322,8 @@ button,input,select{font:inherit}
   </aside>
 </div>
 
+<dialog class="gv" id="gvDlg"><div class="in" id="gvDlgBody"></div></dialog>
+<div class="toast" id="gvToast" role="status" aria-live="polite"></div>
 <script>
 const photos=[
   {id:'p-0930-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Giàn chính diện · 30/09/2026',desc:'Khung hình mới nhất, không có người: giàn mái trong, bảng Gia Viên Dược Thảo, bảng danh sách cây, giàn trồng đứng và tường tranh phong cảnh.',tags:['30/09','Giàn chính','Tường tranh','Bảng tên']},
@@ -580,6 +627,7 @@ function drawScene(){
 
   drawHotspots(scene);
   updateMapDot();
+  if(mode==='sim') gvVisitScene(sceneIndex);
 }
 
 function paintMural(x,y,w,h){
@@ -712,7 +760,8 @@ canvas.addEventListener('click',e=>{
     const dx=x-hx, dy=y-hy;
     if(Math.hypot(dx,dy)<32){found=hs.plantId;break;}
   }
-  if(found){selectedPlantId=found; renderSelectedPlant(); renderPlantList(); drawScene();}
+  if(found){selectedPlantId=found; renderSelectedPlant(); renderPlantList(); drawScene();
+    if(found===currentQuest().plantId && !questProgress.has(currentQuestId)) markAnswerBtn.onclick();}
 });
 
 function goToPlant(pid){
@@ -905,7 +954,7 @@ const fp=(()=>{
     const img=new Image(); img.decoding='async';
     img.onload=()=>{
       if(token!==loadToken) return;
-      cur=st; buildMesh(st); upload(img);
+      cur=st; buildMesh(st); upload(img); gvVisitFp(st.id);
       yaw=st.yaw0||0; pitch=-4; fov=maxFov(st)*.82;
       if(walk){fov=Math.min(maxFov(st),fov*1.15);}
       statusEl.classList.remove('show'); fadeEl.classList.remove('on'); dirty=true;
@@ -1005,16 +1054,160 @@ markAnswerBtn.onclick=()=>{
     questProgress.add(q.id);
     updateQuestUI();
     statusText.textContent=`Đúng: ${byId(selectedPlantId).name}`;
+    gvQuestDone(selectedPlantId);
+    const nxt=quests.find(x=>!questProgress.has(x.id)); if(nxt){currentQuestId=nxt.id; updateQuestUI();}
   } else {
     statusText.textContent=`Chưa đúng: ${byId(selectedPlantId).name}`;
+    gvToast(`Chưa đúng. Gợi ý: ${q.title.toLowerCase()}`);
   }
 };
 resetQuestBtn.onclick=()=>{questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); statusText.textContent='Đã reset nhiệm vụ';};
+
+
+/* =====================================================================
+   HÀNH TRÌNH NGƯỜI GIỮ VƯỜN — vòng chơi, điểm, hạng, thẻ cây.
+   - Mọi nội dung đều từ ảnh thật; câu hỏi chỉ về đặc điểm nhận biết cây
+     và về việc đối chiếu bố cục theo thời gian. Không có nội dung điều trị.
+   - Tiến trình CHỈ lưu trên thiết bị (localStorage). Chưa ghi vào Study OS;
+     không phát tín dụng, không đụng kho giống/ví của Gia Viên đang chạy.
+   ===================================================================== */
+const GV_KEY='gv-thuc-canh-v1';
+const plantQuiz={
+  'plant-sa':{q:'Đặc điểm nào giúp nhận ra sả trong vườn?',opts:['Bụi lá dài, hẹp, mọc thẳng từ gốc; vò lá có mùi thơm','Dây leo bám lên khung giàn','Lá dày, có vằn ngang xanh đậm'],ok:0,
+    why:'Sả mọc thành bụi, lá dài hẹp như lá cỏ và có mùi thơm khi vò. Cây trong vườn đang được định danh tạm, chờ đối chiếu danh mục chính thức.'},
+  'plant-sandays':{q:'Sắn dây thuộc dạng cây nào?',opts:['Cây thân gỗ lớn','Dây leo, cần giá đỡ để bám','Bụi thân mềm thấp mọc sát đất'],ok:1,
+    why:'Sắn dây là dây leo nên cần khung hoặc giá đỡ, vì vậy dây trên khung giàn là dấu hiệu để tìm. Vị trí này là định danh tạm, cần đối chiếu mã QR.'},
+  'plant-bacha':{q:'Khi nhận biết bạc hà, đặc điểm nào dễ kiểm tra nhất?',opts:['Mùi thơm mát đặc trưng khi vò nhẹ lá','Lá dày có vằn ngang','Mọc thành dây leo trên giàn'],ok:0,
+    why:'Bạc hà có mùi thơm mát đặc trưng từ tinh dầu trong lá. Vị trí cây trong ảnh hiện chỉ là đoán, cần quét mã QR tại vườn để chốt.'},
+  'plant-zing':{q:'Các cây họ Gừng thường được dùng phần nào làm gia vị?',opts:['Hoa','Thân rễ (củ)','Vỏ thân'],ok:1,
+    why:'Nhiều cây họ Gừng (gừng, nghệ, riềng) được dùng thân rễ làm gia vị. Khóm lá mác trong ảnh mới chỉ định danh tới mức họ, chưa chốt loài.'},
+  'plant-luoiho':{q:'Đặc điểm nào dễ nhận ra lưỡi hổ nhất?',opts:['Lá nhỏ mọc đối, thân mềm','Dây leo lá lớn','Lá dày, mọc thẳng, có vằn ngang xanh đậm'],ok:2,
+    why:'Lưỡi hổ có lá dày, mọc thẳng, vằn ngang xanh đậm khá đặc trưng, nên là cây dễ nhận ra nhất trong bộ này.'}
+};
+const timeQuiz={
+  's-0710':{id:'t1',q:'So với bố cục hiện tại (09/2026), phần tường phía sau giàn trong ảnh lưu trữ 10/07 khác ở điểm nào?',
+    opts:['Tường đã được vẽ lại thành cảnh phong cảnh xanh lá có hồ và rừng cây','Tường chưa từng có tranh','Tường được thay bằng hàng rào kính'],ok:0,
+    why:'Ảnh 10/07 còn tường tranh cũ nền xanh dương. Ảnh từ 12/09 trở đi là tranh phong cảnh mới, vì vậy ảnh cũ được xếp vào mục Lưu trữ.'},
+  's-0606':{id:'t2',q:'Vì sao ảnh tháng 6 và tháng 7 được xếp vào “Lưu trữ” chứ không phải “Hiện trạng”?',
+    opts:['Vì ảnh bị mờ nên không dùng được','Vì chụp trước khi tường tranh được vẽ lại, không còn đúng bố cục hiện tại','Vì ảnh chụp ở khu vườn khác'],ok:1,
+    why:'Game luôn dùng ảnh khớp bố cục hiện tại làm chuẩn. Ảnh cũ được giữ để so sánh thay đổi theo thời gian, không dùng để tìm cây.'}
+};
+const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10};
+const RANKS=[[0,'Khách tham quan'],[40,'Học việc'],[90,'Người giữ vườn'],[140,'Người giữ vườn xuất sắc']];
+const gvState={scene:[],fp:[],found:[],quiz:{},time:{},score:0,done:false,intro:false};
+function gvLoad(){ try{ const j=JSON.parse(localStorage.getItem(GV_KEY)||'null'); if(j&&typeof j==='object'){ ['scene','fp','found'].forEach(k=>{ if(Array.isArray(j[k])) gvState[k]=j[k].filter(x=>typeof x==='string'||typeof x==='number'); }); ['quiz','time'].forEach(k=>{ if(j[k]&&typeof j[k]==='object') gvState[k]=j[k]; }); gvState.done=!!j.done; gvState.intro=!!j.intro; gvRecalc(); } }catch(e){} }
+function gvSave(){ try{ localStorage.setItem(GV_KEY,JSON.stringify(gvState)); }catch(e){} }
+function gvRecalc(){
+  let sc=gvState.scene.length*POINTS.scene+gvState.fp.length*POINTS.fp+gvState.found.length*POINTS.quest;
+  Object.values(gvState.quiz).forEach(v=>{ if(v&&v.done) sc+= v.first?POINTS.quizFirst:POINTS.quizRetry; });
+  sc+=Object.keys(gvState.time).filter(k=>gvState.time[k]&&gvState.time[k].done).length*POINTS.time;
+  gvState.score=sc;
+}
+const GV_MAX=scenes.length*POINTS.scene+fpStations.filter(x=>x.era==='now').length*POINTS.fp+plants.length*(POINTS.quest+POINTS.quizFirst)+Object.keys(timeQuiz).length*POINTS.time;
+function gvRank(){ let r=RANKS[0][1]; RANKS.forEach(([t,n])=>{ if(gvState.score>=t) r=n; }); return r; }
+const gvToastEl=document.getElementById('gvToast'); let gvToastT=0;
+function gvToast(msg){ gvToastEl.textContent=msg; gvToastEl.classList.add('on'); clearTimeout(gvToastT); gvToastT=setTimeout(()=>gvToastEl.classList.remove('on'),2600); }
+const gvDlg=document.getElementById('gvDlg'), gvBody=document.getElementById('gvDlgBody');
+function gvOpenQuiz(title,quiz,onResult,first){
+  let tries=0;
+  gvBody.innerHTML=`<h3>${title}</h3><p style="margin:0 0 6px;color:#d9ebe1">${quiz.q}</p><div id="gvOpts">${quiz.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div><div class="fb" id="gvFb"></div><div class="row"><button id="gvClose">Để sau</button></div>`;
+  const fb=gvBody.querySelector('#gvFb');
+  gvBody.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i; tries++;
+    if(i===quiz.ok){
+      gvBody.querySelectorAll('.opt').forEach(x=>x.disabled=true); b.classList.add('ok');
+      fb.innerHTML=`<strong>Đúng.</strong> ${quiz.why}`;
+      gvBody.querySelector('#gvClose').textContent='Tiếp tục'; gvBody.querySelector('#gvClose').classList.add('primary');
+      onResult(tries===1&&first!==false);
+    } else { b.classList.add('bad'); b.disabled=true; fb.textContent='Chưa đúng, thử lại nhé.'; }
+  });
+  gvBody.querySelector('#gvClose').onclick=()=>gvDlg.close();
+  if(!gvDlg.open) gvDlg.showModal();
+}
+function gvAfter(msg){ gvRecalc(); gvSave(); gvRender(); if(msg) gvToast(msg); gvCheckDone(); }
+function gvVisitScene(i){ const k=String(i); if(!gvState.scene.includes(k)){ gvState.scene.push(k); gvAfter(`+${POINTS.scene} điểm · đã ghé trạm ${i+1}`); } }
+function gvVisitFp(id){
+  const st=fpStations.find(x=>x.id===id); if(!st) return;
+  if(st.era==='now' && !gvState.fp.includes(id)){ gvState.fp.push(id); gvAfter(`+${POINTS.fp} điểm · đã đứng ở trạm 3D mới`); }
+  const tq=timeQuiz[id];
+  if(tq && !(gvState.time[tq.id]&&gvState.time[tq.id].done)){
+    setTimeout(()=>gvOpenQuiz('Đối chiếu theo thời gian',tq,()=>{ gvState.time[tq.id]={done:true}; gvAfter(`+${POINTS.time} điểm · đối chiếu bố cục`); }),700);
+  }
+}
+function gvQuestDone(plantId){
+  const p=byId(plantId); if(!p) return;
+  if(!gvState.found.includes(plantId)){ gvState.found.push(plantId); gvAfter(`+${POINTS.quest} điểm · tìm thấy ${p.name}`); }
+  const qz=plantQuiz[plantId]; const done=gvState.quiz[plantId]&&gvState.quiz[plantId].done;
+  if(qz && !done){
+    gvOpenQuiz(`Thẻ cây: ${p.name}`,qz,first=>{ gvState.quiz[plantId]={done:true,first:!!first}; gvAfter(`+${first?POINTS.quizFirst:POINTS.quizRetry} điểm · mở thẻ ${p.name}`); });
+  }
+}
+function gvCheckDone(){
+  const all=gvState.scene.length>=scenes.length && gvState.fp.length>=fpStations.filter(x=>x.era==='now').length && plants.every(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done) && Object.values(timeQuiz).every(t=>gvState.time[t.id]&&gvState.time[t.id].done);
+  if(all && !gvState.done){
+    gvState.done=true; gvSave();
+    setTimeout(()=>{
+      gvBody.innerHTML=`<h3>Hoàn thành hành trình</h3><p style="color:#d9ebe1">Bạn đã đi hết ${scenes.length} trạm, đứng ở các trạm 3D, mở ${plants.length}/${plants.length} thẻ cây và đối chiếu bố cục theo thời gian.</p><p><strong>${gvState.score}/${GV_MAX} điểm · ${gvRank()}</strong></p><p class="fb">Tên cây là định danh tạm. Khi có danh mục chính thức và mã QR, các thẻ sẽ được cập nhật và bạn có thể chơi lại để mở thẻ mới.</p><div class="row"><button class="primary" onclick="document.getElementById('gvDlg').close()">Đóng</button></div>`;
+      if(!gvDlg.open) gvDlg.showModal();
+    },900);
+  }
+}
+function gvRender(){
+  document.getElementById('jrScore').textContent=gvState.score;
+  document.getElementById('jrMax').textContent=GV_MAX;
+  document.getElementById('jrRank').textContent=gvRank();
+  document.getElementById('jrBar').style.width=Math.min(100,gvState.score/GV_MAX*100)+'%';
+  const nowFp=fpStations.filter(x=>x.era==='now');
+  const m=(done,txt)=>`<div class="jr-m ${done?'done':''}"><i>${done?'✓':''}</i><span>${txt}</span></div>`;
+  const ch1=[m(gvState.scene.length>=scenes.length,`Ghé đủ ${scenes.length} trạm ở “Khám phá thực cảnh” (${gvState.scene.length}/${scenes.length})`),
+             m(gvState.fp.length>=nowFp.length,`Đứng ở ${nowFp.length} trạm “Góc nhìn thứ nhất 3D” hiện trạng (${gvState.fp.length}/${nowFp.length})`)];
+  const ch2=plants.map(p=>{ const f=gvState.found.includes(p.id), q=gvState.quiz[p.id]&&gvState.quiz[p.id].done; return m(f&&q,`${quests.find(x=>x.plantId===p.id)?.title||p.name}${f&&!q?' · còn câu hỏi thẻ cây':''}`); });
+  const tq=Object.entries(timeQuiz);
+  const ch3=tq.map(([sid,t])=>m(gvState.time[t.id]&&gvState.time[t.id].done,`Mở trạm lưu trữ ${fpStations.find(x=>x.id===sid)?.date} trong 3D và trả lời câu đối chiếu`));
+  const block=(t,list,doneN,tot)=>`<div class="jr-ch"><h4><span>${t}</span><span style="color:var(--muted);font-weight:400">${doneN}/${tot}</span></h4>${list.join('')}</div>`;
+  const c1=(gvState.scene.length>=scenes.length?1:0)+(gvState.fp.length>=nowFp.length?1:0);
+  const c2=plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length;
+  const c3=tq.filter(([,t])=>gvState.time[t.id]&&gvState.time[t.id].done).length;
+  document.getElementById('jrChapters').innerHTML=block('Chương 1 · Bước vào vườn',ch1,c1,2)+block('Chương 2 · Tìm và biết cây',ch2,c2,plants.length)+block('Chương 3 · Vườn đổi theo thời gian',ch3,c3,tq.length);
+  const grid=document.getElementById('herbGrid');
+  grid.innerHTML=plants.map(p=>{
+    const open=gvState.quiz[p.id]&&gvState.quiz[p.id].done;
+    return open?`<div class="herb-card"><strong>${p.name}</strong>${p.code}<br>${p.title}<span class="tag">${p.status} · ${Math.round(p.confidence*100)}%</span></div>`
+               :`<div class="herb-card locked"><strong>?</strong>Chưa mở thẻ</div>`;
+  }).join('');
+  document.getElementById('herbCount').textContent=`${plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length}/${plants.length}`;
+}
+document.getElementById('jrReset').onclick=()=>{
+  if(!confirm('Xoá tiến trình trên thiết bị này và chơi lại từ đầu?')) return;
+  gvState.scene=[];gvState.fp=[];gvState.found=[];gvState.quiz={};gvState.time={};gvState.score=0;gvState.done=false;gvState.intro=false;
+  questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); gvSave(); gvRender(); gvToast('Đã xoá tiến trình, bắt đầu lại.');
+};
+
+function gvIntro(){
+  if(gvState.intro) return;
+  gvBody.innerHTML=`<h3>Nhật ký người giữ vườn</h3>
+  <p style="color:#d9ebe1;line-height:1.5">Sáng nay bạn nhận chìa khoá khu vườn dược thảo của khoa. Bảng danh sách cây đã treo ở giàn, nhưng các nhãn còn chờ người kiểm lại. Bạn sẽ đi hết vườn, tìm đúng từng cây, mở thẻ cây và ghi lại vườn đã đổi thế nào so với mấy tháng trước.</p>
+  <ol style="color:var(--muted);line-height:1.6;padding-left:20px;margin:8px 0">
+    <li><strong>Ảnh thật:</strong> xem 11 khung hình thật của vườn.</li>
+    <li><strong>Khám phá thực cảnh:</strong> đi 6 trạm, chạm điểm vàng để tìm đúng cây của nhiệm vụ.</li>
+    <li><strong>Góc nhìn thứ nhất 3D:</strong> đứng giữa vườn, nhìn quanh, rồi mở trạm lưu trữ để so sánh với hiện nay.</li>
+  </ol>
+  <p class="fb">Điểm và thẻ cây lưu trên thiết bị này. Tên cây là định danh tạm, chờ danh mục chính thức.</p>
+  <div class="row"><button class="primary" id="gvStart">Bắt đầu</button></div>`;
+  gvBody.querySelector('#gvStart').onclick=()=>{ gvState.intro=true; gvSave(); gvDlg.close(); };
+  gvDlg.addEventListener('close',()=>{ if(!gvState.intro){ gvState.intro=true; gvSave(); } },{once:true});
+  if(!gvDlg.open) gvDlg.showModal();
+}
+gvLoad();
+questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
+currentQuestId=(quests.find(q=>!questProgress.has(q.id))||quests[0]).id;
 
 renderPhotoMode();
 renderPlantList();
 renderSelectedPlant();
 updateQuestUI();
+gvRender();
+setTimeout(gvIntro,400);
 (function(){
   let m='photo';
   try{ const q=new URLSearchParams(location.search).get('mode')||location.hash.replace('#',''); if(['fp','3d'].includes(q)) m='fp'; else if(q==='sim') m='sim'; }catch(e){}
