@@ -152,7 +152,7 @@ button,input,select{font:inherit}
 
     <div class="card">
       <h3>Luồng chơi đã hoàn thiện</h3>
-      <p>1) Quan sát 11 khung ảnh thật → 2) vào tuyến 10 trạm thực cảnh → 3) di chuyển theo lối đi → 4) đổi góc nhìn → 5) chạm hotspot → 6) làm nhiệm vụ định danh tạm.</p>
+      <p>1) Quan sát 11 khung ảnh thật → 2) vào tuyến 6 trạm thực cảnh → 3) di chuyển theo lối đi → 4) đổi góc nhìn → 5) chạm hotspot → 6) làm nhiệm vụ định danh tạm.</p>
       <div class="legend">
         <span><i class="dot" style="background:#d8b16c"></i>hotspot cây</span>
         <span><i class="dot" style="background:#7ccaf2"></i>vị trí người học</span>
@@ -279,69 +279,63 @@ button,input,select{font:inherit}
 
 <script>
 const photos=[
-  {id:'p-entry-main',src:'/gia-vien-duoc-thao-preview/assets/IMG_2750.jpg',title:'Góc chính diện cổng vườn',desc:'Toàn cảnh không có người: khung mái, bảng Gia Viên Dược Thảo, cụm chậu trung tâm và lối vào.',tags:['Toàn cảnh','Cổng vào','Khung mái','Bảng tên']},
-  {id:'p-right-rack',src:'/gia-vien-duoc-thao-preview/assets/IMG_2837.jpg',title:'Giá cây tường phải',desc:'Góc dọc không có người, thấy rõ giá cây nhiều tầng, chậu treo và bồn cây dưới đất.',tags:['Giá cây phải','Chậu treo','Lối đi','Mái trong']},
-  {id:'p-right-close',src:'/gia-vien-duoc-thao-preview/assets/IMG_2839.jpg',title:'Cận cảnh nhóm cây có nhãn',desc:'Cận cảnh cụm cây ở giá phải và bồn thấp; dùng làm chuẩn cho hotspot, QR và số thứ tự sau này.',tags:['Cận cảnh','Nhãn cây','Bồn thấp','Hotspot']},
-  {id:'p-narrow-lane',src:'/gia-vien-duoc-thao-preview/assets/20260517_063920.jpg',title:'Lối hẹp giữa hai cụm cây',desc:'Góc nhìn vào lối hẹp, cho thấy mật độ cây thật, bồn đen hai bên và trụ đèn ở giữa.',tags:['Lối hẹp','Mật độ cây','Bồn đen','Trụ đèn']},
-  {id:'p-hanging-qr',src:'/gia-vien-duoc-thao-preview/assets/20260517_064000.jpg',title:'Cụm chậu treo + QR',desc:'Góc cận không có người với chậu treo trắng, mã QR và cụm cây tầng thấp.',tags:['Chậu treo','QR','Cận cảnh','Tường tranh']},
-  {id:'p-end-wall',src:'/gia-vien-duoc-thao-preview/assets/20260517_064533.jpg',title:'Góc cuối vườn và tường tranh',desc:'Góc rộng không có người ở phần cuối vườn, thấy rõ nền gạch, tường tranh, khung mái và bảng danh sách.',tags:['Cuối vườn','Tường tranh','Nền gạch','Bảng danh sách']},
-  {id:'p-service-lane',src:'/gia-vien-duoc-thao-preview/assets/IMG20260606141242.jpg',title:'Lối phụ sát tường và bồn cây',desc:'Góc nhìn dọc lối phụ hẹp, cho thấy mép bồn, thảm cỏ nhân tạo và khoảng cách thật giữa cây với tường.',tags:['Lối phụ','Tỉ lệ thực','Bồn cây','Khoảng cách']},
-  {id:'p-sign-close',src:'/gia-vien-duoc-thao-preview/assets/IMG_2809.jpg',title:'Cận bảng Gia Viên Dược Thảo',desc:'Ảnh thật không có người, nhìn rõ bảng tên, mảng tường tranh và hệ chậu cây phía dưới.',tags:['Bảng tên','Mảng cây','Tường tranh','Cận cảnh']},
-  {id:'p-entry-lower',src:'/gia-vien-duoc-thao-preview/assets/IMG_2750.jpg',title:'Khung cận phần bồn dưới cổng',desc:'Tái khung từ ảnh thật để quan sát phần thấp của bồn và trục lối đi; không nội suy cảnh mới.',tags:['Ảnh thật','Khung cận','Bồn cây','Lối đi'],position:'center 72%',size:'142%'},
-  {id:'p-rack-upper',src:'/gia-vien-duoc-thao-preview/assets/IMG_2837.jpg',title:'Khung cận tầng trên giá cây',desc:'Tái khung từ ảnh thật để kiểm tra chậu treo, tầng giá và khoảng cách theo chiều cao.',tags:['Ảnh thật','Khung cận','Giá cây','Chậu treo'],position:'center 28%',size:'138%'},
-  {id:'p-qr-lower',src:'/gia-vien-duoc-thao-preview/assets/20260517_064000.jpg',title:'Khung cận QR và tầng cây thấp',desc:'Tái khung từ ảnh thật, tập trung vào QR và cụm cây tầng thấp để chuẩn bị gameplay quét/nhấn.',tags:['Ảnh thật','Khung cận','QR','Tầng thấp'],position:'center 74%',size:'145%'}
+  {id:'p-0930-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Giàn chính diện · 30/09/2026',desc:'Khung hình mới nhất, không có người: giàn mái trong, bảng Gia Viên Dược Thảo, bảng danh sách cây, giàn trồng đứng và tường tranh phong cảnh.',tags:['30/09','Giàn chính','Tường tranh','Bảng tên']},
+  {id:'p-0930-left',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-trai.jpg',title:'Góc trái sân · đèn trụ và tranh biển',desc:'Nhìn từ giữa sân sang trái: cụm cây tầng thấp, đèn trụ và mảng tranh biển của tường.',tags:['30/09','Bên trái','Đèn trụ','Tranh biển']},
+  {id:'p-0930-right',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-phai.jpg',title:'Góc phải sân · hàng bồn và ghế đá',desc:'Nhìn sang phải: chậu đỏ, hàng bồn đen dọc hàng rào, đèn trụ thứ hai và ghế đá cuối sân.',tags:['30/09','Bên phải','Bồn đen','Ghế đá']},
+  {id:'p-0912-wide',src:'/gia-vien-duoc-thao-preview/assets/2026-09-12-toan-dai.jpg',title:'Toàn dải vườn từ đầu sân · 12/09',desc:'Đứng ở cuối sân gạch nhìn dọc dải cây chạy theo tường; cho thấy tỉ lệ thật giữa sân, giàn và tường tranh.',tags:['12/09','Toàn cảnh','Sân gạch','Tường tranh']},
+  {id:'p-0926-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-truoc-tuong.jpg',title:'Trước tường tranh phong cảnh · 26/09',desc:'Góc rộng về phía giàn và tường tranh, thấy hàng bồn đen và các chậu cây dọc tường.',tags:['26/09','Tường tranh','Hàng bồn','Góc rộng']},
+  {id:'p-0926-wall',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Dọc tường về phía góc tranh thứ hai · 26/09',desc:'Nhìn dọc hàng bồn sát tường; cây lá vằn ở góc phải khung hình.',tags:['26/09','Dọc tường','Hàng bồn','Lối đi']},
+  {id:'p-sign',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng tên và chậu treo',desc:'Tái khung từ ảnh thật 30/09: bảng Gia Viên Dược Thảo và hai chậu treo trắng.',tags:['Ảnh thật','Khung cận','Bảng tên','Chậu treo'],position:'26% 0%',size:'200%'},
+  {id:'p-list',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng danh sách cây',desc:'Tái khung từ ảnh thật 30/09: bảng danh sách cây đặt cạnh giàn, nơi sẽ gắn số thứ tự chính thức.',tags:['Ảnh thật','Khung cận','Danh sách','Số thứ tự'],position:'70% 30%',size:'200%'},
+  {id:'p-vertical',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận giàn trồng đứng và nhãn số',desc:'Tái khung từ ảnh thật 30/09: các ô chậu nhỏ treo trên giàn lưới và nhãn số xanh.',tags:['Ảnh thật','Khung cận','Giàn đứng','Nhãn số'],position:'16% 40%',size:'200%'},
+  {id:'p-right-pots',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận cụm chậu bên phải và đèn trụ',desc:'Tái khung từ ảnh thật 30/09: chậu đỏ, chậu đen và các bụi cây cao cạnh đèn trụ.',tags:['Ảnh thật','Khung cận','Chậu đỏ','Đèn trụ'],position:'100% 74%',size:'200%'},
+  {id:'p-striped',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Cận cây lá vằn ở góc phải',desc:'Tái khung từ ảnh thật 26/09: lá dày có vằn ngang, mọc thẳng trong bồn đen.',tags:['Ảnh thật','Khung cận','Lá vằn','Bồn đen'],position:'100% 100%',size:'220%'}
 ];
 
 const plants=[
-  {
-    id:'plant-sả', code:'Tạm 01', name:'Sả', latin:'Cymbopogon citratus (tạm)', confidence:0.72, scene:7,
-    title:'Khóm lá dài hẹp mọc thành bụi',
-    why:'Định danh tạm theo hình dạng lá dải hẹp mọc thành bụi. Chưa gắn QR/số chính thức.',
-    hint:'Tìm cụm lá dài, hẹp, mọc chụm từ gốc ở bồn thấp gần lối đi.', status:'Trung bình'
-  },
-  {
-    id:'plant-ngaicuu', code:'Tạm 02', name:'Ngải cứu', latin:'Artemisia vulgaris (tạm)', confidence:0.82, scene:3,
-    title:'Cây có nhãn “Ngải cứu” ở tầng giữa',
-    why:'Trong ảnh cận cảnh có thể đọc được nhãn “Ngải cứu”; hình lá xẻ thùy cũng phù hợp. Đây vẫn là định danh tạm.',
-    hint:'Tìm nhãn treo có chữ “Ngải cứu” ở dãy giá phải, tầm mắt người xem.', status:'Cao'
-  },
-  {
-    id:'plant-raumeo', code:'Tạm 03', name:'Râu mèo', latin:'Orthosiphon aristatus (tạm)', confidence:0.84, scene:3,
-    title:'Cây có nhãn “Râu mèo”',
-    why:'Nhãn “Râu mèo” hiện khá rõ ở ảnh giá cây bên phải; dùng để thử cơ chế định danh trước khi gắn danh mục chuẩn.',
-    hint:'Quan sát nhãn chữ “Râu mèo” ở phía phải của giá cây.', status:'Cao'
-  },
-  {
-    id:'plant-zing', code:'Tạm 04', name:'Nhóm gừng/riềng (chưa chốt)', latin:'Zingiberaceae sp. (tạm)', confidence:0.45, scene:8,
-    title:'Cụm cây lá lớn hình mác trong bồn',
-    why:'Hiện chỉ định danh tới mức nhóm họ Gừng do dạng lá và cách mọc bụi. Chưa đủ dữ liệu để chốt gừng, nghệ hay riềng.',
-    hint:'Tìm cụm lá lớn mọc thành khóm ở bồn gần lối đi.', status:'Thấp'
-  }
+  {id:'plant-sa', code:'Tạm 01', name:'Sả', latin:'Cymbopogon citratus (tạm)', confidence:0.6, scene:3,
+    title:'Bụi lá dài hẹp trong chậu đỏ',
+    why:'Định danh tạm theo dạng bụi lá dài, hẹp, mọc thẳng từ gốc. Thông tin để tìm hiểu: sả là cây thân thảo thơm, thường dùng làm gia vị và lấy tinh dầu. Chưa gắn số/QR chính thức.',
+    hint:'Tìm bụi lá dài hẹp cao nhất trong chậu đỏ ở phía phải sân.', status:'Trung bình'},
+  {id:'plant-sandays', code:'Tạm 02', name:'Sắn dây', latin:'Pueraria montana var. lobata (tạm)', confidence:0.5, scene:2,
+    title:'Dây leo lá lớn trên khung giàn',
+    why:'Định danh tạm theo dây leo lá lớn bám trên khung giàn phía trên bảng danh sách; thư mục mã QR của vườn có tên Sắn dây. Thông tin để tìm hiểu: sắn dây là cây leo, củ dùng làm bột. Cần đối chiếu QR để chốt.',
+    hint:'Nhìn lên khung giàn, tìm dây leo lá lớn phía trên bảng danh sách cây.', status:'Trung bình'},
+  {id:'plant-bacha', code:'Tạm 03', name:'Bạc hà', latin:'Mentha sp. (tạm)', confidence:0.35, scene:3,
+    title:'Bụi cây lá nhỏ thân mềm tầng thấp',
+    why:'Thư mục mã QR của vườn có tên Bạc hà nhưng chưa xác định chắc vị trí trong ảnh; đây là vị trí đoán theo dạng bụi lá nhỏ thân mềm ở tầng thấp. Thông tin để tìm hiểu: bạc hà có mùi mát đặc trưng từ tinh dầu. Cần quét QR tại vườn để chốt.',
+    hint:'Tìm bụi lá nhỏ, thân mềm, mọc dày ở tầng thấp gần lối đi.', status:'Thấp'},
+  {id:'plant-zing', code:'Tạm 04', name:'Nhóm gừng/riềng (chưa chốt)', latin:'Zingiberaceae sp. (tạm)', confidence:0.4, scene:2,
+    title:'Khóm lá mác lớn trong chậu cam',
+    why:'Chỉ định danh tới mức nhóm họ Gừng theo dạng lá mác lớn mọc khóm. Chưa đủ dữ liệu để chốt gừng, nghệ hay riềng.',
+    hint:'Tìm khóm lá mác lớn, mọc từ một chậu cam ở bên trái lối đi.', status:'Thấp'},
+  {id:'plant-luoiho', code:'Tạm 05', name:'Lưỡi hổ', latin:'Dracaena trifasciata (tạm)', confidence:0.85, scene:5,
+    title:'Lá dày có vằn ngang ở góc phải',
+    why:'Lá dày, mọc thẳng, có vằn ngang xanh đậm — đặc điểm điển hình của lưỡi hổ. Thông tin để tìm hiểu: cây chịu bóng và chịu khô tốt, thường trồng trang trí. Chưa gắn số/QR chính thức.',
+    hint:'Nhìn góc phải ảnh dọc tường, tìm các lá dày có vằn ngang.', status:'Cao'}
 ];
 
 const quests=[
-  {id:'q1',title:'Tìm cây có lá dài hẹp mọc thành bụi',desc:'Mục tiêu: chọn đúng cây tạm định danh là sả.',plantId:'plant-sả'},
-  {id:'q2',title:'Tìm cây có nhãn “Ngải cứu”',desc:'Mục tiêu: đọc nhãn và chọn đúng vị trí cây ngải cứu ở giá phải.',plantId:'plant-ngaicuu'},
-  {id:'q3',title:'Tìm cây có nhãn “Râu mèo”',desc:'Mục tiêu: xác định đúng vị trí cây râu mèo ở mảng giá cây bên phải.',plantId:'plant-raumeo'}
+  {id:'q1',title:'Tìm cây lá dài hẹp trong chậu đỏ',desc:'Mục tiêu: chọn đúng vị trí cây tạm định danh là sả ở phía phải sân.',plantId:'plant-sa'},
+  {id:'q2',title:'Tìm dây leo trên khung giàn',desc:'Mục tiêu: chọn đúng dây leo lá lớn (tạm: sắn dây) phía trên bảng danh sách.',plantId:'plant-sandays'},
+  {id:'q3',title:'Tìm cây lá vằn ở góc phải',desc:'Mục tiêu: chọn đúng cây lá dày có vằn ngang (tạm: lưỡi hổ) trong ảnh dọc tường.',plantId:'plant-luoiho'},
+  {id:'q4',title:'Tìm khóm lá mác lớn',desc:'Mục tiêu: chọn đúng khóm lá mác lớn (nhóm gừng/riềng, chưa chốt) ở bên trái lối đi.',plantId:'plant-zing'},
+  {id:'q5',title:'Tìm bụi lá nhỏ tầng thấp',desc:'Mục tiêu: thử đoán vị trí cây tạm là bạc hà; cần quét QR tại vườn để chốt.',plantId:'plant-bacha'}
 ];
 
 const scenes=[
-  {id:0,name:'Trạm 1 · Cổng vườn',desc:'Mốc tổng thể của khung mái, bảng tên và trục lối đi.',photo:'/gia-vien-duoc-thao-preview/assets/IMG_2750.jpg',fit:'cover',hotspots:[]},
-  {id:1,name:'Trạm 2 · Cận bảng tên',desc:'Nhìn rõ bảng Gia Viên Dược Thảo và mảng cây phía dưới.',photo:'/gia-vien-duoc-thao-preview/assets/IMG_2809.jpg',fit:'contain',hotspots:[]},
-  {id:2,name:'Trạm 3 · Giá cây tường phải',desc:'Quan sát cấu trúc giá nhiều tầng, chậu treo và lối đi.',photo:'/gia-vien-duoc-thao-preview/assets/IMG_2837.jpg',fit:'contain',hotspots:[]},
-  {id:3,name:'Trạm 4 · Cận nhãn cây',desc:'Điểm đọc nhãn tạm Ngải cứu và Râu mèo.',photo:'/gia-vien-duoc-thao-preview/assets/IMG_2839.jpg',fit:'contain',hotspots:[
-    {plantId:'plant-ngaicuu',x:.53,y:.47},{plantId:'plant-raumeo',x:.70,y:.36}
+  {id:0,name:'Trạm 1 · Đầu sân nhìn toàn dải',desc:'Mốc tổng thể: sân gạch, hàng cây chạy dọc tường và giàn ở xa.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-12-toan-dai.jpg',fit:'contain',hotspots:[]},
+  {id:1,name:'Trạm 2 · Trái sân',desc:'Cụm cây tầng thấp, đèn trụ và mảng tranh biển.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-trai.jpg',fit:'contain',hotspots:[]},
+  {id:2,name:'Trạm 3 · Giàn chính diện',desc:'Giàn mái trong, bảng danh sách, dây leo trên khung và khóm lá lớn bên trái.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-sandays',x:.578,y:.19},{plantId:'plant-zing',x:.30,y:.60}
   ]},
-  {id:4,name:'Trạm 5 · Lối hẹp giữa bồn',desc:'Kiểm tra bề rộng lối, mật độ cây và tầm mắt.',photo:'/gia-vien-duoc-thao-preview/assets/20260517_063920.jpg',fit:'cover',hotspots:[]},
-  {id:5,name:'Trạm 6 · Chậu treo và QR',desc:'Điểm thử tương tác QR/hotspot ở mảng chậu treo.',photo:'/gia-vien-duoc-thao-preview/assets/20260517_064000.jpg',fit:'cover',hotspots:[]},
-  {id:6,name:'Trạm 7 · Lối phụ sát tường',desc:'Theo mép bồn để kiểm tra khoảng cách đi bộ thực tế.',photo:'/gia-vien-duoc-thao-preview/assets/IMG20260606141242.jpg',fit:'cover',hotspots:[]},
-  {id:7,name:'Trạm 8 · Khung cận bồn dưới cổng',desc:'Tái khung ảnh thật để nhìn sâu vào tầng cây thấp.',photo:'/gia-vien-duoc-thao-preview/assets/IMG_2750.jpg',fit:'cover',zoom:1.18,focusY:.68,hotspots:[
-    {plantId:'plant-sả',x:.68,y:.67}
+  {id:3,name:'Trạm 4 · Phải sân',desc:'Chậu đỏ, hàng bồn đen, đèn trụ và ghế đá cuối sân.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-phai.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-sa',x:.665,y:.60},{plantId:'plant-bacha',x:.07,y:.80}
   ]},
-  {id:8,name:'Trạm 9 · Mảng cây và giá bên phải',desc:'Tái khung ảnh thật để rà nhóm cây lá lớn và cấu trúc giá.',photo:'/gia-vien-duoc-thao-preview/assets/IMG_2837.jpg',fit:'cover',zoom:1.12,focusY:.58,hotspots:[
-    {plantId:'plant-zing',x:.34,y:.61}
-  ]},
-  {id:9,name:'Trạm 10 · Cuối vườn',desc:'Kết thúc tuyến ở tường tranh và bảng danh sách.',photo:'/gia-vien-duoc-thao-preview/assets/20260517_064533.jpg',fit:'cover',hotspots:[]}
+  {id:4,name:'Trạm 5 · Trước tường tranh',desc:'Góc rộng về phía giàn và tường tranh phong cảnh.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-26-truoc-tuong.jpg',fit:'contain',hotspots:[]},
+  {id:5,name:'Trạm 6 · Dọc tường',desc:'Đi dọc hàng bồn sát tường; cây lá vằn ở góc phải.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-luoiho',x:.93,y:.78}
+  ]}
 ];
 
 let mode='photo';
@@ -529,7 +523,7 @@ function setMode(next){
     mainSub.textContent='Giữ đúng cảnh quan thật để làm chuẩn cho mô phỏng và gắn QR/số cây về sau.';
     statusText.textContent='Đang ở chế độ ảnh thật';
   } else {
-    mainTitle.textContent='Khám phá thực cảnh · 10 trạm và hotspot cây';
+    mainTitle.textContent='Khám phá thực cảnh · 6 trạm và hotspot cây';
     mainSub.textContent='Mỗi trạm dùng ảnh thật không có người làm nền; lớp 2.5D chỉ đảm nhiệm camera, hotspot, nhiệm vụ và điều hướng.';
     statusText.textContent='Đang ở chế độ khám phá thực cảnh';
     drawScene();
