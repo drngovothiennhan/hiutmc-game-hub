@@ -1015,7 +1015,12 @@ renderPhotoMode();
 renderPlantList();
 renderSelectedPlant();
 updateQuestUI();
-setMode('photo');
+(function(){
+  let m='photo';
+  try{ const q=new URLSearchParams(location.search).get('mode')||location.hash.replace('#',''); if(['fp','3d'].includes(q)) m='fp'; else if(q==='sim') m='sim'; }catch(e){}
+  setMode(m);
+  if(m!=='photo'){ try{ document.querySelector('.stage').scrollIntoView({block:'start'}); }catch(e){} }
+})();
 </script>
 </body>
 </html>
