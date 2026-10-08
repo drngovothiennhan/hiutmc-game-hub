@@ -1,6 +1,4 @@
-const APP_PREFIX = globalThis.window?.__HIUTMC_APP_PREFIX || '';
-const src = path => APP_PREFIX + path;
-const { diagnosisGroups, buildAnswers, esc, messageForCoreCode, toggleSelected } = await import(src('/src/can-lam-sang/core/ui-helpers.mjs'));
+import { diagnosisGroups, buildAnswers, esc, messageForCoreCode, toggleSelected } from '../../src/can-lam-sang/core/ui-helpers.mjs';
 
 function reviewLabel(item) {
   return item?.review_label ? '<span class="cls-review-label" data-review-label>'+esc(item.review_label)+'</span>' : '';

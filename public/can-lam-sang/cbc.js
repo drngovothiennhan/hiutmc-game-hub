@@ -1,7 +1,5 @@
-const APP_PREFIX = globalThis.window?.__HIUTMC_APP_PREFIX || '';
-const src = path => APP_PREFIX + path;
-const { INDICES, PROFILES } = await import(src('/src/can-lam-sang/cbc/generator.mjs'));
-const { convertProfileValue, profileUnit, messageForCode } = await import(src('/src/can-lam-sang/cbc/ui-helpers.mjs'));
+import { INDICES, PROFILES } from '../../src/can-lam-sang/cbc/generator.mjs';
+import { convertProfileValue, profileUnit, messageForCode } from '../../src/can-lam-sang/cbc/ui-helpers.mjs';
 
 const LEVEL='co_ban';
 const LEVEL_LABELS={co_ban:'Cơ bản',trung_binh:'Trung bình',nang_cao:'Nâng cao'};
