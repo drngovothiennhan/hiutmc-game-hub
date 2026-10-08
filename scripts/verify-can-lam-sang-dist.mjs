@@ -23,6 +23,18 @@ for(const name of js){
     }
   }
 }
+// The entry page lives at /can-lam-sang/. A relative src such as "can-lam-sang/bootstrap.js"
+// resolves to /can-lam-sang/can-lam-sang/bootstrap.js (404) and leaves the room stuck on its
+// loading text, so every script src must resolve to a file that really exists in dist.
+const entryHtml=await readFile(path.join(root,'index.html'),'utf8');
+const scriptSrcs=[...entryHtml.matchAll(/<script[^>]*\ssrc=["']([^"']+)["']/g)].map(m=>m[1]);
+assert.ok(scriptSrcs.length>0,'dist/can-lam-sang/index.html must load a script');
+for(const src of scriptSrcs){
+  const pathname=new URL(src,'https://example.test/can-lam-sang/').pathname;
+  let found=true;
+  try{await stat(path.resolve('dist','.'+pathname))}catch{found=false}
+  assert.ok(found,`entry page script does not resolve from /can-lam-sang/: ${src} -> ${pathname}`);
+}
 const bootstrap=await readFile(path.join(root,'bootstrap.js'),'utf8');
 assert.match(bootstrap,/import\(["'][^"']*chunk-[^"']+\.js["']\)/,'bootstrap must dynamically import a chunk');
 assert.doesNotMatch(bootstrap,/function mountCBC|const mountCBC|export \{ mountCBC/,'CBC implementation must remain in a separate chunk');
