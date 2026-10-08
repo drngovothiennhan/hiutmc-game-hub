@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hiutmc.com/schemas/can-lam-sang/case-bundle.v1.schema.json",
+  "title": "HIU TMC Clinical Lab Public CaseBundle v1 (choice-enabled)",
+  "description": "Public whitelist-only case payload. It MUST NOT contain answer keys, grading markers, teaching answers, source metadata, or hidden scoring semantics. Choices contain text only; no grading or answer semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "data_origin",
+    "review_status",
+    "title",
+    "setting",
+    "level",
+    "track",
+    "mode",
+    "demographics",
+    "presentation",
+    "vitals",
+    "history",
+    "examination",
+    "investigations",
+    "choices"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{2,80}$"
+    },
+    "data_origin": {
+      "enum": [
+        "synthetic",
+        "anonymized"
+      ]
+    },
+    "review_status": {
+      "enum": [
+        "CHUA_DUYET",
+        "DA_DUYET"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "setting": {
+      "enum": [
+        "capcuu",
+        "giuong",
+        "phongkham",
+        "chamcuu"
+      ]
+    },
+    "level": {
+      "enum": [
+        "Dễ",
+        "Trung bình",
+        "Khó"
+      ]
+    },
+    "track": {
+      "enum": [
+        "noi",
+        "ngoai",
+        "yhct",
+        "khac"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "tay",
+        "dongtay"
+      ]
+    },
+    "demographics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "age",
+        "sex",
+        "patient_label"
+      ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "sex": {
+          "enum": [
+            "nam",
+            "nữ"
+          ]
+        },
+        "patient_label": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intro",
+        "place",
+        "clock",
+        "night"
+      ],
+      "properties": {
+        "intro": {
+          "type": "string",
+          "minLength": 1
+        },
+        "place": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "clock": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "night": {
+          "type": "boolean"
+        }
+      }
+    },
+    "vitals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hr",
+        "sbp",
+        "dbp",
+        "rr",
+        "temperature_c",
+        "spo2"
+      ],
+      "properties": {
+        "hr": {
+          "type": "number"
+        },
+        "sbp": {
+          "type": "number"
+        },
+        "dbp": {
+          "type": "number"
+        },
+        "rr": {
+          "type": "number"
+        },
+        "temperature_c": {
+          "type": "number"
+        },
+        "spo2": {
+          "type": "number"
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question",
+          "response"
+        ],
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "response": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "examination": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "group",
+          "item",
+          "finding"
+        ],
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "item": {
+            "type": "string"
+          },
+          "finding": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "investigations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "duration_minutes",
+          "result"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "duration_minutes": {
+            "type": "number",
+            "minimum": 0
+          },
+          "result": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "choices": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "diagnosis",
+        "actions"
+      ],
+      "properties": {
+        "diagnosis": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "specialty": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

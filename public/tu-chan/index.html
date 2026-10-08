@@ -1141,9 +1141,7 @@ function bedSide() {
 const bedBlanket = () => `<path d="M76 212 Q80 196 100 196 Q116 195 140 192 L196 191 Q210 190 214 201 L214 226 L76 226 Z" fill="#F7FAFF" ${OLN}/><path d="M84 207 Q110 202 140 204 L212 205" fill="none" stroke="#4D86D6" stroke-width="3" opacity=".8"/><path d="M168 193 Q176 206 172 224" fill="none" stroke="#C9D4E6" stroke-width="1.6"/>`;
 /* Giường nội trú: 60 ảnh vẽ nguyên cảnh (6 bệnh nhân × 10 trạng thái), nhìn ngang. Ảnh lỗi dùng lại giường vẽ bằng code */
 const BED_OLD = [];
-/* ảnh giường còn thiếu: dùng ảnh trạng thái gần nhất thay vì giường ghép bằng mã */
-const BED_ALIAS = { 'nam_gia-2': 'nam_gia-1' };
-const bedKey = () => { const k = patArt(S.c) + '-' + (patPick() + 1); return BED_ALIAS[k] || k; };
+const bedKey = () => patArt(S.c) + '-' + (patPick() + 1);
 /* người lớn: đầu bệnh nhân cỡ đầu bác sĩ, giường lớn hơn và bác sĩ lùi sang phải; trẻ em: giường nhỏ hơn */
 const bedW = () => (S.c.age < 12 ? 206 : 256), bedH = () => bedW() * 467 / 760;
 function sceneBed(kind, n) {
