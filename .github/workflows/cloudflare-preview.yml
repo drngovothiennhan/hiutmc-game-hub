@@ -161,8 +161,8 @@ jobs:
           if (!offText.includes("Phòng Cận Lâm Sàng hiện chưa mở")) throw new Error("Flag-off gate was not shown");
           flagEnabled = true;
           await page.reload({ waitUntil: "networkidle", timeout: 60000 });
-          await page.getByRole("button", { name: "Phòng CBC" }).waitFor({ state: "visible", timeout: 15000 });
-          await page.getByRole("button", { name: "Phòng CBC" }).click();
+          await page.getByRole("button", { name: "Đọc xét nghiệm máu" }).waitFor({ state: "visible", timeout: 15000 });
+          await page.getByRole("button", { name: "Đọc xét nghiệm máu" }).click();
           await page.locator("table tbody tr").nth(12).waitFor({ state: "visible", timeout: 15000 });
           const rows = await page.locator("table tbody tr").count();
           if (rows !== 13) throw new Error("Expected 13 CBC rows, got " + rows);
