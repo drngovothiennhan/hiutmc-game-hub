@@ -150,77 +150,54 @@ dialog.gv .row button{border:1px solid var(--line);background:#244038;color:#f5f
 dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#10211b;border:1px solid var(--gold);color:#f4e3bf;padding:10px 16px;border-radius:999px;font-size:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
 .toast.on{opacity:1}
+
+/* ---- Bố cục gọn: thanh trên + sân khấu + bảng phải có tab ---- */
+.app{grid-template-columns:minmax(0,1fr) 360px;grid-template-rows:auto 1fr;align-items:start}
+.bar{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:10px 14px;flex-wrap:wrap}
+.bar .mark{width:36px;height:36px;border-radius:11px;font-size:17px}
+.bar .brand h1{font-size:17px}
+.seg{display:flex;gap:6px;margin:0 auto}
+.seg button{padding:8px 14px}
+.score-pill{display:flex;align-items:baseline;gap:6px;padding:6px 12px;border-radius:999px;background:#21362f;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.score-pill b{color:#f2d79c;font-size:16px}
+.score-pill span:first-child{color:#d9ebe1}
+.titleblock h2{font-size:18px}
+.titleblock p{font-size:13px}
+.titleblock p:empty{display:none}
+.stage{min-height:min(62vh,560px)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.footer-note{display:block;min-height:0;font-size:13px;color:var(--muted)}
+.right{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;gap:12px}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.tab{flex:1;border:1px solid var(--line);background:transparent;color:var(--muted);padding:8px 6px;border-radius:10px;cursor:pointer;font-size:14px}
+.tab small{color:var(--muted);font-size:12px}
+.tab.active{background:#244038;color:#f5fbf7;border-color:rgba(216,177,108,.5)}
+.pane{display:none}.pane.active{display:block}
+#selectedPanel{margin-top:12px}
+#selectedPanel:empty{display:none}
+@media (max-width:1000px){.bar{order:-2}.app{grid-template-columns:1fr}.right{position:static;max-height:none}.seg{margin:0}.bar{justify-content:space-between}}
+@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}.stage{min-height:56vh}.controls button{flex:1 1 30%;padding:9px 6px;font-size:13px}}
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="left panel">
-    <div class="brand">
-      <div class="mark">GV</div>
-      <div>
-        <h1>Gia Viên Dược Thảo</h1>
-        <p>Hạ tầng preview v2 · ưu tiên cảnh quan thật, cách chơi, góc nhìn, định danh tạm</p>
-      </div>
+  <header class="bar panel">
+    <div class="brand"><div class="mark">GV</div><h1>Gia Viên Dược Thảo</h1></div>
+    <div class="mode-buttons seg" role="tablist" aria-label="Chế độ xem">
+      <button id="btnPhoto" class="active">Ảnh thật</button>
+      <button id="btnSim">Khám phá 6 trạm</button>
+      <button id="btnFp">Góc nhìn 3D</button>
     </div>
-
-    <div class="chiprow">
-      <span class="chip">Không dùng ảnh có người</span>
-      <span class="chip">Sẵn cho QR + số thứ tự sau</span>
-      <span class="chip">15 góc ảnh thật</span>
-      <span class="chip">6 trạm 3D góc nhìn thứ nhất</span>
-    </div>
-
-    <div class="card">
-      <h3>Chế độ</h3>
-      <div class="mode-buttons">
-        <button id="btnPhoto" class="active">Ảnh thật</button>
-        <button id="btnSim">Khám phá thực cảnh</button>
-        <button id="btnFp" class="span2">Góc nhìn thứ nhất 3D</button>
-      </div>
-      <p>Ảnh thật để giữ đúng cảnh quan. Chế độ 2.5D để kiểm tra trước cách chơi, góc nhìn và logic tương tác của khu vườn.</p>
-    </div>
-
-    <div class="card">
-      <h3>Luồng chơi đã hoàn thiện</h3>
-      <p>1) Quan sát 15 khung ảnh thật → 2) vào tuyến 6 trạm thực cảnh → 3) di chuyển theo lối đi → 4) đổi góc nhìn → 5) chạm hotspot → 6) làm nhiệm vụ định danh tạm.</p>
-      <div class="legend">
-        <span><i class="dot" style="background:#d8b16c"></i>hotspot cây</span>
-        <span><i class="dot" style="background:#7ccaf2"></i>vị trí người học</span>
-        <span><i class="dot" style="background:#6dbf78"></i>cây đã tìm đúng</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Bản đồ bố cục</h3>
-      <div class="mapbox" id="miniMap">
-        <div class="lane"></div>
-        <div class="rack"></div>
-        <div class="bed b1"></div><div class="bed b2"></div><div class="bed b3"></div>
-        <div class="bed b4"></div><div class="bed b5"></div>
-        <div class="label" style="left:36%;top:2%">Cổng + bảng tên</div>
-        <div class="label" style="right:4%;top:6%">Giá tường phải</div>
-        <div class="label" style="left:8%;top:76%">Cụm chậu trái</div>
-        <div class="label" style="right:7%;top:82%">Cuối vườn</div>
-        <div class="p" id="mapP1" style="left:47%;top:19%"></div>
-        <div class="p" id="mapP2" style="left:71%;top:34%"></div>
-        <div class="p" id="mapP3" style="left:70%;top:49%"></div>
-        <div class="p" id="mapP4" style="left:29%;top:56%"></div>
-        <div class="p you" id="youDot" style="left:48%;top:86%"></div>
-      </div>
-      <p>Cấu trúc hiện bám những gì đã thấy trong ảnh: khung mái đen, lối đi hẹp giữa, bồn dài hai bên, mảng chậu treo và giá cây đứng bên phải.</p>
-    </div>
-  </aside>
+    <div class="score-pill" title="Điểm và hạng lưu trên thiết bị này"><span id="barRank">Khách tham quan</span><b id="barPts">0</b><span>điểm</span></div>
+  </header>
 
   <main class="main panel">
     <div class="topbar">
       <div class="titleblock">
-        <h2 id="mainTitle">Tham quan ảnh thật không dính người</h2>
-        <p id="mainSub">Ưu tiên giữ đúng bố trí khu vườn để làm nền cho các bước gắn QR, số thứ tự và danh mục cây ở giai đoạn sau.</p>
+        <h2 id="mainTitle">Ảnh thật</h2>
+        <p id="mainSub"></p>
       </div>
-      <div class="chiprow">
-        <span class="chip" id="modeReadout">Mode: Ảnh thật</span>
-        <span class="chip" id="questReadout">Nhiệm vụ: đang chờ</span>
-      </div>
+      <span id="modeReadout" hidden></span><span id="questReadout" hidden></span>
     </div>
 
     <section class="stage">
@@ -268,58 +245,46 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
     </section>
 
     <div class="controls">
-      <button id="backBtn">◀ Lùi cảnh</button>
-      <button id="leftBtn">↺ Nhìn trái</button>
-      <button id="focusBtn" class="primary">Tự động tới điểm nóng</button>
-      <button id="rightBtn">↻ Nhìn phải</button>
-      <button id="nextBtn">Tiến cảnh ▶</button>
+      <button id="backBtn">◀ Lùi</button>
+      <button id="leftBtn">↺ Trái</button>
+      <button id="focusBtn" class="primary">Tới điểm nóng</button>
+      <button id="rightBtn">↻ Phải</button>
+      <button id="nextBtn">Tiến ▶</button>
     </div>
-
-    <div class="footer-note">
-      <div>Trạng thái preview: <strong id="statusText">Đang ở chế độ ảnh thật</strong></div>
-      <div>Hotspot đang chọn: <strong id="selectedText">chưa chọn</strong></div>
-    </div>
+    <div class="footer-note"><div id="statusLine"><strong id="statusText"></strong></div><span id="selectedText" hidden></span></div>
   </main>
 
   <aside class="right panel">
-    <div class="card" id="journeyCard">
-      <div class="jr-head"><h3 style="margin:0">Hành trình người giữ vườn</h3><span class="jr-rank" id="jrRank">Khách tham quan</span></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="quest" role="tab">Nhiệm vụ</button>
+      <button class="tab" data-tab="book" role="tab">Sổ cây <small id="herbCount"></small></button>
+      <button class="tab" data-tab="journey" role="tab">Hành trình</button>
+    </nav>
+
+    <section class="pane active" id="pane-quest">
+      <div class="progress"><div id="questBar"></div></div>
+      <div class="list" id="questList" style="margin-top:12px"></div>
+      <div class="quiz-actions">
+        <button class="primary" id="markAnswerBtn">Chọn làm đáp án</button>
+        <button id="resetQuestBtn">Làm lại</button>
+      </div>
+      <div id="selectedPanel"></div>
+    </section>
+
+    <section class="pane" id="pane-book">
+      <div class="herb" id="herbGrid"></div>
+      <div class="quiz-actions" style="margin-top:12px"><button class="primary" id="faceBtn">Nhận mặt cây</button><button id="catBtn">Danh mục 70 số</button></div>
+      <p class="jr-note">Tên cây là định danh tạm, chờ danh mục chính thức và mã QR.</p>
+    </section>
+
+    <section class="pane" id="pane-journey">
+      <div class="jr-head"><span class="jr-rank" id="jrRank">Khách tham quan</span></div>
       <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><span class="jr-score" id="jrScore">0</span><span style="color:var(--muted);font-size:13px">/ <span id="jrMax">0</span> điểm</span></div>
       <div class="progress" style="margin-top:8px"><div id="jrBar"></div></div>
       <div id="jrChapters"></div>
       <div class="quiz-actions" style="margin-top:12px"><button id="jrReset">Chơi lại từ đầu</button></div>
-      <p class="jr-note">Tiến trình đang lưu trên thiết bị này. Chưa ghi vào Study OS, chưa có tín dụng hay phần thưởng thật.</p>
-    </div>
-
-    <div class="card">
-      <h3>Sổ thẻ cây <span style="color:var(--muted);font-weight:400;font-size:13px" id="herbCount"></span></h3>
-      <div class="herb" id="herbGrid"></div>
-      <div class="quiz-actions" style="margin-top:10px"><button id="faceBtn">Nhận mặt cây</button> <button id="catBtn">Danh mục bảng cây (70 số)</button></div>
-      <p class="jr-note">Danh mục đọc bằng AI từ ảnh bảng trong vườn (12/09), chưa đọc hết. Tên cây trong game còn là định danh tạm, chờ danh mục chính thức và mã QR.</p>
-    </div>
-
-    <div class="card">
-      <h3>Nhiệm vụ định danh</h3>
-      <div class="progress"><div id="questBar"></div></div>
-      <div class="list" id="questList" style="margin-top:12px"></div>
-      <div class="quiz-actions">
-        <button class="primary" id="markAnswerBtn">Đánh dấu cây đang chọn là đáp án</button>
-        <button id="resetQuestBtn">Làm lại nhiệm vụ</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Cây đang chọn</h3>
-      <div id="selectedPanel">
-        <p>Chưa chọn cây nào. Hãy chuyển sang <strong>Khám phá 2.5D</strong> rồi bấm vào các điểm vàng.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Định danh tạm đã rà trước</h3>
-      <div class="list" id="plantList"></div>
-      <p style="margin-top:10px">Đây là danh sách tạm để chuẩn bị cho bước sau: bạn sẽ cung cấp danh mục chính thức, mã QR và số thứ tự để gắn lại chính xác.</p>
-    </div>
+      <p class="jr-note">Điểm lưu trên thiết bị này, chưa ghi vào Study OS.</p>
+    </section>
   </aside>
 </div>
 
@@ -421,7 +386,6 @@ const cameraTag=document.getElementById('cameraTag');
 const questList=document.getElementById('questList');
 const questBar=document.getElementById('questBar');
 const questReadout=document.getElementById('questReadout');
-const youDot=document.getElementById('youDot');
 const canvas=document.getElementById('simCanvas');
 const ctx=canvas.getContext('2d');
 const backBtn=document.getElementById('backBtn');
@@ -495,13 +459,14 @@ function renderPhotoMode(){
   thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}" aria-label="${ph.title}"><img src="${thumbSrc(ph.src)}" data-orig="${ph.src}" alt="" loading="lazy" decoding="async"><span>${i+1}. ${ph.title}</span></button>`).join('');
   thumbs.querySelectorAll('.thumb img').forEach(im=>im.onerror=()=>{im.onerror=null;im.src=im.dataset.orig;});
   thumbs.querySelectorAll('.thumb').forEach(btn=>btn.onclick=()=>{photoIndex=+btn.dataset.i;renderPhotoMode()});
-  thumbs.querySelector('.thumb.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  if(window.__thumbsReady) thumbs.querySelector('.thumb.active')?.scrollIntoView({block:'nearest',inline:'nearest'}); window.__thumbsReady=true;
   // Tải trước ảnh kế bên để vuốt trái/phải không bị chờ.
   [photoIndex+1,photoIndex-1].forEach(i=>loadPhoto(photos[(i+photos.length)%photos.length].src).catch(()=>{}));
 }
 window.addEventListener('resize',()=>{if(mode==='photo')layoutHero();});
 
 function renderPlantList(){
+  if(!plantList) return;
   plantList.innerHTML=plants.map(p=>{
     const badgeClass=p.kind==='slot'?'badge warn':p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
     const badgeText=p.kind==='slot'?'Chờ tên':Math.round(p.confidence*100)+'%';
@@ -515,7 +480,7 @@ function renderPlantList(){
 }
 
 function renderSelectedPlant(){
-  if(!selectedPlantId){selectedPanel.innerHTML='<p>Chưa chọn cây nào. Hãy chuyển sang <strong>Khám phá thực cảnh</strong> rồi bấm vào các hotspot.</p>'; selectedText.textContent='chưa chọn'; return;}
+  if(!selectedPlantId){selectedPanel.innerHTML='<p>Chưa chọn cây nào. Chuyển sang <strong>Khám phá 6 trạm</strong> rồi chạm điểm vàng.</p>'; selectedText.textContent='chưa chọn'; return;}
   const p=byId(selectedPlantId);
   const badgeClass=p.kind==='slot'?'badge warn':p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
   const confidenceLine=p.kind==='slot'
@@ -552,6 +517,7 @@ function updateQuestUI(){
 }
 
 function setMode(next){
+  try{ focusBtn.style.display=(next==='sim')?'':'none'; }catch(e){}
   mode=next;
   const isPhoto=mode==='photo', isFp=mode==='fp';
   photoStage.classList.toggle('active',isPhoto);
@@ -563,21 +529,21 @@ function setMode(next){
   btnFp.classList.toggle('active',isFp);
   modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isFp?'Góc nhìn thứ nhất 3D':'Khám phá 2.5D'}`;
   if(isFp){
-    mainTitle.textContent='Góc nhìn thứ nhất 3D · đứng giữa khu vườn thật';
-    mainSub.textContent='Ảnh thật được ghép toàn cảnh và đặt quanh người xem theo đúng tiêu cự máy chụp. Kéo để nhìn quanh, chụm/cuộn để phóng, chạm mũi tên để bước sang trạm kế.';
-    statusText.textContent='Đang ở chế độ góc nhìn thứ nhất';
+    mainTitle.textContent='Góc nhìn 3D · đứng giữa vườn';
+    mainSub.textContent='Kéo để nhìn quanh, chụm hoặc cuộn để phóng to, bấm mũi tên để sang trạm khác.';
+    statusText.textContent='';
     fp.start();
     return;
   }
   fp.stop();
   if(isPhoto){
-    mainTitle.textContent='Tham quan ảnh thật không dính người';
-    mainSub.textContent='Giữ đúng cảnh quan thật để làm chuẩn cho mô phỏng và gắn QR/số cây về sau.';
-    statusText.textContent='Đang ở chế độ ảnh thật';
+    mainTitle.textContent='Ảnh thật';
+    mainSub.textContent='';
+    statusText.textContent='';
   } else {
-    mainTitle.textContent='Khám phá thực cảnh · 6 trạm và hotspot cây';
-    mainSub.textContent='Mỗi trạm dùng ảnh thật không có người làm nền; lớp 2.5D chỉ đảm nhiệm camera, hotspot, nhiệm vụ và điều hướng.';
-    statusText.textContent='Đang ở chế độ khám phá thực cảnh';
+    mainTitle.textContent='Khám phá 6 trạm';
+    mainSub.textContent='Chạm điểm vàng để tìm đúng cây của nhiệm vụ.';
+    statusText.textContent='';
     drawScene();
   }
 }
@@ -778,7 +744,7 @@ function goToPlant(pid){
 }
 function updateMapDot(){
   const positions=['88%','80%','70%','61%','53%','45%','38%','31%','23%','15%'];
-  youDot.style.top=positions[sceneIndex]||'84%';
+  
 }
 
 function moveScene(delta){
@@ -1186,6 +1152,7 @@ function gvRender(){
   document.getElementById('jrScore').textContent=gvState.score;
   document.getElementById('jrMax').textContent=GV_MAX;
   document.getElementById('jrRank').textContent=gvRank();
+  document.getElementById('barRank').textContent=gvRank(); document.getElementById('barPts').textContent=gvState.score;
   document.getElementById('jrBar').style.width=Math.min(100,gvState.score/GV_MAX*100)+'%';
   const nowFp=fpStations.filter(x=>x.era==='now');
   const m=(done,txt)=>`<div class="jr-m ${done?'done':''}"><i>${done?'✓':''}</i><span>${txt}</span></div>`;
@@ -1208,7 +1175,7 @@ function gvRender(){
     return open?`<div class="herb-card"><strong>${p.name}</strong>${p.code}<br>${p.title}<span class="tag">${p.status} · ${Math.round(p.confidence*100)}%</span></div>`
                :`<div class="herb-card locked"><strong>?</strong>Chưa mở thẻ</div>`;
   }).join('');
-  document.getElementById('herbCount').textContent=`${plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length}/${plants.length}`;
+  document.getElementById('herbCount').textContent=`${plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length+faceCards.filter(c=>gvFaceDone(c.id)).length}/${plants.length+faceCards.length}`;
 }
 document.getElementById('jrReset').onclick=()=>{
   if(!confirm('Xoá tiến trình trên thiết bị này và chơi lại từ đầu?')) return;
@@ -1252,6 +1219,11 @@ function gvOpenCatalog(){
 }
 document.getElementById('catBtn').onclick=gvOpenCatalog;
 document.getElementById('faceBtn').onclick=gvFaceNext;
+
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
+  document.querySelectorAll('.pane').forEach(x=>x.classList.toggle('active',x.id==='pane-'+t.dataset.tab));
+});
 gvLoad();
 questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
 currentQuestId=(quests.find(q=>!questProgress.has(q.id))||quests[0]).id;
