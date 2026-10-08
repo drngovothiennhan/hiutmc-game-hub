@@ -20,6 +20,14 @@ async function rpc(name, body={}) {
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function gate(text,error=false){root.innerHTML='<div class="cls-notice '+(error?'cls-error':'')+'">'+esc(text)+'</div>';}
 
+// Navigation: each module is one history step. "Back" (in-app or browser) returns to the room
+// home one step at a time instead of leaving the room or the page.
+let depth=0;
+history.replaceState({clsDepth:0},'');
+function enter(open){depth+=1;history.pushState({clsDepth:depth},'');return open();}
+function leave(){if(depth>0)history.back();else home();}
+window.addEventListener('popstate',e=>{const d=e.state?.clsDepth??0;depth=d;if(d===0)home();});
+
 function home() {
   root.innerHTML='<div class="cls-home"><div class="cls-header"><div class="cls-muted">HIU TMC · Phòng Cận Lâm Sàng</div><h1>Phòng Cận Lâm Sàng</h1><p>Chọn khu thực hành học tập.</p></div>'+
     '<div class="cls-entry-grid">'+
@@ -27,9 +35,9 @@ function home() {
       '<button type="button" class="cls-entry" id="open-aus"><strong>Nghe tim &amp; phổi 3D</strong><span>Nghe âm tim, âm phổi tại các điểm trên mô hình 3D lồng ngực và nhận diện tiếng bất thường.</span></button>'+
       '<button type="button" class="cls-entry" id="open-core"><strong>Ca bệnh lõi</strong><span>Danh sách 156 ca mô phỏng, chọn đáp án và xem giải thích sau khi nộp.</span></button>'+
     '</div></div>';
-  root.querySelector('#open-cbc').onclick=async()=>{const {mountCBC}=await import('./cbc.js');await mountCBC(root,{rpc,onHome:home});};
-  root.querySelector('#open-aus').onclick=async()=>{const {mountAuscultation}=await import('./auscultation.js');await mountAuscultation(root,{rpc,onHome:home});};
-  root.querySelector('#open-core').onclick=async()=>{const {mountCore}=await import('./core.js');await mountCore(root,{rpc,onHome:home});};
+  root.querySelector('#open-cbc').onclick=()=>enter(async()=>{const {mountCBC}=await import('./cbc.js');await mountCBC(root,{rpc,onHome:leave});});
+  root.querySelector('#open-aus').onclick=()=>enter(async()=>{const {mountAuscultation}=await import('./auscultation.js');await mountAuscultation(root,{rpc,onHome:leave});});
+  root.querySelector('#open-core').onclick=()=>enter(async()=>{const {mountCore}=await import('./core.js');await mountCore(root,{rpc,onHome:leave});});
 }
 
 const session=await bootstrapSession();
