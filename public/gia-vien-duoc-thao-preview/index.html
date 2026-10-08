@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gia Viên Dược Thảo · hạ tầng preview v2</title>
+<style>
+:root{
+  --bg:#0f1a17; --panel:#162621; --panel2:#1e312c; --soft:#243c34; --line:rgba(255,255,255,.12);
+  --text:#eef6f1; --muted:#bfd2c8; --gold:#d8b16c; --green:#6dbf78; --red:#ff8c7a;
+  --shadow:0 14px 34px rgba(0,0,0,.26);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#11201b,#0b1311 70%);color:var(--text)}
+button,input,select{font:inherit}
+.app{display:grid;grid-template-columns:340px 1fr 340px;gap:16px;padding:16px;min-height:100%}
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.left,.right{padding:16px;display:flex;flex-direction:column;gap:14px}
+.brand{display:flex;gap:12px;align-items:center}
+.mark{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#ead7ab,#b38846);display:grid;place-items:center;color:#284438;font:700 24px Georgia,serif}
+.brand h1{margin:0;font-size:18px;line-height:1.2}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 10px;border-radius:999px;background:#21362f;border:1px solid var(--line);color:#d9ebe1;font-size:12px}
+.card{padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03)}
+.card h3,.card h4{margin:0 0 10px}
+.card p{margin:8px 0;color:var(--muted);line-height:1.45}
+.mode-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mode-buttons button,.controls button,.quiz-actions button,.pillbtn{border:1px solid var(--line);background:#244038;color:#f5fbf7;padding:10px 12px;border-radius:12px;cursor:pointer}
+.mode-buttons button.active,.controls button.primary,.quiz-actions button.primary,.pillbtn.active{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
+.mode-buttons button:hover,.controls button:hover,.quiz-actions button:hover,.pillbtn:hover{filter:brightness(1.05)}
+.main{display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:16px;min-width:0}
+.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.titleblock h2{margin:0;font-size:22px}
+.titleblock p{margin:4px 0 0;color:var(--muted)}
+.stage{position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line);background:#0d1614;min-height:560px}
+#photoStage,#simStage{position:absolute;inset:0;display:none}
+#photoStage.active{display:flex;flex-direction:column;position:relative;inset:auto}
+#simStage.active{display:block}
+/* Góc nhìn thứ nhất 3D: ảnh thật đặt trên mặt trụ/cầu quanh người xem (WebGL) */
+#fpStage{position:absolute;inset:0;display:none;background:#08100d;touch-action:none;user-select:none;-webkit-user-select:none}
+#fpStage.active{display:block}
+#fpCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+#fpCanvas:active{cursor:grabbing}
+.mode-buttons .span2{grid-column:1/-1}
+.fp-hud{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start;pointer-events:none}
+.fp-hud .scene-pill{max-width:70%}
+.fp-badges{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.fp-date,.fp-compass{padding:5px 9px;border-radius:999px;background:rgba(7,12,10,.72);border:1px solid var(--line);font-size:12px;white-space:nowrap}
+.fp-date.now{background:#22453c;color:#def5e4}
+.fp-date.old{background:#5a4522;color:#fff1d1}
+.fp-links{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fp-link{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;border:2px solid rgba(255,255,255,.9);background:rgba(216,177,108,.92);color:#183028;font-weight:700;font-size:12px;padding:8px 12px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.4);cursor:pointer;white-space:nowrap}
+.fp-link[data-dir="up"]::before{content:'⬆ '}
+.fp-link[data-dir="left"]::before{content:'◀ '}
+.fp-link[data-dir="right"]::after{content:' ▶'}
+.fp-link[data-dir="left"],.fp-link[data-dir="right"]{background:rgba(7,12,10,.8);color:#f4e3bf;border-color:var(--gold)}
+.fp-status{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;color:#e4eee8;font-size:14px;pointer-events:none}
+.fp-status.show{display:grid}
+.fp-fade{position:absolute;inset:0;background:#08100d;opacity:0;pointer-events:none;transition:opacity .28s ease}
+.fp-fade.on{opacity:1}
+.fp-tools{position:absolute;right:12px;bottom:104px;display:flex;gap:6px}
+.fp-tools button{border:1px solid var(--line);background:rgba(7,12,10,.78);color:#f5fbf7;border-radius:10px;padding:8px 11px;cursor:pointer;font-size:13px}
+.fp-tools button.on{background:var(--gold);color:#183028}
+.fp-strip{position:absolute;left:10px;right:10px;bottom:10px;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.fp-strip button{flex:0 0 118px;position:relative;border:2px solid transparent;border-radius:12px;overflow:hidden;padding:0;background:#10201b;cursor:pointer}
+.fp-strip button.active{border-color:var(--gold)}
+.fp-strip img{display:block;width:100%;height:62px;object-fit:cover}
+.fp-strip span{position:absolute;left:4px;right:4px;bottom:4px;font-size:10px;line-height:1.25;color:#f4fbf6;background:rgba(0,0,0,.66);padding:2px 5px;border-radius:6px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Khung ảnh thật: hiển thị TRỌN ảnh (contain), không phủ lớp tối, không che chú thích lên ảnh */
+.photo-frame{position:relative;height:clamp(300px,58vh,600px);overflow:hidden;background:#0a120f}
+.hero-blur{position:absolute;inset:-24px;background-size:cover;background-position:center;filter:blur(18px) brightness(.45);transform:translateZ(0)}
+.hero{position:absolute;inset:0;background-size:contain;background-position:center;background-repeat:no-repeat}
+.photo-status{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;color:#e4eee8;font-size:14px}
+.photo-status.show{display:grid}
+.frame-count{position:absolute;right:10px;top:10px;padding:5px 9px;border-radius:999px;background:rgba(7,12,10,.72);border:1px solid var(--line);font-size:12px}
+.photo-ui{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:12px}
+.caption{padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px}
+.caption h3{margin:0 0 6px;font-size:20px}
+.caption p{margin:0 0 8px;color:#e4eee8;line-height:1.5}
+.thumbs{display:flex;gap:9px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:3px 2px 8px;scrollbar-width:thin}
+.thumb{position:relative;flex:0 0 142px;scroll-snap-align:start;border-radius:14px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#10201b}
+.thumb.active{border-color:var(--gold)}
+.thumb img{display:block;width:100%;height:82px;object-fit:cover}
+.thumb span{position:absolute;left:6px;bottom:6px;right:6px;font-size:11px;line-height:1.3;color:#f4fbf6;text-align:left;background:rgba(0,0,0,.66);padding:4px 6px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Canvas giữ đúng tỉ lệ 16:9 của bộ đệm vẽ để ảnh thật không bị bóp méo */
+.canvas-wrap{position:absolute;inset:0;padding:10px;display:flex;align-items:center;justify-content:center}
+#simCanvas{width:100%;height:auto;max-height:100%;aspect-ratio:16/9;object-fit:contain;display:block;border-radius:16px;background:#07100d}
+.hud{position:absolute;inset:18px 18px auto 18px;display:flex;justify-content:space-between;gap:12px;pointer-events:none}
+.hud .tag,.scene-pill{pointer-events:auto;padding:10px 12px;border-radius:14px;background:rgba(7,12,10,.72);backdrop-filter:blur(10px);border:1px solid var(--line)}
+.scene-pill strong{display:block;font-size:14px}
+.scene-pill span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px 0 4px}
+.controls .spacer{flex:1}
+.legend{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.list{display:flex;flex-direction:column;gap:10px}
+.plant-item,.quest-item{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);cursor:pointer}
+.plant-item.active,.quest-item.active{outline:2px solid rgba(216,177,108,.55);background:rgba(216,177,108,.08)}
+.plant-item small,.quest-item small{display:block;color:var(--muted);margin-top:4px;line-height:1.45}
+.info-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.badge{padding:5px 9px;border-radius:999px;background:#22453c;border:1px solid var(--line);font-size:11px;color:#def5e4;white-space:nowrap}
+.badge.warn{color:#fff1d1;background:#5a4522}
+.badge.low{color:#ffd7cf;background:#5b2d25}
+.quiz-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.progress{height:12px;border-radius:999px;background:#0d1714;border:1px solid var(--line);overflow:hidden}
+.progress > div{height:100%;background:linear-gradient(90deg,#d8b16c,#6dbf78);width:0%}
+.footer-note{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.mapbox{height:150px;border-radius:14px;background:#10211d;border:1px solid var(--line);position:relative;overflow:hidden}
+.mapbox .lane{position:absolute;left:42%;width:16%;top:10%;bottom:10%;background:#8d8677;border-radius:8px}
+.mapbox .rack{position:absolute;right:18%;top:16%;bottom:16%;width:11%;background:#202a26;border-radius:8px}
+.mapbox .bed{position:absolute;left:16%;width:22%;height:12%;background:#2a332c;border-radius:8px}
+.mapbox .bed.b1{top:20%}.mapbox .bed.b2{top:38%}.mapbox .bed.b3{top:56%}
+.mapbox .bed.b4{right:16%;left:auto;top:26%;width:14%;height:10%}.mapbox .bed.b5{right:16%;left:auto;top:48%;width:14%;height:10%}
+.mapbox .label{position:absolute;font-size:11px;color:#dbeee5;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:6px}
+.mapbox .p{position:absolute;width:9px;height:9px;border-radius:50%;background:#d8b16c;border:2px solid #173127}
+.mapbox .you{background:#7ccaf2;width:12px;height:12px}
+.stage.fp{min-height:0;height:min(78vh,720px)}
+@media (max-width:640px){.fp-hud .scene-pill{max-width:62%;padding:7px 10px}.fp-hud .scene-pill strong{font-size:13px}.fp-hud .scene-pill span{display:none}.fp-tools{bottom:96px}.fp-strip button{flex-basis:104px}}
+@media (max-width:1200px){.app{grid-template-columns:300px 1fr}.right{grid-column:1/-1}.photo-ui{grid-template-columns:1fr}}
+@media (max-width:900px){.app{grid-template-columns:1fr;padding:10px}.main{order:-1}#simStage .hud{flex-direction:column;align-items:flex-start}.left,.right,.main{padding:14px}.stage{min-height:520px}.photo-ui{inset:auto 10px 10px 10px}.thumbs{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:640px){.stage{min-height:500px}.thumb img{height:62px}.photo-ui{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(2,1fr)}.caption h3{font-size:18px}}
+
+/* ===== Hành trình (game) ===== */
+.jr-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.jr-score{font:700 26px Georgia,serif;color:var(--gold)}
+.jr-rank{padding:4px 10px;border-radius:999px;background:#21362f;border:1px solid var(--gold);color:#f4e3bf;font-size:12px;font-weight:700}
+.jr-ch{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.jr-ch h4{margin:0 0 6px;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.jr-m{display:flex;gap:8px;align-items:flex-start;margin:6px 0;color:var(--muted);font-size:13px;line-height:1.35}
+.jr-m i{flex:0 0 18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:11px;color:#183028}
+.jr-m.done{color:#e9f6ee}.jr-m.done i{background:var(--green);border-color:var(--green)}
+.jr-note{font-size:12px;color:var(--muted);margin-top:10px}
+.herb{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.herb-card{border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(255,255,255,.04);font-size:12px;color:var(--muted)}
+.herb-card strong{display:block;color:#f4fbf6;font-size:14px;margin-bottom:2px}
+.herb-card.locked{opacity:.55;text-align:center;border-style:dashed}
+.herb-card .tag{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:999px;background:#21362f;font-size:11px}
+dialog.gv{border:1px solid var(--gold);border-radius:18px;background:#10211b;color:var(--text);padding:0;max-width:min(520px,92vw);width:100%}
+dialog.gv::backdrop{background:rgba(3,8,6,.7)}
+dialog.gv .in{padding:18px}
+dialog.gv h3{margin:0 0 6px}
+dialog.gv .opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px;border-radius:12px;border:1px solid var(--line);background:#1d3329;color:#f2faf5;cursor:pointer;font-size:15px}
+dialog.gv .opt.ok{background:#2f6b3d;border-color:var(--green)}
+dialog.gv .opt.bad{background:#6b2f2f;border-color:var(--red)}
+dialog.gv .opt:disabled{cursor:default}
+dialog.gv .fb{margin:10px 0;color:var(--muted);line-height:1.45}
+dialog.gv .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+dialog.gv .row button{border:1px solid var(--line);background:#244038;color:#f5fbf7;padding:10px 14px;border-radius:12px;cursor:pointer}
+dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#10211b;border:1px solid var(--gold);color:#f4e3bf;padding:10px 16px;border-radius:999px;font-size:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="left panel">
+    <div class="brand">
+      <div class="mark">GV</div>
+      <div>
+        <h1>Gia Viên Dược Thảo</h1>
+        <p>Hạ tầng preview v2 · ưu tiên cảnh quan thật, cách chơi, góc nhìn, định danh tạm</p>
+      </div>
+    </div>
+
+    <div class="chiprow">
+      <span class="chip">Không dùng ảnh có người</span>
+      <span class="chip">Sẵn cho QR + số thứ tự sau</span>
+      <span class="chip">11 góc ảnh thật</span>
+      <span class="chip">6 trạm 3D góc nhìn thứ nhất</span>
+    </div>
+
+    <div class="card">
+      <h3>Chế độ</h3>
+      <div class="mode-buttons">
+        <button id="btnPhoto" class="active">Ảnh thật</button>
+        <button id="btnSim">Khám phá thực cảnh</button>
+        <button id="btnFp" class="span2">Góc nhìn thứ nhất 3D</button>
+      </div>
+      <p>Ảnh thật để giữ đúng cảnh quan. Chế độ 2.5D để kiểm tra trước cách chơi, góc nhìn và logic tương tác của khu vườn.</p>
+    </div>
+
+    <div class="card">
+      <h3>Luồng chơi đã hoàn thiện</h3>
+      <p>1) Quan sát 11 khung ảnh thật → 2) vào tuyến 6 trạm thực cảnh → 3) di chuyển theo lối đi → 4) đổi góc nhìn → 5) chạm hotspot → 6) làm nhiệm vụ định danh tạm.</p>
+      <div class="legend">
+        <span><i class="dot" style="background:#d8b16c"></i>hotspot cây</span>
+        <span><i class="dot" style="background:#7ccaf2"></i>vị trí người học</span>
+        <span><i class="dot" style="background:#6dbf78"></i>cây đã tìm đúng</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Bản đồ bố cục</h3>
+      <div class="mapbox" id="miniMap">
+        <div class="lane"></div>
+        <div class="rack"></div>
+        <div class="bed b1"></div><div class="bed b2"></div><div class="bed b3"></div>
+        <div class="bed b4"></div><div class="bed b5"></div>
+        <div class="label" style="left:36%;top:2%">Cổng + bảng tên</div>
+        <div class="label" style="right:4%;top:6%">Giá tường phải</div>
+        <div class="label" style="left:8%;top:76%">Cụm chậu trái</div>
+        <div class="label" style="right:7%;top:82%">Cuối vườn</div>
+        <div class="p" id="mapP1" style="left:47%;top:19%"></div>
+        <div class="p" id="mapP2" style="left:71%;top:34%"></div>
+        <div class="p" id="mapP3" style="left:70%;top:49%"></div>
+        <div class="p" id="mapP4" style="left:29%;top:56%"></div>
+        <div class="p you" id="youDot" style="left:48%;top:86%"></div>
+      </div>
+      <p>Cấu trúc hiện bám những gì đã thấy trong ảnh: khung mái đen, lối đi hẹp giữa, bồn dài hai bên, mảng chậu treo và giá cây đứng bên phải.</p>
+    </div>
+  </aside>
+
+  <main class="main panel">
+    <div class="topbar">
+      <div class="titleblock">
+        <h2 id="mainTitle">Tham quan ảnh thật không dính người</h2>
+        <p id="mainSub">Ưu tiên giữ đúng bố trí khu vườn để làm nền cho các bước gắn QR, số thứ tự và danh mục cây ở giai đoạn sau.</p>
+      </div>
+      <div class="chiprow">
+        <span class="chip" id="modeReadout">Mode: Ảnh thật</span>
+        <span class="chip" id="questReadout">Nhiệm vụ: đang chờ</span>
+      </div>
+    </div>
+
+    <section class="stage">
+      <div id="photoStage" class="active">
+        <div class="photo-frame" id="photoFrame">
+          <div class="hero-blur" id="heroBlur"></div>
+          <div class="hero" id="heroImage" role="img"></div>
+          <div class="photo-status show" id="photoStatus">Đang tải ảnh thật…</div>
+          <div class="frame-count" id="frameCount"></div>
+        </div>
+        <div class="photo-ui">
+          <div class="caption">
+            <h3 id="photoTitle"></h3>
+            <p id="photoDesc"></p>
+            <div class="chiprow" id="photoTags"></div>
+          </div>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+      </div>
+
+      <div id="fpStage">
+        <canvas id="fpCanvas" aria-label="Góc nhìn thứ nhất 3D từ ảnh thật"></canvas>
+        <div class="fp-hud">
+          <div class="scene-pill"><strong id="fpName"></strong><span id="fpDesc"></span></div>
+          <div class="fp-badges"><span class="fp-date" id="fpDate"></span><span class="fp-compass" id="fpCompass">0°</span></div>
+        </div>
+        <div class="fp-links" id="fpLinks"></div>
+        <div class="fp-status" id="fpStatus">Đang tải ảnh toàn cảnh…</div>
+        <div class="fp-fade" id="fpFade"></div>
+        <div class="fp-tools">
+          <button id="fpGyro" title="Xoay điện thoại để nhìn">📱 Xoay máy</button>
+          <button id="fpZoomOut" title="Thu nhỏ">−</button>
+          <button id="fpZoomIn" title="Phóng to">+</button>
+        </div>
+        <div class="fp-strip" id="fpStrip"></div>
+      </div>
+
+      <div id="simStage">
+        <div class="canvas-wrap"><canvas id="simCanvas" width="1280" height="720"></canvas></div>
+        <div class="hud">
+          <div class="scene-pill"><strong id="sceneName"></strong><span id="sceneDesc"></span></div>
+          <div class="tag" id="cameraTag">Thực cảnh + hotspot 2.5D</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button id="backBtn">◀ Lùi cảnh</button>
+      <button id="leftBtn">↺ Nhìn trái</button>
+      <button id="focusBtn" class="primary">Tự động tới điểm nóng</button>
+      <button id="rightBtn">↻ Nhìn phải</button>
+      <button id="nextBtn">Tiến cảnh ▶</button>
+    </div>
+
+    <div class="footer-note">
+      <div>Trạng thái preview: <strong id="statusText">Đang ở chế độ ảnh thật</strong></div>
+      <div>Hotspot đang chọn: <strong id="selectedText">chưa chọn</strong></div>
+    </div>
+  </main>
+
+  <aside class="right panel">
+    <div class="card" id="journeyCard">
+      <div class="jr-head"><h3 style="margin:0">Hành trình người giữ vườn</h3><span class="jr-rank" id="jrRank">Khách tham quan</span></div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><span class="jr-score" id="jrScore">0</span><span style="color:var(--muted);font-size:13px">/ <span id="jrMax">0</span> điểm</span></div>
+      <div class="progress" style="margin-top:8px"><div id="jrBar"></div></div>
+      <div id="jrChapters"></div>
+      <div class="quiz-actions" style="margin-top:12px"><button id="jrReset">Chơi lại từ đầu</button></div>
+      <p class="jr-note">Tiến trình đang lưu trên thiết bị này. Chưa ghi vào Study OS, chưa có tín dụng hay phần thưởng thật.</p>
+    </div>
+
+    <div class="card">
+      <h3>Sổ thẻ cây <span style="color:var(--muted);font-weight:400;font-size:13px" id="herbCount"></span></h3>
+      <div class="herb" id="herbGrid"></div>
+      <p class="jr-note">Tên và thông tin là định danh tạm, chờ danh mục chính thức và mã QR.</p>
+    </div>
+
+    <div class="card">
+      <h3>Nhiệm vụ định danh</h3>
+      <div class="progress"><div id="questBar"></div></div>
+      <div class="list" id="questList" style="margin-top:12px"></div>
+      <div class="quiz-actions">
+        <button class="primary" id="markAnswerBtn">Đánh dấu cây đang chọn là đáp án</button>
+        <button id="resetQuestBtn">Làm lại nhiệm vụ</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Cây đang chọn</h3>
+      <div id="selectedPanel">
+        <p>Chưa chọn cây nào. Hãy chuyển sang <strong>Khám phá 2.5D</strong> rồi bấm vào các điểm vàng.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Định danh tạm đã rà trước</h3>
+      <div class="list" id="plantList"></div>
+      <p style="margin-top:10px">Đây là danh sách tạm để chuẩn bị cho bước sau: bạn sẽ cung cấp danh mục chính thức, mã QR và số thứ tự để gắn lại chính xác.</p>
+    </div>
+  </aside>
+</div>
+
+<dialog class="gv" id="gvDlg"><div class="in" id="gvDlgBody"></div></dialog>
+<div class="toast" id="gvToast" role="status" aria-live="polite"></div>
+<script>
+const photos=[
+  {id:'p-0930-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Giàn chính diện · 30/09/2026',desc:'Khung hình mới nhất, không có người: giàn mái trong, bảng Gia Viên Dược Thảo, bảng danh sách cây, giàn trồng đứng và tường tranh phong cảnh.',tags:['30/09','Giàn chính','Tường tranh','Bảng tên']},
+  {id:'p-0930-left',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-trai.jpg',title:'Góc trái sân · đèn trụ và tranh biển',desc:'Nhìn từ giữa sân sang trái: cụm cây tầng thấp, đèn trụ và mảng tranh biển của tường.',tags:['30/09','Bên trái','Đèn trụ','Tranh biển']},
+  {id:'p-0930-right',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-phai.jpg',title:'Góc phải sân · hàng bồn và ghế đá',desc:'Nhìn sang phải: chậu đỏ, hàng bồn đen dọc hàng rào, đèn trụ thứ hai và ghế đá cuối sân.',tags:['30/09','Bên phải','Bồn đen','Ghế đá']},
+  {id:'p-0912-wide',src:'/gia-vien-duoc-thao-preview/assets/2026-09-12-toan-dai.jpg',title:'Toàn dải vườn từ đầu sân · 12/09',desc:'Đứng ở cuối sân gạch nhìn dọc dải cây chạy theo tường; cho thấy tỉ lệ thật giữa sân, giàn và tường tranh.',tags:['12/09','Toàn cảnh','Sân gạch','Tường tranh']},
+  {id:'p-0926-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-truoc-tuong.jpg',title:'Trước tường tranh phong cảnh · 26/09',desc:'Góc rộng về phía giàn và tường tranh, thấy hàng bồn đen và các chậu cây dọc tường.',tags:['26/09','Tường tranh','Hàng bồn','Góc rộng']},
+  {id:'p-0926-wall',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Dọc tường về phía góc tranh thứ hai · 26/09',desc:'Nhìn dọc hàng bồn sát tường; cây lá vằn ở góc phải khung hình.',tags:['26/09','Dọc tường','Hàng bồn','Lối đi']},
+  {id:'p-sign',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng tên và chậu treo',desc:'Tái khung từ ảnh thật 30/09: bảng Gia Viên Dược Thảo và hai chậu treo trắng.',tags:['Ảnh thật','Khung cận','Bảng tên','Chậu treo'],position:'26% 0%',size:'200%'},
+  {id:'p-list',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng danh sách cây',desc:'Tái khung từ ảnh thật 30/09: bảng danh sách cây đặt cạnh giàn, nơi sẽ gắn số thứ tự chính thức.',tags:['Ảnh thật','Khung cận','Danh sách','Số thứ tự'],position:'70% 30%',size:'200%'},
+  {id:'p-vertical',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận giàn trồng đứng và nhãn số',desc:'Tái khung từ ảnh thật 30/09: các ô chậu nhỏ treo trên giàn lưới và nhãn số xanh.',tags:['Ảnh thật','Khung cận','Giàn đứng','Nhãn số'],position:'16% 40%',size:'200%'},
+  {id:'p-right-pots',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận cụm chậu bên phải và đèn trụ',desc:'Tái khung từ ảnh thật 30/09: chậu đỏ, chậu đen và các bụi cây cao cạnh đèn trụ.',tags:['Ảnh thật','Khung cận','Chậu đỏ','Đèn trụ'],position:'100% 74%',size:'200%'},
+  {id:'p-striped',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Cận cây lá vằn ở góc phải',desc:'Tái khung từ ảnh thật 26/09: lá dày có vằn ngang, mọc thẳng trong bồn đen.',tags:['Ảnh thật','Khung cận','Lá vằn','Bồn đen'],position:'100% 100%',size:'220%'}
+];
+
+const plants=[
+  {id:'plant-sa', code:'Tạm 01', name:'Sả', latin:'Cymbopogon citratus (tạm)', confidence:0.6, scene:3,
+    title:'Bụi lá dài hẹp trong chậu đỏ',
+    why:'Định danh tạm theo dạng bụi lá dài, hẹp, mọc thẳng từ gốc. Thông tin để tìm hiểu: sả là cây thân thảo thơm, thường dùng làm gia vị và lấy tinh dầu. Chưa gắn số/QR chính thức.',
+    hint:'Tìm bụi lá dài hẹp cao nhất trong chậu đỏ ở phía phải sân.', status:'Trung bình'},
+  {id:'plant-sandays', code:'Tạm 02', name:'Sắn dây', latin:'Pueraria montana var. lobata (tạm)', confidence:0.5, scene:2,
+    title:'Dây leo lá lớn trên khung giàn',
+    why:'Định danh tạm theo dây leo lá lớn bám trên khung giàn phía trên bảng danh sách; thư mục mã QR của vườn có tên Sắn dây. Thông tin để tìm hiểu: sắn dây là cây leo, củ dùng làm bột. Cần đối chiếu QR để chốt.',
+    hint:'Nhìn lên khung giàn, tìm dây leo lá lớn phía trên bảng danh sách cây.', status:'Trung bình'},
+  {id:'plant-bacha', code:'Tạm 03', name:'Bạc hà', latin:'Mentha sp. (tạm)', confidence:0.35, scene:3,
+    title:'Bụi cây lá nhỏ thân mềm tầng thấp',
+    why:'Thư mục mã QR của vườn có tên Bạc hà nhưng chưa xác định chắc vị trí trong ảnh; đây là vị trí đoán theo dạng bụi lá nhỏ thân mềm ở tầng thấp. Thông tin để tìm hiểu: bạc hà có mùi mát đặc trưng từ tinh dầu. Cần quét QR tại vườn để chốt.',
+    hint:'Tìm bụi lá nhỏ, thân mềm, mọc dày ở tầng thấp gần lối đi.', status:'Thấp'},
+  {id:'plant-zing', code:'Tạm 04', name:'Nhóm gừng/riềng (chưa chốt)', latin:'Zingiberaceae sp. (tạm)', confidence:0.4, scene:2,
+    title:'Khóm lá mác lớn trong chậu cam',
+    why:'Chỉ định danh tới mức nhóm họ Gừng theo dạng lá mác lớn mọc khóm. Chưa đủ dữ liệu để chốt gừng, nghệ hay riềng.',
+    hint:'Tìm khóm lá mác lớn, mọc từ một chậu cam ở bên trái lối đi.', status:'Thấp'},
+  {id:'plant-luoiho', code:'Tạm 05', name:'Lưỡi hổ', latin:'Dracaena trifasciata (tạm)', confidence:0.85, scene:5,
+    title:'Lá dày có vằn ngang ở góc phải',
+    why:'Lá dày, mọc thẳng, có vằn ngang xanh đậm — đặc điểm điển hình của lưỡi hổ. Thông tin để tìm hiểu: cây chịu bóng và chịu khô tốt, thường trồng trang trí. Chưa gắn số/QR chính thức.',
+    hint:'Nhìn góc phải ảnh dọc tường, tìm các lá dày có vằn ngang.', status:'Cao'}
+];
+
+const quests=[
+  {id:'q1',title:'Tìm cây lá dài hẹp trong chậu đỏ',desc:'Mục tiêu: chọn đúng vị trí cây tạm định danh là sả ở phía phải sân.',plantId:'plant-sa'},
+  {id:'q2',title:'Tìm dây leo trên khung giàn',desc:'Mục tiêu: chọn đúng dây leo lá lớn (tạm: sắn dây) phía trên bảng danh sách.',plantId:'plant-sandays'},
+  {id:'q3',title:'Tìm cây lá vằn ở góc phải',desc:'Mục tiêu: chọn đúng cây lá dày có vằn ngang (tạm: lưỡi hổ) trong ảnh dọc tường.',plantId:'plant-luoiho'},
+  {id:'q4',title:'Tìm khóm lá mác lớn',desc:'Mục tiêu: chọn đúng khóm lá mác lớn (nhóm gừng/riềng, chưa chốt) ở bên trái lối đi.',plantId:'plant-zing'},
+  {id:'q5',title:'Tìm bụi lá nhỏ tầng thấp',desc:'Mục tiêu: thử đoán vị trí cây tạm là bạc hà; cần quét QR tại vườn để chốt.',plantId:'plant-bacha'}
+];
+
+const scenes=[
+  {id:0,name:'Trạm 1 · Đầu sân nhìn toàn dải',desc:'Mốc tổng thể: sân gạch, hàng cây chạy dọc tường và giàn ở xa.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-12-toan-dai.jpg',fit:'contain',hotspots:[]},
+  {id:1,name:'Trạm 2 · Trái sân',desc:'Cụm cây tầng thấp, đèn trụ và mảng tranh biển.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-trai.jpg',fit:'contain',hotspots:[]},
+  {id:2,name:'Trạm 3 · Giàn chính diện',desc:'Giàn mái trong, bảng danh sách, dây leo trên khung và khóm lá lớn bên trái.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-sandays',x:.578,y:.19},{plantId:'plant-zing',x:.30,y:.60}
+  ]},
+  {id:3,name:'Trạm 4 · Phải sân',desc:'Chậu đỏ, hàng bồn đen, đèn trụ và ghế đá cuối sân.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-phai.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-sa',x:.665,y:.60},{plantId:'plant-bacha',x:.07,y:.80}
+  ]},
+  {id:4,name:'Trạm 5 · Trước tường tranh',desc:'Góc rộng về phía giàn và tường tranh phong cảnh.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-26-truoc-tuong.jpg',fit:'contain',hotspots:[]},
+  {id:5,name:'Trạm 6 · Dọc tường',desc:'Đi dọc hàng bồn sát tường; cây lá vằn ở góc phải.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-luoiho',x:.93,y:.78}
+  ]}
+];
+
+let mode='photo';
+let photoIndex=0;
+let sceneIndex=0;
+let selectedPlantId=null;
+let questProgress=new Set();
+let currentQuestId=quests[0].id;
+let simFocusIndex=0;
+let cameraYaw=0;
+const sceneImages=new Map();
+const heroImage=document.getElementById('heroImage');
+const photoTitle=document.getElementById('photoTitle');
+const photoDesc=document.getElementById('photoDesc');
+const photoTags=document.getElementById('photoTags');
+const thumbs=document.getElementById('thumbs');
+const photoStage=document.getElementById('photoStage');
+const simStage=document.getElementById('simStage');
+const btnPhoto=document.getElementById('btnPhoto');
+const btnSim=document.getElementById('btnSim');
+const mainTitle=document.getElementById('mainTitle');
+const mainSub=document.getElementById('mainSub');
+const modeReadout=document.getElementById('modeReadout');
+const statusText=document.getElementById('statusText');
+const selectedText=document.getElementById('selectedText');
+const plantList=document.getElementById('plantList');
+const selectedPanel=document.getElementById('selectedPanel');
+const sceneName=document.getElementById('sceneName');
+const sceneDesc=document.getElementById('sceneDesc');
+const cameraTag=document.getElementById('cameraTag');
+const questList=document.getElementById('questList');
+const questBar=document.getElementById('questBar');
+const questReadout=document.getElementById('questReadout');
+const youDot=document.getElementById('youDot');
+const canvas=document.getElementById('simCanvas');
+const ctx=canvas.getContext('2d');
+const backBtn=document.getElementById('backBtn');
+const nextBtn=document.getElementById('nextBtn');
+const leftBtn=document.getElementById('leftBtn');
+const rightBtn=document.getElementById('rightBtn');
+const focusBtn=document.getElementById('focusBtn');
+const markAnswerBtn=document.getElementById('markAnswerBtn');
+const resetQuestBtn=document.getElementById('resetQuestBtn');
+
+function byId(id){return plants.find(p=>p.id===id)}
+function currentQuest(){return quests.find(q=>q.id===currentQuestId)}
+
+// Bản nén (cùng ảnh thật, chỉ giảm kích thước) cho mobile; lỗi thì quay về ảnh gốc.
+const webSrc=src=>src.replace('/assets/','/assets/web/');
+const thumbSrc=src=>src.replace('/assets/','/assets/thumb/');
+const photoFrame=document.getElementById('photoFrame');
+const heroBlur=document.getElementById('heroBlur');
+const photoStatus=document.getElementById('photoStatus');
+const frameCount=document.getElementById('frameCount');
+const photoCache=new Map();
+function loadPhoto(src){
+  if(photoCache.has(src)) return photoCache.get(src);
+  const tryLoad=url=>new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.decoding='async';
+    img.onload=()=>img.naturalWidth?resolve({img,url}):reject(new Error('empty '+url));
+    img.onerror=()=>reject(new Error('HTTP/decode error '+url));
+    img.src=url;
+  });
+  const job=tryLoad(webSrc(src)).catch(err=>{console.warn('[gia-vien] web copy failed, using original',err.message);return tryLoad(src);});
+  job.catch(()=>photoCache.delete(src));
+  photoCache.set(src,job);
+  return job;
+}
+let heroNatural=null;
+function layoutHero(){
+  const p=photos[photoIndex];
+  const zoom=p.size?parseFloat(p.size)/100:1;
+  if(!heroNatural||zoom===1){heroImage.style.backgroundSize='contain';heroImage.style.backgroundPosition='center';return;}
+  // Khung cận: phóng từ kích thước "contain" để tái khung ảnh thật, không tạo nội dung mới.
+  const fw=photoFrame.clientWidth,fh=photoFrame.clientHeight;
+  const s=Math.min(fw/heroNatural.w,fh/heroNatural.h)*zoom;
+  heroImage.style.backgroundSize=`${Math.round(heroNatural.w*s)}px ${Math.round(heroNatural.h*s)}px`;
+  heroImage.style.backgroundPosition=p.position||'center';
+}
+function renderPhotoMode(){
+  const p=photos[photoIndex];
+  const token=photoIndex;
+  photoTitle.textContent=p.title;
+  photoDesc.textContent=p.desc;
+  frameCount.textContent=`${photoIndex+1}/${photos.length}`;
+  heroImage.setAttribute('aria-label',p.title);
+  photoTags.innerHTML=p.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+  photoStatus.textContent='Đang tải ảnh thật…';
+  photoStatus.classList.add('show');
+  loadPhoto(p.src).then(({img,url})=>{
+    if(token!==photoIndex) return;
+    heroNatural={w:img.naturalWidth,h:img.naturalHeight};
+    heroImage.style.backgroundImage=`url("${url}")`;
+    heroBlur.style.backgroundImage=`url("${url}")`;
+    layoutHero();
+    photoStatus.classList.remove('show');
+  }).catch(err=>{
+    if(token!==photoIndex) return;
+    console.error('[gia-vien] cannot load photo',p.src,err);
+    heroImage.style.backgroundImage='none';heroBlur.style.backgroundImage='none';
+    photoStatus.textContent=`Không tải được ảnh ${p.src.split('/').pop()}. Kiểm tra mạng rồi bấm lại khung ảnh.`;
+    photoStatus.classList.add('show');
+  });
+  thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}" aria-label="${ph.title}"><img src="${thumbSrc(ph.src)}" data-orig="${ph.src}" alt="" loading="lazy" decoding="async"><span>${i+1}. ${ph.title}</span></button>`).join('');
+  thumbs.querySelectorAll('.thumb img').forEach(im=>im.onerror=()=>{im.onerror=null;im.src=im.dataset.orig;});
+  thumbs.querySelectorAll('.thumb').forEach(btn=>btn.onclick=()=>{photoIndex=+btn.dataset.i;renderPhotoMode()});
+  thumbs.querySelector('.thumb.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  // Tải trước ảnh kế bên để vuốt trái/phải không bị chờ.
+  [photoIndex+1,photoIndex-1].forEach(i=>loadPhoto(photos[(i+photos.length)%photos.length].src).catch(()=>{}));
+}
+window.addEventListener('resize',()=>{if(mode==='photo')layoutHero();});
+
+function renderPlantList(){
+  plantList.innerHTML=plants.map(p=>{
+    const badgeClass=p.kind==='slot'?'badge warn':p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
+    const badgeText=p.kind==='slot'?'Chờ tên':Math.round(p.confidence*100)+'%';
+    return `<div class="plant-item ${selectedPlantId===p.id?'active':''}" data-id="${p.id}">
+      <div class="info-head"><strong>${p.name}</strong><span class="${badgeClass}">${badgeText}</span></div>
+      <small>${p.code} · ${p.title}</small>
+      <small>${p.why}</small>
+    </div>`;
+  }).join('');
+  plantList.querySelectorAll('.plant-item').forEach(el=>el.onclick=()=>{selectedPlantId=el.dataset.id;renderSelectedPlant();renderPlantList();if(mode==='sim'){goToPlant(selectedPlantId)}})
+}
+
+function renderSelectedPlant(){
+  if(!selectedPlantId){selectedPanel.innerHTML='<p>Chưa chọn cây nào. Hãy chuyển sang <strong>Khám phá thực cảnh</strong> rồi bấm vào các hotspot.</p>'; selectedText.textContent='chưa chọn'; return;}
+  const p=byId(selectedPlantId);
+  const badgeClass=p.kind==='slot'?'badge warn':p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
+  const confidenceLine=p.kind==='slot'
+    ? '<p><strong>Trạng thái:</strong> Số/vị trí đã thấy trong ảnh; tên loài đang để trống.</p>'
+    : `<p><strong>Độ tin cậy tạm:</strong> ${Math.round(p.confidence*100)}%</p>`;
+  selectedPanel.innerHTML=`
+    <div class="info-head"><h4 style="margin:0">${p.name}</h4><span class="${badgeClass}">${p.status}</span></div>
+    <p><strong>Mã:</strong> ${p.code}</p>
+    <p><strong>Định danh:</strong> ${p.latin}</p>
+    <p><strong>Căn cứ hiện có:</strong> ${p.why}</p>
+    <p><strong>Gợi ý tìm trong vườn:</strong> ${p.hint}</p>
+    ${confidenceLine}
+  `;
+  selectedText.textContent=p.name;
+}
+
+function renderQuestList(){
+  questList.innerHTML=quests.map(q=>{
+    const done=questProgress.has(q.id);
+    return `<div class="quest-item ${currentQuestId===q.id?'active':''}" data-id="${q.id}">
+      <div class="info-head"><strong>${q.title}</strong><span class="badge ${done?'':'warn'}">${done?'Đã đúng':'Chưa xong'}</span></div>
+      <small>${q.desc}</small>
+    </div>`;
+  }).join('');
+  questList.querySelectorAll('.quest-item').forEach(el=>el.onclick=()=>{currentQuestId=el.dataset.id;updateQuestUI()});
+}
+
+function updateQuestUI(){
+  const q=currentQuest();
+  const doneCount=questProgress.size;
+  questBar.style.width=`${(doneCount/quests.length)*100}%`;
+  questReadout.textContent=`Nhiệm vụ: ${q.title}`;
+  renderQuestList();
+}
+
+function setMode(next){
+  mode=next;
+  const isPhoto=mode==='photo', isFp=mode==='fp';
+  photoStage.classList.toggle('active',isPhoto);
+  simStage.classList.toggle('active',mode==='sim');
+  fpStage.classList.toggle('active',isFp);
+  document.querySelector('.stage').classList.toggle('fp',isFp);
+  btnPhoto.classList.toggle('active',isPhoto);
+  btnSim.classList.toggle('active',mode==='sim');
+  btnFp.classList.toggle('active',isFp);
+  modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isFp?'Góc nhìn thứ nhất 3D':'Khám phá 2.5D'}`;
+  if(isFp){
+    mainTitle.textContent='Góc nhìn thứ nhất 3D · đứng giữa khu vườn thật';
+    mainSub.textContent='Ảnh thật được ghép toàn cảnh và đặt quanh người xem theo đúng tiêu cự máy chụp. Kéo để nhìn quanh, chụm/cuộn để phóng, chạm mũi tên để bước sang trạm kế.';
+    statusText.textContent='Đang ở chế độ góc nhìn thứ nhất';
+    fp.start();
+    return;
+  }
+  fp.stop();
+  if(isPhoto){
+    mainTitle.textContent='Tham quan ảnh thật không dính người';
+    mainSub.textContent='Giữ đúng cảnh quan thật để làm chuẩn cho mô phỏng và gắn QR/số cây về sau.';
+    statusText.textContent='Đang ở chế độ ảnh thật';
+  } else {
+    mainTitle.textContent='Khám phá thực cảnh · 6 trạm và hotspot cây';
+    mainSub.textContent='Mỗi trạm dùng ảnh thật không có người làm nền; lớp 2.5D chỉ đảm nhiệm camera, hotspot, nhiệm vụ và điều hướng.';
+    statusText.textContent='Đang ở chế độ khám phá thực cảnh';
+    drawScene();
+  }
+}
+
+function getSceneImage(src){
+  if(sceneImages.has(src)) return sceneImages.get(src);
+  const img=new Image();
+  img.decoding='async';
+  img.onerror=()=>{img.onerror=null;img.src=src;};
+  img.src=webSrc(src);
+  sceneImages.set(src,img);
+  return img;
+}
+function drawScene(){
+  const w=canvas.width,h=canvas.height;
+  const scene=scenes[sceneIndex];
+  sceneName.textContent=scene.name;
+  sceneDesc.textContent=scene.desc;
+  cameraTag.textContent=`Thực cảnh · trạm ${sceneIndex+1}/${scenes.length} · góc ${cameraYaw===0?'giữa':cameraYaw<0?'trái':'phải'}`;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#07100d'; ctx.fillRect(0,0,w,h);
+
+  const img=getSceneImage(scene.photo);
+  if(!img.complete || !img.naturalWidth){
+    ctx.fillStyle='#dcebe4';ctx.font='600 20px Inter';ctx.textAlign='center';
+    ctx.fillText('Đang tải ảnh thực cảnh…',w/2,h/2);
+    img.onload=()=>{if(mode==='sim' && scenes[sceneIndex].photo===scene.photo) drawScene();};
+    return;
+  }
+
+  const contain=scene.fit==='contain';
+  const base=contain?Math.min(w/img.naturalWidth,h/img.naturalHeight):Math.max(w/img.naturalWidth,h/img.naturalHeight);
+  const scale=base*(scene.zoom|| (contain?1:1.04));
+  const dw=img.naturalWidth*scale, dh=img.naturalHeight*scale;
+  const panRange=Math.max(0,(dw-w)/2);
+  const x=(w-dw)/2-cameraYaw*panRange*.9;
+  const focusY=scene.focusY??.5;
+  const y=(h-dh)/2-(focusY-.5)*Math.max(0,dh-h);
+  ctx.drawImage(img,x,y,dw,dh);
+
+  const vignette=ctx.createLinearGradient(0,0,0,h);
+  vignette.addColorStop(0,'rgba(4,8,6,.08)');
+  vignette.addColorStop(.58,'rgba(4,8,6,.02)');
+  vignette.addColorStop(1,'rgba(4,8,6,.52)');
+  ctx.fillStyle=vignette;ctx.fillRect(0,0,w,h);
+
+  ctx.strokeStyle='rgba(238,246,241,.72)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(w/2-34,h-40);ctx.lineTo(w/2,h-66);ctx.lineTo(w/2+34,h-40);ctx.stroke();
+  ctx.fillStyle='rgba(7,12,10,.66)';ctx.fillRect(18,h-58,255,38);
+  ctx.fillStyle='#eaf5ef';ctx.font='600 14px Inter';ctx.textAlign='left';
+  ctx.fillText('↑/↓ đổi trạm · ←/→ đổi góc nhìn',30,h-34);
+
+  drawHotspots(scene);
+  updateMapDot();
+  if(mode==='sim') gvVisitScene(sceneIndex);
+}
+
+function paintMural(x,y,w,h){
+  ctx.save();
+  ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
+  const g=ctx.createLinearGradient(0,y,0,y+h); g.addColorStop(0,'#95cdbb'); g.addColorStop(1,'#6aa583');
+  ctx.fillStyle=g; ctx.fillRect(x,y,w,h);
+  // Tree rhythm
+  for(let i=0;i<16;i++){
+    const tx=x+50+i*64; const ty=y+48+Math.sin(i)*10;
+    ctx.strokeStyle='rgba(88,68,48,.55)'; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(tx, y+h); ctx.lineTo(tx+Math.sin(i)*18, ty+50); ctx.stroke();
+    ctx.fillStyle=`rgba(${70+i*2},${120+i*3},${70+i*2},.65)`;
+    ctx.beginPath(); ctx.arc(tx+Math.sin(i)*8, ty, 42+(i%3)*8, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+}
+function drawStructure(depth){
+  const frontY=depth===0?255:depth===1?220:depth===2?190:205;
+  const frontL=depth===2?250:220, frontR=depth===2?1030:1060;
+  ctx.strokeStyle='#1a211d'; ctx.lineWidth=7;
+  drawLine(frontL,frontY,frontL,655,'#1a211d',8);
+  drawLine(frontR,frontY,frontR,655,'#1a211d',8);
+  drawLine(frontL,frontY,frontR,frontY,'#1a211d',8);
+  drawLine(frontL,frontY,375,110,'#1a211d',5);
+  drawLine(frontR,frontY,905,110,'#1a211d',5);
+  drawLine(375,110,905,110,'#1a211d',5);
+  drawLine(375,110,375,590,'#1a211d',4);
+  drawLine(905,110,905,590,'#1a211d',4);
+  // roof panels
+  for(let i=0;i<3;i++){
+    drawPolygon([[375+i*177,110],[552+i*177,110],[frontR-(2-i)*52,frontY],[frontL+(i+1)*52,frontY]], 'rgba(255,255,255,.10)');
+  }
+}
+function drawLeftBeds(depth){
+  const beds = depth===0
+    ? [[[120,470],[345,430],[380,610],[100,660]], [[110,540],[280,520],[300,690],[90,710]]]
+    : depth===1
+      ? [[[160,430],[330,400],[360,590],[120,650]], [[130,515],[280,500],[300,690],[100,710]], [[250,350],[380,338],[405,508],[210,546]]]
+      : [[[140,470],[270,445],[300,610],[120,648]], [[210,360],[370,336],[392,530],[195,564]], [[260,520],[390,505],[402,680],[235,705]]];
+  beds.forEach((poly,i)=>{ drawPolygon(poly, i===1?'#232c26':'#1b231f'); drawPlantMass(poly, i); });
+}
+function drawRightRack(depth){
+  const rackX=depth===2?760:790; const topY=depth===2?185:215; const width=depth===2?360:300; const height=depth===2?350:320;
+  drawPolygon([[rackX,topY],[rackX+width,topY],[rackX+width-55,topY+height],[rackX+40,topY+height]], '#151d1a');
+  // shelves grid
+  for(let row=1;row<4;row++) drawLine(rackX+10, topY+row*height/4, rackX+width-20, topY+row*height/4, 'rgba(255,255,255,.18)', 2);
+  for(let col=1;col<4;col++) drawLine(rackX+col*width/4, topY+5, rackX+col*width/4-25, topY+height-5, 'rgba(255,255,255,.12)', 2);
+  // pots
+  for(let r=0;r<4;r++){
+    for(let c=0;c<4;c++){
+      const px=rackX+22+c*(width/4); const py=topY+18+r*(height/4);
+      drawSmallPot(px,py,depth===2?52:44,depth===2?36:30);
+    }
+  }
+  // bottom troughs
+  drawPolygon([[rackX+30,topY+height-8],[rackX+width-70,topY+height-8],[rackX+width-45,topY+height+42],[rackX+12,topY+height+42]], '#212923');
+}
+function drawHangingPots(depth){
+  const pots=depth===2?[[850,185],[980,155]]:[[842,205],[967,178]];
+  pots.forEach(([x,y],i)=>{
+    drawLine(x,85+(i*10),x,y,'#eef2ec',2);
+    ctx.fillStyle='#f0eee6'; ctx.beginPath(); ctx.ellipse(x,y,30,16,0,0,Math.PI*2); ctx.fill();
+    ctx.fillRect(x-28,y-2,56,16);
+    ctx.fillStyle='rgba(106,164,109,.9)';
+    for(let j=0;j<5;j++){ctx.beginPath();ctx.arc(x-16+j*8,y-12+(j%2)*3,7,0,Math.PI*2);ctx.fill();}
+  });
+}
+function drawSignboard(){
+  drawPolygon([[500,185],[655,185],[645,260],[510,260]], '#efe6d2');
+  ctx.fillStyle='#5c4b31'; ctx.font='italic 700 28px Georgia'; ctx.fillText('Gia Viên Dược Thảo', 517,228);
+}
+function drawListBoard(){
+  drawPolygon([[912,245],[1080,245],[1068,455],[920,455]], '#efe7d8');
+  ctx.fillStyle='#6c5d43'; ctx.font='700 18px Inter'; ctx.fillText('DANH SÁCH CÂY', 934,276);
+  ctx.font='12px Inter';
+  for(let i=0;i<8;i++) ctx.fillText(`${String(i+1).padStart(2,'0')} · ...`, 940, 304 + i*18);
+}
+function drawPlantMass(poly,index){
+  const minX=Math.min(...poly.map(p=>p[0])), maxX=Math.max(...poly.map(p=>p[0])), minY=Math.min(...poly.map(p=>p[1])), maxY=Math.max(...poly.map(p=>p[1]));
+  for(let i=0;i<20;i++){
+    const x=minX+20+((i*37)%Math.max(60,maxX-minX-40));
+    const y=maxY-12-((i*19)%Math.max(50,maxY-minY-22));
+    const r=10+((i*7)%18);
+    ctx.fillStyle=`rgba(${70+i*3},${120+i*2},${70+i*3},.92)`;
+    ctx.beginPath();ctx.ellipse(x,y,r,r*.58,((i%5)-2)*0.18,0,Math.PI*2);ctx.fill();
+  }
+}
+function drawSmallPot(x,y,w,h){
+  drawPolygon([[x,y],[x+w,y],[x+w-8,y+h],[x+6,y+h]], '#202924');
+  ctx.fillStyle='rgba(89,150,81,.95)';
+  for(let i=0;i<4;i++){
+    ctx.beginPath(); ctx.ellipse(x+10+i*9,y+6+(i%2)*4,8,14,(i-1.5)*0.18,0,Math.PI*2); ctx.fill();
+  }
+}
+function drawHotspots(scene){
+  scene.hotspots.forEach((hs,i)=>{
+    const plant=byId(hs.plantId);
+    const x=hs.x*canvas.width, y=hs.y*canvas.height;
+    const active=selectedPlantId===plant.id;
+    const r=active?20:15;
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle=active?'rgba(109,191,120,.96)':'rgba(216,177,108,.96)';ctx.fill();
+    ctx.lineWidth=3;ctx.strokeStyle='rgba(7,16,12,.92)';ctx.stroke();
+    ctx.fillStyle='#153027';ctx.font='700 11px Inter';ctx.textAlign='center';
+    ctx.fillText(plant.code.replace('Tạm ',''),x,y+4);
+    if(active){
+      const label=plant.name;
+      ctx.font='700 14px Inter';
+      const tw=ctx.measureText(label).width;
+      ctx.fillStyle='rgba(7,12,10,.82)';ctx.fillRect(x-tw/2-10,y-48,tw+20,27);
+      ctx.fillStyle='#f4fbf6';ctx.fillText(label,x,y-29);
+    }
+  });
+}
+
+function drawPolygon(points,fill,stroke='rgba(255,255,255,.08)'){
+  ctx.beginPath(); points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); if(fill){ctx.fillStyle=fill; ctx.fill();} if(stroke){ctx.strokeStyle=stroke; ctx.stroke();}
+}
+function drawLine(x1,y1,x2,y2,stroke,width){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+
+canvas.addEventListener('click',e=>{
+  if(mode!=='sim') return;
+  const rect=canvas.getBoundingClientRect();
+  const x=(e.clientX-rect.left)*(canvas.width/rect.width);
+  const y=(e.clientY-rect.top)*(canvas.height/rect.height);
+  const scene=scenes[sceneIndex];
+  let found=null;
+  for(const hs of scene.hotspots){
+    const hx=hs.x*canvas.width, hy=hs.y*canvas.height;
+    const dx=x-hx, dy=y-hy;
+    if(Math.hypot(dx,dy)<32){found=hs.plantId;break;}
+  }
+  if(found){selectedPlantId=found; renderSelectedPlant(); renderPlantList(); drawScene();
+    if(found===currentQuest().plantId && !questProgress.has(currentQuestId)) markAnswerBtn.onclick();}
+});
+
+function goToPlant(pid){
+  const plant=byId(pid);
+  if(!plant) return;
+  sceneIndex=plant.scene;
+  cameraYaw=0;
+  drawScene();
+}
+function updateMapDot(){
+  const positions=['88%','80%','70%','61%','53%','45%','38%','31%','23%','15%'];
+  youDot.style.top=positions[sceneIndex]||'84%';
+}
+
+function moveScene(delta){
+  sceneIndex=(sceneIndex+delta+scenes.length)%scenes.length;
+  cameraYaw=0;
+  simFocusIndex=0;
+  drawScene();
+}
+function turnCamera(delta){
+  cameraYaw=Math.max(-1,Math.min(1,cameraYaw+delta));
+  drawScene();
+}
+
+/* =====================================================================
+   GÓC NHÌN THỨ NHẤT 3D — trình xem WebGL không phụ thuộc thư viện ngoài.
+   Mỗi trạm là ẢNH THẬT (không người) đặt quanh mắt người xem:
+   - 'cylinder': toàn cảnh ghép bằng chiếu trụ (x = f·θ, y = f·tanφ)
+   - 'sphere'  : toàn cảnh ghép bằng chiếu cầu (x = f·θ, y = f·φ)
+   - 'plane'   : ảnh đơn rectilinear, đặt đúng góc nhìn của ống kính
+   Góc phủ (hfov/v) tính từ tiêu cự EXIF lúc ghép, nên phối cảnh khớp ảnh gốc.
+   Hướng mũi tên sang trạm kế là ƯỚC TÍNH theo ảnh, chưa phải đo đạc.
+   ===================================================================== */
+const FP_BASE='/gia-vien-duoc-thao-preview/assets/fp/';
+const fpStations=[
+  {id:'s-0930',name:'Trước giàn · quay từ video mới nhất',desc:'Toàn cảnh ghép từ video quay ngày 30/09: tường tranh phong cảnh, giàn thép, bảng danh sách cây, đèn trụ, bồn đen và ghế đá cuối sân.',date:'30/09/2026',era:'now',file:'pano-2026-09-30.webp',proj:'sphere',hfov:101,v:49,yaw0:0,
+    links:[{to:'s-0926w',yaw:46,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
+  {id:'s-0912',name:'Đầu sân · nhìn toàn dải vườn',desc:'Đứng ở cuối sân gạch, nhìn dọc dải cây chạy theo tường về phía tranh “Ship of Knowledge”.',date:'12/09/2026',era:'now',file:'2026-09-12-toan-dai.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
+    links:[{to:'s-0930',yaw:34,label:'Tới giàn (video 30/09)'},{to:'s-0926p',yaw:-34,label:'Giàn & tường tranh 26/09'}]},
+  {id:'s-0926p',name:'Trước giàn và tường tranh phong cảnh',desc:'Toàn cảnh ghép từ 2 ảnh thật: giàn thép, bảng danh sách cây, đèn trụ và hàng bồn đen dọc tường.',date:'26/09/2026',era:'now',file:'pano-2026-09-26.webp',proj:'cylinder',hfov:103.4,v:1.826,yaw0:0,
+    links:[{to:'s-0926w',yaw:44,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
+  {id:'s-0926w',name:'Dọc tường về phía “Ship of Knowledge”',desc:'Đi dọc hàng bồn sát tường tranh phong cảnh; cuối tầm nhìn là góc giáp tường tranh thứ hai.',date:'26/09/2026',era:'now',file:'2026-09-26-doc-tuong.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
+    links:[{to:'s-0926p',yaw:-40,label:'Quay lại giàn'}]},
+  {id:'s-0710',name:'Lưu trữ · toàn cảnh trước khi vẽ lại tường',desc:'Toàn cảnh 163° ghép từ 3 ảnh thật ngày 10/07: tường tranh cũ (xanh dương), giàn, bảng danh sách và cụm chậu.',date:'10/07/2026',era:'old',file:'pano-2026-07-10.webp',proj:'sphere',hfov:163.5,v:100.1,yaw0:-10,
+    links:[{to:'s-0606',yaw:-55,label:'Xem góc giàn 06/06'}]},
+  {id:'s-0606',name:'Lưu trữ · góc giàn và bảng tên',desc:'Ghép từ 2 ảnh thật ngày 06/06: giàn mái trong, bảng Gia Viên Dược Thảo, nhãn số trên bồn.',date:'06/06/2026',era:'old',file:'pano-2026-06-06.webp',proj:'sphere',hfov:76,v:58.5,yaw0:0,
+    links:[{to:'s-0710',yaw:30,label:'Toàn cảnh 10/07'}]}
+];
+
+const fpStage=document.getElementById('fpStage');
+const btnFp=document.getElementById('btnFp');
+const fp=(()=>{
+  const cv=document.getElementById('fpCanvas');
+  const nameEl=document.getElementById('fpName'),descEl=document.getElementById('fpDesc'),dateEl=document.getElementById('fpDate');
+  const compassEl=document.getElementById('fpCompass'),linksEl=document.getElementById('fpLinks');
+  const statusEl=document.getElementById('fpStatus'),fadeEl=document.getElementById('fpFade'),stripEl=document.getElementById('fpStrip');
+  const gyroBtn=document.getElementById('fpGyro');
+  const D=Math.PI/180;
+  let gl=null,prog=null,loc={},mesh=null,tex=null,running=false,raf=0,dirty=true;
+  let idx=0,yaw=0,pitch=0,fov=70,loadToken=0,cur=null;
+  let vel=0,gyroOn=false,gyroBase=null;
+
+  function initGL(){
+    if(gl) return true;
+    gl=cv.getContext('webgl',{premultipliedAlpha:true,antialias:true,alpha:false});
+    if(!gl){statusEl.textContent='Thiết bị không hỗ trợ WebGL — hãy dùng chế độ Ảnh thật.';statusEl.classList.add('show');return false;}
+    const vs=`attribute vec3 p;attribute vec2 uv;uniform mat4 m;varying vec2 v;void main(){v=uv;gl_Position=m*vec4(p,1.);}`;
+    const fs=`precision mediump float;varying vec2 v;uniform sampler2D t;void main(){vec4 c=texture2D(t,v);gl_FragColor=vec4(c.rgb*c.a+vec3(.031,.063,.051)*(1.-c.a),1.);}`;
+    const sh=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;};
+    prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);
+    gl.useProgram(prog);
+    loc={p:gl.getAttribLocation(prog,'p'),uv:gl.getAttribLocation(prog,'uv'),m:gl.getUniformLocation(prog,'m'),t:gl.getUniformLocation(prog,'t')};
+    return true;
+  }
+  // Lưới bề mặt theo đúng phép chiếu của ảnh
+  function buildMesh(st){
+    const NX=st.proj==='plane'?2:96, NY=st.proj==='plane'?2:48;
+    const H=st.hfov*D, pos=[], uv=[], ind=[];
+    for(let j=0;j<=NY;j++){
+      const ty=j/NY; // 0 = mép trên ảnh
+      for(let i=0;i<=NX;i++){
+        const tx=i/NX; let x,y,z;
+        if(st.proj==='plane'){
+          const hw=Math.tan(H/2), hh=Math.tan(st.vfov*D/2);
+          x=(tx*2-1)*hw; y=(1-ty*2)*hh; z=-1;
+        } else {
+          const th=(tx-.5)*H;
+          if(st.proj==='cylinder'){ const yy=(.5-ty)*st.v; x=Math.sin(th); y=yy; z=-Math.cos(th); }
+          else { const ph=(.5-ty)*st.v*D; x=Math.cos(ph)*Math.sin(th); y=Math.sin(ph); z=-Math.cos(ph)*Math.cos(th); }
+        }
+        pos.push(x,y,z); uv.push(tx,ty);
+      }
+    }
+    for(let j=0;j<NY;j++)for(let i=0;i<NX;i++){const a=j*(NX+1)+i,b=a+1,c=a+NX+1,d=c+1;ind.push(a,c,b,b,c,d);}
+    const mk=(arr,T,target)=>{const b=gl.createBuffer();gl.bindBuffer(target,b);gl.bufferData(target,new T(arr),gl.STATIC_DRAW);return b;};
+    if(mesh){gl.deleteBuffer(mesh.p);gl.deleteBuffer(mesh.uv);gl.deleteBuffer(mesh.i);}
+    mesh={p:mk(pos,Float32Array,gl.ARRAY_BUFFER),uv:mk(uv,Float32Array,gl.ARRAY_BUFFER),i:mk(ind,Uint16Array,gl.ELEMENT_ARRAY_BUFFER),n:ind.length};
+  }
+  // Biên góc nhìn: không cho quay ra ngoài vùng có ảnh thật
+  function vExtent(st){ return st.proj==='plane'?st.vfov/2: st.proj==='cylinder'?Math.atan(st.v/2)/D : st.v/2; }
+  function hExtent(st){ return st.proj==='plane'?st.hfov/2:st.hfov/2; }
+  function aspect(){return Math.max(.3,cv.clientWidth/Math.max(1,cv.clientHeight));}
+  function hfovView(){return 2*Math.atan(Math.tan(fov*D/2)*aspect())/D;}
+  function maxFov(st){ // fov dọc lớn nhất mà vẫn nằm trong ảnh
+    const vf=2*vExtent(st)*.98, hf=2*hExtent(st)*.98;
+    const vFromH=2*Math.atan(Math.tan(hf*D/2)/aspect())/D;
+    return Math.max(20,Math.min(95,vf,vFromH));
+  }
+  function clamp(){
+    if(!cur) return;
+    fov=Math.max(22,Math.min(maxFov(cur),fov));
+    const hy=Math.max(0,hExtent(cur)-hfovView()/2), vy=Math.max(0,vExtent(cur)-fov/2);
+    yaw=Math.max(-hy,Math.min(hy,yaw)); pitch=Math.max(-vy,Math.min(vy,pitch));
+  }
+  function rotXY(){ // view matrix: quay thế giới ngược hướng nhìn
+    const y=yaw*D,p=pitch*D, cy=Math.cos(y),sy=Math.sin(y),cp=Math.cos(p),sp=Math.sin(p);
+    const Ry=[cy,0,-sy,0, 0,1,0,0, sy,0,cy,0, 0,0,0,1];
+    const Rx=[1,0,0,0, 0,cp,-sp,0, 0,sp,cp,0, 0,0,0,1];
+    return mul(Rx,Ry);
+  }
+  function mul(a,b){const o=new Array(16).fill(0);for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[c*4+r]+=a[k*4+r]*b[c*4+k];return o;}
+  function project(yawDeg,pitchDeg){
+    const th=yawDeg*D,ph=pitchDeg*D, v=[Math.cos(ph)*Math.sin(th),Math.sin(ph),-Math.cos(ph)*Math.cos(th),1];
+    const m=mul([...(()=>{const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;return[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];})()],rotXY());
+    const o=[0,0,0,0];for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[r]+=m[k*4+r]*v[k];
+    if(o[3]<=0) return null;
+    return {x:(o[0]/o[3]*.5+.5)*cv.clientWidth,y:(-o[1]/o[3]*.5+.5)*cv.clientHeight};
+  }
+  function resize(){
+    const dpr=Math.min(2,window.devicePixelRatio||1), w=Math.round(cv.clientWidth*dpr), h=Math.round(cv.clientHeight*dpr);
+    if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;dirty=true;}
+  }
+  function draw(){
+    resize(); clamp();
+    gl.viewport(0,0,cv.width,cv.height); gl.clearColor(.031,.063,.051,1); gl.clear(gl.COLOR_BUFFER_BIT);
+    if(mesh&&tex){
+      const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;
+      const P=[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];
+      gl.uniformMatrix4fv(loc.m,false,new Float32Array(mul(P,rotXY())));
+      gl.bindBuffer(gl.ARRAY_BUFFER,mesh.p);gl.enableVertexAttribArray(loc.p);gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,mesh.uv);gl.enableVertexAttribArray(loc.uv);gl.vertexAttribPointer(loc.uv,2,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.i);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(loc.t,0);
+      gl.drawElements(gl.TRIANGLES,mesh.n,gl.UNSIGNED_SHORT,0);
+    }
+    const heading=Math.round(yaw); compassEl.textContent=`Hướng ${heading>0?'phải ':heading<0?'trái ':''}${Math.abs(heading)}°`;
+    placeLinks();
+  }
+  function placeLinks(){
+    const W=cv.clientWidth,Hh=cv.clientHeight;
+    linksEl.querySelectorAll('.fp-link').forEach((b,i)=>{
+      const pt=project(+b.dataset.yaw,-18), bw=b.offsetWidth||140;
+      const inView=pt&&pt.x>bw/2+6&&pt.x<W-bw/2-6&&pt.y>60&&pt.y<Hh-110;
+      b.style.display='block';
+      if(inView){b.dataset.dir='up';b.style.left=pt.x+'px';b.style.top=pt.y+'px';}
+      else { // ngoài tầm nhìn: bám mép trái/phải, chỉ hướng cần quay
+        const right=(+b.dataset.yaw)>yaw; b.dataset.dir=right?'right':'left';
+        b.style.left=(right?W-bw/2-8:bw/2+8)+'px'; b.style.top=(Hh-150-i*44)+"px";
+      }
+    });
+  }
+  function loop(){
+    if(!running) return;
+    if(Math.abs(vel)>.01&&!dragging){yaw+=vel;vel*=.92;dirty=true;}
+    if(dirty){dirty=false;draw();}
+    raf=requestAnimationFrame(loop);
+  }
+  function upload(img){
+    if(tex) gl.deleteTexture(tex);
+    tex=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,tex);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,true);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  }
+  function renderStrip(){
+    stripEl.innerHTML=fpStations.map((s,i)=>`<button data-i="${i}" class="${i===idx?'active':''}" aria-label="${s.name}"><img src="${FP_BASE}${s.file.replace(/\.(jpg|webp)$/,'-thumb.jpg')}" alt="" loading="lazy"><span>${s.era==='old'?'🗂 ':''}${s.date} · ${s.name}</span></button>`).join('');
+    stripEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i,false));
+    stripEl.querySelector('.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  }
+  function go(i,walk){
+    const st=fpStations[(i+fpStations.length)%fpStations.length]; idx=fpStations.indexOf(st);
+    const token=++loadToken;
+    nameEl.textContent=st.name; descEl.textContent=st.desc;
+    dateEl.textContent=(st.era==='now'?'Hiện trạng · ':'Lưu trữ · ')+st.date; dateEl.className='fp-date '+st.era;
+    linksEl.innerHTML=st.links.map(l=>`<button class="fp-link" data-to="${l.to}" data-yaw="${l.yaw}">${l.label}</button>`).join('');
+    linksEl.querySelectorAll('.fp-link').forEach(b=>b.onclick=e=>{e.stopPropagation();walkTo(b.dataset.to,+b.dataset.yaw);});
+    renderStrip();
+    statusEl.textContent='Đang tải ảnh toàn cảnh…'; statusEl.classList.add('show');
+    const img=new Image(); img.decoding='async';
+    img.onload=()=>{
+      if(token!==loadToken) return;
+      cur=st; buildMesh(st); upload(img); gvVisitFp(st.id);
+      yaw=st.yaw0||0; pitch=-4; fov=maxFov(st)*.82;
+      if(walk){fov=Math.min(maxFov(st),fov*1.15);}
+      statusEl.classList.remove('show'); fadeEl.classList.remove('on'); dirty=true;
+      // tải trước trạm kế
+      st.links.forEach(l=>{const n=fpStations.find(s=>s.id===l.to); if(n){const p=new Image(); p.src=FP_BASE+n.file;}});
+    };
+    img.onerror=()=>{ if(token!==loadToken) return; fadeEl.classList.remove('on'); statusEl.textContent=`Không tải được ${st.file}. Kiểm tra mạng rồi chọn lại trạm.`; statusEl.classList.add('show'); console.error('[gia-vien fp] load failed',st.file); };
+    img.src=FP_BASE+st.file;
+  }
+  // "Bước tới": quay về phía mũi tên, phóng dần như đang đi, rồi chuyển trạm
+  function walkTo(toId,linkYaw){
+    const target=fpStations.findIndex(s=>s.id===toId); if(target<0) return;
+    const y0=yaw,f0=fov,t0=performance.now(),dur=520;
+    const step=t=>{
+      const k=Math.min(1,(t-t0)/dur), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      yaw=y0+(linkYaw-y0)*e; fov=f0*(1-.45*e); dirty=true;
+      if(k>.55) fadeEl.classList.add('on');
+      if(k<1) requestAnimationFrame(step); else go(target,true);
+    };
+    requestAnimationFrame(step);
+  }
+  // Điều khiển: kéo chuột/chạm, chụm 2 ngón, lăn chuột
+  let dragging=false,lastX=0,lastY=0,lastT=0,pts=new Map(),pinch0=0,fov0=0;
+  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,e);dragging=true;vel=0;lastX=e.clientX;lastY=e.clientY;lastT=performance.now();
+    if(pts.size===2){const [a,b]=[...pts.values()];pinch0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);fov0=fov;}});
+  cv.addEventListener('pointermove',e=>{
+    if(!pts.has(e.pointerId)) return; pts.set(e.pointerId,e);
+    if(pts.size===2){const [a,b]=[...pts.values()];const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);if(pinch0>0){fov=fov0*pinch0/d;dirty=true;}return;}
+    const k=fov/Math.max(1,cv.clientHeight), dx=e.clientX-lastX, dy=e.clientY-lastY, now=performance.now();
+    yaw-=dx*k; pitch+=dy*k; vel=-dx*k*Math.min(1,16/Math.max(1,now-lastT)); lastX=e.clientX;lastY=e.clientY;lastT=now; dirty=true;
+  });
+  const up=e=>{pts.delete(e.pointerId); if(pts.size===0) dragging=false; if(pts.size<2) pinch0=0;};
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
+  cv.addEventListener('wheel',e=>{e.preventDefault();fov*=Math.exp(e.deltaY*.0012);dirty=true;},{passive:false});
+  document.getElementById('fpZoomIn').onclick=()=>{fov*=.82;dirty=true;};
+  document.getElementById('fpZoomOut').onclick=()=>{fov/=.82;dirty=true;};
+  // Xoay điện thoại để nhìn (con quay hồi chuyển)
+  function onOrient(e){
+    if(e.alpha==null) return;
+    if(!gyroBase) gyroBase={a:e.alpha,b:e.beta,y:yaw,p:pitch};
+    let da=gyroBase.a-e.alpha; if(da>180)da-=360; if(da<-180)da+=360;
+    yaw=gyroBase.y+da; pitch=gyroBase.p+(e.beta-gyroBase.b)*.8; dirty=true;
+  }
+  gyroBtn.onclick=async()=>{
+    if(gyroOn){window.removeEventListener('deviceorientation',onOrient);gyroOn=false;gyroBtn.classList.remove('on');return;}
+    try{ if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){const r=await DeviceOrientationEvent.requestPermission(); if(r!=='granted') throw new Error('denied');} }
+    catch(err){statusText.textContent='Không bật được cảm biến xoay trên máy này.';return;}
+    gyroBase=null; window.addEventListener('deviceorientation',onOrient); gyroOn=true; gyroBtn.classList.add('on');
+  };
+  window.addEventListener('resize',()=>{dirty=true;});
+  return {
+    start(){ if(!initGL()) return; running=true; if(!cur) go(idx,false); else dirty=true; cancelAnimationFrame(raf); raf=requestAnimationFrame(loop); },
+    stop(){ running=false; cancelAnimationFrame(raf); },
+    turn(d){ yaw+=d; dirty=true; },
+    next(d){ go(idx+d,true); },
+    walk(){ const l=cur&&cur.links[0]; if(l) walkTo(l.to,l.yaw); else go(idx+1,true); },
+    get index(){return idx;}
+  };
+})();
+
+btnPhoto.onclick=()=>setMode('photo');
+btnSim.onclick=()=>setMode('sim');
+btnFp.onclick=()=>setMode('fp');
+backBtn.onclick=()=>{ if(mode==='fp') return fp.next(-1); if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else moveScene(-1); };
+nextBtn.onclick=()=>{ if(mode==='fp') return fp.next(1); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else moveScene(1); };
+leftBtn.onclick=()=>{ if(mode==='fp') return fp.turn(-20); if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else turnCamera(-.45); };
+rightBtn.onclick=()=>{ if(mode==='fp') return fp.turn(20); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else turnCamera(.45); };
+focusBtn.onclick=()=>{
+  if(mode==='fp') return fp.walk();
+  if(mode==='photo') setMode('sim');
+  const scene=scenes[sceneIndex];
+  if(scene.hotspots.length){
+    const target=scene.hotspots[simFocusIndex % scene.hotspots.length].plantId;
+    simFocusIndex++;
+    selectedPlantId=target; renderSelectedPlant(); renderPlantList(); drawScene();
+  } else {
+    moveScene(1);
+  }
+};
+document.addEventListener('keydown',e=>{
+  if(mode==='fp' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
+    const k={ArrowLeft:()=>fp.turn(-10),ArrowRight:()=>fp.turn(10),ArrowUp:()=>fp.walk(),ArrowDown:()=>fp.next(-1),Enter:()=>fp.walk()}[e.key];
+    if(k){e.preventDefault();k();} return;
+  }
+  if(mode!=='sim' || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')) return;
+  if(e.key==='ArrowUp'){e.preventDefault();moveScene(1);}
+  if(e.key==='ArrowDown'){e.preventDefault();moveScene(-1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();turnCamera(-.45);}
+  if(e.key==='ArrowRight'){e.preventDefault();turnCamera(.45);}
+  if(e.key==='Enter'){e.preventDefault();focusBtn.click();}
+});
+
+markAnswerBtn.onclick=()=>{
+  if(!selectedPlantId){alert('Hãy chọn một cây trước.'); return;}
+  const q=currentQuest();
+  if(selectedPlantId===q.plantId){
+    questProgress.add(q.id);
+    updateQuestUI();
+    statusText.textContent=`Đúng: ${byId(selectedPlantId).name}`;
+    gvQuestDone(selectedPlantId);
+    const nxt=quests.find(x=>!questProgress.has(x.id)); if(nxt){currentQuestId=nxt.id; updateQuestUI();}
+  } else {
+    statusText.textContent=`Chưa đúng: ${byId(selectedPlantId).name}`;
+    gvToast(`Chưa đúng. Gợi ý: ${q.title.toLowerCase()}`);
+  }
+};
+resetQuestBtn.onclick=()=>{questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); statusText.textContent='Đã reset nhiệm vụ';};
+
+
+/* =====================================================================
+   HÀNH TRÌNH NGƯỜI GIỮ VƯỜN — vòng chơi, điểm, hạng, thẻ cây.
+   - Mọi nội dung đều từ ảnh thật; câu hỏi chỉ về đặc điểm nhận biết cây
+     và về việc đối chiếu bố cục theo thời gian. Không có nội dung điều trị.
+   - Tiến trình CHỈ lưu trên thiết bị (localStorage). Chưa ghi vào Study OS;
+     không phát tín dụng, không đụng kho giống/ví của Gia Viên đang chạy.
+   ===================================================================== */
+const GV_KEY='gv-thuc-canh-v1';
+const plantQuiz={
+  'plant-sa':{q:'Đặc điểm nào giúp nhận ra sả trong vườn?',opts:['Bụi lá dài, hẹp, mọc thẳng từ gốc; vò lá có mùi thơm','Dây leo bám lên khung giàn','Lá dày, có vằn ngang xanh đậm'],ok:0,
+    why:'Sả mọc thành bụi, lá dài hẹp như lá cỏ và có mùi thơm khi vò. Cây trong vườn đang được định danh tạm, chờ đối chiếu danh mục chính thức.'},
+  'plant-sandays':{q:'Sắn dây thuộc dạng cây nào?',opts:['Cây thân gỗ lớn','Dây leo, cần giá đỡ để bám','Bụi thân mềm thấp mọc sát đất'],ok:1,
+    why:'Sắn dây là dây leo nên cần khung hoặc giá đỡ, vì vậy dây trên khung giàn là dấu hiệu để tìm. Vị trí này là định danh tạm, cần đối chiếu mã QR.'},
+  'plant-bacha':{q:'Khi nhận biết bạc hà, đặc điểm nào dễ kiểm tra nhất?',opts:['Mùi thơm mát đặc trưng khi vò nhẹ lá','Lá dày có vằn ngang','Mọc thành dây leo trên giàn'],ok:0,
+    why:'Bạc hà có mùi thơm mát đặc trưng từ tinh dầu trong lá. Vị trí cây trong ảnh hiện chỉ là đoán, cần quét mã QR tại vườn để chốt.'},
+  'plant-zing':{q:'Các cây họ Gừng thường được dùng phần nào làm gia vị?',opts:['Hoa','Thân rễ (củ)','Vỏ thân'],ok:1,
+    why:'Nhiều cây họ Gừng (gừng, nghệ, riềng) được dùng thân rễ làm gia vị. Khóm lá mác trong ảnh mới chỉ định danh tới mức họ, chưa chốt loài.'},
+  'plant-luoiho':{q:'Đặc điểm nào dễ nhận ra lưỡi hổ nhất?',opts:['Lá nhỏ mọc đối, thân mềm','Dây leo lá lớn','Lá dày, mọc thẳng, có vằn ngang xanh đậm'],ok:2,
+    why:'Lưỡi hổ có lá dày, mọc thẳng, vằn ngang xanh đậm khá đặc trưng, nên là cây dễ nhận ra nhất trong bộ này.'}
+};
+const timeQuiz={
+  's-0710':{id:'t1',q:'So với bố cục hiện tại (09/2026), phần tường phía sau giàn trong ảnh lưu trữ 10/07 khác ở điểm nào?',
+    opts:['Tường đã được vẽ lại thành cảnh phong cảnh xanh lá có hồ và rừng cây','Tường chưa từng có tranh','Tường được thay bằng hàng rào kính'],ok:0,
+    why:'Ảnh 10/07 còn tường tranh cũ nền xanh dương. Ảnh từ 12/09 trở đi là tranh phong cảnh mới, vì vậy ảnh cũ được xếp vào mục Lưu trữ.'},
+  's-0606':{id:'t2',q:'Vì sao ảnh tháng 6 và tháng 7 được xếp vào “Lưu trữ” chứ không phải “Hiện trạng”?',
+    opts:['Vì ảnh bị mờ nên không dùng được','Vì chụp trước khi tường tranh được vẽ lại, không còn đúng bố cục hiện tại','Vì ảnh chụp ở khu vườn khác'],ok:1,
+    why:'Game luôn dùng ảnh khớp bố cục hiện tại làm chuẩn. Ảnh cũ được giữ để so sánh thay đổi theo thời gian, không dùng để tìm cây.'}
+};
+const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10};
+const RANKS=[[0,'Khách tham quan'],[40,'Học việc'],[90,'Người giữ vườn'],[140,'Người giữ vườn xuất sắc']];
+const gvState={scene:[],fp:[],found:[],quiz:{},time:{},score:0,done:false,intro:false};
+function gvLoad(){ try{ const j=JSON.parse(localStorage.getItem(GV_KEY)||'null'); if(j&&typeof j==='object'){ ['scene','fp','found'].forEach(k=>{ if(Array.isArray(j[k])) gvState[k]=j[k].filter(x=>typeof x==='string'||typeof x==='number'); }); ['quiz','time'].forEach(k=>{ if(j[k]&&typeof j[k]==='object') gvState[k]=j[k]; }); gvState.done=!!j.done; gvState.intro=!!j.intro; gvRecalc(); } }catch(e){} }
+function gvSave(){ try{ localStorage.setItem(GV_KEY,JSON.stringify(gvState)); }catch(e){} }
+function gvRecalc(){
+  let sc=gvState.scene.length*POINTS.scene+gvState.fp.length*POINTS.fp+gvState.found.length*POINTS.quest;
+  Object.values(gvState.quiz).forEach(v=>{ if(v&&v.done) sc+= v.first?POINTS.quizFirst:POINTS.quizRetry; });
+  sc+=Object.keys(gvState.time).filter(k=>gvState.time[k]&&gvState.time[k].done).length*POINTS.time;
+  gvState.score=sc;
+}
+const GV_MAX=scenes.length*POINTS.scene+fpStations.filter(x=>x.era==='now').length*POINTS.fp+plants.length*(POINTS.quest+POINTS.quizFirst)+Object.keys(timeQuiz).length*POINTS.time;
+function gvRank(){ let r=RANKS[0][1]; RANKS.forEach(([t,n])=>{ if(gvState.score>=t) r=n; }); return r; }
+const gvToastEl=document.getElementById('gvToast'); let gvToastT=0;
+function gvToast(msg){ gvToastEl.textContent=msg; gvToastEl.classList.add('on'); clearTimeout(gvToastT); gvToastT=setTimeout(()=>gvToastEl.classList.remove('on'),2600); }
+const gvDlg=document.getElementById('gvDlg'), gvBody=document.getElementById('gvDlgBody');
+function gvOpenQuiz(title,quiz,onResult,first){
+  let tries=0;
+  gvBody.innerHTML=`<h3>${title}</h3><p style="margin:0 0 6px;color:#d9ebe1">${quiz.q}</p><div id="gvOpts">${quiz.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div><div class="fb" id="gvFb"></div><div class="row"><button id="gvClose">Để sau</button></div>`;
+  const fb=gvBody.querySelector('#gvFb');
+  gvBody.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i; tries++;
+    if(i===quiz.ok){
+      gvBody.querySelectorAll('.opt').forEach(x=>x.disabled=true); b.classList.add('ok');
+      fb.innerHTML=`<strong>Đúng.</strong> ${quiz.why}`;
+      gvBody.querySelector('#gvClose').textContent='Tiếp tục'; gvBody.querySelector('#gvClose').classList.add('primary');
+      onResult(tries===1&&first!==false);
+    } else { b.classList.add('bad'); b.disabled=true; fb.textContent='Chưa đúng, thử lại nhé.'; }
+  });
+  gvBody.querySelector('#gvClose').onclick=()=>gvDlg.close();
+  if(!gvDlg.open) gvDlg.showModal();
+}
+function gvAfter(msg){ gvRecalc(); gvSave(); gvRender(); if(msg) gvToast(msg); gvCheckDone(); }
+function gvVisitScene(i){ const k=String(i); if(!gvState.scene.includes(k)){ gvState.scene.push(k); gvAfter(`+${POINTS.scene} điểm · đã ghé trạm ${i+1}`); } }
+function gvVisitFp(id){
+  const st=fpStations.find(x=>x.id===id); if(!st) return;
+  if(st.era==='now' && !gvState.fp.includes(id)){ gvState.fp.push(id); gvAfter(`+${POINTS.fp} điểm · đã đứng ở trạm 3D mới`); }
+  const tq=timeQuiz[id];
+  if(tq && !(gvState.time[tq.id]&&gvState.time[tq.id].done)){
+    setTimeout(()=>gvOpenQuiz('Đối chiếu theo thời gian',tq,()=>{ gvState.time[tq.id]={done:true}; gvAfter(`+${POINTS.time} điểm · đối chiếu bố cục`); }),700);
+  }
+}
+function gvQuestDone(plantId){
+  const p=byId(plantId); if(!p) return;
+  if(!gvState.found.includes(plantId)){ gvState.found.push(plantId); gvAfter(`+${POINTS.quest} điểm · tìm thấy ${p.name}`); }
+  const qz=plantQuiz[plantId]; const done=gvState.quiz[plantId]&&gvState.quiz[plantId].done;
+  if(qz && !done){
+    gvOpenQuiz(`Thẻ cây: ${p.name}`,qz,first=>{ gvState.quiz[plantId]={done:true,first:!!first}; gvAfter(`+${first?POINTS.quizFirst:POINTS.quizRetry} điểm · mở thẻ ${p.name}`); });
+  }
+}
+function gvCheckDone(){
+  const all=gvState.scene.length>=scenes.length && gvState.fp.length>=fpStations.filter(x=>x.era==='now').length && plants.every(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done) && Object.values(timeQuiz).every(t=>gvState.time[t.id]&&gvState.time[t.id].done);
+  if(all && !gvState.done){
+    gvState.done=true; gvSave();
+    setTimeout(()=>{
+      gvBody.innerHTML=`<h3>Hoàn thành hành trình</h3><p style="color:#d9ebe1">Bạn đã đi hết ${scenes.length} trạm, đứng ở các trạm 3D, mở ${plants.length}/${plants.length} thẻ cây và đối chiếu bố cục theo thời gian.</p><p><strong>${gvState.score}/${GV_MAX} điểm · ${gvRank()}</strong></p><p class="fb">Tên cây là định danh tạm. Khi có danh mục chính thức và mã QR, các thẻ sẽ được cập nhật và bạn có thể chơi lại để mở thẻ mới.</p><div class="row"><button class="primary" onclick="document.getElementById('gvDlg').close()">Đóng</button></div>`;
+      if(!gvDlg.open) gvDlg.showModal();
+    },900);
+  }
+}
+function gvRender(){
+  document.getElementById('jrScore').textContent=gvState.score;
+  document.getElementById('jrMax').textContent=GV_MAX;
+  document.getElementById('jrRank').textContent=gvRank();
+  document.getElementById('jrBar').style.width=Math.min(100,gvState.score/GV_MAX*100)+'%';
+  const nowFp=fpStations.filter(x=>x.era==='now');
+  const m=(done,txt)=>`<div class="jr-m ${done?'done':''}"><i>${done?'✓':''}</i><span>${txt}</span></div>`;
+  const ch1=[m(gvState.scene.length>=scenes.length,`Ghé đủ ${scenes.length} trạm ở “Khám phá thực cảnh” (${gvState.scene.length}/${scenes.length})`),
+             m(gvState.fp.length>=nowFp.length,`Đứng ở ${nowFp.length} trạm “Góc nhìn thứ nhất 3D” hiện trạng (${gvState.fp.length}/${nowFp.length})`)];
+  const ch2=plants.map(p=>{ const f=gvState.found.includes(p.id), q=gvState.quiz[p.id]&&gvState.quiz[p.id].done; return m(f&&q,`${quests.find(x=>x.plantId===p.id)?.title||p.name}${f&&!q?' · còn câu hỏi thẻ cây':''}`); });
+  const tq=Object.entries(timeQuiz);
+  const ch3=tq.map(([sid,t])=>m(gvState.time[t.id]&&gvState.time[t.id].done,`Mở trạm lưu trữ ${fpStations.find(x=>x.id===sid)?.date} trong 3D và trả lời câu đối chiếu`));
+  const block=(t,list,doneN,tot)=>`<div class="jr-ch"><h4><span>${t}</span><span style="color:var(--muted);font-weight:400">${doneN}/${tot}</span></h4>${list.join('')}</div>`;
+  const c1=(gvState.scene.length>=scenes.length?1:0)+(gvState.fp.length>=nowFp.length?1:0);
+  const c2=plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length;
+  const c3=tq.filter(([,t])=>gvState.time[t.id]&&gvState.time[t.id].done).length;
+  document.getElementById('jrChapters').innerHTML=block('Chương 1 · Bước vào vườn',ch1,c1,2)+block('Chương 2 · Tìm và biết cây',ch2,c2,plants.length)+block('Chương 3 · Vườn đổi theo thời gian',ch3,c3,tq.length);
+  const grid=document.getElementById('herbGrid');
+  grid.innerHTML=plants.map(p=>{
+    const open=gvState.quiz[p.id]&&gvState.quiz[p.id].done;
+    return open?`<div class="herb-card"><strong>${p.name}</strong>${p.code}<br>${p.title}<span class="tag">${p.status} · ${Math.round(p.confidence*100)}%</span></div>`
+               :`<div class="herb-card locked"><strong>?</strong>Chưa mở thẻ</div>`;
+  }).join('');
+  document.getElementById('herbCount').textContent=`${plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length}/${plants.length}`;
+}
+document.getElementById('jrReset').onclick=()=>{
+  if(!confirm('Xoá tiến trình trên thiết bị này và chơi lại từ đầu?')) return;
+  gvState.scene=[];gvState.fp=[];gvState.found=[];gvState.quiz={};gvState.time={};gvState.score=0;gvState.done=false;gvState.intro=false;
+  questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); gvSave(); gvRender(); gvToast('Đã xoá tiến trình, bắt đầu lại.');
+};
+
+function gvIntro(){
+  if(gvState.intro) return;
+  gvBody.innerHTML=`<h3>Nhật ký người giữ vườn</h3>
+  <p style="color:#d9ebe1;line-height:1.5">Sáng nay bạn nhận chìa khoá khu vườn dược thảo của khoa. Bảng danh sách cây đã treo ở giàn, nhưng các nhãn còn chờ người kiểm lại. Bạn sẽ đi hết vườn, tìm đúng từng cây, mở thẻ cây và ghi lại vườn đã đổi thế nào so với mấy tháng trước.</p>
+  <ol style="color:var(--muted);line-height:1.6;padding-left:20px;margin:8px 0">
+    <li><strong>Ảnh thật:</strong> xem 11 khung hình thật của vườn.</li>
+    <li><strong>Khám phá thực cảnh:</strong> đi 6 trạm, chạm điểm vàng để tìm đúng cây của nhiệm vụ.</li>
+    <li><strong>Góc nhìn thứ nhất 3D:</strong> đứng giữa vườn, nhìn quanh, rồi mở trạm lưu trữ để so sánh với hiện nay.</li>
+  </ol>
+  <p class="fb">Điểm và thẻ cây lưu trên thiết bị này. Tên cây là định danh tạm, chờ danh mục chính thức.</p>
+  <div class="row"><button class="primary" id="gvStart">Bắt đầu</button></div>`;
+  gvBody.querySelector('#gvStart').onclick=()=>{ gvState.intro=true; gvSave(); gvDlg.close(); };
+  gvDlg.addEventListener('close',()=>{ if(!gvState.intro){ gvState.intro=true; gvSave(); } },{once:true});
+  if(!gvDlg.open) gvDlg.showModal();
+}
+gvLoad();
+questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
+currentQuestId=(quests.find(q=>!questProgress.has(q.id))||quests[0]).id;
+
+renderPhotoMode();
+renderPlantList();
+renderSelectedPlant();
+updateQuestUI();
+gvRender();
+setTimeout(gvIntro,400);
+(function(){
+  let m='photo';
+  try{ const q=new URLSearchParams(location.search).get('mode')||location.hash.replace('#',''); if(['fp','3d'].includes(q)) m='fp'; else if(q==='sim') m='sim'; }catch(e){}
+  setMode(m);
+  if(m!=='photo'){ try{ document.querySelector('.stage').scrollIntoView({block:'start'}); }catch(e){} }
+})();
+</script>
+</body>
+</html>
