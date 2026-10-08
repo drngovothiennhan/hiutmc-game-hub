@@ -399,7 +399,7 @@ const resetQuestBtn=document.getElementById('resetQuestBtn');
 function byId(id){return plants.find(p=>p.id===id)}
 function currentQuest(){return quests.find(q=>q.id===currentQuestId)}
 
-// Bản nén (cùng ảnh thật, chỉ giảm kích thước) cho mobile; lỗi thì quay về ảnh gốc.
+// Ảnh thật đã nén (web 1600px, thumb 360px); ảnh gốc đã gỡ khỏi repo. Lỗi mạng thì thử lại bản web một lần.
 const webSrc=src=>src.replace('/assets/','/assets/web/');
 const thumbSrc=src=>src.replace('/assets/','/assets/thumb/');
 const photoFrame=document.getElementById('photoFrame');
@@ -416,7 +416,7 @@ function loadPhoto(src){
     img.onerror=()=>reject(new Error('HTTP/decode error '+url));
     img.src=url;
   });
-  const job=tryLoad(webSrc(src)).catch(err=>{console.warn('[gia-vien] web copy failed, using original',err.message);return tryLoad(src);});
+  const job=tryLoad(webSrc(src)).catch(err=>{console.warn('[gia-vien] web copy failed, retrying',err.message);return tryLoad(webSrc(src)+'?r=1');});
   job.catch(()=>photoCache.delete(src));
   photoCache.set(src,job);
   return job;
@@ -456,7 +456,7 @@ function renderPhotoMode(){
     photoStatus.textContent=`Không tải được ảnh ${p.src.split('/').pop()}. Kiểm tra mạng rồi bấm lại khung ảnh.`;
     photoStatus.classList.add('show');
   });
-  thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}" aria-label="${ph.title}"><img src="${thumbSrc(ph.src)}" data-orig="${ph.src}" alt="" loading="lazy" decoding="async"><span>${i+1}. ${ph.title}</span></button>`).join('');
+  thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}" aria-label="${ph.title}"><img src="${thumbSrc(ph.src)}" data-orig="${webSrc(ph.src)}" alt="" loading="lazy" decoding="async"><span>${i+1}. ${ph.title}</span></button>`).join('');
   thumbs.querySelectorAll('.thumb img').forEach(im=>im.onerror=()=>{im.onerror=null;im.src=im.dataset.orig;});
   thumbs.querySelectorAll('.thumb').forEach(btn=>btn.onclick=()=>{photoIndex=+btn.dataset.i;renderPhotoMode()});
   if(window.__thumbsReady) thumbs.querySelector('.thumb.active')?.scrollIntoView({block:'nearest',inline:'nearest'}); window.__thumbsReady=true;
@@ -552,7 +552,7 @@ function getSceneImage(src){
   if(sceneImages.has(src)) return sceneImages.get(src);
   const img=new Image();
   img.decoding='async';
-  img.onerror=()=>{img.onerror=null;img.src=src;};
+  img.onerror=()=>{img.onerror=null;img.src=webSrc(src)+'?r=1';};
   img.src=webSrc(src);
   sceneImages.set(src,img);
   return img;
