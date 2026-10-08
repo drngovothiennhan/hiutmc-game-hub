@@ -294,7 +294,8 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
     <div class="card">
       <h3>Sổ thẻ cây <span style="color:var(--muted);font-weight:400;font-size:13px" id="herbCount"></span></h3>
       <div class="herb" id="herbGrid"></div>
-      <p class="jr-note">Tên và thông tin là định danh tạm, chờ danh mục chính thức và mã QR.</p>
+      <div class="quiz-actions" style="margin-top:10px"><button id="catBtn">Danh mục bảng cây (70 số)</button></div>
+      <p class="jr-note">Danh mục đọc bằng AI từ ảnh bảng trong vườn (12/09), chưa đọc hết. Tên cây trong game còn là định danh tạm, chờ danh mục chính thức và mã QR.</p>
     </div>
 
     <div class="card">
@@ -342,23 +343,23 @@ const photos=[
 const plants=[
   {id:'plant-sa', code:'Tạm 01', name:'Sả', latin:'Cymbopogon citratus (tạm)', confidence:0.6, scene:3,
     title:'Bụi lá dài hẹp trong chậu đỏ',
-    why:'Định danh tạm theo dạng bụi lá dài, hẹp, mọc thẳng từ gốc. Thông tin để tìm hiểu: sả là cây thân thảo thơm, thường dùng làm gia vị và lấy tinh dầu. Chưa gắn số/QR chính thức.',
+    why:'Định danh tạm theo dạng bụi lá dài, hẹp, mọc thẳng từ gốc. Thông tin để tìm hiểu: sả là cây thân thảo thơm, thường dùng làm gia vị và lấy tinh dầu. Số thứ tự trên bảng chưa đọc rõ.',
     hint:'Tìm bụi lá dài hẹp cao nhất trong chậu đỏ ở phía phải sân.', status:'Trung bình'},
-  {id:'plant-sandays', code:'Tạm 02', name:'Sắn dây', latin:'Pueraria montana var. lobata (tạm)', confidence:0.5, scene:2,
+  {id:'plant-sandays', code:'Số 61? (đọc dở)', name:'Sắn dây', latin:'Pueraria montana var. lobata (tạm)', confidence:0.5, scene:2,
     title:'Dây leo lá lớn trên khung giàn',
     why:'Định danh tạm theo dây leo lá lớn bám trên khung giàn phía trên bảng danh sách; thư mục mã QR của vườn có tên Sắn dây. Thông tin để tìm hiểu: sắn dây là cây leo, củ dùng làm bột. Cần đối chiếu QR để chốt.',
     hint:'Nhìn lên khung giàn, tìm dây leo lá lớn phía trên bảng danh sách cây.', status:'Trung bình'},
-  {id:'plant-bacha', code:'Tạm 03', name:'Bạc hà', latin:'Mentha sp. (tạm)', confidence:0.35, scene:3,
+  {id:'plant-bacha', code:'Số 1', name:'Bạc hà', latin:'Mentha sp. (tạm)', confidence:0.35, scene:3,
     title:'Bụi cây lá nhỏ thân mềm tầng thấp',
     why:'Thư mục mã QR của vườn có tên Bạc hà nhưng chưa xác định chắc vị trí trong ảnh; đây là vị trí đoán theo dạng bụi lá nhỏ thân mềm ở tầng thấp. Thông tin để tìm hiểu: bạc hà có mùi mát đặc trưng từ tinh dầu. Cần quét QR tại vườn để chốt.',
     hint:'Tìm bụi lá nhỏ, thân mềm, mọc dày ở tầng thấp gần lối đi.', status:'Thấp'},
-  {id:'plant-zing', code:'Tạm 04', name:'Nhóm gừng/riềng (chưa chốt)', latin:'Zingiberaceae sp. (tạm)', confidence:0.4, scene:2,
+  {id:'plant-zing', code:'Số 29? · Gừng', name:'Nhóm gừng/riềng (chưa chốt)', latin:'Zingiberaceae sp. (tạm)', confidence:0.4, scene:2,
     title:'Khóm lá mác lớn trong chậu cam',
     why:'Chỉ định danh tới mức nhóm họ Gừng theo dạng lá mác lớn mọc khóm. Chưa đủ dữ liệu để chốt gừng, nghệ hay riềng.',
     hint:'Tìm khóm lá mác lớn, mọc từ một chậu cam ở bên trái lối đi.', status:'Thấp'},
   {id:'plant-luoiho', code:'Tạm 05', name:'Lưỡi hổ', latin:'Dracaena trifasciata (tạm)', confidence:0.85, scene:5,
     title:'Lá dày có vằn ngang ở góc phải',
-    why:'Lá dày, mọc thẳng, có vằn ngang xanh đậm — đặc điểm điển hình của lưỡi hổ. Thông tin để tìm hiểu: cây chịu bóng và chịu khô tốt, thường trồng trang trí. Chưa gắn số/QR chính thức.',
+    why:'Lá dày, mọc thẳng, có vằn ngang xanh đậm — đặc điểm điển hình của lưỡi hổ. Thông tin để tìm hiểu: cây chịu bóng và chịu khô tốt, thường trồng trang trí. Số thứ tự trên bảng chưa đọc rõ.',
     hint:'Nhìn góc phải ảnh dọc tường, tìm các lá dày có vằn ngang.', status:'Cao'}
 ];
 
@@ -1198,6 +1199,26 @@ function gvIntro(){
   gvDlg.addEventListener('close',()=>{ if(!gvState.intro){ gvState.intro=true; gvSave(); } },{once:true});
   if(!gvDlg.open) gvDlg.showModal();
 }
+
+/* Danh mục bảng cây: AI đọc từ ảnh bảng "Danh sách cây vườn Gia Viên" (ảnh 12/09). null = chưa đọc rõ. */
+const boardList={1:['Bạc hà','Mentha sp.'],2:['Bách bộ','Stemona tuberosa'],3:['Bạch đồng nữ',''],4:['Bạch hoa xà thiệt thảo','Hedyotis diffusa'],5:['Bán hạ nam','Typhonium trilobatum'],6:['Bổ chính sâm',''],7:['Bồ công anh',''],8:['Cà gai leo','Solanum procumbens'],9:['Cam thảo đất','Scoparia dulcis'],10:['Cây ổi','Psidium guajava'],11:['Cỏ mần trầu','Eleusine indica'],12:['Cỏ nhọ nồi','Eclipta prostrata'],13:['Cỏ sữa lá nhỏ','Euphorbia thymifolia'],14:['Cỏ tranh','Imperata cylindrica'],15:['Cỏ xước','Achyranthes aspera'],16:['Cối xay','Abutilon indicum'],17:null,18:['Cúc hoa',''],19:['Cúc tần','Pluchea indica'],20:['Dành dành','Gardenia jasminoides'],21:['Dâu tằm','Morus alba'],22:['Diệp hạ châu','Phyllanthus urinaria'],23:['Dừa cạn','Catharanthus roseus'],24:['Địa hoàng','Rehmannia glutinosa'],25:['Địa liền',''],26:['Đinh lăng','Polyscias fruticosa'],27:['Đơn lá đỏ',''],28:['Gai',''],29:['Gừng','Zingiber officinale'],30:['Hạ khô thảo',''],31:['Hoắc hương','Pogostemon cablin'],32:['Húng chanh','Plectranthus amboinicus'],33:['Huyết dụ','Cordyline fruticosa'],34:['Hương nhu tía','Ocimum tenuiflorum'],35:['Hy thiêm','Siegesbeckia orientalis'],62:['Sim','Rhodomyrtus tomentosa'],70:['Ý dĩ','Coix lacryma-jobi']};
+const boardPartial={57:'I…',58:'P…',59:'S…',60:'S…',61:'Sắ… (có thể là Sắn dây)',63:'Thi…',67:'Xạ c…',68:'Xích…',69:'Xuyên…'};
+function gvOpenCatalog(){
+  let rows='',read=0;
+  for(let n=1;n<=70;n++){
+    const b=boardList[n];
+    if(b){read++;rows+=`<tr><td>${n}</td><td><strong>${b[0]}</strong>${b[1]?`<br><em style="color:var(--muted)">${b[1]}</em>`:''}</td></tr>`;}
+    else if(boardPartial[n]) rows+=`<tr><td>${n}</td><td style="color:var(--muted)">${boardPartial[n]} <span style="font-size:12px">(đọc dở)</span></td></tr>`;
+    else rows+=`<tr><td>${n}</td><td style="color:var(--muted)">— chưa đọc được —</td></tr>`;
+  }
+  gvBody.innerHTML=`<h3>Danh mục bảng cây vườn</h3>
+  <p class="fb" style="margin:0 0 8px">AI đọc từ ảnh bảng ngày 12/09: đọc rõ ${read}/70 mục (số 1–35 gần đủ, 36–52 bị che, 53–70 mới thấy phần đầu tên). Tên khoa học chỉ ghi khi chắc; cần đối chiếu danh mục chính thức. Danh mục này chỉ để tra tên, không thay cho hướng dẫn sử dụng dược liệu.</p>
+  <div style="max-height:46vh;overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:10px"><table style="width:100%;border-collapse:collapse;font-size:14px"><tbody>${rows}</tbody></table></div>
+  <div class="row"><button class="primary" id="gvCatClose">Đóng</button></div>`;
+  gvBody.querySelector('#gvCatClose').onclick=()=>gvDlg.close();
+  if(!gvDlg.open) gvDlg.showModal();
+}
+document.getElementById('catBtn').onclick=gvOpenCatalog;
 gvLoad();
 questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
 currentQuestId=(quests.find(q=>!questProgress.has(q.id))||quests[0]).id;
