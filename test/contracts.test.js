@@ -74,11 +74,11 @@ test('Game Hub is available to every linked, verified member role', () => {
   assert.doesNotMatch(memberGate, /chỉ dành cho Admin, Mod và Super Mod|topnav|Bản đồ|Gia Viên|Năng lực/);
 });
 
-test('Gia Viên Thực Cảnh is listed as a live Hub game and its page ships in public/', async () => {
+test('Gia Viên Dược Thảo 3D is listed as a live Hub game and its page ships in public/', async () => {
   const { existsSync } = await import('node:fs');
   const place = worldMap.find(item => item.id === 'garden-field');
   assert.equal(place.state, 'available-live');
   assert.match(place.href, /^\/[a-z0-9-]+\/$/);
   assert.ok(existsSync(new URL(`../public${place.href}index.html`, import.meta.url)));
-  assert.match(renderWorldMap(null, null, true), /Gia Viên Thực Cảnh/);
+  assert.match(renderWorldMap(null, null, true), /Gia Viên Dược Thảo 3D/);
 });

@@ -1,4 +1,4 @@
-# Gia Viên Thực Cảnh — kịch bản, cách chơi và kế hoạch thay thế
+# Gia Viên Dược Thảo 3D — kịch bản, cách chơi và kế hoạch thay thế
 
 Cập nhật 08/10/2026. Bản chạy: `public/gia-vien-duoc-thao-preview/index.html` (một file, không phụ thuộc thư viện ngoài).
 Xem thử: `https://game-hub-intro-ux.hiutmc-game-hub.pages.dev/gia-vien-duoc-thao-preview/` (thêm `?mode=fp` để mở thẳng 3D).
@@ -67,11 +67,11 @@ Trong `index.html`, sửa bốn khối dữ liệu (không cần đổi logic):
 
 **Hiện trạng đã đọc trong repo.** Gia Viên đang chạy là game có máy chủ làm chủ dữ liệu (Supabase dùng chung với Study OS): trồng, tưới, bón, thu hoạch, kho giống, kho dược liệu, ví tín dụng, 9 ô vườn và phần thưởng mốc `herb_garden_claim_milestone_v1`. `docs/GAME_CONTRACTS.md` quy định không đổi gameplay đang chạy và không tạo bản lưu rỗng thay cho dữ liệu cũ. Trong Hub, mục `garden` mở runtime Study OS, mục `garden-continuation` là phần mở rộng trong Hub.
 
-**Vì sao chưa thay thẳng.** Gia Viên Thực Cảnh chưa ghi được gì lên máy chủ. Nếu thay ngay, thành viên mất đường vào ví tín dụng, kho giống và các ô vườn đã mở; đây là thay đổi không rút lại được với dữ liệu thật. Vì vậy bản này được làm **sẵn sàng thay thế**, chưa thay.
+**Vì sao chưa thay thẳng.** Gia Viên Dược Thảo 3D chưa ghi được gì lên máy chủ. Nếu thay ngay, thành viên mất đường vào ví tín dụng, kho giống và các ô vườn đã mở; đây là thay đổi không rút lại được với dữ liệu thật. Vì vậy bản này được làm **sẵn sàng thay thế**, chưa thay.
 
 **Ba bước để thay, theo thứ tự an toàn:**
 
-1. **Chạy song song (đã làm, 08/10/2026).** Mục `garden-field` "Gia Viên Thực Cảnh" nằm trong `src/data/world-map.js` với `state: 'available-live'` và `href: '/gia-vien-duoc-thao-preview/'`, đứng cạnh mục Gia Viên cũ. Mục `garden` (Study OS) giữ nguyên. `test/contracts.test.js` đã cập nhật danh sách mục chạy được và thêm test kiểm tra trang tồn tại. Tên đường dẫn còn chữ preview; đổi sang `/gia-vien-thuc-canh/` khi chuyển hướng ở bước 3.
+1. **Chạy song song (đã làm, 08/10/2026).** Mục `garden-field` "Gia Viên Dược Thảo 3D" nằm trong `src/data/world-map.js` với `state: 'available-live'` và `href: '/gia-vien-duoc-thao-preview/'`, đứng cạnh mục Gia Viên cũ. Mục `garden` (Study OS) giữ nguyên. `test/contracts.test.js` đã cập nhật danh sách mục chạy được và thêm test kiểm tra trang tồn tại. Tên đường dẫn còn chữ preview; đổi sang `/gia-vien-thuc-canh/` khi chuyển hướng ở bước 3.
 2. **Nối Study OS (cần duyệt trước).** Tiến trình và thưởng phải đi qua RPC phía máy chủ theo mẫu `herb_garden_claim_milestone_v1`: một bảng ghi nhận theo `(member_id, milestone_key)` có RLS và không cấp quyền trực tiếp, RPC chỉ cho người đã đăng nhập và đã duyệt, trình duyệt không bao giờ gửi giá trị thưởng. Đề xuất mốc: hoàn thành từng chương (3 mốc) và mở đủ 5 thẻ cây. Chưa viết migration và chưa chạm vào cơ sở dữ liệu.
 3. **Chuyển hướng.** Khi bước 2 xong và đã kiểm thử bằng tài khoản thử riêng (không dùng bản lưu của thành viên thật), mới đổi mục `garden` sang game mới. Giữ nguyên runtime Study OS cũ và dữ liệu `herb_garden_*` để thành viên cũ vẫn truy cập được.
 
