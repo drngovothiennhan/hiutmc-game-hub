@@ -1,4 +1,4 @@
-# Gia Viên Dược Thảo 3D — kịch bản, cách chơi và kế hoạch thay thế
+# Gia Viên Dược Thảo (ảnh thật 3D) — kịch bản, cách chơi và kế hoạch thay thế
 
 Cập nhật 08/10/2026. Bản chạy: `public/gia-vien-duoc-thao-preview/index.html` (một file, không phụ thuộc thư viện ngoài).
 Xem thử: `https://game-hub-intro-ux.hiutmc-game-hub.pages.dev/gia-vien-duoc-thao-preview/` (thêm `?mode=fp` để mở thẳng 3D).
@@ -90,6 +90,10 @@ Chưa làm: kiểm thử trên máy thật, đồng bộ Study OS, kiểm tra th
 1. Danh mục cây chính thức theo số, và nội dung mã QR của 3 mã đã có (Bạc hà, Sim, Sắn dây).
 2. Bước 2 (RPC và bảng ghi nhận trên Supabase dùng chung) cần kiểm thử với phiên đăng nhập thành viên thật trên bản xem thử trước khi áp dụng.
 3. Thời điểm chuyển hướng mục `garden` sang game mới (bước 3).
+
+## 9. Cập nhật 08/10/2026 — chủ dự án quyết định thay hẳn
+
+Chủ dự án xác nhận game cũ chỉ tồn tại trong Study OS và chọn thay hẳn. Trong Game Hub, mục `garden` giờ mở `/gia-vien-duoc-thao-preview/`; mục `garden-field` trùng đã bỏ. Runtime Study OS và dữ liệu `herb_garden_*` **không bị xoá hay sửa**. Việc ghi tiến trình lên Study OS (bước 2) vẫn chưa làm; `garden-continuation` giữ nguyên.
 
 ## 10. Cập nhật 08/10/2026 (tối) — Chương 4 "Nhận mặt cây" và ảnh mới
 
