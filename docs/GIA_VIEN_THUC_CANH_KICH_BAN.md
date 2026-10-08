@@ -71,7 +71,7 @@ Trong `index.html`, sửa bốn khối dữ liệu (không cần đổi logic):
 
 **Ba bước để thay, theo thứ tự an toàn:**
 
-1. **Chạy song song (rủi ro thấp).** Thêm mục `garden-field` "Gia Viên Thực Cảnh" vào `src/data/world-map.js` với `state: 'available-live'` và `href: '/gia-vien-duoc-thao-preview/'` (nên đổi sang đường dẫn không có chữ preview, ví dụ `/gia-vien-thuc-canh/`, khi phát hành). Cần sửa `test/contracts.test.js` vì test đang kiểm tra đúng danh sách mục chạy được. Chưa làm trong nhánh này để không đổi bản đồ Hub khi chưa có quyết định.
+1. **Chạy song song (đã làm, 08/10/2026).** Mục `garden-field` "Gia Viên Thực Cảnh" nằm trong `src/data/world-map.js` với `state: 'available-live'` và `href: '/gia-vien-duoc-thao-preview/'`, đứng cạnh mục Gia Viên cũ. Mục `garden` (Study OS) giữ nguyên. `test/contracts.test.js` đã cập nhật danh sách mục chạy được và thêm test kiểm tra trang tồn tại. Tên đường dẫn còn chữ preview; đổi sang `/gia-vien-thuc-canh/` khi chuyển hướng ở bước 3.
 2. **Nối Study OS (cần duyệt trước).** Tiến trình và thưởng phải đi qua RPC phía máy chủ theo mẫu `herb_garden_claim_milestone_v1`: một bảng ghi nhận theo `(member_id, milestone_key)` có RLS và không cấp quyền trực tiếp, RPC chỉ cho người đã đăng nhập và đã duyệt, trình duyệt không bao giờ gửi giá trị thưởng. Đề xuất mốc: hoàn thành từng chương (3 mốc) và mở đủ 5 thẻ cây. Chưa viết migration và chưa chạm vào cơ sở dữ liệu.
 3. **Chuyển hướng.** Khi bước 2 xong và đã kiểm thử bằng tài khoản thử riêng (không dùng bản lưu của thành viên thật), mới đổi mục `garden` sang game mới. Giữ nguyên runtime Study OS cũ và dữ liệu `herb_garden_*` để thành viên cũ vẫn truy cập được.
 
@@ -88,5 +88,5 @@ Chưa làm: kiểm thử trên máy thật, đồng bộ Study OS, kiểm tra th
 ## 8. Việc cần chủ dự án quyết
 
 1. Danh mục cây chính thức theo số, và nội dung mã QR của 3 mã đã có (Bạc hà, Sim, Sắn dây).
-2. Có cho chạy song song (bước 1) với game cũ không, và đặt tên đường dẫn phát hành.
-3. Có duyệt bước 2 (RPC và bảng ghi nhận trên Supabase dùng chung) không.
+2. Bước 2 (RPC và bảng ghi nhận trên Supabase dùng chung) cần kiểm thử với phiên đăng nhập thành viên thật trên bản xem thử trước khi áp dụng.
+3. Thời điểm chuyển hướng mục `garden` sang game mới (bước 3).

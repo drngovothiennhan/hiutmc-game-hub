@@ -16,7 +16,7 @@ test('router defaults to world map and parses supported views', () => {
 
 test('only explicitly connected legacy games are launchable', () => {
   const active = worldMap.filter(isLaunchable).map(place => place.id);
-  assert.deepEqual(active, ['garden', 'clinic']);
+  assert.deepEqual(active, ['garden', 'garden-field', 'clinic']);
   assert.ok(worldMap.filter(place => !['available-legacy', 'available-live'].includes(place.state)).every(place => !isLaunchable(place)));
   const continuation = worldMap.find(place => place.id === 'garden-continuation');
   assert.equal(continuation.state, 'locked-continuation');
@@ -72,4 +72,13 @@ test('Game Hub is available to every linked, verified member role', () => {
   assert.match(memberGate, /đã được duyệt và bật đăng nhập/);
   assert.match(memberGate, /Tài khoản chưa được duyệt/);
   assert.doesNotMatch(memberGate, /chỉ dành cho Admin, Mod và Super Mod|topnav|Bản đồ|Gia Viên|Năng lực/);
+});
+
+test('Gia Viên Thực Cảnh is listed as a live Hub game and its page ships in public/', async () => {
+  const { existsSync } = await import('node:fs');
+  const place = worldMap.find(item => item.id === 'garden-field');
+  assert.equal(place.state, 'available-live');
+  assert.match(place.href, /^\/[a-z0-9-]+\/$/);
+  assert.ok(existsSync(new URL(`../public${place.href}index.html`, import.meta.url)));
+  assert.match(renderWorldMap(null, null, true), /Gia Viên Thực Cảnh/);
 });
