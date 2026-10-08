@@ -36,4 +36,19 @@ for(const name of chunks){
 assert.ok(hasCbc,'CBC implementation was not found in a lazy chunk');
 assert.ok(hasCore,'core case implementation was not found in a lazy chunk');
 assert.doesNotMatch(bootstrap,/answer_key|diagnosis_options|action_options/,'bootstrap must not embed answer-key structures');
+// Runtime-computed imports such as import(prefix + '/src/...') are not bundled and
+// are not shipped in dist, so the room loads but every module fetch falls back to HTML.
+for(const name of js){
+  const source=await readFile(path.join(root,name),'utf8');
+  assert.doesNotMatch(source,/['"`]\/src\/can-lam-sang\//,`dist must not load source modules at runtime: ${name}`);
+  assert.doesNotMatch(source,/__HIUTMC_APP_PREFIX/,`dist must not compute import paths at runtime: ${name}`);
+}
+let cbcSource='',coreSource='';
+for(const name of chunks){
+  const source=await readFile(path.join(root,name),'utf8');
+  if(source.includes('mountCBC')) cbcSource=source;
+  if(source.includes('mountCore')) coreSource=source;
+}
+for(const needle of ['INDICES','convertProfileValue','profileUnit']) assert.ok(cbcSource.includes(needle),`CBC chunk must bundle ${needle}`);
+for(const needle of ['diagnosisGroups','buildAnswers','toggleSelected']) assert.ok(coreSource.includes(needle),`core chunk must bundle ${needle}`);
 console.log('Step 3 dist runtime test: PASS');
