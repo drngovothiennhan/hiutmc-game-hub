@@ -100,4 +100,4 @@ Chủ dự án xác nhận game cũ chỉ tồn tại trong Study OS và chọn 
 - **Chương 4:** 9 ảnh cận do chủ vườn chụp và gắn nhãn (cây nhót, cây mần tưới, cúc hoa, mỏ quạ, sâm bố chính, cỏ ngọt, ngũ trảo, cúc tần, cây gai). Ảnh trong game đã xoá nhãn; người chơi chọn tên đúng trong 4 đáp án. Đúng ngay lần đầu 8 điểm, sai trước rồi đúng 4 điểm. Điểm tối đa nay là 242; hạng đổi ngưỡng thành 0 / 50 / 120 / 200.
 - **Đối chiếu với bảng 70 cây:** cúc hoa (18), cúc tần (19), cây gai (28 "Gai") và sâm bố chính (6 "Bổ chính sâm", cùng một cây) khớp danh mục đọc từ ảnh bảng. Các cây còn lại chưa có số.
 - **Ảnh toàn cảnh mới có mã QR:** thêm 4 khung vào bộ ảnh thật (15 khung).
-- Tên khoa học ghi "(tạm)" khi chưa chắc; nội dung chỉ nói đặc điểm nhận biết.
+- Tên khoa học 9 cây ở Chương 4 đã được chủ vườn xác nhận; nội dung chỉ nói đặc điểm nhận biết.
