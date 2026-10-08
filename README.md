@@ -2,6 +2,8 @@
 
 Independent academic game hub for the HIU TMC ecosystem.
 
+Viện Thực Hành Lâm Sàng (Phòng Học, Trực, Cận lâm sàng) is not a game and moved on 2026-10-08 to `drngovothiennhan/hiutmc-ecosystem` (`public/apps/vienthuchanh/`, tooling in `vien/`). This repository only keeps redirect pages at `/vien-thuc-hanh/`, `/phong-hoc/`, `/tu-chan/` and `/can-lam-sang/` so old links still open the right room. HIU Y Quán stays here and shares the doctor profile and EXP with Trực.
+
 This repository is separate from `yhct-hiu-4-0`. It must not copy the Study OS application. The first implementation phase is a modular Hub shell and preview. Existing Garden and HIU Y Quán game state remains in the current Supabase project until the Hub preview and compatibility gates pass.
 
 ## Delivery order
