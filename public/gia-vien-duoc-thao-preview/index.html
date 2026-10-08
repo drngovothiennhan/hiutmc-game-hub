@@ -1102,14 +1102,14 @@ const timeQuiz={
    Chỉ nói đặc điểm nhận biết, không có công dụng điều trị. num = số trên bảng danh sách khi đã đối chiếu được. */
 const faceCards=[
   {id:'f-nhot',name:'Cây nhót',latin:'Elaeagnus latifolia',img:'herb/nhot.jpg',feat:'lá đơn hình bầu dục dài, đầu nhọn, cành mảnh mọc thành thân đứng; mặt dưới lá thường nhạt và ánh bạc'},
-  {id:'f-mantuoi',name:'Cây mần tưới',latin:'Eupatorium fortunei (tạm)',img:'herb/man-tuoi.jpg',feat:'lá mọc đối, hình mác, mép răng cưa thô rõ, thân đứng thẳng'},
+  {id:'f-mantuoi',name:'Cây mần tưới',latin:'Eupatorium fortunei',img:'herb/man-tuoi.jpg',feat:'lá mọc đối, hình mác, mép răng cưa thô rõ, thân đứng thẳng'},
   {id:'f-cuchoa',name:'Cúc hoa',latin:'Chrysanthemum sp.',num:18,img:'herb/cuc-hoa.jpg',feat:'lá xẻ thùy, mép răng cưa như lá cúc, thân mảnh, bò hoặc đứng'},
-  {id:'f-moqua',name:'Mỏ quạ',latin:'Maclura cochinchinensis (tạm)',img:'herb/mo-qua.jpg',feat:'cành nhỏ, lá nhỏ nguyên hình bầu dục, mọc so le trên cành mảnh'},
+  {id:'f-moqua',name:'Mỏ quạ',latin:'Maclura cochinchinensis',img:'herb/mo-qua.jpg',feat:'cành nhỏ, lá nhỏ nguyên hình bầu dục, mọc so le trên cành mảnh'},
   {id:'f-sambochinh',name:'Sâm bố chính',latin:'Abelmoschus sagittifolius',num:6,img:'herb/sam-bo-chinh.jpg',feat:'lá chia thùy nông, mặt lá và thân có lông tơ mịn, cuống lá dài'},
   {id:'f-congot',name:'Cỏ ngọt',latin:'Stevia rebaudiana',img:'herb/co-ngot.jpg',feat:'bụi thấp, lá nhỏ hình mác mọc đối, mép răng cưa nhẹ ở nửa trên, thân có lông tơ'},
-  {id:'f-ngutrao',name:'Ngũ trảo',latin:'Vitex negundo (tạm)',img:'herb/ngu-trao.jpg',feat:'lá kép chân vịt, thường có 3 đến 5 lá chét thuôn nhọn xòe ra từ một điểm'},
+  {id:'f-ngutrao',name:'Ngũ trảo',latin:'Vitex negundo',img:'herb/ngu-trao.jpg',feat:'lá kép chân vịt, thường có 3 đến 5 lá chét thuôn nhọn xòe ra từ một điểm'},
   {id:'f-cuctan',name:'Cúc tần',latin:'Pluchea indica',num:19,img:'herb/cuc-tan.jpg',feat:'lá đơn thuôn hình trứng ngược, mép có răng cưa thưa, thân thảo mọc đứng'},
-  {id:'f-caygai',name:'Cây gai',latin:'Boehmeria nivea (tạm)',num:28,img:'herb/cay-gai.jpg',feat:'lá hình tim rộng, mép răng cưa, mặt dưới nhạt như phủ lông trắng'}
+  {id:'f-caygai',name:'Cây gai',latin:'Boehmeria nivea',num:28,img:'herb/cay-gai.jpg',feat:'lá hình tim rộng, mép răng cưa, mặt dưới nhạt như phủ lông trắng'}
 ];
 function gvFaceDone(id){ return !!(gvState.face[id]&&gvState.face[id].done); }
 function gvFaceNext(){
@@ -1118,7 +1118,7 @@ function gvFaceNext(){
   const pos=i%4, opts=others.slice(); opts.splice(pos,0,c.name);
   const done=faceCards.filter(x=>gvFaceDone(x.id)).length;
   gvOpenQuiz(`Nhận mặt cây ${done+1}/${faceCards.length}`,{img:'/gia-vien-duoc-thao-preview/assets/'+c.img,q:'Ảnh cận này là cây nào?',opts,ok:pos,
-    why:`${c.name}${c.latin?` (${c.latin})`:''}${c.num?` · số ${c.num} trên bảng`:''}: ${c.feat}. Tên do chủ vườn gắn nhãn; tên khoa học ghi “tạm” cần đối chiếu danh mục chính thức.`},
+    why:`${c.name}${c.latin?` (${c.latin})`:''}${c.num?` · số ${c.num} trên bảng`:''}: ${c.feat}. Tên do chủ vườn gắn nhãn và đã xác nhận.`},
     first=>{ gvState.face[c.id]={done:true,first:!!first}; gvAfter(`+${first?POINTS.faceFirst:POINTS.faceRetry} điểm · nhận mặt ${c.name}`); gvDlg.addEventListener('close',()=>setTimeout(gvFaceNext,250),{once:true}); });
 }
 const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10,faceFirst:8,faceRetry:4};
