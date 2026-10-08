@@ -90,3 +90,10 @@ Chưa làm: kiểm thử trên máy thật, đồng bộ Study OS, kiểm tra th
 1. Danh mục cây chính thức theo số, và nội dung mã QR của 3 mã đã có (Bạc hà, Sim, Sắn dây).
 2. Bước 2 (RPC và bảng ghi nhận trên Supabase dùng chung) cần kiểm thử với phiên đăng nhập thành viên thật trên bản xem thử trước khi áp dụng.
 3. Thời điểm chuyển hướng mục `garden` sang game mới (bước 3).
+
+## 10. Cập nhật 08/10/2026 (tối) — Chương 4 "Nhận mặt cây" và ảnh mới
+
+- **Chương 4:** 9 ảnh cận do chủ vườn chụp và gắn nhãn (cây nhót, cây mần tưới, cúc hoa, mỏ quạ, sâm bố chính, cỏ ngọt, ngũ trảo, cúc tần, cây gai). Ảnh trong game đã xoá nhãn; người chơi chọn tên đúng trong 4 đáp án. Đúng ngay lần đầu 8 điểm, sai trước rồi đúng 4 điểm. Điểm tối đa nay là 242; hạng đổi ngưỡng thành 0 / 50 / 120 / 200.
+- **Đối chiếu với bảng 70 cây:** cúc hoa (18), cúc tần (19), cây gai (28 "Gai") và sâm bố chính (6 "Bổ chính sâm", cùng một cây) khớp danh mục đọc từ ảnh bảng. Các cây còn lại chưa có số.
+- **Ảnh toàn cảnh mới có mã QR:** thêm 4 khung vào bộ ảnh thật (15 khung).
+- Tên khoa học ghi "(tạm)" khi chưa chắc; nội dung chỉ nói đặc điểm nhận biết.
