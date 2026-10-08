@@ -137,7 +137,7 @@ button,input,select{font:inherit}
       <span class="chip">Không dùng ảnh có người</span>
       <span class="chip">Sẵn cho QR + số thứ tự sau</span>
       <span class="chip">11 góc ảnh thật</span>
-      <span class="chip">5 trạm 3D góc nhìn thứ nhất</span>
+      <span class="chip">6 trạm 3D góc nhìn thứ nhất</span>
     </div>
 
     <div class="card">
@@ -755,8 +755,10 @@ function turnCamera(delta){
    ===================================================================== */
 const FP_BASE='/gia-vien-duoc-thao-preview/assets/fp/';
 const fpStations=[
+  {id:'s-0930',name:'Trước giàn · quay từ video mới nhất',desc:'Toàn cảnh ghép từ video quay ngày 30/09: tường tranh phong cảnh, giàn thép, bảng danh sách cây, đèn trụ, bồn đen và ghế đá cuối sân.',date:'30/09/2026',era:'now',file:'pano-2026-09-30.webp',proj:'sphere',hfov:101,v:49,yaw0:0,
+    links:[{to:'s-0926w',yaw:46,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
   {id:'s-0912',name:'Đầu sân · nhìn toàn dải vườn',desc:'Đứng ở cuối sân gạch, nhìn dọc dải cây chạy theo tường về phía tranh “Ship of Knowledge”.',date:'12/09/2026',era:'now',file:'2026-09-12-toan-dai.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
-    links:[{to:'s-0926p',yaw:34,label:'Tới giàn & tường tranh'}]},
+    links:[{to:'s-0930',yaw:34,label:'Tới giàn (video 30/09)'},{to:'s-0926p',yaw:-34,label:'Giàn & tường tranh 26/09'}]},
   {id:'s-0926p',name:'Trước giàn và tường tranh phong cảnh',desc:'Toàn cảnh ghép từ 2 ảnh thật: giàn thép, bảng danh sách cây, đèn trụ và hàng bồn đen dọc tường.',date:'26/09/2026',era:'now',file:'pano-2026-09-26.webp',proj:'cylinder',hfov:103.4,v:1.826,yaw0:0,
     links:[{to:'s-0926w',yaw:44,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
   {id:'s-0926w',name:'Dọc tường về phía “Ship of Knowledge”',desc:'Đi dọc hàng bồn sát tường tranh phong cảnh; cuối tầm nhìn là góc giáp tường tranh thứ hai.',date:'26/09/2026',era:'now',file:'2026-09-26-doc-tuong.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
