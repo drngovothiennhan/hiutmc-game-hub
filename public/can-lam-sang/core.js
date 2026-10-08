@@ -1,4 +1,5 @@
 import { diagnosisGroups, buildAnswers, esc, messageForCoreCode, toggleSelected } from '../../src/can-lam-sang/core/ui-helpers.mjs';
+import { SPECIALTIES, specialtyOf, groupCases, iconSvg } from '../../src/can-lam-sang/core/specialties.mjs';
 
 function reviewLabel(item) {
   return item?.review_label ? '<span class="cls-review-label" data-review-label>'+esc(item.review_label)+'</span>' : '';
@@ -16,20 +17,65 @@ export async function mountCore(root,{rpc,onHome}) {
   let selected = {};
   let filter = '';
 
+  const PAGE_SIZE = 5;
+  let view = { mode: 'home', id: null };
+  let page = 0;
+  let grouped = { groups: [], unassigned: [] };
+  const specLabel = caseId => {
+    const id = specialtyOf(caseId);
+    const hit = SPECIALTIES.find(s => s.id === id);
+    return hit ? hit.label : '';
+  };
+  const matches = (item, q) => [item.case_id, item.title, trackLabel(item.track), specLabel(item.case_id)]
+    .filter(Boolean).join(' ').toLocaleLowerCase('vi-VN').includes(q);
+
+  const caseCard = item =>
+    '<button type="button" class="cls-case-card" data-case="'+esc(item.case_id)+'"><div><strong>'+esc(item.title)+'</strong><div class="cls-muted">'+esc(trackLabel(item.track))+(specLabel(item.case_id)?' · '+esc(specLabel(item.case_id)):'')+'</div></div><div class="cls-case-meta">'+reviewLabel(item)+(item.submitted?'<span class="cls-submitted">Đã nộp</span>':'')+'</div></button>';
+
+  const specCard = group => {
+    const done = group.cases.filter(c => c.submitted).length;
+    return '<button type="button" class="cls-spec-card" data-spec="'+esc(group.id)+'">'+iconSvg(group.icon)+'<strong>'+esc(group.label)+'</strong><span class="cls-muted">'+group.cases.length+' ca'+(done?' · đã nộp '+done:'')+'</span></button>';
+  };
+
+  const searchBox = '<div class="cls-search"><label for="case-filter">Tìm ca bệnh</label><input id="case-filter" type="search" autocomplete="off" placeholder="Tên bệnh, mã ca, chuyên khoa…" value="'+esc(filter)+'"></div>';
+
   const renderList = () => {
-    const visible = cases.filter(item => {
-      const q=filter.trim().toLocaleLowerCase('vi-VN');
-      return !q || [item.case_id,item.title,item.track,item.specialty].filter(Boolean).join(' ').toLocaleLowerCase('vi-VN').includes(q);
-    });
-    root.innerHTML = '<div class="cls-header"><button type="button" class="cls-link" id="home">← Phòng Cận Lâm Sàng</button><h1>Ca bệnh lõi</h1><p>156 ca mô phỏng · chọn ca để bắt đầu</p></div>'+
-      '<div class="cls-search"><label for="case-filter">Lọc ca bệnh</label><input id="case-filter" type="search" autocomplete="off" placeholder="Mã ca, tiêu đề, chuyên khoa…" value="'+esc(filter)+'"></div>'+
-      '<div class="cls-case-list">'+(visible.length?visible.map(item =>
-        '<button type="button" class="cls-case-card" data-case="'+esc(item.case_id)+'"><div><strong>'+esc(item.title)+'</strong><div class="cls-muted">'+esc(trackLabel(item.track))+(item.specialty?' · '+esc(item.specialty):'')+'</div></div><div class="cls-case-meta">'+reviewLabel(item)+(item.submitted?'<span class="cls-submitted">Đã nộp</span>':'')+'</div></button>'
-      ).join(''):notice('Không có ca phù hợp với bộ lọc.'))+'</div>';
-    root.querySelector('#home').onclick=onHome;
-    const input=root.querySelector('#case-filter');
-    input.oninput=e=>{filter=e.target.value;renderList();const el=root.querySelector('#case-filter');el.focus();el.setSelectionRange(el.value.length,el.value.length);};
-    root.querySelectorAll('[data-case]').forEach(button=>button.onclick=()=>openCase(button.dataset.case));
+    const q = filter.trim().toLocaleLowerCase('vi-VN');
+    const inGroup = view.mode === 'group';
+    const group = inGroup ? grouped.groups.find(g => g.id === view.id) : null;
+
+    if (!inGroup && !q) {
+      root.innerHTML = '<div class="cls-header"><button type="button" class="cls-link" id="home">← Phòng Cận Lâm Sàng</button><h1>Luyện ca bệnh</h1><p>'+cases.length+' ca mô phỏng · chọn chuyên khoa để bắt đầu</p></div>'+
+        searchBox+'<div class="cls-spec-grid">'+grouped.groups.map(specCard).join('')+'</div>';
+      root.querySelector('#home').onclick = onHome;
+    } else {
+      const base = inGroup ? (group ? group.cases : []) : cases;
+      const visible = q ? base.filter(item => matches(item, q)) : base;
+      const pages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+      if (page > pages - 1) page = pages - 1;
+      if (page < 0) page = 0;
+      const slice = visible.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+      const title = inGroup && group ? group.label : 'Tìm ca bệnh';
+      const backText = inGroup ? '← Chuyên khoa' : '← Luyện ca bệnh';
+      const pager = pages > 1
+        ? '<nav class="cls-pager" aria-label="Trang ca bệnh"><button type="button" id="prev"'+(page===0?' disabled':'')+'>← Trước</button><span>Trang '+(page+1)+'/'+pages+'</span><button type="button" id="next"'+(page>=pages-1?' disabled':'')+'>Sau →</button></nav>'
+        : '';
+      root.innerHTML = '<div class="cls-header"><button type="button" class="cls-link" id="list-back">'+backText+'</button><h1>'+esc(title)+'</h1><p>'+visible.length+' ca · mỗi trang 5 ca</p></div>'+
+        searchBox+'<div class="cls-case-list">'+(slice.length ? slice.map(caseCard).join('') : notice('Không có ca phù hợp với bộ lọc.'))+'</div>'+pager;
+      root.querySelector('#list-back').onclick = () => {
+        view = { mode: 'home', id: null };
+        filter = '';
+        page = 0;
+        renderList();
+      };
+      root.querySelector('#prev')?.addEventListener('click', () => { page -= 1; renderList(); });
+      root.querySelector('#next')?.addEventListener('click', () => { page += 1; renderList(); });
+    }
+
+    const input = root.querySelector('#case-filter');
+    input.oninput = e => { filter = e.target.value; page = 0; renderList(); const el = root.querySelector('#case-filter'); el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
+    root.querySelectorAll('[data-spec]').forEach(button => button.onclick = () => { view = { mode: 'group', id: button.dataset.spec }; filter = ''; page = 0; renderList(); });
+    root.querySelectorAll('[data-case]').forEach(button => button.onclick = () => openCase(button.dataset.case));
   };
 
   const renderCase = (bundle, review, result=null) => {
@@ -87,6 +133,7 @@ export async function mountCore(root,{rpc,onHome}) {
     const response=await rpc('cls_list_cases_v1');
     if(!response?.ok){root.innerHTML=notice(messageForCoreCode(response?.code),true);return;}
     cases=response.data?.cases || (Array.isArray(response.data)?response.data:[]);
+    grouped=groupCases(cases);
     renderList();
   } catch(error) {root.innerHTML=notice(messageForCoreCode(error.code),true);}
 }

@@ -28,7 +28,7 @@ export async function mountCBC(root,{rpc,onHome}) {
   };
 
   const render=()=>{
-    if(!scenario){root.innerHTML='<div class="notice">Chưa có dữ liệu CBC để hiển thị.</div>';return}
+    if(!scenario){root.innerHTML='<div class="notice">Chưa có dữ liệu xét nghiệm máu để hiển thị.</div>';return}
     const rows=INDICES.map(key=>{
       const item=valueFor(scenario.values[key],key,profile);
       const selected=answers[key]||'';
