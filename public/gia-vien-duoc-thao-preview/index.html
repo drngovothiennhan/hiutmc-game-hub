@@ -35,20 +35,27 @@ button,input,select{font:inherit}
 .titleblock p{margin:4px 0 0;color:var(--muted)}
 .stage{position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line);background:#0d1614;min-height:560px}
 #photoStage,#simStage{position:absolute;inset:0;display:none}
-#photoStage.active,#simStage.active{display:block}
-.hero{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(1.03)}
-.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,14,12,.15),rgba(8,14,12,.62) 68%,rgba(8,14,12,.88))}
-.photo-ui{position:absolute;inset:auto 18px 18px 18px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:end}
-.caption{padding:16px;background:rgba(8,14,12,.62);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(10px)}
-.caption h3{margin:0 0 8px;font-size:22px}
+#photoStage.active{display:flex;flex-direction:column;position:relative;inset:auto}
+#simStage.active{display:block}
+/* Khung ảnh thật: hiển thị TRỌN ảnh (contain), không phủ lớp tối, không che chú thích lên ảnh */
+.photo-frame{position:relative;height:clamp(300px,58vh,600px);overflow:hidden;background:#0a120f}
+.hero-blur{position:absolute;inset:-24px;background-size:cover;background-position:center;filter:blur(18px) brightness(.45);transform:translateZ(0)}
+.hero{position:absolute;inset:0;background-size:contain;background-position:center;background-repeat:no-repeat}
+.photo-status{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;color:#e4eee8;font-size:14px}
+.photo-status.show{display:grid}
+.frame-count{position:absolute;right:10px;top:10px;padding:5px 9px;border-radius:999px;background:rgba(7,12,10,.72);border:1px solid var(--line);font-size:12px}
+.photo-ui{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:12px}
+.caption{padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px}
+.caption h3{margin:0 0 6px;font-size:20px}
 .caption p{margin:0 0 8px;color:#e4eee8;line-height:1.5}
 .thumbs{display:flex;gap:9px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:3px 2px 8px;scrollbar-width:thin}
 .thumb{position:relative;flex:0 0 142px;scroll-snap-align:start;border-radius:14px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#10201b}
 .thumb.active{border-color:var(--gold)}
 .thumb img{display:block;width:100%;height:82px;object-fit:cover}
-.thumb span{position:absolute;left:6px;bottom:6px;right:6px;font-size:11px;background:rgba(0,0,0,.6);padding:4px 6px;border-radius:8px}
-.canvas-wrap{position:absolute;inset:0;padding:10px}
-#simCanvas{width:100%;height:100%;display:block;border-radius:16px;background:linear-gradient(#cae4dc,#dfe7dc 32%,#7d8e72 33%,#6d7b63)}
+.thumb span{position:absolute;left:6px;bottom:6px;right:6px;font-size:11px;line-height:1.3;color:#f4fbf6;text-align:left;background:rgba(0,0,0,.66);padding:4px 6px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Canvas giữ đúng tỉ lệ 16:9 của bộ đệm vẽ để ảnh thật không bị bóp méo */
+.canvas-wrap{position:absolute;inset:0;padding:10px;display:flex;align-items:center;justify-content:center}
+#simCanvas{width:100%;height:auto;max-height:100%;aspect-ratio:16/9;object-fit:contain;display:block;border-radius:16px;background:#07100d}
 .hud{position:absolute;inset:18px 18px auto 18px;display:flex;justify-content:space-between;gap:12px;pointer-events:none}
 .hud .tag,.scene-pill{pointer-events:auto;padding:10px 12px;border-radius:14px;background:rgba(7,12,10,.72);backdrop-filter:blur(10px);border:1px solid var(--line)}
 .scene-pill strong{display:block;font-size:14px}
@@ -79,7 +86,7 @@ button,input,select{font:inherit}
 .mapbox .p{position:absolute;width:9px;height:9px;border-radius:50%;background:#d8b16c;border:2px solid #173127}
 .mapbox .you{background:#7ccaf2;width:12px;height:12px}
 @media (max-width:1200px){.app{grid-template-columns:300px 1fr}.right{grid-column:1/-1}.photo-ui{grid-template-columns:1fr}}
-@media (max-width:900px){.app{grid-template-columns:1fr;padding:10px}.left,.right,.main{padding:14px}.stage{min-height:520px}.photo-ui{inset:auto 10px 10px 10px}.thumbs{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:900px){.app{grid-template-columns:1fr;padding:10px}.main{order:-1}#simStage .hud{flex-direction:column;align-items:flex-start}.left,.right,.main{padding:14px}.stage{min-height:520px}.photo-ui{inset:auto 10px 10px 10px}.thumbs{grid-template-columns:repeat(4,1fr)} }
 @media (max-width:640px){.stage{min-height:500px}.thumb img{height:62px}.photo-ui{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(2,1fr)}.caption h3{font-size:18px}}
 </style>
 </head>
@@ -154,8 +161,12 @@ button,input,select{font:inherit}
 
     <section class="stage">
       <div id="photoStage" class="active">
-        <div class="hero" id="heroImage"></div>
-        <div class="overlay"></div>
+        <div class="photo-frame" id="photoFrame">
+          <div class="hero-blur" id="heroBlur"></div>
+          <div class="hero" id="heroImage" role="img"></div>
+          <div class="photo-status show" id="photoStatus">Đang tải ảnh thật…</div>
+          <div class="frame-count" id="frameCount"></div>
+        </div>
         <div class="photo-ui">
           <div class="caption">
             <h3 id="photoTitle"></h3>
@@ -327,17 +338,71 @@ const resetQuestBtn=document.getElementById('resetQuestBtn');
 function byId(id){return plants.find(p=>p.id===id)}
 function currentQuest(){return quests.find(q=>q.id===currentQuestId)}
 
+// Bản nén (cùng ảnh thật, chỉ giảm kích thước) cho mobile; lỗi thì quay về ảnh gốc.
+const webSrc=src=>src.replace('/assets/','/assets/web/');
+const thumbSrc=src=>src.replace('/assets/','/assets/thumb/');
+const photoFrame=document.getElementById('photoFrame');
+const heroBlur=document.getElementById('heroBlur');
+const photoStatus=document.getElementById('photoStatus');
+const frameCount=document.getElementById('frameCount');
+const photoCache=new Map();
+function loadPhoto(src){
+  if(photoCache.has(src)) return photoCache.get(src);
+  const tryLoad=url=>new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.decoding='async';
+    img.onload=()=>img.naturalWidth?resolve({img,url}):reject(new Error('empty '+url));
+    img.onerror=()=>reject(new Error('HTTP/decode error '+url));
+    img.src=url;
+  });
+  const job=tryLoad(webSrc(src)).catch(err=>{console.warn('[gia-vien] web copy failed, using original',err.message);return tryLoad(src);});
+  job.catch(()=>photoCache.delete(src));
+  photoCache.set(src,job);
+  return job;
+}
+let heroNatural=null;
+function layoutHero(){
+  const p=photos[photoIndex];
+  const zoom=p.size?parseFloat(p.size)/100:1;
+  if(!heroNatural||zoom===1){heroImage.style.backgroundSize='contain';heroImage.style.backgroundPosition='center';return;}
+  // Khung cận: phóng từ kích thước "contain" để tái khung ảnh thật, không tạo nội dung mới.
+  const fw=photoFrame.clientWidth,fh=photoFrame.clientHeight;
+  const s=Math.min(fw/heroNatural.w,fh/heroNatural.h)*zoom;
+  heroImage.style.backgroundSize=`${Math.round(heroNatural.w*s)}px ${Math.round(heroNatural.h*s)}px`;
+  heroImage.style.backgroundPosition=p.position||'center';
+}
 function renderPhotoMode(){
   const p=photos[photoIndex];
-  heroImage.style.backgroundImage=`url(${p.src})`;
-  heroImage.style.backgroundPosition=p.position||'center';
-  heroImage.style.backgroundSize=p.size||'cover';
+  const token=photoIndex;
   photoTitle.textContent=p.title;
   photoDesc.textContent=p.desc;
+  frameCount.textContent=`${photoIndex+1}/${photos.length}`;
+  heroImage.setAttribute('aria-label',p.title);
   photoTags.innerHTML=p.tags.map(t=>`<span class="chip">${t}</span>`).join('');
-  thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}"><img src="${ph.src}" alt="${ph.title}"><span>${ph.title}</span></button>`).join('');
+  photoStatus.textContent='Đang tải ảnh thật…';
+  photoStatus.classList.add('show');
+  loadPhoto(p.src).then(({img,url})=>{
+    if(token!==photoIndex) return;
+    heroNatural={w:img.naturalWidth,h:img.naturalHeight};
+    heroImage.style.backgroundImage=`url("${url}")`;
+    heroBlur.style.backgroundImage=`url("${url}")`;
+    layoutHero();
+    photoStatus.classList.remove('show');
+  }).catch(err=>{
+    if(token!==photoIndex) return;
+    console.error('[gia-vien] cannot load photo',p.src,err);
+    heroImage.style.backgroundImage='none';heroBlur.style.backgroundImage='none';
+    photoStatus.textContent=`Không tải được ảnh ${p.src.split('/').pop()}. Kiểm tra mạng rồi bấm lại khung ảnh.`;
+    photoStatus.classList.add('show');
+  });
+  thumbs.innerHTML=photos.map((ph,i)=>`<button class="thumb ${i===photoIndex?'active':''}" data-i="${i}" aria-label="${ph.title}"><img src="${thumbSrc(ph.src)}" data-orig="${ph.src}" alt="" loading="lazy" decoding="async"><span>${i+1}. ${ph.title}</span></button>`).join('');
+  thumbs.querySelectorAll('.thumb img').forEach(im=>im.onerror=()=>{im.onerror=null;im.src=im.dataset.orig;});
   thumbs.querySelectorAll('.thumb').forEach(btn=>btn.onclick=()=>{photoIndex=+btn.dataset.i;renderPhotoMode()});
+  thumbs.querySelector('.thumb.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  // Tải trước ảnh kế bên để vuốt trái/phải không bị chờ.
+  [photoIndex+1,photoIndex-1].forEach(i=>loadPhoto(photos[(i+photos.length)%photos.length].src).catch(()=>{}));
 }
+window.addEventListener('resize',()=>{if(mode==='photo')layoutHero();});
 
 function renderPlantList(){
   plantList.innerHTML=plants.map(p=>{
@@ -413,7 +478,8 @@ function getSceneImage(src){
   if(sceneImages.has(src)) return sceneImages.get(src);
   const img=new Image();
   img.decoding='async';
-  img.src=src;
+  img.onerror=()=>{img.onerror=null;img.src=src;};
+  img.src=webSrc(src);
   sceneImages.set(src,img);
   return img;
 }
