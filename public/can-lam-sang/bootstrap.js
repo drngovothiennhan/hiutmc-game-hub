@@ -2,6 +2,7 @@ import { bootstrapSession, getValidAccessToken } from '../../src/auth/session.js
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '../../src/config.js';
 import { messageForCode } from '../../src/can-lam-sang/cbc/ui-helpers.mjs';
 import { messageForCoreCode } from '../../src/can-lam-sang/core/ui-helpers.mjs';
+import { iconSvg } from '../../src/can-lam-sang/core/specialties.mjs';
 
 const root = document.querySelector('#app');
 
@@ -31,9 +32,9 @@ window.addEventListener('popstate',e=>{const d=e.state?.clsDepth??0;depth=d;if(d
 function home() {
   root.innerHTML='<div class="cls-home"><div class="cls-header"><div class="cls-muted">HIU TMC · Phòng Cận Lâm Sàng</div><h1>Phòng Cận Lâm Sàng</h1><p>Chọn khu thực hành học tập.</p></div>'+
     '<div class="cls-entry-grid">'+
-      '<button type="button" class="cls-entry" id="open-cbc"><strong>Phòng CBC</strong><span>Phân loại 13 chỉ số công thức máu.</span></button>'+
-      '<button type="button" class="cls-entry" id="open-aus"><strong>Nghe tim &amp; phổi 3D</strong><span>Nghe âm tim, âm phổi tại các điểm trên mô hình 3D lồng ngực và nhận diện tiếng bất thường.</span></button>'+
-      '<button type="button" class="cls-entry" id="open-core"><strong>Ca bệnh lõi</strong><span>Danh sách 156 ca mô phỏng, chọn đáp án và xem giải thích sau khi nộp.</span></button>'+
+      '<button type="button" class="cls-entry cls-entry-blood" id="open-cbc">'+iconSvg('drop')+'<strong>Đọc xét nghiệm máu</strong><span>Xem 13 chỉ số công thức máu (CBC) và phân loại từng chỉ số.</span></button>'+
+      '<button type="button" class="cls-entry cls-entry-heart" id="open-aus">'+iconSvg('heart')+'<strong>Nghe tim &amp; phổi 3D</strong><span>Nghe âm tim, âm phổi tại các điểm trên mô hình 3D lồng ngực và nhận diện tiếng bất thường.</span></button>'+
+      '<button type="button" class="cls-entry cls-entry-case" id="open-core">'+iconSvg('pulse')+'<strong>Luyện ca bệnh</strong><span>156 ca mô phỏng xếp theo chuyên khoa, chọn đáp án và xem giải thích sau khi nộp.</span></button>'+
     '</div></div>';
   root.querySelector('#open-cbc').onclick=()=>enter(async()=>{const {mountCBC}=await import('./cbc.js');await mountCBC(root,{rpc,onHome:leave});});
   root.querySelector('#open-aus').onclick=()=>enter(async()=>{const {mountAuscultation}=await import('./auscultation.js');await mountAuscultation(root,{rpc,onHome:leave});});

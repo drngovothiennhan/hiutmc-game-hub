@@ -8,11 +8,11 @@ export const CBC_CODES = new Set([
 
 const MESSAGES={
   khong_xac_thuc:'Vui lòng đăng nhập HIU TMC để tiếp tục.',
-  chua_mo:'Phòng CBC hiện chưa mở.',
+  chua_mo:'Phòng đọc xét nghiệm máu hiện chưa mở.',
   level_khong_hop_le:'Mức độ bài học không hợp lệ.',
   qua_3_luot_mo:'Bạn đã đạt giới hạn 3 lượt đang mở.',
   qua_10_luot_ngay:'Bạn đã đạt giới hạn 10 lượt mới trong ngày.',
-  chua_co_scenario:'Chưa có kịch bản CBC được duyệt ở mức này.',
+  chua_co_scenario:'Chưa có bài xét nghiệm máu được duyệt ở mức này.',
   khong_tim_thay:'Không tìm thấy lượt học này.',
   answers_khong_hop_le:'Câu trả lời chưa hợp lệ. Hãy chọn đủ 13 chỉ số.',
   da_nop:'Lượt này đã được nộp.'
