@@ -166,7 +166,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
     <div class="chiprow">
       <span class="chip">Không dùng ảnh có người</span>
       <span class="chip">Sẵn cho QR + số thứ tự sau</span>
-      <span class="chip">11 góc ảnh thật</span>
+      <span class="chip">15 góc ảnh thật</span>
       <span class="chip">6 trạm 3D góc nhìn thứ nhất</span>
     </div>
 
@@ -182,7 +182,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
 
     <div class="card">
       <h3>Luồng chơi đã hoàn thiện</h3>
-      <p>1) Quan sát 11 khung ảnh thật → 2) vào tuyến 6 trạm thực cảnh → 3) di chuyển theo lối đi → 4) đổi góc nhìn → 5) chạm hotspot → 6) làm nhiệm vụ định danh tạm.</p>
+      <p>1) Quan sát 15 khung ảnh thật → 2) vào tuyến 6 trạm thực cảnh → 3) di chuyển theo lối đi → 4) đổi góc nhìn → 5) chạm hotspot → 6) làm nhiệm vụ định danh tạm.</p>
       <div class="legend">
         <span><i class="dot" style="background:#d8b16c"></i>hotspot cây</span>
         <span><i class="dot" style="background:#7ccaf2"></i>vị trí người học</span>
@@ -294,7 +294,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
     <div class="card">
       <h3>Sổ thẻ cây <span style="color:var(--muted);font-weight:400;font-size:13px" id="herbCount"></span></h3>
       <div class="herb" id="herbGrid"></div>
-      <div class="quiz-actions" style="margin-top:10px"><button id="catBtn">Danh mục bảng cây (70 số)</button></div>
+      <div class="quiz-actions" style="margin-top:10px"><button id="faceBtn">Nhận mặt cây</button> <button id="catBtn">Danh mục bảng cây (70 số)</button></div>
       <p class="jr-note">Danh mục đọc bằng AI từ ảnh bảng trong vườn (12/09), chưa đọc hết. Tên cây trong game còn là định danh tạm, chờ danh mục chính thức và mã QR.</p>
     </div>
 
@@ -337,7 +337,11 @@ const photos=[
   {id:'p-list',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng danh sách cây',desc:'Tái khung từ ảnh thật 30/09: bảng danh sách cây đặt cạnh giàn, nơi sẽ gắn số thứ tự chính thức.',tags:['Ảnh thật','Khung cận','Danh sách','Số thứ tự'],position:'70% 30%',size:'200%'},
   {id:'p-vertical',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận giàn trồng đứng và nhãn số',desc:'Tái khung từ ảnh thật 30/09: các ô chậu nhỏ treo trên giàn lưới và nhãn số xanh.',tags:['Ảnh thật','Khung cận','Giàn đứng','Nhãn số'],position:'16% 40%',size:'200%'},
   {id:'p-right-pots',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận cụm chậu bên phải và đèn trụ',desc:'Tái khung từ ảnh thật 30/09: chậu đỏ, chậu đen và các bụi cây cao cạnh đèn trụ.',tags:['Ảnh thật','Khung cận','Chậu đỏ','Đèn trụ'],position:'100% 74%',size:'200%'},
-  {id:'p-striped',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Cận cây lá vằn ở góc phải',desc:'Tái khung từ ảnh thật 26/09: lá dày có vằn ngang, mọc thẳng trong bồn đen.',tags:['Ảnh thật','Khung cận','Lá vằn','Bồn đen'],position:'100% 100%',size:'220%'}
+  {id:'p-striped',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Cận cây lá vằn ở góc phải',desc:'Tái khung từ ảnh thật 26/09: lá dày có vằn ngang, mọc thẳng trong bồn đen.',tags:['Ảnh thật','Khung cận','Lá vằn','Bồn đen'],position:'100% 100%',size:'220%'},
+  {id:'p-oct-front',src:'/gia-vien-duoc-thao-preview/assets/2026-10-gian-qr.jpg',title:'Giàn chính diện có mã QR · ảnh mới',desc:'Ảnh mới nhất, không có người: mỗi chậu đã gắn bảng xanh có mã QR; bảng Gia Viên Dược Thảo, giàn trồng đứng và tường tranh đại bàng.',tags:['Ảnh mới','Mã QR','Giàn chính']},
+  {id:'p-oct-sign',src:'/gia-vien-duoc-thao-preview/assets/2026-10-bang-ten.jpg',title:'Bảng tên và giàn trồng đứng · ảnh mới',desc:'Nhìn nghiêng vào giàn: các ô chậu treo, chậu treo trắng và hàng bảng QR theo từng cây.',tags:['Ảnh mới','Bảng tên','Giàn trồng đứng']},
+  {id:'p-oct-qrwall',src:'/gia-vien-duoc-thao-preview/assets/2026-10-tuong-qr.jpg',title:'Cận giàn và hàng bồn có mã QR',desc:'Cận cảnh giàn trồng đứng và hàng bồn đen phía trước, mỗi chậu có bảng mã QR để quét tại vườn.',tags:['Ảnh mới','Mã QR','Hàng bồn']},
+  {id:'p-oct-board',src:'/gia-vien-duoc-thao-preview/assets/2026-10-bang-danh-sach.jpg',title:'Bảng danh sách 70 cây và khu cây phía phải',desc:'Bảng "Danh sách cây vườn Gia Viên Dược Thảo" đặt cạnh giàn; phía phải sân là cụm cây lá đỏ tím và bụi lá mảnh.',tags:['Ảnh mới','Bảng danh sách','Khu phải']},
 ];
 
 const plants=[
@@ -1093,25 +1097,50 @@ const timeQuiz={
     opts:['Vì ảnh bị mờ nên không dùng được','Vì chụp trước khi tường tranh được vẽ lại, không còn đúng bố cục hiện tại','Vì ảnh chụp ở khu vườn khác'],ok:1,
     why:'Game luôn dùng ảnh khớp bố cục hiện tại làm chuẩn. Ảnh cũ được giữ để so sánh thay đổi theo thời gian, không dùng để tìm cây.'}
 };
-const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10};
-const RANKS=[[0,'Khách tham quan'],[40,'Học việc'],[90,'Người giữ vườn'],[140,'Người giữ vườn xuất sắc']];
-const gvState={scene:[],fp:[],found:[],quiz:{},time:{},score:0,done:false,intro:false};
-function gvLoad(){ try{ const j=JSON.parse(localStorage.getItem(GV_KEY)||'null'); if(j&&typeof j==='object'){ ['scene','fp','found'].forEach(k=>{ if(Array.isArray(j[k])) gvState[k]=j[k].filter(x=>typeof x==='string'||typeof x==='number'); }); ['quiz','time'].forEach(k=>{ if(j[k]&&typeof j[k]==='object') gvState[k]=j[k]; }); gvState.done=!!j.done; gvState.intro=!!j.intro; gvRecalc(); } }catch(e){} }
+
+/* Chương 4 · Nhận mặt cây: 9 ảnh cận do chủ vườn chụp và gắn nhãn; ảnh trong game đã xoá nhãn để người chơi tự đoán.
+   Chỉ nói đặc điểm nhận biết, không có công dụng điều trị. num = số trên bảng danh sách khi đã đối chiếu được. */
+const faceCards=[
+  {id:'f-nhot',name:'Cây nhót',latin:'Elaeagnus latifolia',img:'herb/nhot.jpg',feat:'lá đơn hình bầu dục dài, đầu nhọn, cành mảnh mọc thành thân đứng; mặt dưới lá thường nhạt và ánh bạc'},
+  {id:'f-mantuoi',name:'Cây mần tưới',latin:'Eupatorium fortunei (tạm)',img:'herb/man-tuoi.jpg',feat:'lá mọc đối, hình mác, mép răng cưa thô rõ, thân đứng thẳng'},
+  {id:'f-cuchoa',name:'Cúc hoa',latin:'Chrysanthemum sp.',num:18,img:'herb/cuc-hoa.jpg',feat:'lá xẻ thùy, mép răng cưa như lá cúc, thân mảnh, bò hoặc đứng'},
+  {id:'f-moqua',name:'Mỏ quạ',latin:'Maclura cochinchinensis (tạm)',img:'herb/mo-qua.jpg',feat:'cành nhỏ, lá nhỏ nguyên hình bầu dục, mọc so le trên cành mảnh'},
+  {id:'f-sambochinh',name:'Sâm bố chính',latin:'Abelmoschus sagittifolius',num:6,img:'herb/sam-bo-chinh.jpg',feat:'lá chia thùy nông, mặt lá và thân có lông tơ mịn, cuống lá dài'},
+  {id:'f-congot',name:'Cỏ ngọt',latin:'Stevia rebaudiana',img:'herb/co-ngot.jpg',feat:'bụi thấp, lá nhỏ hình mác mọc đối, mép răng cưa nhẹ ở nửa trên, thân có lông tơ'},
+  {id:'f-ngutrao',name:'Ngũ trảo',latin:'Vitex negundo (tạm)',img:'herb/ngu-trao.jpg',feat:'lá kép chân vịt, thường có 3 đến 5 lá chét thuôn nhọn xòe ra từ một điểm'},
+  {id:'f-cuctan',name:'Cúc tần',latin:'Pluchea indica',num:19,img:'herb/cuc-tan.jpg',feat:'lá đơn thuôn hình trứng ngược, mép có răng cưa thưa, thân thảo mọc đứng'},
+  {id:'f-caygai',name:'Cây gai',latin:'Boehmeria nivea (tạm)',num:28,img:'herb/cay-gai.jpg',feat:'lá hình tim rộng, mép răng cưa, mặt dưới nhạt như phủ lông trắng'}
+];
+function gvFaceDone(id){ return !!(gvState.face[id]&&gvState.face[id].done); }
+function gvFaceNext(){
+  const c=faceCards.find(x=>!gvFaceDone(x.id)); if(!c){ gvToast('Bạn đã nhận mặt đủ 9 cây.'); return; }
+  const i=faceCards.indexOf(c), others=[1,3,5].map(k=>faceCards[(i+k)%faceCards.length].name);
+  const pos=i%4, opts=others.slice(); opts.splice(pos,0,c.name);
+  const done=faceCards.filter(x=>gvFaceDone(x.id)).length;
+  gvOpenQuiz(`Nhận mặt cây ${done+1}/${faceCards.length}`,{img:'/gia-vien-duoc-thao-preview/assets/'+c.img,q:'Ảnh cận này là cây nào?',opts,ok:pos,
+    why:`${c.name}${c.latin?` (${c.latin})`:''}${c.num?` · số ${c.num} trên bảng`:''}: ${c.feat}. Tên do chủ vườn gắn nhãn; tên khoa học ghi “tạm” cần đối chiếu danh mục chính thức.`},
+    first=>{ gvState.face[c.id]={done:true,first:!!first}; gvAfter(`+${first?POINTS.faceFirst:POINTS.faceRetry} điểm · nhận mặt ${c.name}`); gvDlg.addEventListener('close',()=>setTimeout(gvFaceNext,250),{once:true}); });
+}
+const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10,faceFirst:8,faceRetry:4};
+const RANKS=[[0,'Khách tham quan'],[50,'Học việc'],[120,'Người giữ vườn'],[200,'Người giữ vườn xuất sắc']];
+const gvState={scene:[],fp:[],found:[],quiz:{},time:{},face:{},score:0,done:false,intro:false};
+function gvLoad(){ try{ const j=JSON.parse(localStorage.getItem(GV_KEY)||'null'); if(j&&typeof j==='object'){ ['scene','fp','found'].forEach(k=>{ if(Array.isArray(j[k])) gvState[k]=j[k].filter(x=>typeof x==='string'||typeof x==='number'); }); ['quiz','time','face'].forEach(k=>{ if(j[k]&&typeof j[k]==='object') gvState[k]=j[k]; }); gvState.done=!!j.done; gvState.intro=!!j.intro; gvRecalc(); } }catch(e){} }
 function gvSave(){ try{ localStorage.setItem(GV_KEY,JSON.stringify(gvState)); }catch(e){} }
 function gvRecalc(){
   let sc=gvState.scene.length*POINTS.scene+gvState.fp.length*POINTS.fp+gvState.found.length*POINTS.quest;
   Object.values(gvState.quiz).forEach(v=>{ if(v&&v.done) sc+= v.first?POINTS.quizFirst:POINTS.quizRetry; });
   sc+=Object.keys(gvState.time).filter(k=>gvState.time[k]&&gvState.time[k].done).length*POINTS.time;
+  Object.values(gvState.face).forEach(v=>{ if(v&&v.done) sc+= v.first?POINTS.faceFirst:POINTS.faceRetry; });
   gvState.score=sc;
 }
-const GV_MAX=scenes.length*POINTS.scene+fpStations.filter(x=>x.era==='now').length*POINTS.fp+plants.length*(POINTS.quest+POINTS.quizFirst)+Object.keys(timeQuiz).length*POINTS.time;
+const GV_MAX=scenes.length*POINTS.scene+fpStations.filter(x=>x.era==='now').length*POINTS.fp+plants.length*(POINTS.quest+POINTS.quizFirst)+Object.keys(timeQuiz).length*POINTS.time+faceCards.length*POINTS.faceFirst;
 function gvRank(){ let r=RANKS[0][1]; RANKS.forEach(([t,n])=>{ if(gvState.score>=t) r=n; }); return r; }
 const gvToastEl=document.getElementById('gvToast'); let gvToastT=0;
 function gvToast(msg){ gvToastEl.textContent=msg; gvToastEl.classList.add('on'); clearTimeout(gvToastT); gvToastT=setTimeout(()=>gvToastEl.classList.remove('on'),2600); }
 const gvDlg=document.getElementById('gvDlg'), gvBody=document.getElementById('gvDlgBody');
 function gvOpenQuiz(title,quiz,onResult,first){
   let tries=0;
-  gvBody.innerHTML=`<h3>${title}</h3><p style="margin:0 0 6px;color:#d9ebe1">${quiz.q}</p><div id="gvOpts">${quiz.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div><div class="fb" id="gvFb"></div><div class="row"><button id="gvClose">Để sau</button></div>`;
+  gvBody.innerHTML=`<h3>${title}</h3>${quiz.img?`<img src="${quiz.img}" alt="Ảnh cận cây cần nhận mặt" style="display:block;width:100%;max-height:38vh;object-fit:cover;border-radius:10px;margin:0 0 8px">`:''}<p style="margin:0 0 6px;color:#d9ebe1">${quiz.q}</p><div id="gvOpts">${quiz.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div><div class="fb" id="gvFb"></div><div class="row"><button id="gvClose">Để sau</button></div>`;
   const fb=gvBody.querySelector('#gvFb');
   gvBody.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     const i=+b.dataset.i; tries++;
@@ -1144,11 +1173,11 @@ function gvQuestDone(plantId){
   }
 }
 function gvCheckDone(){
-  const all=gvState.scene.length>=scenes.length && gvState.fp.length>=fpStations.filter(x=>x.era==='now').length && plants.every(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done) && Object.values(timeQuiz).every(t=>gvState.time[t.id]&&gvState.time[t.id].done);
+  const all=gvState.scene.length>=scenes.length && gvState.fp.length>=fpStations.filter(x=>x.era==='now').length && plants.every(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done) && faceCards.every(c=>gvFaceDone(c.id)) && Object.values(timeQuiz).every(t=>gvState.time[t.id]&&gvState.time[t.id].done);
   if(all && !gvState.done){
     gvState.done=true; gvSave();
     setTimeout(()=>{
-      gvBody.innerHTML=`<h3>Hoàn thành hành trình</h3><p style="color:#d9ebe1">Bạn đã đi hết ${scenes.length} trạm, đứng ở các trạm 3D, mở ${plants.length}/${plants.length} thẻ cây và đối chiếu bố cục theo thời gian.</p><p><strong>${gvState.score}/${GV_MAX} điểm · ${gvRank()}</strong></p><p class="fb">Tên cây là định danh tạm. Khi có danh mục chính thức và mã QR, các thẻ sẽ được cập nhật và bạn có thể chơi lại để mở thẻ mới.</p><div class="row"><button class="primary" onclick="document.getElementById('gvDlg').close()">Đóng</button></div>`;
+      gvBody.innerHTML=`<h3>Hoàn thành hành trình</h3><p style="color:#d9ebe1">Bạn đã đi hết ${scenes.length} trạm, đứng ở các trạm 3D, mở ${plants.length}/${plants.length} thẻ cây, nhận mặt ${faceCards.length}/${faceCards.length} cây qua ảnh cận và đối chiếu bố cục theo thời gian.</p><p><strong>${gvState.score}/${GV_MAX} điểm · ${gvRank()}</strong></p><p class="fb">Tên cây là định danh tạm. Khi có danh mục chính thức và mã QR, các thẻ sẽ được cập nhật và bạn có thể chơi lại để mở thẻ mới.</p><div class="row"><button class="primary" onclick="document.getElementById('gvDlg').close()">Đóng</button></div>`;
       if(!gvDlg.open) gvDlg.showModal();
     },900);
   }
@@ -1169,7 +1198,10 @@ function gvRender(){
   const c1=(gvState.scene.length>=scenes.length?1:0)+(gvState.fp.length>=nowFp.length?1:0);
   const c2=plants.filter(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done).length;
   const c3=tq.filter(([,t])=>gvState.time[t.id]&&gvState.time[t.id].done).length;
-  document.getElementById('jrChapters').innerHTML=block('Chương 1 · Bước vào vườn',ch1,c1,2)+block('Chương 2 · Tìm và biết cây',ch2,c2,plants.length)+block('Chương 3 · Vườn đổi theo thời gian',ch3,c3,tq.length);
+  const ch4=faceCards.map(c=>m(gvFaceDone(c.id),gvFaceDone(c.id)?`Đã nhận mặt: ${c.name}`:'Ảnh cận chưa nhận mặt'));
+  const c4=faceCards.filter(c=>gvFaceDone(c.id)).length;
+  document.getElementById('jrChapters').innerHTML=block('Chương 1 · Bước vào vườn',ch1,c1,2)+block('Chương 2 · Tìm và biết cây',ch2,c2,plants.length)+block('Chương 3 · Vườn đổi theo thời gian',ch3,c3,tq.length)+block('Chương 4 · Nhận mặt cây',ch4,c4,faceCards.length);
+  const fb=document.getElementById('faceBtn'); if(fb) fb.textContent=c4>=faceCards.length?'Nhận mặt cây: đã xong 9/9':`Nhận mặt cây (${c4}/${faceCards.length})`;
   const grid=document.getElementById('herbGrid');
   grid.innerHTML=plants.map(p=>{
     const open=gvState.quiz[p.id]&&gvState.quiz[p.id].done;
@@ -1180,7 +1212,7 @@ function gvRender(){
 }
 document.getElementById('jrReset').onclick=()=>{
   if(!confirm('Xoá tiến trình trên thiết bị này và chơi lại từ đầu?')) return;
-  gvState.scene=[];gvState.fp=[];gvState.found=[];gvState.quiz={};gvState.time={};gvState.score=0;gvState.done=false;gvState.intro=false;
+  gvState.scene=[];gvState.fp=[];gvState.found=[];gvState.quiz={};gvState.time={};gvState.face={};gvState.score=0;gvState.done=false;gvState.intro=false;
   questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); gvSave(); gvRender(); gvToast('Đã xoá tiến trình, bắt đầu lại.');
 };
 
@@ -1189,7 +1221,7 @@ function gvIntro(){
   gvBody.innerHTML=`<h3>Nhật ký người giữ vườn</h3>
   <p style="color:#d9ebe1;line-height:1.5">Sáng nay bạn nhận chìa khoá khu vườn dược thảo của khoa. Bảng danh sách cây đã treo ở giàn, nhưng các nhãn còn chờ người kiểm lại. Bạn sẽ đi hết vườn, tìm đúng từng cây, mở thẻ cây và ghi lại vườn đã đổi thế nào so với mấy tháng trước.</p>
   <ol style="color:var(--muted);line-height:1.6;padding-left:20px;margin:8px 0">
-    <li><strong>Ảnh thật:</strong> xem 11 khung hình thật của vườn.</li>
+    <li><strong>Ảnh thật:</strong> xem 15 khung hình thật của vườn.</li>
     <li><strong>Khám phá thực cảnh:</strong> đi 6 trạm, chạm điểm vàng để tìm đúng cây của nhiệm vụ.</li>
     <li><strong>Góc nhìn thứ nhất 3D:</strong> đứng giữa vườn, nhìn quanh, rồi mở trạm lưu trữ để so sánh với hiện nay.</li>
   </ol>
@@ -1201,7 +1233,7 @@ function gvIntro(){
 }
 
 /* Danh mục bảng cây: AI đọc từ ảnh bảng "Danh sách cây vườn Gia Viên" (ảnh 12/09). null = chưa đọc rõ. */
-const boardList={1:['Bạc hà','Mentha sp.'],2:['Bách bộ','Stemona tuberosa'],3:['Bạch đồng nữ',''],4:['Bạch hoa xà thiệt thảo','Hedyotis diffusa'],5:['Bán hạ nam','Typhonium trilobatum'],6:['Bổ chính sâm',''],7:['Bồ công anh',''],8:['Cà gai leo','Solanum procumbens'],9:['Cam thảo đất','Scoparia dulcis'],10:['Cây ổi','Psidium guajava'],11:['Cỏ mần trầu','Eleusine indica'],12:['Cỏ nhọ nồi','Eclipta prostrata'],13:['Cỏ sữa lá nhỏ','Euphorbia thymifolia'],14:['Cỏ tranh','Imperata cylindrica'],15:['Cỏ xước','Achyranthes aspera'],16:['Cối xay','Abutilon indicum'],17:null,18:['Cúc hoa',''],19:['Cúc tần','Pluchea indica'],20:['Dành dành','Gardenia jasminoides'],21:['Dâu tằm','Morus alba'],22:['Diệp hạ châu','Phyllanthus urinaria'],23:['Dừa cạn','Catharanthus roseus'],24:['Địa hoàng','Rehmannia glutinosa'],25:['Địa liền',''],26:['Đinh lăng','Polyscias fruticosa'],27:['Đơn lá đỏ',''],28:['Gai',''],29:['Gừng','Zingiber officinale'],30:['Hạ khô thảo',''],31:['Hoắc hương','Pogostemon cablin'],32:['Húng chanh','Plectranthus amboinicus'],33:['Huyết dụ','Cordyline fruticosa'],34:['Hương nhu tía','Ocimum tenuiflorum'],35:['Hy thiêm','Siegesbeckia orientalis'],62:['Sim','Rhodomyrtus tomentosa'],70:['Ý dĩ','Coix lacryma-jobi']};
+const boardList={1:['Bạc hà','Mentha sp.'],2:['Bách bộ','Stemona tuberosa'],3:['Bạch đồng nữ',''],4:['Bạch hoa xà thiệt thảo','Hedyotis diffusa'],5:['Bán hạ nam','Typhonium trilobatum'],6:['Bổ chính sâm (sâm bố chính)','Abelmoschus sagittifolius'],7:['Bồ công anh',''],8:['Cà gai leo','Solanum procumbens'],9:['Cam thảo đất','Scoparia dulcis'],10:['Cây ổi','Psidium guajava'],11:['Cỏ mần trầu','Eleusine indica'],12:['Cỏ nhọ nồi','Eclipta prostrata'],13:['Cỏ sữa lá nhỏ','Euphorbia thymifolia'],14:['Cỏ tranh','Imperata cylindrica'],15:['Cỏ xước','Achyranthes aspera'],16:['Cối xay','Abutilon indicum'],17:null,18:['Cúc hoa',''],19:['Cúc tần','Pluchea indica'],20:['Dành dành','Gardenia jasminoides'],21:['Dâu tằm','Morus alba'],22:['Diệp hạ châu','Phyllanthus urinaria'],23:['Dừa cạn','Catharanthus roseus'],24:['Địa hoàng','Rehmannia glutinosa'],25:['Địa liền',''],26:['Đinh lăng','Polyscias fruticosa'],27:['Đơn lá đỏ',''],28:['Gai',''],29:['Gừng','Zingiber officinale'],30:['Hạ khô thảo',''],31:['Hoắc hương','Pogostemon cablin'],32:['Húng chanh','Plectranthus amboinicus'],33:['Huyết dụ','Cordyline fruticosa'],34:['Hương nhu tía','Ocimum tenuiflorum'],35:['Hy thiêm','Siegesbeckia orientalis'],62:['Sim','Rhodomyrtus tomentosa'],70:['Ý dĩ','Coix lacryma-jobi']};
 const boardPartial={57:'I…',58:'P…',59:'S…',60:'S…',61:'Sắ… (có thể là Sắn dây)',63:'Thi…',67:'Xạ c…',68:'Xích…',69:'Xuyên…'};
 function gvOpenCatalog(){
   let rows='',read=0;
@@ -1219,6 +1251,7 @@ function gvOpenCatalog(){
   if(!gvDlg.open) gvDlg.showModal();
 }
 document.getElementById('catBtn').onclick=gvOpenCatalog;
+document.getElementById('faceBtn').onclick=gvFaceNext;
 gvLoad();
 questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
 currentQuestId=(quests.find(q=>!questProgress.has(q.id))||quests[0]).id;
