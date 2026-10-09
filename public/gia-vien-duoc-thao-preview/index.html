@@ -189,6 +189,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
       <button id="btnFp">Góc nhìn 3D</button>
     </div>
     <div class="score-pill" title="Điểm và hạng lưu trên thiết bị này"><span id="barRank">Khách tham quan</span><b id="barPts">0</b><span>điểm</span></div>
+    <div id="gvAcct" style="font-size:12px;opacity:.85;margin-top:4px">Khách · chưa đăng nhập HIU TMC</div>
   </header>
 
   <main class="main panel">
@@ -1091,7 +1092,91 @@ const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10,faceFirst:8
 const RANKS=[[0,'Khách tham quan'],[50,'Học việc'],[120,'Người giữ vườn'],[200,'Người giữ vườn xuất sắc']];
 const gvState={scene:[],fp:[],found:[],quiz:{},time:{},face:{},score:0,done:false,intro:false};
 function gvLoad(){ try{ const j=JSON.parse(localStorage.getItem(GV_KEY)||'null'); if(j&&typeof j==='object'){ ['scene','fp','found'].forEach(k=>{ if(Array.isArray(j[k])) gvState[k]=j[k].filter(x=>typeof x==='string'||typeof x==='number'); }); ['quiz','time','face'].forEach(k=>{ if(j[k]&&typeof j[k]==='object') gvState[k]=j[k]; }); gvState.done=!!j.done; gvState.intro=!!j.intro; gvRecalc(); } }catch(e){} }
-function gvSave(){ try{ localStorage.setItem(GV_KEY,JSON.stringify(gvState)); }catch(e){} }
+function gvSaveLocal(){ try{ localStorage.setItem(GV_KEY,JSON.stringify(gvState)); }catch(e){} }
+/* Đồng bộ tài khoản HIU TMC (SSO). Khách vẫn chơi trên thiết bị như cũ. */
+const GV_SUPA_URL='https://gzmpnsrwqjpsbklyflqr.supabase.co';
+const GV_SUPA_KEY='sb_publishable_Y4hMhXROZ-aVgWoaQ5fFKQ_ZAcXuIzG';
+const GV_SESSION_KEY='hiutmc-member-session-v1';
+let gvSession=null, gvMemberId='', gvPushT=0;
+const gvAcctEl=document.getElementById('gvAcct');
+function gvAcctShow(text){ if(gvAcctEl) gvAcctEl.textContent=text; }
+function gvJwtExp(t){ try{ const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'); return Number(JSON.parse(atob(p+'='.repeat((4-p.length%4)%4))).exp||0)*1000; }catch(e){ return 0; } }
+function gvSessionRead(){ try{ const v=JSON.parse(localStorage.getItem(GV_SESSION_KEY)||'null'); return v&&v.accessToken&&v.refreshToken?v:null; }catch(e){ return null; } }
+function gvSessionWrite(s){ try{ localStorage.setItem(GV_SESSION_KEY,JSON.stringify(s)); }catch(e){} }
+function gvConsumeBridge(){
+  if(!location.hash) return;
+  const f=new URLSearchParams(location.hash.slice(1));
+  if(f.get('ecosystem_sso')!=='1') return;
+  const at=f.get('access_token')||'', rt=f.get('refresh_token')||'';
+  history.replaceState(null,'',location.pathname+location.search);
+  if(at.length<40||!rt) return;
+  gvSessionWrite({accessToken:at,refreshToken:rt,expiresAt:gvJwtExp(at)||Date.now()+45*60*1000});
+}
+async function gvValidToken(){
+  gvSession=gvSessionRead();
+  if(!gvSession) return '';
+  if(gvSession.expiresAt-Date.now()>90000) return gvSession.accessToken;
+  try{
+    const r=await fetch(`${GV_SUPA_URL}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:GV_SUPA_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:gvSession.refreshToken})});
+    if(r.status===400||r.status===401){ try{ localStorage.removeItem(GV_SESSION_KEY); }catch(e){} gvSession=null; return ''; }
+    if(!r.ok) return '';
+    const b=await r.json();
+    gvSession={accessToken:b.access_token,refreshToken:b.refresh_token,expiresAt:gvJwtExp(b.access_token)||Date.now()+45*60*1000};
+    gvSessionWrite(gvSession);
+    return gvSession.accessToken;
+  }catch(e){ return ''; }
+}
+async function gvRpc(name,body){
+  const token=await gvValidToken(); if(!token) return {ok:false};
+  try{
+    const r=await fetch(`${GV_SUPA_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:GV_SUPA_KEY,Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify(body||{})});
+    if(!r.ok) return {ok:false};
+    return {ok:true,data:await r.json()};
+  }catch(e){ return {ok:false}; }
+}
+function gvMergeProgress(local,server){
+  const out=JSON.parse(JSON.stringify(local));
+  ['scene','fp','found'].forEach(k=>{ out[k]=[...new Set([...(server[k]||[]),...(local[k]||[])])]; });
+  ['quiz','time','face'].forEach(k=>{
+    out[k]=Object.assign({},server[k]||{});
+    Object.entries(local[k]||{}).forEach(([id,v])=>{ if(!out[k][id]||(v&&v.done&&!out[k][id].done)) out[k][id]=v; });
+  });
+  out.done=!!(local.done||server.done);
+  out.intro=!!(local.intro||server.intro);
+  return out;
+}
+async function gvPush(){
+  if(!gvMemberId) return;
+  const res=await gvRpc('gia_vien_save_progress_v1',{p_state:gvState});
+  if(!res.ok) gvAcctShow('Đã đăng nhập HIU TMC · chưa lưu được lên tài khoản, sẽ thử lại');
+  else gvAcctShow('Đã đăng nhập HIU TMC · tiến trình đã lưu theo tài khoản');
+}
+function gvPushSoon(){ if(!gvMemberId) return; clearTimeout(gvPushT); gvPushT=setTimeout(gvPush,1500); }
+async function gvPullProgress(){
+  const res=await gvRpc('gia_vien_get_progress_v1',{});
+  if(!res.ok){ gvAcctShow('Đã đăng nhập HIU TMC · chưa đồng bộ được tiến trình'); return; }
+  if(res.data&&typeof res.data==='object'){
+    Object.assign(gvState,gvMergeProgress(gvState,res.data));
+    gvRecalc(); gvSaveLocal(); gvRender();
+    questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
+    updateQuestUI();
+  }
+  gvPushSoon();
+}
+async function gvInitAccount(){
+  const token=await gvValidToken();
+  if(!token){ gvAcctShow('Khách · chưa đăng nhập HIU TMC'); return; }
+  try{
+    const r=await fetch(`${GV_SUPA_URL}/auth/v1/user`,{headers:{apikey:GV_SUPA_KEY,Authorization:`Bearer ${token}`}});
+    if(!r.ok){ gvAcctShow('Khách · phiên HIU TMC đã hết hạn, hãy mở lại từ HIU TMC'); return; }
+    const u=await r.json();
+    gvMemberId=(u.app_metadata&&u.app_metadata.member_id)||'';
+    if(!gvMemberId){ gvAcctShow('Khách · tài khoản chưa liên kết thành viên HIU TMC'); return; }
+    gvAcctShow('Đã đăng nhập HIU TMC · đang đồng bộ tiến trình');
+    await gvPullProgress();
+  }catch(e){ gvAcctShow('Khách · không kết nối được HIU TMC'); }
+}
+function gvSave(){ gvSaveLocal(); gvPushSoon(); }
 function gvRecalc(){
   let sc=gvState.scene.length*POINTS.scene+gvState.fp.length*POINTS.fp+gvState.found.length*POINTS.quest;
   Object.values(gvState.quiz).forEach(v=>{ if(v&&v.done) sc+= v.first?POINTS.quizFirst:POINTS.quizRetry; });
@@ -1224,6 +1309,7 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
   document.querySelectorAll('.pane').forEach(x=>x.classList.toggle('active',x.id==='pane-'+t.dataset.tab));
 });
+gvConsumeBridge();
 gvLoad();
 questProgress=new Set(gvState.found.map(pid=>quests.find(q=>q.plantId===pid)?.id).filter(Boolean));
 currentQuestId=(quests.find(q=>!questProgress.has(q.id))||quests[0]).id;
@@ -1233,6 +1319,7 @@ renderPlantList();
 renderSelectedPlant();
 updateQuestUI();
 gvRender();
+gvInitAccount();
 setTimeout(gvIntro,400);
 (function(){
   let m='photo';
