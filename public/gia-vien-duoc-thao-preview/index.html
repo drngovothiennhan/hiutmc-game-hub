@@ -242,6 +242,29 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
 .walk-chaps button.on b{color:#183028}
 @media (max-width:640px){.walk-bar{gap:8px;padding:10px 10px 4px}.walk-time{font-size:12px}.walk-big{width:56px;height:56px;font-size:20px}}
 #markAnswerBtn{display:none}
+/* ---- Tham quan 3D là màn chơi chính: một cột, không bảng phụ, không điểm số ---- */
+.app{grid-template-columns:minmax(0,1fr)}
+.qbar .qb-ch{display:block;font-size:12px;color:var(--gold);letter-spacing:.02em;margin-bottom:2px}
+.qbar .qb-q{font-weight:700;color:#f5fbf7}
+.qbar .qb-d{color:#d9ebe1;margin-top:2px}
+/* Điện thoại xoay ngang: bỏ tiêu đề phụ, khung 3D chiếm gần trọn màn hình */
+@media (max-height:520px) and (orientation:landscape){
+  .app{padding:6px;gap:6px}
+  .bar{padding:6px 10px}
+  .bar .brand h1{font-size:15px}
+  .main{padding:6px;gap:6px}
+  .topbar{display:none}
+  .stage.fp{height:calc(100vh - 70px)}
+}
+/* Điện thoại dọc: khung 3D gần vuông để ảnh phủ kín chiều cao; khung câu hỏi và dải trạm nằm DƯỚI ảnh, không che cây */
+@media (max-width:640px){
+  .stage.fp{height:auto;min-height:0}
+  #fpStage.active{position:relative;inset:auto;display:flex;flex-direction:column}
+  #fpCanvas{position:relative;inset:auto;height:min(86vw,60vh);flex:none}
+  #fpStage .fp-status,#fpStage .fp-fade,#fpStage .fp-links{bottom:auto;height:min(86vw,60vh)}
+  #fpQuest{position:relative;left:auto;right:auto;bottom:auto;transform:none;width:auto;max-width:none;margin:10px 10px 0;box-shadow:none}
+  #fpStage .fp-strip{position:relative;left:auto;right:auto;bottom:auto;margin:10px 10px 10px;padding-bottom:4px}
+}
 </style>
 </head>
 <body>
@@ -249,12 +272,12 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
   <header class="bar panel">
     <div class="brand"><div class="mark">GV</div><h1>Gia Viên Dược Thảo</h1></div>
     <div class="mode-buttons seg" role="tablist" aria-label="Chế độ xem">
-      <button id="btnPhoto" class="active">Ảnh thật</button>
-      <button id="btnWalk">Đi bộ</button>
-      <button id="btnSim">Tìm cây</button>
-      <button id="btnFp">Góc nhìn 3D</button>
+      <button id="btnFp" class="active">Tham quan 3D</button>
+      <button id="btnPhoto">Ảnh thật</button>
+      <button id="btnWalk">Video đi bộ</button>
+      <button id="btnSim" hidden>Tìm cây 2.5D</button>
     </div>
-    <div class="score-pill" title="Điểm và hạng lưu trên thiết bị này"><span id="barRank">Khách tham quan</span><b id="barPts">0</b><span>điểm</span></div>
+    <div class="score-pill" hidden title="Điểm và hạng lưu trên thiết bị này"><span id="barRank">Khách tham quan</span><b id="barPts">0</b><span>điểm</span></div>
   </header>
 
   <main class="main panel">
@@ -339,7 +362,7 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
     <div class="footer-note"><div id="statusLine"><strong id="statusText"></strong></div><span id="selectedText" hidden></span></div>
   </main>
 
-  <aside class="right panel">
+  <aside class="right panel" hidden>
     <nav class="tabs" role="tablist">
       <button class="tab active" data-tab="quest" role="tab">Nhiệm vụ</button>
       <button class="tab" data-tab="book" role="tab">Sổ cây <small id="herbCount"></small></button>
@@ -610,7 +633,7 @@ function renderPhotoMode(){
   frameCount.textContent=`${photoIndex+1}/${photos.length}`;
   heroImage.setAttribute('aria-label',p.title);
   photoTags.innerHTML=p.tags.map(t=>`<span class="chip${/^(Lưu trữ|Bố cục cũ)$/.test(t)?' old':''}">${t}</span>`).join('');
-  document.getElementById('photoActions').innerHTML=`<button class="pillbtn" id="photoZoom" type="button">🔍 Phóng to</button>${p.fp?'<button class="pillbtn" id="photo3d" type="button">Mở góc nhìn 3D</button>':''}`;
+  document.getElementById('photoActions').innerHTML=`<button class="pillbtn" id="photoZoom" type="button">🔍 Phóng to</button>${p.fp?'<button class="pillbtn" id="photo3d" type="button">Đứng tại đây trong Tham quan 3D</button>':''}`;
   document.getElementById('photoZoom').onclick=()=>openLightbox(p);
   if(p.fp) document.getElementById('photo3d').onclick=()=>setMode('fp',{station:p.fp});
   photoStatus.textContent='Đang tải ảnh thật…';
@@ -707,7 +730,7 @@ function setMode(next,opts){
   btnFp.classList.toggle('active',isFp);
   modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isWalk?'Đi bộ':isFp?'Góc nhìn thứ nhất 3D':'Tìm cây 2.5D'}`;
   if(isWalk){
-    mainTitle.textContent='Đi bộ trong vườn';
+    mainTitle.textContent='Video đi bộ';
     mainSub.textContent='Video thật quay một lượt đi qua vườn. Kéo ngang trên khung hình để tua, chạm để phát hoặc dừng.';
     statusText.textContent='';
     fp.stop();
@@ -716,8 +739,8 @@ function setMode(next,opts){
     return;
   }
   if(isFp){
-    mainTitle.textContent='Góc nhìn 3D · đứng giữa vườn';
-    mainSub.textContent='Kéo để nhìn quanh, chụm hoặc cuộn để phóng to, chạm vào cây để xem kỹ; bấm mũi tên vàng để đi sang trạm khác.';
+    mainTitle.textContent='Tham quan 3D';
+    mainSub.textContent='Kéo để nhìn quanh, bấm mũi tên vàng để đi sang chỗ khác. Đọc câu hỏi trong khung rồi chạm vào đúng cây.';
     statusText.textContent='';
     fp.start(opts&&opts.station);
     return;
@@ -1045,15 +1068,17 @@ varying vec2 v;uniform sampler2D t;void main(){vec4 c=texture2D(t,v);gl_FragColo
   function aspect(){return Math.max(.3,cv.clientWidth/Math.max(1,cv.clientHeight));}
   function hfovView(){return 2*Math.atan(Math.tan(fov*D/2)*aspect())/D;}
   const vForH=(h,a)=>2*Math.atan(Math.tan(h*D/2)/a)/D; // fov dọc để đạt bề ngang h ở tỉ lệ khung a
-  // fov dọc lớn nhất: vừa trọn ảnh; màn dọc (điện thoại) được nới ra để vẫn thấy ~50° bề ngang, phần thừa là viền tối
+  // Điện thoại (≤640px): khung câu hỏi nằm dưới ảnh; ảnh phủ kín khung, kéo ngang để xem phần còn lại.
+  const narrowUI=window.matchMedia('(max-width:640px)');
+  // fov dọc lớn nhất: vừa trọn ảnh. Màn rộng dọc (máy tính bảng) được nới để vẫn thấy ~50° bề ngang, phần thừa là viền tối.
   function maxFov(st){
     const a=aspect(), vf=(vUp(st)+vDown(st))*.98, hf=st.hfov*.98;
     const fit=Math.min(vf,vForH(hf,a));
-    return Math.max(20,Math.min(100,Math.max(fit,vForH(Math.min(hf,50),a))));
+    return Math.max(20,Math.min(100,narrowUI.matches?fit:Math.max(fit,vForH(Math.min(hf,50),a))));
   }
   const minFov=st=>st.hi?14:22;
   // Đáy khung bị thanh nhiệm vụ và dải trạm che: cho đẩy ảnh lên cao thêm một đoạn để không che cây ở sát mép dưới ảnh
-  const uiPad=()=>Math.min(.3,200/Math.max(300,cv.clientHeight));
+  const uiPad=()=>narrowUI.matches?0:Math.min(.3,200/Math.max(300,cv.clientHeight));
   function clamp(){
     if(!cur) return;
     fov=Math.max(minFov(cur),Math.min(maxFov(cur),fov));
@@ -1456,27 +1481,59 @@ function gvNote(text,action){
   if(gvNoteData) gvNoteT=setTimeout(()=>{ gvNoteData=null; gvQuestBars(); },9000);
   gvQuestBars();
 }
+/* Ba chương nối tiếp, chỉ dùng nội dung đã có trong DATA:
+   1 · Tìm và nhận ra cây (quests + plantQuiz) → 2 · Vườn đổi theo thời gian (timeQuiz ở trạm lưu trữ) → 3 · Nhận mặt cây (faceCards). */
+function gvChapter(){
+  const pend=plants.filter(p=>gvState.found.includes(p.id)&&!(gvState.quiz[p.id]&&gvState.quiz[p.id].done));
+  const c1=quests.filter(q=>questProgress.has(q.id)).length;
+  if(c1<quests.length||pend.length) return {n:1,done:c1,total:quests.length,pend};
+  const tq=Object.entries(timeQuiz), c2=tq.filter(([,t])=>gvState.time[t.id]&&gvState.time[t.id].done).length;
+  if(c2<tq.length) return {n:2,done:c2,total:tq.length,next:tq.find(([,t])=>!(gvState.time[t.id]&&gvState.time[t.id].done))[0]};
+  const c3=faceCards.filter(c=>gvFaceDone(c.id)).length;
+  if(c3<faceCards.length) return {n:3,done:c3,total:faceCards.length};
+  return {n:4};
+}
+const GV_CH=['','Chương 1/3 · Tìm và nhận ra cây','Chương 2/3 · Vườn đổi theo thời gian','Chương 3/3 · Nhận mặt cây'];
 function gvQuestBars(){
   if(gvNoteData&&gvNoteData.q!==currentQuestId) gvNoteData=null;
-  const q=currentQuest(), total=quests.length, done=questProgress.size;
-  let html='';
+  const ch=gvChapter();
   const old=mode==='fp'&&fp.station&&fp.station.era==='old';
-  if(old){
-    html='<div class="qb-line"><b>Trạm lưu trữ</b> · ảnh chụp trước khi vẽ lại tường, dùng để so sánh với hiện nay. Không tìm cây ở đây; bấm trạm khác ở dải bên dưới.</div>';
-  } else if(done>=total){
-    html=`<div class="qb-line"><b>Đã tìm đủ ${total}/${total} cây.</b> Mở tab “Sổ cây” để xem thẻ cây hoặc bấm “Nhận mặt cây” để thử tài.</div><div class="qb-actions"><button data-a="reset">Chơi lại nhiệm vụ</button></div>`;
-  } else if(q){
-    html=`<div class="qb-line"><b>Nhiệm vụ ${quests.indexOf(q)+1}/${total}</b> · ${q.title}<span style="color:var(--muted)"> · xong ${done}</span></div><div class="qb-actions"><button class="primary" data-a="hint">💡 Gợi ý</button>${total-done>1?'<button data-a="skip">Nhiệm vụ khác</button>':''}</div>`;
+  let html='';
+  if(ch.n===1){
+    if(ch.pend.length&&questProgress.size>=quests.length){
+      html=`<span class="qb-ch">${GV_CH[1]} · ${ch.done}/${ch.total}</span><div class="qb-q">Còn ${ch.pend.length} câu hỏi về cây đã tìm thấy.</div><div class="qb-actions"><button class="primary" data-a="pend">Trả lời tiếp</button></div>`;
+    } else if(old){
+      html=`<span class="qb-ch">${GV_CH[1]} · ${ch.done}/${ch.total}</span><div class="qb-d">Đây là ảnh lưu trữ trước khi vẽ lại tường, không có cây cần tìm. Bấm mũi tên vàng hoặc chọn trạm khác ở dải bên dưới.</div>`;
+    } else {
+      let q=currentQuest();
+      if(!q||questProgress.has(q.id)){ q=quests.find(x=>!questProgress.has(x.id)); currentQuestId=q.id; }
+      html=`<span class="qb-ch">${GV_CH[1]} · đã tìm ${ch.done}/${ch.total}</span><div class="qb-q">${q.title}</div><div class="qb-d">${q.desc}</div><div class="qb-actions"><button class="primary" data-a="hint">Gợi ý</button>${ch.total-ch.done>1?'<button data-a="skip">Câu khác</button>':''}</div>`;
+    }
+  } else if(ch.n===2){
+    const st=fpStations.find(x=>x.id===ch.next);
+    html=`<span class="qb-ch">${GV_CH[2]} · ${ch.done}/${ch.total}</span><div class="qb-q">Bạn đã tìm đủ ${quests.length} cây.</div><div class="qb-d">Đứng ở ảnh lưu trữ ${st.date} để so sánh vườn trước và nay, rồi trả lời câu hỏi.</div><div class="qb-actions"><button class="primary" data-a="time">Tới ảnh lưu trữ ${st.date}</button></div>`;
+  } else if(ch.n===3){
+    html=`<span class="qb-ch">${GV_CH[3]} · ${ch.done}/${ch.total}</span><div class="qb-q">Nhìn ảnh cận và chọn đúng tên cây.</div><div class="qb-d">${faceCards.length} ảnh do chủ vườn chụp và gắn nhãn.</div><div class="qb-actions"><button class="primary" data-a="face">${ch.done?'Tiếp tục':'Bắt đầu'}</button></div>`;
+  } else {
+    html=`<span class="qb-ch">Đã hoàn thành 3 chương</span><div class="qb-d">Bạn có thể tiếp tục tham quan tự do.</div><div class="qb-actions"><button data-a="reset">Chơi lại từ đầu</button></div>`;
   }
-  if(gvNoteData&&!old) html+=`<div class="qb-msg">${gvNoteData.text}${gvNoteData.action?`<button class="primary" data-a="note">${gvNoteData.action.label}</button>`:''}</div>`;
+  if(gvNoteData&&ch.n===1&&!old) html+=`<div class="qb-msg">${gvNoteData.text}${gvNoteData.action?`<button class="primary" data-a="note">${gvNoteData.action.label}</button>`:''}</div>`;
   ['fpQuest','simQuest'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=html; });
+}
+function gvResetAll(){
+  if(!confirm('Xoá tiến trình trên thiết bị này và chơi lại từ đầu?')) return;
+  gvState.scene=[];gvState.fp=[];gvState.found=[];gvState.quiz={};gvState.time={};gvState.face={};gvState.score=0;gvState.done=false;
+  questProgress=new Set(); currentQuestId=quests[0].id; gvNoteData=null; gvSave(); gvRender(); updateQuestUI(); gvToast('Đã bắt đầu lại từ Chương 1.');
 }
 ['fpQuest','simQuest'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{
   const b=e.target.closest('button[data-a]'); if(!b) return;
   const a=b.dataset.a;
   if(a==='hint') gvHint();
   else if(a==='skip') gvNextQuest();
-  else if(a==='reset') resetQuestBtn.onclick();
+  else if(a==='reset') gvResetAll();
+  else if(a==='pend'){ const ch=gvChapter(); if(ch.pend&&ch.pend[0]) gvQuestDone(ch.pend[0].id); }
+  else if(a==='time'){ const ch=gvChapter(); if(ch.next){ if(mode!=='fp') setMode('fp',{station:ch.next}); else fp.goTo(ch.next); } }
+  else if(a==='face') gvFaceNext();
   else if(a==='note'&&gvNoteData&&gvNoteData.action){ const fn=gvNoteData.action.fn; gvNoteData=null; gvQuestBars(); fn(); }
 }));
 function gvNextQuest(){
@@ -1497,7 +1554,7 @@ function gvHint(){
     if(fp.hint(pid,7000)){ gvNote('Mình đã xoay tới chỗ có cây cần tìm và khoanh vòng vàng. Chạm vào cây để ghi nhận.'); return; }
     const st=gvStationFor(pid);
     if(st) gvNote('Cây này không nằm trong tầm nhìn của trạm này.',{label:'Tới trạm có cây',fn:()=>fp.goTo(st.id,pid)});
-    else gvNote('Chưa có điểm chạm cho cây này ở trạm 3D. Thử chế độ “Khám phá 6 trạm”.');
+    else gvNote('Chưa có vị trí của cây này trong ảnh 3D. Bấm “Câu khác” để làm câu tiếp theo.');
   } else if(mode==='sim'){
     if(scenes[sceneIndex].hotspots.some(h=>h.plantId===pid)){ startSimHint(7000); gvNote('Vòng vàng đang khoanh vùng cây cần tìm. Chạm vào cây để ghi nhận.'); return; }
     const to=scenes.findIndex(s=>s.hotspots.some(h=>h.plantId===pid));
@@ -1523,7 +1580,7 @@ function gvTapPlant(pid){
   markAnswerBtn.onclick();
 }
 function gvMiss(){
-  if(questProgress.size>=quests.length){ gvToast('Bạn đã tìm đủ cây rồi. Thử “Nhận mặt cây” ở tab Sổ cây.'); return; }
+  if(questProgress.size>=quests.length){ gvToast('Bạn đã tìm đủ cây của Chương 1. Làm tiếp chương sau ở khung câu hỏi.'); return; }
   gvMisses++;
   if(gvMisses%3===0) gvNote('Chưa thấy? Bấm “Gợi ý” để mình khoanh vòng quanh cây cần tìm.');
   else gvToast('Chỗ này chưa có cây nào trong danh sách. Thử chạm chỗ khác.');
@@ -1564,7 +1621,7 @@ function gvFaceNext(){
   const done=faceCards.filter(x=>gvFaceDone(x.id)).length;
   gvOpenQuiz(`Nhận mặt cây ${done+1}/${faceCards.length}`,{img:'/gia-vien-duoc-thao-preview/assets/'+c.img,q:'Ảnh cận này là cây nào?',opts,ok:pos,
     why:`${c.name}${c.latin?` (${c.latin})`:''}${c.num?` · số ${c.num} trên bảng`:''}: ${c.feat}. Tên do chủ vườn gắn nhãn và đã xác nhận.`},
-    first=>{ gvState.face[c.id]={done:true,first:!!first}; gvAfter(`+${first?POINTS.faceFirst:POINTS.faceRetry} điểm · nhận mặt ${c.name}`); gvDlg.addEventListener('close',()=>setTimeout(gvFaceNext,250),{once:true}); });
+    first=>{ gvState.face[c.id]={done:true,first:!!first}; gvAfter(`Đã nhận mặt: ${c.name}`); gvDlg.addEventListener('close',()=>setTimeout(gvFaceNext,250),{once:true}); });
 }
 const POINTS={scene:5,fp:5,quest:10,quizFirst:10,quizRetry:5,time:10,faceFirst:8,faceRetry:4};
 const RANKS=[[0,'Khách tham quan'],[50,'Học việc'],[120,'Người giữ vườn'],[200,'Người giữ vườn xuất sắc']];
@@ -1599,34 +1656,34 @@ function gvOpenQuiz(title,quiz,onResult,first){
   gvBody.querySelector('#gvClose').onclick=()=>gvDlg.close();
   if(!gvDlg.open) gvDlg.showModal();
 }
-function gvAfter(msg){ gvRecalc(); gvSave(); gvRender(); if(msg) gvToast(msg); gvCheckDone(); }
-function gvVisitScene(i){ const k=String(i); if(!gvState.scene.includes(k)){ gvState.scene.push(k); gvAfter(`+${POINTS.scene} điểm · đã ghé trạm ${i+1}`); } }
+function gvAfter(msg){ gvRecalc(); gvSave(); gvRender(); gvQuestBars(); if(msg) gvToast(msg); gvCheckDone(); }
+function gvVisitScene(i){ const k=String(i); if(!gvState.scene.includes(k)){ gvState.scene.push(k); gvAfter(); } }
 function gvVisitFp(id){
   const st=fpStations.find(x=>x.id===id); if(!st) return;
-  if(st.era==='now' && !gvState.fp.includes(id)){ gvState.fp.push(id); gvAfter(`+${POINTS.fp} điểm · đã đứng ở trạm 3D mới`); }
+  if(st.era==='now' && !gvState.fp.includes(id)){ gvState.fp.push(id); gvAfter(); }
   const tq=timeQuiz[id];
   if(tq && !(gvState.time[tq.id]&&gvState.time[tq.id].done)){
-    setTimeout(()=>gvOpenQuiz('Đối chiếu theo thời gian',tq,()=>{ gvState.time[tq.id]={done:true}; gvAfter(`+${POINTS.time} điểm · đối chiếu bố cục`); }),700);
+    setTimeout(()=>gvOpenQuiz('Đối chiếu theo thời gian',tq,()=>{ gvState.time[tq.id]={done:true}; gvAfter('Đã so sánh vườn trước và nay.'); }),700);
   }
 }
 function gvQuestDone(plantId){
   const p=byId(plantId); if(!p) return;
-  if(!gvState.found.includes(plantId)){ gvState.found.push(plantId); gvAfter(`+${POINTS.quest} điểm · tìm thấy ${p.name}`); }
+  if(!gvState.found.includes(plantId)){ gvState.found.push(plantId); gvAfter(`Đã tìm thấy: ${p.name}`); }
   const qz=plantQuiz[plantId]; const done=gvState.quiz[plantId]&&gvState.quiz[plantId].done;
   if(qz && !done){
     // Mở thẻ chậm lại một nhịp: để người chơi thấy nhãn "đã tìm thấy" trước, và để cú chạm vừa rồi không "rơi" xuống đáp án của hộp thoại vừa hiện
     const open=n=>{ if(gvDlg.open){ if(n<20) setTimeout(()=>open(n+1),600); return; } // đang có hộp thoại khác: chờ rồi mở
-      gvOpenQuiz(`Thẻ cây: ${p.name}`,qz,first=>{ gvState.quiz[plantId]={done:true,first:!!first}; gvAfter(`+${first?POINTS.quizFirst:POINTS.quizRetry} điểm · mở thẻ ${p.name}`); });
+      gvOpenQuiz(`Thẻ cây: ${p.name}`,qz,first=>{ gvState.quiz[plantId]={done:true,first:!!first}; gvAfter(`Đã nhận ra: ${p.name}`); });
     };
     setTimeout(()=>open(0),450);
   }
 }
 function gvCheckDone(){
-  const all=gvState.scene.length>=scenes.length && gvState.fp.length>=fpStations.filter(x=>x.era==='now').length && plants.every(p=>gvState.quiz[p.id]&&gvState.quiz[p.id].done) && faceCards.every(c=>gvFaceDone(c.id)) && Object.values(timeQuiz).every(t=>gvState.time[t.id]&&gvState.time[t.id].done);
+  const all=gvChapter().n===4;
   if(all && !gvState.done){
     gvState.done=true; gvSave();
     setTimeout(()=>{
-      gvBody.innerHTML=`<h3>Hoàn thành hành trình</h3><p style="color:#d9ebe1">Bạn đã đi hết ${scenes.length} trạm, đứng ở các trạm 3D, mở ${plants.length}/${plants.length} thẻ cây, nhận mặt ${faceCards.length}/${faceCards.length} cây qua ảnh cận và đối chiếu bố cục theo thời gian.</p><p><strong>${gvState.score}/${GV_MAX} điểm · ${gvRank()}</strong></p><p class="fb">Tên cây là định danh tạm. Khi có danh mục chính thức và mã QR, các thẻ sẽ được cập nhật và bạn có thể chơi lại để mở thẻ mới.</p><div class="row"><button class="primary" onclick="document.getElementById('gvDlg').close()">Đóng</button></div>`;
+      gvBody.innerHTML=`<h3>Hoàn thành 3 chương</h3><p style="color:#d9ebe1">Bạn đã tìm và nhận ra ${plants.length} cây trong vườn, so sánh vườn trước và nay qua ${Object.keys(timeQuiz).length} ảnh lưu trữ, và nhận mặt ${faceCards.length} cây qua ảnh cận.</p><p class="fb">Tên cây là định danh tạm. Khi có danh mục chính thức và mã QR, các thẻ sẽ được cập nhật và bạn có thể chơi lại để mở thẻ mới.</p><div class="row"><button class="primary" onclick="document.getElementById('gvDlg').close()">Đóng</button></div>`;
       if(!gvDlg.open) gvDlg.showModal();
     },900);
   }
@@ -1668,14 +1725,10 @@ document.getElementById('jrReset').onclick=()=>{
 
 function gvIntro(){
   if(gvState.intro) return;
-  gvBody.innerHTML=`<h3>Nhật ký người giữ vườn</h3>
-  <p style="color:#d9ebe1;line-height:1.5">Sáng nay bạn nhận chìa khoá khu vườn dược thảo của khoa. Bảng danh sách cây đã treo ở giàn, nhưng các nhãn còn chờ người kiểm lại. Bạn sẽ đi hết vườn, tìm đúng từng cây, mở thẻ cây và ghi lại vườn đã đổi thế nào so với mấy tháng trước.</p>
-  <ol style="color:var(--muted);line-height:1.6;padding-left:20px;margin:8px 0">
-    <li><strong>Ảnh thật:</strong> xem ${photos.length} khung hình thật của vườn, ảnh mới nhất xếp trước; bấm “Phóng to” để xem chi tiết.</li>
-    <li><strong>Góc nhìn thứ nhất 3D:</strong> đứng giữa vườn, kéo để nhìn quanh, chụm để phóng to. Không có điểm sáng sẵn: đọc nhiệm vụ rồi tự chạm vào đúng cây; kẹt thì bấm “Gợi ý”.</li>
-    <li><strong>Khám phá ${scenes.length} trạm:</strong> cùng cách chơi trên ảnh thật của từng trạm. Mở trạm lưu trữ trong 3D để so sánh với bố cục cũ.</li>
-  </ol>
-  <p class="fb">Điểm và thẻ cây lưu trên thiết bị này. Tên cây là định danh tạm, chờ danh mục chính thức.</p>
+  gvBody.innerHTML=`<h3>Tham quan Gia Viên Dược Thảo</h3>
+  <p style="color:#d9ebe1;line-height:1.5">Bạn đứng giữa khu vườn qua ảnh thật. Kéo để nhìn quanh, bấm mũi tên vàng để đi sang chỗ khác.</p>
+  <p style="color:#d9ebe1;line-height:1.5">Khung câu hỏi ở góc dưới sẽ mô tả một cây. Tìm cây đó và chạm vào nó, rồi trả lời một câu hỏi ngắn để nhận ra cây. Có 3 chương nối tiếp: tìm cây, so sánh vườn trước và nay, nhận mặt cây qua ảnh cận.</p>
+  <p class="fb">Tiến trình lưu trên thiết bị này. Tên cây là định danh tạm, chờ danh mục chính thức.</p>
   <div class="row"><button class="primary" id="gvStart">Bắt đầu</button></div>`;
   gvBody.querySelector('#gvStart').onclick=()=>{ gvState.intro=true; gvSave(); gvDlg.close(); };
   gvDlg.addEventListener('close',()=>{ if(!gvState.intro){ gvState.intro=true; gvSave(); } },{once:true});
@@ -1718,15 +1771,15 @@ updateQuestUI();
 gvRender();
 setTimeout(gvIntro,400);
 (function(){
-  let m='photo',st=null;
+  let m='fp',st=null;
   try{
     const sp=new URLSearchParams(location.search), q=sp.get('mode')||location.hash.replace('#','');
-    if(['fp','3d'].includes(q)) m='fp'; else if(q==='sim') m='sim';
+    if(q==='photo') m='photo'; else if(q==='walk') m='walk'; else if(q==='sim') m='sim';
     const s=sp.get('st'); // ?st=<mã trạm 3D> mở thẳng trạm đó
     if(s&&fpStations.some(x=>x.id===s)){ st=s; m='fp'; }
   }catch(e){}
   setMode(m,{station:st});
-  if(m!=='photo'){ try{ document.querySelector('.stage').scrollIntoView({block:'start'}); }catch(e){} }
+  if(st){ try{ document.querySelector('.stage').scrollIntoView({block:'start'}); }catch(e){} }
 })();
 </script>
 </body>

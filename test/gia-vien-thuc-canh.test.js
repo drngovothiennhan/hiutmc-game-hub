@@ -203,3 +203,23 @@ test('Chế độ Đi bộ có chặng theo thứ tự thời gian và không n�
   assert.equal(ts[0], 0, 'chặng đầu phải bắt đầu từ 0 giây');
   for (const p of plants) assert.doesNotMatch(m[1], new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'));
 });
+
+test('Màn chính là Tham quan 3D, 3 chương nối tiếp, không hiện điểm hay hạng', () => {
+  assert.match(html, /<button id="btnFp" class="active">Tham quan 3D<\/button>/);
+  assert.match(html, /let m='fp',st=null;/, 'mặc định phải mở Tham quan 3D');
+  assert.match(html, /<aside class="right panel" hidden>/, 'bảng phụ phải ẩn');
+  assert.match(html, /<div class="score-pill" hidden/, 'điểm và hạng không được hiện');
+  const ch = html.match(/const GV_CH=\[([^\]]*)\]/)[1];
+  assert.equal([...ch.matchAll(/'Chương \d\/3 · [^']+'/g)].length, 3, 'phải có đúng 3 chương');
+  for (const p of plants) assert.doesNotMatch(ch, new RegExp(p.name, 'i'), 'tên chương không nêu tên cây');
+  // mỗi chương dùng nội dung có thật trong DATA
+  assert.ok(quests.length >= 1 && Object.keys(plantQuiz).length === plants.length, 'Chương 1: nhiệm vụ và câu hỏi cho từng cây');
+  assert.ok(Object.keys(timeQuiz).length >= 1 && Object.keys(timeQuiz).every(id => fpStations.find(s => s.id === id && s.era === 'old')), 'Chương 2: câu hỏi nằm ở trạm lưu trữ');
+  assert.ok(faceCards.length >= 1, 'Chương 3: có ảnh cận để nhận mặt');
+});
+
+test('Lời dẫn nhập môn ngắn, không nói điểm hay hạng', () => {
+  const intro = html.match(/function gvIntro\(\)\{[\s\S]*?gvBody\.querySelector\('#gvStart'\)/)[0];
+  assert.doesNotMatch(intro, /điểm|hạng|Nhật ký người giữ vườn/i);
+  assert.ok(intro.length < 1400, 'lời dẫn quá dài');
+});
