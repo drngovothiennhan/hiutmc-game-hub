@@ -167,3 +167,31 @@ Chủ dự án xác nhận game cũ chỉ tồn tại trong Study OS và chọn 
 **Kiểm tra.** Bộ test kiểm tra video và poster có mặt, dưới 8 MB và được trang dùng; các chặng theo thứ tự thời gian, bắt đầu từ 0 giây và không chứa tên cây.
 
 **Cảnh người.** Đã xem ảnh lấy mẫu mỗi giây của video, không thấy người thật trong khung; hình người trong tranh vẽ trên tường là tranh và được giữ lại. Chưa có kiểm tra từng khung tự động, nên trước khi công bố cần một người rà lại video gốc.
+
+## 13. Cập nhật 10/10/2026 (tối) — cách chơi đơn giản: Tham quan 3D, ba chương nối tiếp
+
+**Yêu cầu của chủ dự án:** người chơi đứng ở góc nhìn thứ nhất 3D, đi quanh vườn như một chuyến tham quan, và chỉ gặp các câu hỏi về việc tìm và nhận ra giống cây. Không muốn cách chơi rắc rối.
+
+**Đã làm**
+- Trang mở thẳng vào **Tham quan 3D**. Thanh chế độ còn ba nút: Tham quan 3D, Ảnh thật, Video đi bộ.
+- Bỏ khỏi giao diện: bảng bên phải (Nhiệm vụ, Sổ cây, Hành trình), điểm và hạng, chế độ "Tìm cây 2.5D". Mã của các phần này vẫn còn trong trang nhưng bị ẩn; mở lại 2.5D bằng `?mode=sim`. Điểm vẫn được tính ngầm trong `localStorage`, không hiển thị.
+- Một khung câu hỏi duy nhất ở dưới ảnh 3D, luôn cho biết đang ở chương nào và đã xong bao nhiêu.
+- Lời dẫn nhập môn còn ba câu, không nói điểm hay hạng.
+- Điện thoại dọc: ảnh 3D phủ kín khung, khung câu hỏi và dải trạm nằm dưới ảnh nên không che cây. Điện thoại xoay ngang: bỏ tiêu đề phụ để ảnh chiếm gần trọn màn hình.
+
+**Ba chương nối tiếp (chỉ dùng nội dung đã có trong DATA)**
+
+| Chương | Việc người chơi làm | Nội dung nguồn | Chuyển sang chương sau khi |
+|---|---|---|---|
+| 1 · Tìm và nhận ra cây | Đọc mô tả, tìm và chạm đúng cây trong ảnh 3D, trả lời một câu hỏi nhận biết về cây vừa tìm. Nút "Gợi ý" xoay tới và khoanh vòng cây. | `quests` (5), `plantQuiz` (5) | tìm đủ 5 cây và trả lời đủ 5 câu |
+| 2 · Vườn đổi theo thời gian | Đứng ở hai ảnh lưu trữ (10/07 và 06/06) và trả lời câu so sánh với hiện nay. | `timeQuiz` (2), trạm `era:'old'` | trả lời đủ 2 câu |
+| 3 · Nhận mặt cây | Nhìn ảnh cận do chủ vườn chụp và chọn đúng tên cây. | `faceCards` (9) | nhận mặt đủ 9 cây |
+
+Xong ba chương: hộp thoại "Hoàn thành 3 chương", sau đó tham quan tự do hoặc chơi lại từ đầu.
+
+**Đính chính về bản liệt kê chương trước đó.** Bản liệt kê sáu chương mà tôi gửi trong cuộc trò chuyện có một số đặc điểm cây (lá hình trái tim, hoa đỏ nhỏ, lá vàng xen xanh) không có trong dữ liệu hay ảnh đã được xác nhận. Chúng không được đưa vào game. Game chỉ dùng nội dung ở bảng trên.
+
+**Cần chủ dự án cung cấp để mở rộng thêm chương**
+- Danh mục cây chính thức và nội dung mã QR để chốt tên: năm cây ở Chương 1 vẫn là định danh tạm (độ tin cậy 35% đến 85%).
+- Vị trí thật của từng cây trong ảnh 3D (chỉ có 5 cây có điểm chạm; các trạm khác chưa có).
+- Khi đủ dữ liệu, mỗi chương mới chỉ cần thêm nhiệm vụ, câu hỏi và điểm chạm vào DATA; test sẽ kiểm tên cây không lộ ở mô tả và chương theo thứ tự.
