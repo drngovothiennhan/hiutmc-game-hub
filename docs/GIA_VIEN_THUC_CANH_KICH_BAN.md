@@ -102,7 +102,7 @@ Toàn bộ dữ liệu nằm trong khối `/* ==== DATA:BEGIN … DATA:END ==== 
 - Chơi trọn vòng ở 3D và 2.5D: gợi ý → chạm → thẻ cây → câu hỏi → điểm; chạm trượt có thông báo; nhiệm vụ làm theo thứ tự tuỳ ý; trạm lưu trữ hiện thông báo thay vì nhiệm vụ; mở thẳng bằng `?st=`.
 - Bố cục di động: không tràn ngang, thanh nhiệm vụ không che ảnh, nút liên kết giữa các trạm không chồng lên vùng chạm.
 - Tải lại trang: điểm và thẻ cây còn nguyên; hộp thoại mở đầu chỉ hiện một lần.
-- Không có lỗi script. `npm test`: 91 test, 90 đạt, 1 bỏ qua (có từ trước), trong đó 9 test riêng cho game này.
+- Không có lỗi script. `npm test`: 92 test, 91 đạt, 1 bỏ qua (có từ trước), trong đó 10 test riêng cho game này.
 
 Chưa làm: kiểm thử trên máy thật (đặc biệt độ mượt WebGL trên máy cũ), đồng bộ Study OS, kiểm tra thiết bị không có WebGL ngoài thông báo quay về chế độ Ảnh thật. Chưa chạy được `npm run build` đầy đủ trong môi trường làm việc (không tải được gói npm); bước build chạy ở CI trước khi đưa lên web. Trang game là tệp tĩnh nên bản build chỉ sao chép nguyên văn.
 
@@ -141,6 +141,7 @@ Chủ dự án xác nhận game cũ chỉ tồn tại trong Study OS và chọn 
 
 - Điểm chạm trong ảnh **ẩn hoàn toàn**; nhiệm vụ không nêu tên cây; người chơi tự quan sát và chạm. Nút "Gợi ý", thông báo khi chạm trượt, nhãn "✓ tên cây" khi tìm thấy (mô tả ở mục 2).
 - Sửa lỗi toạ độ ở 2.5D: vùng chạm trước đây tính theo khung canvas nên lệch khi ảnh không phủ kín khung; nay tính theo ảnh.
+- Bỏ nút "Tới điểm nóng" ở 2.5D (nó chọn sẵn cây của trạm và hiện tên, tức là chỉ đường). Gợi ý chỉ còn ở thanh nhiệm vụ. Tên cây cũng không còn xuất hiện trong chú thích ảnh, tên trạm hay nhãn nút trước khi người chơi tìm thấy cây (test của repo kiểm tra).
 - Giao diện: bố cục máy ngang gọn hơn, vùng an toàn cho thanh nhiệm vụ khi phóng to, nút liên kết giữa các trạm nằm ở mặt đất và mờ đi khi đang gợi ý, hộp "Phóng to" căn giữa và tự dùng "Xem 1:1" cho ảnh dài trên màn hẹp, thẻ cây mở trễ 450 ms để tay chưa kịp chạm nhầm đáp án.
 
 **Xuất lại ảnh từ nguồn:** `scripts/gia-vien-assets/` (xem `README.md` trong thư mục đó). Ba tập lệnh Python chạy lại được: gỡ chữ máy ảnh, hiệu chỉnh phép chiếu trụ, xuất ảnh. Mỗi ảnh toàn cảnh khai báo vùng cắt an toàn trong `03_export_assets.py`.

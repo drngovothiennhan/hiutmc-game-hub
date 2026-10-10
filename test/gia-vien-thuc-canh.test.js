@@ -131,6 +131,21 @@ test('Nhiệm vụ làm được ở cả 3D lẫn 2.5D, thẻ cây hợp lệ',
   assert.equal(quests.length, plants.length, 'mỗi cây một nhiệm vụ');
 });
 
+test('Tên cây của nhiệm vụ không lộ ở khung ảnh, trạm 2.5D và trạm 3D; không có nút chỉ sẵn vị trí cây', () => {
+  // Tên chỉ hiện khi người chơi tìm đúng cây. Tách "Nhóm gừng/riềng (chưa chốt)" thành "gừng" và "riềng".
+  const words = [...new Set(plants.flatMap(p => p.name.replace(/\(.*?\)/g, '').split('/').map(s => s.replace(/^nhóm\s+/i, '').trim().toLowerCase()).filter(Boolean)))];
+  assert.ok(words.length >= plants.length, 'phải rút được tên cây để kiểm tra');
+  const has = (text, w) => new RegExp(`(^|[^\\p{L}])${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^\\p{L}]|$)`, 'iu').test(text);
+  const texts = [
+    ...photos.map(p => [`ảnh ${p.id}`, [p.title, p.desc, ...(p.tags || [])].join(' | ')]),
+    ...scenes.map(s => [`trạm 2.5D ${s.id}`, [s.name, s.desc].join(' | ')]),
+    ...fpStations.map(s => [`trạm 3D ${s.id}`, [s.name, s.desc, ...(s.links || []).map(l => l.label)].join(' | ')]),
+  ];
+  for (const [label, text] of texts) for (const w of words) assert.ok(!has(text, w), `${label} lộ tên cây "${w}"`);
+  // Nút "Tới điểm nóng" từng chọn sẵn cây của trạm và hiện tên: trái với cách chơi tự tìm.
+  assert.doesNotMatch(html, /Tới điểm nóng|id="focusBtn"/);
+});
+
 test('Câu đối chiếu thời gian chỉ gắn với trạm lưu trữ; ảnh nhận mặt có đủ', () => {
   for (const [sid, t] of Object.entries(timeQuiz)) {
     const s = fpStations.find(x => x.id === sid);

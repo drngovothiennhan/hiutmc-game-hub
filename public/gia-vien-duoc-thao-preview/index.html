@@ -176,7 +176,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
 #selectedPanel{margin-top:12px}
 #selectedPanel:empty{display:none}
 @media (max-width:1000px){.bar{order:-2}.app{grid-template-columns:1fr}.right{position:static;max-height:none}.seg{margin:0}.bar{justify-content:space-between}}
-@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}.stage{min-height:56vh}.controls button{flex:1 1 30%;padding:9px 6px;font-size:13px}}
+@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}.stage{min-height:56vh}.controls button{flex:1 1 22%;padding:9px 6px;font-size:13px}}
 
 /* ---- Tương tác như thật: thanh nhiệm vụ, vòng gợi ý, chạm để xem kỹ, phóng to ảnh ---- */
 .qbar{position:absolute;left:10px;right:150px;bottom:100px;max-width:440px;z-index:3;background:rgba(7,12,10,.86);border:1px solid var(--line);border-radius:14px;padding:8px 10px;font-size:13px;line-height:1.38;box-shadow:0 8px 22px rgba(0,0,0,.35)}
@@ -293,7 +293,6 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
     <div class="controls">
       <button id="backBtn">◀ Lùi</button>
       <button id="leftBtn">↺ Trái</button>
-      <button id="focusBtn" class="primary">Tới điểm nóng</button>
       <button id="rightBtn">↻ Phải</button>
       <button id="nextBtn">Tiến ▶</button>
     </div>
@@ -359,7 +358,7 @@ const photos=[
   {id:'p-0926-front',src:ASSET+'2026-09-26-truoc-tuong.jpg',title:'Trước tường tranh phong cảnh · 26/09',desc:'Góc rộng về phía giàn và tường tranh, thấy hàng bồn đen, đèn trụ và các chậu cây dọc tường.',tags:['26/09','Tường tranh','Hàng bồn','Góc rộng']},
   {id:'p-0926-wall',src:ASSET+'2026-09-26-doc-tuong.jpg',title:'Dọc tường về phía góc tranh thứ hai · 26/09',desc:'Nhìn dọc hàng bồn sát tường; cây lá vằn ở góc phải khung hình.',tags:['26/09','Dọc tường','Hàng bồn','Lối đi']},
   {id:'p-0926-pot',src:ASSET+'2026-09-26-chau-hong-beo.jpg',title:'Cận chậu hồng phủ lớp bèo · 26/09',desc:'Cắt từ ảnh gốc nét cao: chậu hồng phủ lớp bèo xanh, cây thân mảnh lá tròn mọc lên từ giữa chậu (nhận diện bằng mắt, chưa xác nhận tên), bên cạnh là cây lá lớn có hoa đỏ.',tags:['26/09','Ảnh gốc','Chậu hồng']},
-  {id:'p-0926-snake',src:ASSET+'2026-09-26-luoi-ho.jpg',title:'Cận cây lá vằn ở góc phải · 26/09',desc:'Cắt từ ảnh gốc nét cao: lá dày, mọc thẳng, có vằn ngang xanh đậm (tạm: lưỡi hổ) cạnh bụi cây lá bóng trong bồn đen.',tags:['26/09','Ảnh gốc','Lá vằn','Bồn đen']},
+  {id:'p-0926-snake',src:ASSET+'2026-09-26-luoi-ho.jpg',title:'Cận cây lá vằn ở góc phải · 26/09',desc:'Cắt từ ảnh gốc nét cao: lá dày, mọc thẳng, có vằn ngang xanh đậm, cạnh bụi cây lá bóng trong bồn đen.',tags:['26/09','Ảnh gốc','Lá vằn','Bồn đen']},
   {id:'p-0916-left',src:ASSET+'2026-09-16-trai-gian.jpg',title:'Cụm cây phía trái giàn · 16/09 (máy ảnh Canon)',desc:'Chụp bằng máy ảnh Canon EOS 50D ngày 16/09: cụm cây tầng cao trong chậu trắng, bồn đen có bảng số xanh, phía sau là tranh các bạn học sinh.',tags:['16/09','Máy ảnh Canon','Cụm cây'],fp:'s-0916'},
   {id:'p-oct-front',src:ASSET+'2026-10-gian-qr.jpg',era:'old',title:'Lưu trữ · giàn chính diện có mã QR (bố cục cũ)',desc:'Ảnh chụp khi tường phía sau giàn còn là tranh cũ nền xanh dương, trước khi vẽ lại thành tranh phong cảnh xanh lá. Giữ để so sánh theo thời gian, không dùng để tìm cây.',tags:['Lưu trữ','Bố cục cũ','Mã QR','Giàn chính']},
   {id:'p-oct-sign',src:ASSET+'2026-10-bang-ten.jpg',era:'old',title:'Lưu trữ · bảng tên và giàn trồng đứng (bố cục cũ)',desc:'Nhìn nghiêng vào giàn khi tường còn là tranh cũ: các ô chậu treo, chậu treo trắng và hàng bảng QR theo từng cây.',tags:['Lưu trữ','Bố cục cũ','Bảng tên','Giàn đứng']},
@@ -488,7 +487,6 @@ let sceneIndex=0;
 let selectedPlantId=null;
 let questProgress=new Set();
 let currentQuestId=quests[0].id;
-let simFocusIndex=0;
 let cameraYaw=0;
 let sceneRect={x:0,y:0,dw:1280,dh:720};
 let simHintUntil=0,simHintTimer=0;
@@ -522,7 +520,6 @@ const backBtn=document.getElementById('backBtn');
 const nextBtn=document.getElementById('nextBtn');
 const leftBtn=document.getElementById('leftBtn');
 const rightBtn=document.getElementById('rightBtn');
-const focusBtn=document.getElementById('focusBtn');
 const markAnswerBtn=document.getElementById('markAnswerBtn');
 const resetQuestBtn=document.getElementById('resetQuestBtn');
 
@@ -654,7 +651,6 @@ function updateQuestUI(){
 }
 
 function setMode(next,opts){
-  try{ focusBtn.style.display=(next==='sim')?'':'none'; }catch(e){}
   mode=next;
   const isPhoto=mode==='photo', isFp=mode==='fp';
   photoStage.classList.toggle('active',isPhoto);
@@ -899,7 +895,6 @@ function updateMapDot(){
 function moveScene(delta){
   sceneIndex=(sceneIndex+delta+scenes.length)%scenes.length;
   cameraYaw=0;
-  simFocusIndex=0;
   drawScene();
 }
 function turnCamera(delta){
@@ -1265,18 +1260,8 @@ backBtn.onclick=()=>{ if(mode==='fp') return fp.next(-1); if(mode==='photo'){pho
 nextBtn.onclick=()=>{ if(mode==='fp') return fp.next(1); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else moveScene(1); };
 leftBtn.onclick=()=>{ if(mode==='fp') return fp.turn(-20); if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else turnCamera(-.45); };
 rightBtn.onclick=()=>{ if(mode==='fp') return fp.turn(20); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else turnCamera(.45); };
-focusBtn.onclick=()=>{
-  if(mode==='fp') return fp.walk();
-  if(mode==='photo') setMode('sim');
-  const scene=scenes[sceneIndex];
-  if(scene.hotspots.length){
-    const target=scene.hotspots[simFocusIndex % scene.hotspots.length].plantId;
-    simFocusIndex++;
-    selectedPlantId=target; renderSelectedPlant(); renderPlantList(); drawScene();
-  } else {
-    moveScene(1);
-  }
-};
+// 2.5D không có nút chọn sẵn cây của trạm (nó hiện nhãn tên, tức là chỉ đường cho người chơi, trái với cách chơi tự tìm).
+// Gợi ý nằm ở thanh nhiệm vụ.
 document.addEventListener('keydown',e=>{
   if(mode==='fp' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
     const k={ArrowLeft:()=>fp.turn(-10),ArrowRight:()=>fp.turn(10),ArrowUp:()=>fp.walk(),ArrowDown:()=>fp.next(-1),Enter:()=>fp.walk()}[e.key];
@@ -1287,7 +1272,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){e.preventDefault();moveScene(-1);}
   if(e.key==='ArrowLeft'){e.preventDefault();turnCamera(-.45);}
   if(e.key==='ArrowRight'){e.preventDefault();turnCamera(.45);}
-  if(e.key==='Enter'){e.preventDefault();focusBtn.click();}
 });
 
 markAnswerBtn.onclick=()=>{
