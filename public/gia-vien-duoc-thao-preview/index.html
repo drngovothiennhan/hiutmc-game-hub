@@ -157,7 +157,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
 .bar .mark{width:36px;height:36px;border-radius:11px;font-size:17px}
 .bar .brand h1{font-size:17px}
 .seg{display:flex;gap:6px;margin:0 auto}
-.seg button{padding:8px 14px}
+.seg button{padding:8px 14px;white-space:nowrap}
 .score-pill{display:flex;align-items:baseline;gap:6px;padding:6px 12px;border-radius:999px;background:#21362f;border:1px solid var(--line);font-size:13px;color:var(--muted)}
 .score-pill b{color:#f2d79c;font-size:16px}
 .score-pill span:first-child{color:#d9ebe1}
@@ -176,7 +176,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
 #selectedPanel{margin-top:12px}
 #selectedPanel:empty{display:none}
 @media (max-width:1000px){.bar{order:-2}.app{grid-template-columns:1fr}.right{position:static;max-height:none}.seg{margin:0}.bar{justify-content:space-between}}
-@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}.stage{min-height:56vh}.controls button{flex:1 1 22%;padding:9px 6px;font-size:13px}}
+@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 4px;font-size:12.5px}.stage{min-height:56vh}.controls button{flex:1 1 22%;padding:9px 6px;font-size:13px}}
 
 /* ---- Tương tác như thật: thanh nhiệm vụ, vòng gợi ý, chạm để xem kỹ, phóng to ảnh ---- */
 .qbar{position:absolute;left:10px;right:150px;bottom:100px;max-width:440px;z-index:3;background:rgba(7,12,10,.86);border:1px solid var(--line);border-radius:14px;padding:8px 10px;font-size:13px;line-height:1.38;box-shadow:0 8px 22px rgba(0,0,0,.35)}
@@ -218,6 +218,29 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
   .qbar{bottom:10px;right:auto;max-width:min(58%,440px);padding:6px 9px;font-size:12px}
   #simQuest{bottom:8px}
 }
+/* ---- Đi bộ: video thật đi qua vườn, tua bằng thanh, vuốt ngang hoặc phím mũi tên ---- */
+[hidden]{display:none!important}
+#walkStage{display:none;flex-direction:column;background:#050a08}
+#walkStage.active{display:flex}
+.stage.walk{min-height:0;background:#050a08}
+.walk-view{position:relative;width:100%;aspect-ratio:16/9;max-height:74vh;background:#000;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none;overflow:hidden}
+.walk-view video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.walk-hud{position:absolute;left:12px;top:12px;right:12px;pointer-events:none}
+.walk-hud .scene-pill{max-width:80%;display:inline-block}
+.walk-big{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;border:2px solid #fff;background:rgba(7,12,10,.62);color:#fff;font-size:24px;cursor:pointer;display:grid;place-items:center;padding:0}
+.walk-bar{display:flex;align-items:center;gap:12px;padding:12px 14px 6px;background:#0c1613}
+#walkPlay{width:42px;height:42px;flex:none;border-radius:50%;border:0;background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;font-size:15px;font-weight:700;cursor:pointer;display:grid;place-items:center;padding:0}
+.walk-track{position:relative;flex:1;height:30px;min-width:0}
+.walk-track input{position:absolute;inset:0;width:100%;height:100%;margin:0;accent-color:var(--gold);cursor:pointer}
+.walk-ticks{position:absolute;left:0;right:0;top:50%;height:12px;transform:translateY(-50%);pointer-events:none}
+.walk-ticks i{position:absolute;top:0;width:2px;height:12px;background:rgba(255,255,255,.6);border-radius:2px;margin-left:-1px}
+.walk-time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;white-space:nowrap;flex:none}
+.walk-chaps{display:flex;gap:8px;overflow-x:auto;padding:8px 14px 14px;background:#0c1613;scrollbar-width:thin}
+.walk-chaps button{flex:0 0 auto;border:1px solid var(--line);background:#1d3329;color:#e4eee8;padding:7px 12px;border-radius:999px;cursor:pointer;font-size:13px;white-space:nowrap}
+.walk-chaps button b{color:var(--gold);margin-right:2px}
+.walk-chaps button.on{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
+.walk-chaps button.on b{color:#183028}
+@media (max-width:640px){.walk-bar{gap:8px;padding:10px 10px 4px}.walk-time{font-size:12px}.walk-big{width:56px;height:56px;font-size:20px}}
 #markAnswerBtn{display:none}
 </style>
 </head>
@@ -227,7 +250,8 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
     <div class="brand"><div class="mark">GV</div><h1>Gia Viên Dược Thảo</h1></div>
     <div class="mode-buttons seg" role="tablist" aria-label="Chế độ xem">
       <button id="btnPhoto" class="active">Ảnh thật</button>
-      <button id="btnSim">Khám phá 6 trạm</button>
+      <button id="btnWalk">Đi bộ</button>
+      <button id="btnSim">Tìm cây</button>
       <button id="btnFp">Góc nhìn 3D</button>
     </div>
     <div class="score-pill" title="Điểm và hạng lưu trên thiết bị này"><span id="barRank">Khách tham quan</span><b id="barPts">0</b><span>điểm</span></div>
@@ -280,6 +304,22 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
         <div class="fp-strip" id="fpStrip"></div>
       </div>
 
+      <div id="walkStage">
+        <div class="walk-view" id="walkView">
+          <video id="walkVideo" playsinline muted preload="none" poster="/gia-vien-duoc-thao-preview/assets/walk/poster.jpg" aria-label="Video đi bộ trong vườn. Kéo ngang để tua, chạm để phát hoặc dừng."></video>
+          <div class="walk-hud"><div class="scene-pill"><strong id="walkChapName"></strong><span id="walkChapNote"></span></div></div>
+          <button class="walk-big" id="walkBig" type="button" aria-label="Phát video">▶</button>
+        </div>
+        <div class="walk-bar">
+          <button id="walkPlay" type="button" aria-label="Phát">▶</button>
+          <div class="walk-track">
+            <div class="walk-ticks" id="walkTicks"></div>
+            <input id="walkRange" type="range" min="0" max="1000" step="1" value="0" aria-label="Thanh tua video">
+          </div>
+          <span class="walk-time" id="walkTime">0:00 / 0:33</span>
+        </div>
+        <nav class="walk-chaps" id="walkChaps" aria-label="Các chặng trong vườn"></nav>
+      </div>
       <div id="simStage">
         <div class="canvas-wrap"><canvas id="simCanvas" width="1280" height="720"></canvas></div>
         <div class="hud">
@@ -290,7 +330,7 @@ dialog.lb::backdrop{background:rgba(3,8,6,.82)}
       </div>
     </section>
 
-    <div class="controls">
+    <div class="controls" id="navControls">
       <button id="backBtn">◀ Lùi</button>
       <button id="leftBtn">↺ Trái</button>
       <button id="rightBtn">↻ Phải</button>
@@ -652,15 +692,29 @@ function updateQuestUI(){
 
 function setMode(next,opts){
   mode=next;
-  const isPhoto=mode==='photo', isFp=mode==='fp';
+  const isPhoto=mode==='photo', isFp=mode==='fp', isWalk=mode==='walk';
+  if(walkReady && !isWalk) walkVideo.pause();
   photoStage.classList.toggle('active',isPhoto);
   simStage.classList.toggle('active',mode==='sim');
   fpStage.classList.toggle('active',isFp);
+  walkStage.classList.toggle('active',isWalk);
   document.querySelector('.stage').classList.toggle('fp',isFp);
+  document.querySelector('.stage').classList.toggle('walk',isWalk);
+  navControls.hidden=isWalk;
   btnPhoto.classList.toggle('active',isPhoto);
+  btnWalk.classList.toggle('active',isWalk);
   btnSim.classList.toggle('active',mode==='sim');
   btnFp.classList.toggle('active',isFp);
-  modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isFp?'Góc nhìn thứ nhất 3D':'Khám phá 2.5D'}`;
+  modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isWalk?'Đi bộ':isFp?'Góc nhìn thứ nhất 3D':'Tìm cây 2.5D'}`;
+  if(isWalk){
+    mainTitle.textContent='Đi bộ trong vườn';
+    mainSub.textContent='Video thật quay một lượt đi qua vườn. Kéo ngang trên khung hình để tua, chạm để phát hoặc dừng.';
+    statusText.textContent='';
+    fp.stop();
+    walkEnsure();
+    walkPaint();
+    return;
+  }
   if(isFp){
     mainTitle.textContent='Góc nhìn 3D · đứng giữa vườn';
     mainSub.textContent='Kéo để nhìn quanh, chụm hoặc cuộn để phóng to, chạm vào cây để xem kỹ; bấm mũi tên vàng để đi sang trạm khác.';
@@ -674,7 +728,7 @@ function setMode(next,opts){
     mainSub.textContent='';
     statusText.textContent='';
   } else {
-    mainTitle.textContent='Khám phá 6 trạm';
+    mainTitle.textContent='Tìm cây · 6 trạm';
     mainSub.textContent='Chạm vào cây của nhiệm vụ ngay trong ảnh; cần gợi ý thì bấm “Gợi ý” ở thanh nhiệm vụ.';
     statusText.textContent='';
     drawScene();
@@ -1253,6 +1307,100 @@ varying vec2 v;uniform sampler2D t;void main(){vec4 c=texture2D(t,v);gl_FragColo
   return api;
 })();
 
+/* ===== Đi bộ: video thật quay một lượt đi qua vườn (không dựng 3D giả) ===== */
+const WALK={file:'walk/vuon-di-bo.mp4',dur:33.2,chapters:[
+  {t:0,name:'Lối vào',note:'Chậu cây và bảng tên trước sân gạch'},
+  {t:7,name:'Dưới tranh vẽ',note:'Cây bụi sát khung tranh trường học'},
+  {t:15,name:'Hàng rào sắt',note:'Chậu treo và cây leo trên rào'},
+  {t:19,name:'Băng ghế trắng',note:'Bảng số 68 trên bồn cây'},
+  {t:28,name:'Lối đi giữa hai dãy chậu',note:'Hai bên là chậu cây xếp hàng'},
+  {t:31,name:'Trở lại tranh vẽ',note:'Khung tranh và giàn cây phía trên'}
+]};
+const navControls=document.getElementById('navControls');
+const btnWalk=document.getElementById('btnWalk');
+const walkStage=document.getElementById('walkStage');
+const walkView=document.getElementById('walkView');
+const walkVideo=document.getElementById('walkVideo');
+const walkPlay=document.getElementById('walkPlay');
+const walkBig=document.getElementById('walkBig');
+const walkRange=document.getElementById('walkRange');
+const walkTime=document.getElementById('walkTime');
+const walkTicks=document.getElementById('walkTicks');
+const walkChaps=document.getElementById('walkChaps');
+const walkChapName=document.getElementById('walkChapName');
+const walkChapNote=document.getElementById('walkChapNote');
+let walkReady=false, walkDrag=null, walkDur=WALK.dur;
+const fmtTime=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+function walkTicksBuild(){
+  walkTicks.innerHTML=WALK.chapters.map(c=>`<i style="left:${(c.t/walkDur*100).toFixed(2)}%"></i>`).join('');
+}
+function walkEnsure(){
+  if(walkReady) return;
+  walkReady=true;
+  walkVideo.preload='auto';
+  walkVideo.src=ASSET+WALK.file;
+  walkChaps.innerHTML=WALK.chapters.map((c,i)=>`<button type="button" data-i="${i}"><b>${i+1}</b> ${c.name}</button>`).join('');
+  walkChaps.querySelectorAll('button').forEach(b=>b.onclick=()=>walkSeek(WALK.chapters[+b.dataset.i].t));
+  walkTicksBuild();
+}
+function walkSeek(t){
+  walkEnsure();
+  walkVideo.currentTime=Math.min(Math.max(0,t),walkDur-0.05);
+  walkPaint();
+}
+function walkToggle(){
+  walkEnsure();
+  if(walkVideo.paused) walkVideo.play().catch(()=>{}); else walkVideo.pause();
+}
+function walkPaint(){
+  const t=walkVideo.currentTime||0;
+  walkRange.value=Math.round(Math.min(1,t/walkDur)*1000);
+  walkTime.textContent=`${fmtTime(t)} / ${fmtTime(walkDur)}`;
+  let idx=0;
+  WALK.chapters.forEach((c,i)=>{ if(t>=c.t-0.01) idx=i; });
+  const c=WALK.chapters[idx];
+  walkChapName.textContent=`${idx+1}/${WALK.chapters.length} · ${c.name}`;
+  walkChapNote.textContent=c.note;
+  walkChaps.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on',i===idx));
+  const playing=!walkVideo.paused&&!walkVideo.ended;
+  walkPlay.textContent=playing?'❚❚':'▶';
+  walkPlay.setAttribute('aria-label',playing?'Dừng':'Phát');
+  walkBig.hidden=playing;
+}
+walkVideo.addEventListener('loadedmetadata',()=>{ if(isFinite(walkVideo.duration)&&walkVideo.duration>0){ walkDur=walkVideo.duration; walkTicksBuild(); } walkPaint(); });
+walkVideo.addEventListener('timeupdate',()=>{ if(!walkDrag) walkPaint(); });
+['play','pause','ended','seeked'].forEach(ev=>walkVideo.addEventListener(ev,walkPaint));
+walkPlay.onclick=walkToggle;
+walkBig.onclick=walkToggle;
+walkRange.addEventListener('input',()=>{ walkEnsure(); walkVideo.pause(); walkVideo.currentTime=walkRange.value/1000*walkDur; walkPaint(); });
+// Vuốt ngang trên khung hình để tua (cả 2/3 màn hình ≈ 20 giây); chạm không di chuyển thì phát/dừng.
+walkView.addEventListener('pointerdown',e=>{
+  if(e.target.closest('button')) return;
+  walkEnsure();
+  walkDrag={x:e.clientX,t:walkVideo.currentTime||0,moved:false,was:!walkVideo.paused};
+  walkView.setPointerCapture(e.pointerId);
+  walkVideo.pause();
+});
+walkView.addEventListener('pointermove',e=>{
+  if(!walkDrag) return;
+  const dx=e.clientX-walkDrag.x;
+  if(Math.abs(dx)>6) walkDrag.moved=true;
+  if(walkDrag.moved){
+    const w=walkView.clientWidth||1;
+    walkVideo.currentTime=Math.min(walkDur-0.05,Math.max(0,walkDrag.t+dx/w*walkDur*0.6));
+    walkPaint();
+  }
+});
+const walkEndDrag=()=>{
+  if(!walkDrag) return;
+  const d=walkDrag; walkDrag=null;
+  if(!d.moved && !d.was) walkVideo.play().catch(()=>{});
+  walkPaint();
+};
+walkView.addEventListener('pointerup',walkEndDrag);
+walkView.addEventListener('pointercancel',walkEndDrag);
+
+btnWalk.onclick=()=>setMode('walk');
 btnPhoto.onclick=()=>setMode('photo');
 btnSim.onclick=()=>setMode('sim');
 btnFp.onclick=()=>setMode('fp');
@@ -1263,6 +1411,10 @@ rightBtn.onclick=()=>{ if(mode==='fp') return fp.turn(20); if(mode==='photo'){ph
 // 2.5D không có nút chọn sẵn cây của trạm (nó hiện nhãn tên, tức là chỉ đường cho người chơi, trái với cách chơi tự tìm).
 // Gợi ý nằm ở thanh nhiệm vụ.
 document.addEventListener('keydown',e=>{
+  if(mode==='walk' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
+    const k={' ':()=>walkToggle(),ArrowLeft:()=>walkSeek(walkVideo.currentTime-3),ArrowRight:()=>walkSeek(walkVideo.currentTime+3)}[e.key];
+    if(k){e.preventDefault();k();} return;
+  }
   if(mode==='fp' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
     const k={ArrowLeft:()=>fp.turn(-10),ArrowRight:()=>fp.turn(10),ArrowUp:()=>fp.walk(),ArrowDown:()=>fp.next(-1),Enter:()=>fp.walk()}[e.key];
     if(k){e.preventDefault();k();} return;

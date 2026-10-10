@@ -152,3 +152,18 @@ Chủ dự án xác nhận game cũ chỉ tồn tại trong Study OS và chọn 
 - Hướng đi giữa các trạm 3D và đường chân trời của ảnh ghép là ước lượng bằng mắt từ ảnh, chưa đo ngoài vườn.
 - Tên cây vẫn là định danh tạm, chờ danh mục chính thức và nội dung mã QR. Sim chưa có trong ảnh nào.
 - Chưa thử trên máy thật; chưa nối Study OS.
+
+## 12. Cập nhật 10/10/2026 (chiều) — chế độ Đi bộ và bố cục gọn hơn
+
+**Video đi bộ.** Video quay một lượt đi qua vườn (`VID_20261010_102406.mp4`, 33 giây, 1920×1080) được nén xuống 960×540, 24 khung/giây, khoảng 7 MB tại `assets/walk/vuon-di-bo.mp4`, kèm ảnh bìa `assets/walk/poster.jpg`. Video không có âm thanh. Chế độ **Đi bộ** cho phép:
+
+- kéo thanh thời gian hoặc vuốt ngang trên khung hình để tua (cả chiều rộng màn hình ≈ 20 giây); chạm để phát hoặc dừng; phím Space, ←, → trên máy tính;
+- sáu chặng theo thời gian (Lối vào, Dưới tranh vẽ, Hàng rào sắt, Băng ghế trắng, Lối đi giữa hai dãy chậu, Trở lại tranh vẽ) để nhảy thẳng tới đoạn cần xem. Tên chặng chỉ mô tả cảnh vật, không nêu tên cây.
+
+**Lý do không dựng 3D từ video.** Một video đi bộ không đủ để dựng lại mô hình 3D đáng tin: cần nhiều ảnh chụp có chồng lấp và đo độ sâu. Chế độ này là video thật, nên không có cảnh giả. Muốn 3D thật, cần quay theo lưới điểm (mỗi ~2 m một điểm, 360°) rồi chạy dựng ảnh (COLMAP/OpenSplat); việc đó để lên kế hoạch riêng.
+
+**Bố cục.** Thanh chế độ có bốn lựa chọn: Ảnh thật, Đi bộ, Tìm cây, Góc nhìn 3D (đổi tên "Khám phá 6 trạm" thành "Tìm cây"). Nút Lùi/Trái/Phải/Tiến ẩn ở chế độ Đi bộ. Trên điện thoại, các nút chế độ không xuống dòng.
+
+**Kiểm tra.** Bộ test kiểm tra video và poster có mặt, dưới 8 MB và được trang dùng; các chặng theo thứ tự thời gian, bắt đầu từ 0 giây và không chứa tên cây.
+
+**Cảnh người.** Đã xem ảnh lấy mẫu mỗi giây của video, không thấy người thật trong khung; hình người trong tranh vẽ trên tường là tranh và được giữ lại. Chưa có kiểm tra từng khung tự động, nên trước khi công bố cần một người rà lại video gốc.
