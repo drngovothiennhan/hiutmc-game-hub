@@ -54,7 +54,7 @@ button,input,select{font:inherit}
 .fp-link[data-dir="up"]::before{content:'⬆ '}
 .fp-link[data-dir="left"]::before{content:'◀ '}
 .fp-link[data-dir="right"]::after{content:' ▶'}
-.fp-link[data-dir="left"],.fp-link[data-dir="right"]{background:rgba(7,12,10,.8);color:#f4e3bf;border-color:var(--gold)}
+.fp-link[data-dir="left"],.fp-link[data-dir="right"]{background:rgba(7,12,10,.8);color:#f4e3bf;border-color:var(--gold);font-size:11px;padding:6px 10px;opacity:.93}
 .fp-status{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;color:#e4eee8;font-size:14px;pointer-events:none}
 .fp-status.show{display:grid}
 .fp-fade{position:absolute;inset:0;background:#08100d;opacity:0;pointer-events:none;transition:opacity .28s ease}
@@ -176,7 +176,49 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
 #selectedPanel{margin-top:12px}
 #selectedPanel:empty{display:none}
 @media (max-width:1000px){.bar{order:-2}.app{grid-template-columns:1fr}.right{position:static;max-height:none}.seg{margin:0}.bar{justify-content:space-between}}
-@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}.stage{min-height:56vh}.controls button{flex:1 1 30%;padding:9px 6px;font-size:13px}}
+@media (max-width:640px){.seg{order:3;width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}.stage{min-height:56vh}.controls button{flex:1 1 22%;padding:9px 6px;font-size:13px}}
+
+/* ---- Tương tác như thật: thanh nhiệm vụ, vòng gợi ý, chạm để xem kỹ, phóng to ảnh ---- */
+.qbar{position:absolute;left:10px;right:150px;bottom:100px;max-width:440px;z-index:3;background:rgba(7,12,10,.86);border:1px solid var(--line);border-radius:14px;padding:8px 10px;font-size:13px;line-height:1.38;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.qbar:empty{display:none}
+.qbar .qb-line b{color:var(--gold)}
+.qbar .qb-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.qbar button{border:1px solid var(--line);background:#244038;color:#f5fbf7;padding:6px 10px;border-radius:10px;cursor:pointer;font-size:12px}
+.qbar button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46);color:#183028;border-color:transparent;font-weight:700}
+.qbar .qb-msg{margin-top:6px;color:#e4eee8}
+.qbar .qb-msg button{margin-left:6px}
+#simQuest{left:50%;right:auto;bottom:12px;transform:translateX(-50%);width:min(92%,560px);max-width:none}
+.fp-ring,.fp-found,.fp-tap{position:absolute;pointer-events:none;transform:translate(-50%,-50%)}
+.fp-ring{border:3px solid #ffe08a;border-radius:50%;box-shadow:0 0 0 2px rgba(7,12,10,.55),0 0 18px rgba(255,224,138,.7);animation:fpring 1.1s ease-in-out infinite}
+@keyframes fpring{0%,100%{opacity:.95;transform:translate(-50%,-50%) scale(1)}50%{opacity:.55;transform:translate(-50%,-50%) scale(1.12)}}
+.fp-found{padding:4px 9px;border-radius:999px;background:rgba(47,107,61,.92);border:1px solid #9be3aa;color:#f2fff5;font-size:12px;font-weight:700;white-space:nowrap}
+.fp-tap{width:46px;height:46px;border-radius:50%;border:3px solid #fff;animation:fptap .65s ease-out forwards}
+.fp-tap.hit{border-color:#7ee08f}.fp-tap.miss{border-color:#ff9a8a}
+@keyframes fptap{from{opacity:1;transform:translate(-50%,-50%) scale(.4)}to{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+.photo-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 2px}
+.photo-actions:empty{display:none}
+.chip.old{background:#5a4522;color:#fff1d1}
+dialog.lb{border:1px solid var(--gold);border-radius:16px;background:#0b1511;color:var(--text);padding:0;width:min(96vw,1100px);max-width:96vw;height:90vh;max-height:90vh}
+dialog.lb[open]{display:flex;flex-direction:column}
+dialog.lb::backdrop{background:rgba(3,8,6,.82)}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:14px}
+.lb-bar strong{min-width:0;line-height:1.3}
+.lb-bar span{display:flex;gap:6px;flex:none}
+.lb-bar button{border:1px solid var(--line);background:#244038;color:#f5fbf7;padding:6px 12px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.lb-scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;background:#060d0a;display:flex}
+.lb-scroll img{display:block;margin:auto;flex:none}
+.lb-scroll img.fit{width:100%;height:auto}
+.lb-scroll img.full{max-width:none;width:auto;height:auto}
+@media (max-width:640px){.qbar{right:10px;bottom:98px;max-width:none}.fp-tools{bottom:auto;top:108px}.fp-tools .lbl{display:none}}
+@media (max-height:520px) and (orientation:landscape){
+  .stage.fp{height:min(94vh,720px)}
+  .fp-hud .scene-pill span{display:none}
+  .fp-strip{display:none}
+  .fp-tools{bottom:10px}
+  .qbar{bottom:10px;right:auto;max-width:min(58%,440px);padding:6px 9px;font-size:12px}
+  #simQuest{bottom:8px}
+}
+#markAnswerBtn{display:none}
 </style>
 </head>
 <body>
@@ -213,6 +255,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
             <h3 id="photoTitle"></h3>
             <p id="photoDesc"></p>
             <div class="chiprow" id="photoTags"></div>
+            <div class="photo-actions" id="photoActions"></div>
           </div>
           <div class="thumbs" id="thumbs"></div>
         </div>
@@ -222,16 +265,18 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
         <canvas id="fpCanvas" aria-label="Góc nhìn thứ nhất 3D từ ảnh thật"></canvas>
         <div class="fp-hud">
           <div class="scene-pill"><strong id="fpName"></strong><span id="fpDesc"></span></div>
-          <div class="fp-badges"><span class="fp-date" id="fpDate"></span><span class="fp-compass" id="fpCompass">0°</span></div>
+          <div class="fp-badges"><span class="fp-date" id="fpDate"></span><span class="fp-compass" id="fpCompass">0°</span><span class="fp-compass" id="fpHd" hidden title="Đã tải bản ảnh nét cao">HD</span></div>
         </div>
         <div class="fp-links" id="fpLinks"></div>
+        <div class="fp-links" id="fpMarks"></div>
         <div class="fp-status" id="fpStatus">Đang tải ảnh toàn cảnh…</div>
         <div class="fp-fade" id="fpFade"></div>
         <div class="fp-tools">
-          <button id="fpGyro" title="Xoay điện thoại để nhìn">📱 Xoay máy</button>
+          <button id="fpGyro" title="Xoay điện thoại để nhìn" aria-label="Xoay điện thoại để nhìn">📱<span class="lbl"> Xoay máy</span></button>
           <button id="fpZoomOut" title="Thu nhỏ">−</button>
           <button id="fpZoomIn" title="Phóng to">+</button>
         </div>
+        <div class="qbar" id="fpQuest"></div>
         <div class="fp-strip" id="fpStrip"></div>
       </div>
 
@@ -239,15 +284,15 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
         <div class="canvas-wrap"><canvas id="simCanvas" width="1280" height="720"></canvas></div>
         <div class="hud">
           <div class="scene-pill"><strong id="sceneName"></strong><span id="sceneDesc"></span></div>
-          <div class="tag" id="cameraTag">Thực cảnh + hotspot 2.5D</div>
+          <div class="tag" id="cameraTag">Thực cảnh 2.5D</div>
         </div>
+        <div class="qbar" id="simQuest"></div>
       </div>
     </section>
 
     <div class="controls">
       <button id="backBtn">◀ Lùi</button>
       <button id="leftBtn">↺ Trái</button>
-      <button id="focusBtn" class="primary">Tới điểm nóng</button>
       <button id="rightBtn">↻ Phải</button>
       <button id="nextBtn">Tiến ▶</button>
     </div>
@@ -266,7 +311,7 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
       <div class="list" id="questList" style="margin-top:12px"></div>
       <div class="quiz-actions">
         <button class="primary" id="markAnswerBtn">Chọn làm đáp án</button>
-        <button id="resetQuestBtn">Làm lại</button>
+        <button id="resetQuestBtn">Làm lại nhiệm vụ</button>
       </div>
       <div id="selectedPanel"></div>
     </section>
@@ -289,24 +334,36 @@ dialog.gv .row button.primary{background:linear-gradient(135deg,#d8b16c,#b58a46)
 </div>
 
 <dialog class="gv" id="gvDlg"><div class="in" id="gvDlgBody"></div></dialog>
+<dialog class="lb" id="lbDlg" aria-label="Phóng to ảnh"><div class="lb-bar"><strong id="lbTitle"></strong><span><button id="lbFit" type="button">Xem 1:1</button><button id="lbClose" type="button">Đóng</button></span></div><div class="lb-scroll"><img id="lbImg" class="fit" alt=""></div></dialog>
 <div class="toast" id="gvToast" role="status" aria-live="polite"></div>
 <script>
+/* ==== DATA:BEGIN · dữ liệu thuần, không đụng DOM. test/gia-vien-thuc-canh.test.js đọc đúng khối này. ==== */
+const ASSET='/gia-vien-duoc-thao-preview/assets/';
+
+/* Khung "Ảnh thật": mới nhất ở trước, ảnh bố cục cũ (era:'old') xếp cuối và gắn nhãn Lưu trữ.
+   fp = id trạm 3D tương ứng (nếu có). Ảnh toàn cảnh chủ vườn gửi đã CẮT bỏ vùng có người. */
 const photos=[
-  {id:'p-0930-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Giàn chính diện · 30/09/2026',desc:'Khung hình mới nhất, không có người: giàn mái trong, bảng Gia Viên Dược Thảo, bảng danh sách cây, giàn trồng đứng và tường tranh phong cảnh.',tags:['30/09','Giàn chính','Tường tranh','Bảng tên']},
-  {id:'p-0930-left',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-trai.jpg',title:'Góc trái sân · đèn trụ và tranh biển',desc:'Nhìn từ giữa sân sang trái: cụm cây tầng thấp, đèn trụ và mảng tranh biển của tường.',tags:['30/09','Bên trái','Đèn trụ','Tranh biển']},
-  {id:'p-0930-right',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-phai.jpg',title:'Góc phải sân · hàng bồn và ghế đá',desc:'Nhìn sang phải: chậu đỏ, hàng bồn đen dọc hàng rào, đèn trụ thứ hai và ghế đá cuối sân.',tags:['30/09','Bên phải','Bồn đen','Ghế đá']},
-  {id:'p-0912-wide',src:'/gia-vien-duoc-thao-preview/assets/2026-09-12-toan-dai.jpg',title:'Toàn dải vườn từ đầu sân · 12/09',desc:'Đứng ở cuối sân gạch nhìn dọc dải cây chạy theo tường; cho thấy tỉ lệ thật giữa sân, giàn và tường tranh.',tags:['12/09','Toàn cảnh','Sân gạch','Tường tranh']},
-  {id:'p-0926-front',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-truoc-tuong.jpg',title:'Trước tường tranh phong cảnh · 26/09',desc:'Góc rộng về phía giàn và tường tranh, thấy hàng bồn đen và các chậu cây dọc tường.',tags:['26/09','Tường tranh','Hàng bồn','Góc rộng']},
-  {id:'p-0926-wall',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Dọc tường về phía góc tranh thứ hai · 26/09',desc:'Nhìn dọc hàng bồn sát tường; cây lá vằn ở góc phải khung hình.',tags:['26/09','Dọc tường','Hàng bồn','Lối đi']},
-  {id:'p-sign',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng tên và chậu treo',desc:'Tái khung từ ảnh thật 30/09: bảng Gia Viên Dược Thảo và hai chậu treo trắng.',tags:['Ảnh thật','Khung cận','Bảng tên','Chậu treo'],position:'26% 0%',size:'200%'},
-  {id:'p-list',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận bảng danh sách cây',desc:'Tái khung từ ảnh thật 30/09: bảng danh sách cây đặt cạnh giàn, nơi sẽ gắn số thứ tự chính thức.',tags:['Ảnh thật','Khung cận','Danh sách','Số thứ tự'],position:'70% 30%',size:'200%'},
-  {id:'p-vertical',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận giàn trồng đứng và nhãn số',desc:'Tái khung từ ảnh thật 30/09: các ô chậu nhỏ treo trên giàn lưới và nhãn số xanh.',tags:['Ảnh thật','Khung cận','Giàn đứng','Nhãn số'],position:'16% 40%',size:'200%'},
-  {id:'p-right-pots',src:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',title:'Cận cụm chậu bên phải và đèn trụ',desc:'Tái khung từ ảnh thật 30/09: chậu đỏ, chậu đen và các bụi cây cao cạnh đèn trụ.',tags:['Ảnh thật','Khung cận','Chậu đỏ','Đèn trụ'],position:'100% 74%',size:'200%'},
-  {id:'p-striped',src:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',title:'Cận cây lá vằn ở góc phải',desc:'Tái khung từ ảnh thật 26/09: lá dày có vằn ngang, mọc thẳng trong bồn đen.',tags:['Ảnh thật','Khung cận','Lá vằn','Bồn đen'],position:'100% 100%',size:'220%'},
-  {id:'p-oct-front',src:'/gia-vien-duoc-thao-preview/assets/2026-10-gian-qr.jpg',title:'Giàn chính diện có mã QR · ảnh mới',desc:'Ảnh mới nhất, không có người: mỗi chậu đã gắn bảng xanh có mã QR; bảng Gia Viên Dược Thảo, giàn trồng đứng và tường tranh đại bàng.',tags:['Ảnh mới','Mã QR','Giàn chính']},
-  {id:'p-oct-sign',src:'/gia-vien-duoc-thao-preview/assets/2026-10-bang-ten.jpg',title:'Bảng tên và giàn trồng đứng · ảnh mới',desc:'Nhìn nghiêng vào giàn: các ô chậu treo, chậu treo trắng và hàng bảng QR theo từng cây.',tags:['Ảnh mới','Bảng tên','Giàn trồng đứng']},
-  {id:'p-oct-qrwall',src:'/gia-vien-duoc-thao-preview/assets/2026-10-tuong-qr.jpg',title:'Cận giàn và hàng bồn có mã QR',desc:'Cận cảnh giàn trồng đứng và hàng bồn đen phía trước, mỗi chậu có bảng mã QR để quét tại vườn.',tags:['Ảnh mới','Mã QR','Hàng bồn']},
-  {id:'p-oct-board',src:'/gia-vien-duoc-thao-preview/assets/2026-10-bang-danh-sach.jpg',title:'Bảng danh sách 70 cây và khu cây phía phải',desc:'Bảng "Danh sách cây vườn Gia Viên Dược Thảo" đặt cạnh giàn; phía phải sân là cụm cây lá đỏ tím và bụi lá mảnh.',tags:['Ảnh mới','Bảng danh sách','Khu phải']},
+  {id:'p-1010-giua',src:ASSET+'2026-10-toan-canh-giua-san.jpg',title:'Toàn cảnh giữa sân · ảnh mới nhất',desc:'Toàn cảnh chủ vườn gửi ngày 10/10/2026, đã cắt bỏ phần có người: tường tranh các bạn học sinh bên trái, giàn mái trong có bảng Gia Viên Dược Thảo, bảng danh sách cây và lối đi dọc hàng bồn về phía toà nhà.',tags:['Mới nhất','Toàn cảnh','Giàn chính','Lối đi'],fp:'s-1010-giua'},
+  {id:'p-1010-gian',src:ASSET+'2026-10-sat-gian.jpg',title:'Sát giàn trồng đứng · ảnh mới nhất',desc:'Toàn cảnh đứng sát giàn: dây leo bám cột, các ô chậu treo có bảng số xanh (49, 53, 58) và mã QR, đèn trụ cùng tường tranh phong cảnh phía sau.',tags:['Mới nhất','Giàn đứng','Bảng số','Mã QR'],fp:'s-1010-gian'},
+  {id:'p-1010-loivao',src:ASSET+'2026-10-loi-vao-san.jpg',title:'Từ lối vào sân nhìn dọc dải vườn · ảnh mới nhất',desc:'Đứng từ phía sân gạch nhìn về giàn: tranh “Ship of Knowledge” bên trái, hàng bồn đen dọc hàng rào, ghế đá và lối đi về phía toà nhà.',tags:['Mới nhất','Sân gạch','Hàng bồn','Ghế đá'],fp:'s-1010-loivao'},
+  {id:'p-1010-maiche',src:ASSET+'2026-10-duoi-mai-che.jpg',title:'Dưới mái che nhìn lên tường tranh · ảnh mới',desc:'Nhìn từ dưới mái che trong của giàn: tường tranh phong cảnh, các chậu treo và đèn trụ.',tags:['Ảnh mới','Mái che','Tường tranh']},
+  {id:'p-1010-giang',src:ASSET+'2026-10-giang-trong-dung.jpg',title:'Giàn trồng đứng và cụm cây phía trước · ảnh mới',desc:'Cận hơn về giàn trồng đứng: các ô chậu đen xếp tầng, cây lá vằn, cây lá lớn và lối đi bên phải.',tags:['Ảnh mới','Giàn đứng','Cụm cây']},
+  {id:'p-1010-cumcay',src:ASSET+'2026-10-cum-cay-trai-gian.jpg',title:'Cụm cây bên trái giàn · ảnh mới',desc:'Bụi cây tầng thấp và tầng cao bên trái giàn, nhìn về tường tranh phong cảnh (đã cắt bỏ phần có người ở phía phải).',tags:['Ảnh mới','Cụm cây','Tường tranh']},
+  {id:'p-1010-canh',src:ASSET+'2026-10-canh-giang-dung.jpg',title:'Cận các ô chậu trên giàn đứng · ảnh mới',desc:'Dải ảnh cận các ô chậu treo trên giàn: cây lá tím, dương xỉ, cây lá vằn và bảng số xanh.',tags:['Ảnh mới','Giàn đứng','Khung cận']},
+  {id:'p-0930-front',src:ASSET+'2026-09-30-gian.jpg',title:'Giàn chính diện · 30/09/2026',desc:'Khung hình từ video 30/09, không có người: giàn mái trong, bảng Gia Viên Dược Thảo, bảng danh sách cây, giàn trồng đứng và tường tranh phong cảnh.',tags:['30/09','Giàn chính','Tường tranh','Bảng tên']},
+  {id:'p-0930-left',src:ASSET+'2026-09-30-trai.jpg',title:'Góc trái sân · đèn trụ và tranh biển',desc:'Nhìn từ giữa sân sang trái: cụm cây tầng thấp, đèn trụ và mảng tranh biển của tường.',tags:['30/09','Bên trái','Đèn trụ','Tranh biển']},
+  {id:'p-0930-right',src:ASSET+'2026-09-30-phai.jpg',title:'Góc phải sân · hàng bồn và ghế đá',desc:'Nhìn sang phải: chậu đỏ, hàng bồn đen dọc hàng rào, đèn trụ thứ hai và ghế đá cuối sân.',tags:['30/09','Bên phải','Bồn đen','Ghế đá']},
+  {id:'p-0912-wide',src:ASSET+'2026-09-12-toan-dai.jpg',title:'Toàn dải vườn từ đầu sân · 12/09',desc:'Đứng ở cuối sân gạch nhìn dọc dải cây chạy theo tường; cho thấy tỉ lệ thật giữa sân, giàn và tường tranh. Ảnh gốc đã gỡ chữ mờ của máy ảnh.',tags:['12/09','Toàn cảnh','Sân gạch','Tường tranh']},
+  {id:'p-0912-board',src:ASSET+'2026-09-12-bang-danh-sach.jpg',title:'Cận bảng danh sách cây · 12/09 (ảnh gốc)',desc:'Cắt từ ảnh gốc nét cao: cột số 1–35 của bảng “Danh sách cây vườn Gia Viên Dược Thảo” đọc được (ví dụ số 17 là Cốt khí, số 33 là Huyết dụ). Cột bên phải bị khung ảnh cắt mất một phần.',tags:['12/09','Bảng danh sách','Ảnh gốc']},
+  {id:'p-0926-front',src:ASSET+'2026-09-26-truoc-tuong.jpg',title:'Trước tường tranh phong cảnh · 26/09',desc:'Góc rộng về phía giàn và tường tranh, thấy hàng bồn đen, đèn trụ và các chậu cây dọc tường.',tags:['26/09','Tường tranh','Hàng bồn','Góc rộng']},
+  {id:'p-0926-wall',src:ASSET+'2026-09-26-doc-tuong.jpg',title:'Dọc tường về phía góc tranh thứ hai · 26/09',desc:'Nhìn dọc hàng bồn sát tường; cây lá vằn ở góc phải khung hình.',tags:['26/09','Dọc tường','Hàng bồn','Lối đi']},
+  {id:'p-0926-pot',src:ASSET+'2026-09-26-chau-hong-beo.jpg',title:'Cận chậu hồng phủ lớp bèo · 26/09',desc:'Cắt từ ảnh gốc nét cao: chậu hồng phủ lớp bèo xanh, cây thân mảnh lá tròn mọc lên từ giữa chậu (nhận diện bằng mắt, chưa xác nhận tên), bên cạnh là cây lá lớn có hoa đỏ.',tags:['26/09','Ảnh gốc','Chậu hồng']},
+  {id:'p-0926-snake',src:ASSET+'2026-09-26-luoi-ho.jpg',title:'Cận cây lá vằn ở góc phải · 26/09',desc:'Cắt từ ảnh gốc nét cao: lá dày, mọc thẳng, có vằn ngang xanh đậm, cạnh bụi cây lá bóng trong bồn đen.',tags:['26/09','Ảnh gốc','Lá vằn','Bồn đen']},
+  {id:'p-0916-left',src:ASSET+'2026-09-16-trai-gian.jpg',title:'Cụm cây phía trái giàn · 16/09 (máy ảnh Canon)',desc:'Chụp bằng máy ảnh Canon EOS 50D ngày 16/09: cụm cây tầng cao trong chậu trắng, bồn đen có bảng số xanh, phía sau là tranh các bạn học sinh.',tags:['16/09','Máy ảnh Canon','Cụm cây'],fp:'s-0916'},
+  {id:'p-oct-front',src:ASSET+'2026-10-gian-qr.jpg',era:'old',title:'Lưu trữ · giàn chính diện có mã QR (bố cục cũ)',desc:'Ảnh chụp khi tường phía sau giàn còn là tranh cũ nền xanh dương, trước khi vẽ lại thành tranh phong cảnh xanh lá. Giữ để so sánh theo thời gian, không dùng để tìm cây.',tags:['Lưu trữ','Bố cục cũ','Mã QR','Giàn chính']},
+  {id:'p-oct-sign',src:ASSET+'2026-10-bang-ten.jpg',era:'old',title:'Lưu trữ · bảng tên và giàn trồng đứng (bố cục cũ)',desc:'Nhìn nghiêng vào giàn khi tường còn là tranh cũ: các ô chậu treo, chậu treo trắng và hàng bảng QR theo từng cây.',tags:['Lưu trữ','Bố cục cũ','Bảng tên','Giàn đứng']},
+  {id:'p-oct-qrwall',src:ASSET+'2026-10-tuong-qr.jpg',era:'old',title:'Lưu trữ · giàn và hàng bồn có mã QR (bố cục cũ)',desc:'Cận giàn trồng đứng và hàng bồn đen phía trước khi tường còn là tranh cũ, mỗi chậu đã có bảng mã QR.',tags:['Lưu trữ','Bố cục cũ','Mã QR','Hàng bồn']},
+  {id:'p-oct-board',src:ASSET+'2026-10-bang-danh-sach.jpg',era:'old',title:'Lưu trữ · bảng danh sách 70 cây (bố cục cũ)',desc:'Bảng “Danh sách cây vườn Gia Viên Dược Thảo” cạnh giàn khi tường còn là tranh cũ; phía phải sân là cụm cây lá đỏ tím và bụi lá mảnh.',tags:['Lưu trữ','Bố cục cũ','Bảng danh sách']}
 ];
 
 const plants=[
@@ -333,27 +390,96 @@ const plants=[
 ];
 
 const quests=[
-  {id:'q1',title:'Tìm cây lá dài hẹp trong chậu đỏ',desc:'Mục tiêu: chọn đúng vị trí cây tạm định danh là sả ở phía phải sân.',plantId:'plant-sa'},
-  {id:'q2',title:'Tìm dây leo trên khung giàn',desc:'Mục tiêu: chọn đúng dây leo lá lớn (tạm: sắn dây) phía trên bảng danh sách.',plantId:'plant-sandays'},
-  {id:'q3',title:'Tìm cây lá vằn ở góc phải',desc:'Mục tiêu: chọn đúng cây lá dày có vằn ngang (tạm: lưỡi hổ) trong ảnh dọc tường.',plantId:'plant-luoiho'},
-  {id:'q4',title:'Tìm khóm lá mác lớn',desc:'Mục tiêu: chọn đúng khóm lá mác lớn (nhóm gừng/riềng, chưa chốt) ở bên trái lối đi.',plantId:'plant-zing'},
-  {id:'q5',title:'Tìm bụi lá nhỏ tầng thấp',desc:'Mục tiêu: thử đoán vị trí cây tạm là bạc hà; cần quét QR tại vườn để chốt.',plantId:'plant-bacha'}
+  {id:'q1',title:'Tìm cây lá dài hẹp trong chậu đỏ',desc:'Một bụi lá dài, hẹp, mọc thẳng từ gốc, trồng trong chậu đỏ ở phía phải lối đi. Chạm vào cây khi thấy.',plantId:'plant-sa'},
+  {id:'q2',title:'Tìm dây leo trên khung giàn',desc:'Dây leo lá lớn bám trên khung giàn, phía trên bảng danh sách cây. Chạm vào dây leo khi thấy.',plantId:'plant-sandays'},
+  {id:'q3',title:'Tìm cây lá vằn ở góc phải',desc:'Cây lá dày mọc thẳng, có vằn ngang xanh đậm, ở góc phải khi nhìn dọc hàng bồn.',plantId:'plant-luoiho'},
+  {id:'q4',title:'Tìm khóm lá mác lớn',desc:'Một khóm lá mác lớn mọc từ chậu màu cam, đứng bên trái lối đi trước giàn.',plantId:'plant-zing'},
+  {id:'q5',title:'Tìm bụi lá nhỏ tầng thấp',desc:'Bụi lá nhỏ, thân mềm, mọc dày ở tầng thấp trong bồn đen gần lối đi. Vị trí này mới là đoán, cần quét QR tại vườn để chốt.',plantId:'plant-bacha'}
 ];
 
+/* Khám phá 6 trạm (2.5D). Toạ độ hotspot x,y = 0–1 TRÊN ẢNH của trạm (không phải trên khung vẽ). */
 const scenes=[
-  {id:0,name:'Trạm 1 · Đầu sân nhìn toàn dải',desc:'Mốc tổng thể: sân gạch, hàng cây chạy dọc tường và giàn ở xa.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-12-toan-dai.jpg',fit:'contain',hotspots:[]},
-  {id:1,name:'Trạm 2 · Trái sân',desc:'Cụm cây tầng thấp, đèn trụ và mảng tranh biển.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-trai.jpg',fit:'contain',hotspots:[]},
-  {id:2,name:'Trạm 3 · Giàn chính diện',desc:'Giàn mái trong, bảng danh sách, dây leo trên khung và khóm lá lớn bên trái.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-gian.jpg',fit:'contain',hotspots:[
+  {id:0,name:'Trạm 1 · Đầu sân nhìn toàn dải',desc:'Mốc tổng thể: sân gạch, hàng cây chạy dọc tường và giàn ở xa.',photo:ASSET+'2026-09-12-toan-dai.jpg',fit:'contain',hotspots:[]},
+  {id:1,name:'Trạm 2 · Trái sân',desc:'Cụm cây tầng thấp, đèn trụ và mảng tranh biển.',photo:ASSET+'2026-09-30-trai.jpg',fit:'contain',hotspots:[]},
+  {id:2,name:'Trạm 3 · Giàn chính diện',desc:'Giàn mái trong, bảng danh sách, dây leo trên khung và khóm lá lớn bên trái.',photo:ASSET+'2026-09-30-gian.jpg',fit:'contain',hotspots:[
     {plantId:'plant-sandays',x:.578,y:.19},{plantId:'plant-zing',x:.30,y:.60}
   ]},
-  {id:3,name:'Trạm 4 · Phải sân',desc:'Chậu đỏ, hàng bồn đen, đèn trụ và ghế đá cuối sân.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-30-phai.jpg',fit:'contain',hotspots:[
+  {id:3,name:'Trạm 4 · Phải sân',desc:'Chậu đỏ, hàng bồn đen, đèn trụ và ghế đá cuối sân.',photo:ASSET+'2026-09-30-phai.jpg',fit:'contain',hotspots:[
     {plantId:'plant-sa',x:.665,y:.60},{plantId:'plant-bacha',x:.07,y:.80}
   ]},
-  {id:4,name:'Trạm 5 · Trước tường tranh',desc:'Góc rộng về phía giàn và tường tranh phong cảnh.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-26-truoc-tuong.jpg',fit:'contain',hotspots:[]},
-  {id:5,name:'Trạm 6 · Dọc tường',desc:'Đi dọc hàng bồn sát tường; cây lá vằn ở góc phải.',photo:'/gia-vien-duoc-thao-preview/assets/2026-09-26-doc-tuong.jpg',fit:'contain',hotspots:[
-    {plantId:'plant-luoiho',x:.93,y:.78}
+  {id:4,name:'Trạm 5 · Trước tường tranh',desc:'Góc rộng về phía giàn và tường tranh phong cảnh.',photo:ASSET+'2026-09-26-truoc-tuong.jpg',fit:'contain',hotspots:[]},
+  {id:5,name:'Trạm 6 · Dọc tường',desc:'Đi dọc hàng bồn sát tường; cây lá vằn ở góc phải.',photo:ASSET+'2026-09-26-doc-tuong.jpg',fit:'contain',hotspots:[
+    {plantId:'plant-luoiho',x:.935,y:.865}
   ]}
 ];
+
+/* Góc nhìn thứ nhất 3D. proj: 'cylinder' (x = f·θ, y = f·tanφ), 'sphere' (x = f·θ, y = f·φ) hoặc 'plane' (ảnh đơn).
+   cylinder: hfov = góc ngang của ẢNH ĐÃ CẮT (độ), v = cao/f (đơn vị bán kính), cy = vị trí đường chân trời theo chiều cao ảnh (0–1, mặc định .5).
+   sphere: hfov, v theo độ. plane: hfov, vfov theo độ. hi = bản nét cao tải nền. targets = vùng chạm để tìm cây
+   (u,v = toạ độ 0–1 trên ảnh; r = bán kính góc, độ). Hướng mũi tên sang trạm kế là ƯỚC TÍNH theo ảnh, chưa phải đo đạc. */
+const FP_BASE=ASSET+'fp/';
+const fpStations=[
+  {id:'s-1010-giua',name:'Giữa sân · nhìn thẳng vào giàn',desc:'Toàn cảnh chủ vườn chụp (gửi 10/10/2026, đã cắt bỏ phần có người): tường tranh các bạn học sinh bên trái, giàn mái trong có bảng Gia Viên Dược Thảo, bảng danh sách cây và lối đi dọc hàng bồn về phía toà nhà.',date:'10/2026',era:'now',file:'2026-10-giua-san.webp',proj:'cylinder',hfov:127.8,v:0.651,cy:0.46,yaw0:22,linkPitch:-13,
+    links:[{to:'s-1010-gian',yaw:16,label:'Lại gần giàn'},{to:'s-0926w',yaw:57,label:'Đi dọc hàng bồn'},{to:'s-1010-loivao',yaw:-52,label:'Lùi ra lối vào'}],
+    targets:[{plant:'plant-sandays',u:.8065,v:.198,r:4.5},{plant:'plant-sa',u:.892,v:.671,r:5.5},{plant:'plant-zing',u:.614,v:.688,r:4.2},{plant:'plant-bacha',u:.8166,v:.886,r:4.2}]},
+  {id:'s-1010-loivao',name:'Lối vào sân · nhìn dọc dải vườn',desc:'Toàn cảnh chủ vườn chụp (gửi 10/10/2026, đã cắt bỏ phần có người): tranh “Ship of Knowledge” và hàng chậu trắng bên trái, giàn và tường tranh phong cảnh ở giữa, ghế đá cùng lối đi bên phải.',date:'10/2026',era:'now',file:'2026-10-loi-vao.webp',proj:'cylinder',hfov:151.4,v:0.6627,cy:0.38,yaw0:20,linkPitch:-8,
+    links:[{to:'s-1010-giua',yaw:-22,label:'Tiến vào sân'},{to:'s-0912',yaw:-70,label:'Ra đầu sân'}],
+    targets:[{plant:'plant-luoiho',u:.7553,v:.673,r:3.7}]},
+  {id:'s-1010-gian',name:'Sát giàn trồng đứng',desc:'Toàn cảnh chủ vườn chụp (gửi 10/10/2026, đã cắt bỏ phần có người) khi đứng sát giàn: bảng số xanh 49, 53, 58 và mã QR trên từng ô chậu, dây leo bám cột, tranh các bạn học sinh bên trái.',date:'10/2026',era:'now',file:'2026-10-sat-gian.webp',proj:'cylinder',hfov:161.9,v:0.729,cy:0.43,yaw0:12,linkPitch:-10,
+    links:[{to:'s-1010-giua',yaw:-60,label:'Lùi ra giữa sân'},{to:'s-0930',yaw:30,label:'Trước giàn · 30/09'}],
+    targets:[]},
+  {id:'s-0930',name:'Trước giàn · quay từ video 30/09',desc:'Toàn cảnh ghép từ video quay ngày 30/09: tường tranh phong cảnh, giàn thép, bảng danh sách cây, đèn trụ, bồn đen và ghế đá cuối sân.',date:'30/09/2026',era:'now',file:'pano-2026-09-30.webp',proj:'sphere',hfov:101,v:49,yaw0:0,
+    links:[{to:'s-0926w',yaw:46,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}],targets:[]},
+  {id:'s-0912',name:'Đầu sân · nhìn toàn dải vườn',desc:'Ảnh gốc nét cao ngày 12/09: đứng ở cuối sân gạch, nhìn dọc dải cây chạy theo tường về phía tranh “Ship of Knowledge”; bảng danh sách cây ở sát mép phải.',date:'12/09/2026',era:'now',file:'2026-09-12-toan-dai.webp',hi:'2026-09-12-toan-dai-hi.webp',proj:'plane',hfov:98.3,vfov:81.1,yaw0:0,
+    links:[{to:'s-0930',yaw:34,label:'Tới giàn · 30/09'},{to:'s-0926p',yaw:-34,label:'Tường tranh · 26/09'}],targets:[]},
+  {id:'s-0926p',name:'Trước tường tranh phong cảnh',desc:'Ảnh gốc nét cao ngày 26/09: tường tranh phong cảnh có hồ và rừng cây, giàn thép bên trái, đèn trụ, hàng bồn đen và chậu hồng phủ bèo ở phía trước.',date:'26/09/2026',era:'now',file:'2026-09-26-truoc-tuong.webp',hi:'2026-09-26-truoc-tuong-hi.webp',proj:'plane',hfov:98.3,vfov:81.1,yaw0:0,
+    links:[{to:'s-0926w',yaw:44,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}],targets:[]},
+  {id:'s-0926w',name:'Dọc tường về phía “Ship of Knowledge”',desc:'Ảnh gốc nét cao ngày 26/09: đi dọc hàng bồn sát tường tranh phong cảnh; cuối tầm nhìn là góc giáp tường tranh thứ hai, lá vằn ở góc phải.',date:'26/09/2026',era:'now',file:'2026-09-26-doc-tuong.webp',hi:'2026-09-26-doc-tuong-hi.webp',proj:'plane',hfov:98.3,vfov:81.1,yaw0:0,
+    links:[{to:'s-0926p',yaw:-40,label:'Quay lại giàn'}],
+    targets:[{plant:'plant-luoiho',u:.935,v:.865,r:8}]},
+  {id:'s-0916',name:'Cụm cây trước tranh các bạn học sinh',desc:'Ảnh máy ảnh Canon EOS 50D ngày 16/09: cụm cây tầng cao trong chậu trắng, bồn đen có bảng số xanh; phía sau là tranh các bạn học sinh và tranh “Ship of Knowledge”.',date:'16/09/2026',era:'now',file:'2026-09-16-trai-gian.webp',hi:'2026-09-16-trai-gian-hi.webp',proj:'plane',hfov:63.9,vfov:45.2,yaw0:0,
+    links:[{to:'s-0912',yaw:25,label:'Ra đầu sân'}],targets:[]},
+  {id:'s-0710',name:'Lưu trữ · toàn cảnh trước khi vẽ lại tường',desc:'Toàn cảnh 163° ghép từ 3 ảnh thật ngày 10/07: tường tranh cũ (xanh dương), giàn, bảng danh sách và cụm chậu.',date:'10/07/2026',era:'old',file:'pano-2026-07-10.webp',proj:'sphere',hfov:163.5,v:100.1,yaw0:-10,
+    links:[{to:'s-0606',yaw:-55,label:'Góc giàn · 06/06'}],targets:[]},
+  {id:'s-0606',name:'Lưu trữ · góc giàn và bảng tên',desc:'Ghép từ 2 ảnh thật ngày 06/06: giàn mái trong, bảng Gia Viên Dược Thảo, nhãn số trên bồn.',date:'06/06/2026',era:'old',file:'pano-2026-06-06.webp',proj:'sphere',hfov:76,v:58.5,yaw0:0,
+    links:[{to:'s-0710',yaw:30,label:'Toàn cảnh 10/07'}],targets:[]}
+];
+
+const plantQuiz={
+  'plant-sa':{q:'Đặc điểm nào giúp nhận ra sả trong vườn?',opts:['Bụi lá dài, hẹp, mọc thẳng từ gốc; vò lá có mùi thơm','Dây leo bám lên khung giàn','Lá dày, có vằn ngang xanh đậm'],ok:0,
+    why:'Sả mọc thành bụi, lá dài hẹp như lá cỏ và có mùi thơm khi vò. Cây trong vườn đang được định danh tạm, chờ đối chiếu danh mục chính thức.'},
+  'plant-sandays':{q:'Sắn dây thuộc dạng cây nào?',opts:['Cây thân gỗ lớn','Dây leo, cần giá đỡ để bám','Bụi thân mềm thấp mọc sát đất'],ok:1,
+    why:'Sắn dây là dây leo nên cần khung hoặc giá đỡ, vì vậy dây trên khung giàn là dấu hiệu để tìm. Vị trí này là định danh tạm, cần đối chiếu mã QR.'},
+  'plant-bacha':{q:'Khi nhận biết bạc hà, đặc điểm nào dễ kiểm tra nhất?',opts:['Mùi thơm mát đặc trưng khi vò nhẹ lá','Lá dày có vằn ngang','Mọc thành dây leo trên giàn'],ok:0,
+    why:'Bạc hà có mùi thơm mát đặc trưng từ tinh dầu trong lá. Vị trí cây trong ảnh hiện chỉ là đoán, cần quét mã QR tại vườn để chốt.'},
+  'plant-zing':{q:'Các cây họ Gừng thường được dùng phần nào làm gia vị?',opts:['Hoa','Thân rễ (củ)','Vỏ thân'],ok:1,
+    why:'Nhiều cây họ Gừng (gừng, nghệ, riềng) được dùng thân rễ làm gia vị. Khóm lá mác trong ảnh mới chỉ định danh tới mức họ, chưa chốt loài.'},
+  'plant-luoiho':{q:'Đặc điểm nào dễ nhận ra lưỡi hổ nhất?',opts:['Lá nhỏ mọc đối, thân mềm','Dây leo lá lớn','Lá dày, mọc thẳng, có vằn ngang xanh đậm'],ok:2,
+    why:'Lưỡi hổ có lá dày, mọc thẳng, vằn ngang xanh đậm khá đặc trưng, nên là cây dễ nhận ra nhất trong bộ này.'}
+};
+const timeQuiz={
+  's-0710':{id:'t1',q:'So với bố cục hiện tại (09/2026), phần tường phía sau giàn trong ảnh lưu trữ 10/07 khác ở điểm nào?',
+    opts:['Tường đã được vẽ lại thành cảnh phong cảnh xanh lá có hồ và rừng cây','Tường chưa từng có tranh','Tường được thay bằng hàng rào kính'],ok:0,
+    why:'Ảnh 10/07 còn tường tranh cũ nền xanh dương. Ảnh từ 12/09 trở đi là tranh phong cảnh mới, vì vậy ảnh cũ được xếp vào mục Lưu trữ.'},
+  's-0606':{id:'t2',q:'Vì sao ảnh tháng 6 và tháng 7 được xếp vào “Lưu trữ” chứ không phải “Hiện trạng”?',
+    opts:['Vì ảnh bị mờ nên không dùng được','Vì chụp trước khi tường tranh được vẽ lại, không còn đúng bố cục hiện tại','Vì ảnh chụp ở khu vườn khác'],ok:1,
+    why:'Game luôn dùng ảnh khớp bố cục hiện tại làm chuẩn. Ảnh cũ được giữ để so sánh thay đổi theo thời gian, không dùng để tìm cây.'}
+};
+
+/* Chương 4 · Nhận mặt cây: 9 ảnh cận do chủ vườn chụp và gắn nhãn; ảnh trong game đã xoá nhãn để người chơi tự đoán.
+   Chỉ nói đặc điểm nhận biết, không có công dụng điều trị. num = số trên bảng danh sách khi đã đối chiếu được. */
+const faceCards=[
+  {id:'f-nhot',name:'Cây nhót',latin:'Elaeagnus latifolia',img:'herb/nhot.jpg',feat:'lá đơn hình bầu dục dài, đầu nhọn, cành mảnh mọc thành thân đứng; mặt dưới lá thường nhạt và ánh bạc'},
+  {id:'f-mantuoi',name:'Cây mần tưới',latin:'Eupatorium fortunei',img:'herb/man-tuoi.jpg',feat:'lá mọc đối, hình mác, mép răng cưa thô rõ, thân đứng thẳng'},
+  {id:'f-cuchoa',name:'Cúc hoa',latin:'Chrysanthemum sp.',num:18,img:'herb/cuc-hoa.jpg',feat:'lá xẻ thùy, mép răng cưa như lá cúc, thân mảnh, bò hoặc đứng'},
+  {id:'f-moqua',name:'Mỏ quạ',latin:'Maclura cochinchinensis',img:'herb/mo-qua.jpg',feat:'cành nhỏ, lá nhỏ nguyên hình bầu dục, mọc so le trên cành mảnh'},
+  {id:'f-sambochinh',name:'Sâm bố chính',latin:'Abelmoschus sagittifolius',num:6,img:'herb/sam-bo-chinh.jpg',feat:'lá chia thùy nông, mặt lá và thân có lông tơ mịn, cuống lá dài'},
+  {id:'f-congot',name:'Cỏ ngọt',latin:'Stevia rebaudiana',img:'herb/co-ngot.jpg',feat:'bụi thấp, lá nhỏ hình mác mọc đối, mép răng cưa nhẹ ở nửa trên, thân có lông tơ'},
+  {id:'f-ngutrao',name:'Ngũ trảo',latin:'Vitex negundo',img:'herb/ngu-trao.jpg',feat:'lá kép chân vịt, thường có 3 đến 5 lá chét thuôn nhọn xòe ra từ một điểm'},
+  {id:'f-cuctan',name:'Cúc tần',latin:'Pluchea indica',num:19,img:'herb/cuc-tan.jpg',feat:'lá đơn thuôn hình trứng ngược, mép có răng cưa thưa, thân thảo mọc đứng'},
+  {id:'f-caygai',name:'Cây gai',latin:'Boehmeria nivea',num:28,img:'herb/cay-gai.jpg',feat:'lá hình tim rộng, mép răng cưa, mặt dưới nhạt như phủ lông trắng'}
+];
+/* ==== DATA:END ==== */
 
 let mode='photo';
 let photoIndex=0;
@@ -361,8 +487,10 @@ let sceneIndex=0;
 let selectedPlantId=null;
 let questProgress=new Set();
 let currentQuestId=quests[0].id;
-let simFocusIndex=0;
 let cameraYaw=0;
+let sceneRect={x:0,y:0,dw:1280,dh:720};
+let simHintUntil=0,simHintTimer=0;
+let gvMisses=0,gvNoteData=null,gvNoteT=0;
 const sceneImages=new Map();
 const heroImage=document.getElementById('heroImage');
 const photoTitle=document.getElementById('photoTitle');
@@ -392,7 +520,6 @@ const backBtn=document.getElementById('backBtn');
 const nextBtn=document.getElementById('nextBtn');
 const leftBtn=document.getElementById('leftBtn');
 const rightBtn=document.getElementById('rightBtn');
-const focusBtn=document.getElementById('focusBtn');
 const markAnswerBtn=document.getElementById('markAnswerBtn');
 const resetQuestBtn=document.getElementById('resetQuestBtn');
 
@@ -424,6 +551,9 @@ function loadPhoto(src){
 let heroNatural=null;
 function layoutHero(){
   const p=photos[photoIndex];
+  // Ảnh dải ngang (toàn cảnh): hạ chiều cao khung để không thừa vùng mờ trống; ảnh thường giữ chiều cao mặc định
+  const ar=heroNatural?heroNatural.w/heroNatural.h:0;
+  photoFrame.style.height=ar>2.3?Math.max(200,Math.min(Math.round(photoFrame.clientWidth/ar*1.6),380))+'px':'';
   const zoom=p.size?parseFloat(p.size)/100:1;
   if(!heroNatural||zoom===1){heroImage.style.backgroundSize='contain';heroImage.style.backgroundPosition='center';return;}
   // Khung cận: phóng từ kích thước "contain" để tái khung ảnh thật, không tạo nội dung mới.
@@ -439,7 +569,10 @@ function renderPhotoMode(){
   photoDesc.textContent=p.desc;
   frameCount.textContent=`${photoIndex+1}/${photos.length}`;
   heroImage.setAttribute('aria-label',p.title);
-  photoTags.innerHTML=p.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+  photoTags.innerHTML=p.tags.map(t=>`<span class="chip${/^(Lưu trữ|Bố cục cũ)$/.test(t)?' old':''}">${t}</span>`).join('');
+  document.getElementById('photoActions').innerHTML=`<button class="pillbtn" id="photoZoom" type="button">🔍 Phóng to</button>${p.fp?'<button class="pillbtn" id="photo3d" type="button">Mở góc nhìn 3D</button>':''}`;
+  document.getElementById('photoZoom').onclick=()=>openLightbox(p);
+  if(p.fp) document.getElementById('photo3d').onclick=()=>setMode('fp',{station:p.fp});
   photoStatus.textContent='Đang tải ảnh thật…';
   photoStatus.classList.add('show');
   loadPhoto(p.src).then(({img,url})=>{
@@ -480,7 +613,7 @@ function renderPlantList(){
 }
 
 function renderSelectedPlant(){
-  if(!selectedPlantId){selectedPanel.innerHTML='<p>Chưa chọn cây nào. Chuyển sang <strong>Khám phá 6 trạm</strong> rồi chạm điểm vàng.</p>'; selectedText.textContent='chưa chọn'; return;}
+  if(!selectedPlantId){selectedPanel.innerHTML='<p>Chưa chọn cây nào. Chạm vào cây trong <strong>Góc nhìn 3D</strong> hoặc <strong>Khám phá 6 trạm</strong> để xem kỹ.</p>'; selectedText.textContent='chưa chọn'; return;}
   const p=byId(selectedPlantId);
   const badgeClass=p.kind==='slot'?'badge warn':p.confidence>=0.8?'badge':p.confidence>=0.6?'badge warn':'badge low';
   const confidenceLine=p.kind==='slot'
@@ -514,10 +647,10 @@ function updateQuestUI(){
   questBar.style.width=`${(doneCount/quests.length)*100}%`;
   questReadout.textContent=`Nhiệm vụ: ${q.title}`;
   renderQuestList();
+  gvQuestBars();
 }
 
-function setMode(next){
-  try{ focusBtn.style.display=(next==='sim')?'':'none'; }catch(e){}
+function setMode(next,opts){
   mode=next;
   const isPhoto=mode==='photo', isFp=mode==='fp';
   photoStage.classList.toggle('active',isPhoto);
@@ -530,9 +663,9 @@ function setMode(next){
   modeReadout.textContent=`Mode: ${isPhoto?'Ảnh thật':isFp?'Góc nhìn thứ nhất 3D':'Khám phá 2.5D'}`;
   if(isFp){
     mainTitle.textContent='Góc nhìn 3D · đứng giữa vườn';
-    mainSub.textContent='Kéo để nhìn quanh, chụm hoặc cuộn để phóng to, bấm mũi tên để sang trạm khác.';
+    mainSub.textContent='Kéo để nhìn quanh, chụm hoặc cuộn để phóng to, chạm vào cây để xem kỹ; bấm mũi tên vàng để đi sang trạm khác.';
     statusText.textContent='';
-    fp.start();
+    fp.start(opts&&opts.station);
     return;
   }
   fp.stop();
@@ -542,7 +675,7 @@ function setMode(next){
     statusText.textContent='';
   } else {
     mainTitle.textContent='Khám phá 6 trạm';
-    mainSub.textContent='Chạm điểm vàng để tìm đúng cây của nhiệm vụ.';
+    mainSub.textContent='Chạm vào cây của nhiệm vụ ngay trong ảnh; cần gợi ý thì bấm “Gợi ý” ở thanh nhiệm vụ.';
     statusText.textContent='';
     drawScene();
   }
@@ -583,6 +716,7 @@ function drawScene(){
   const focusY=scene.focusY??.5;
   const y=(h-dh)/2-(focusY-.5)*Math.max(0,dh-h);
   ctx.drawImage(img,x,y,dw,dh);
+  sceneRect={x,y,dw,dh};
 
   const vignette=ctx.createLinearGradient(0,0,0,h);
   vignette.addColorStop(0,'rgba(4,8,6,.08)');
@@ -693,25 +827,38 @@ function drawSmallPot(x,y,w,h){
     ctx.beginPath(); ctx.ellipse(x+10+i*9,y+6+(i%2)*4,8,14,(i-1.5)*0.18,0,Math.PI*2); ctx.fill();
   }
 }
+// Toạ độ điểm chạm tính trên ẢNH của trạm (x,y 0–1), quy ra khung vẽ theo vị trí ảnh thật sự được vẽ
+function hotspotPos(hs){ return {x:sceneRect.x+hs.x*sceneRect.dw, y:sceneRect.y+hs.y*sceneRect.dh}; }
+// Điểm chạm KHÔNG hiện sẵn: người chơi tự tìm cây theo nhiệm vụ. Chỉ hiện vòng khi xin gợi ý, nhãn khi đã tìm thấy hoặc đang xem thẻ.
 function drawHotspots(scene){
-  scene.hotspots.forEach((hs,i)=>{
-    const plant=byId(hs.plantId);
-    const x=hs.x*canvas.width, y=hs.y*canvas.height;
-    const active=selectedPlantId===plant.id;
-    const r=active?20:15;
-    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
-    ctx.fillStyle=active?'rgba(109,191,120,.96)':'rgba(216,177,108,.96)';ctx.fill();
-    ctx.lineWidth=3;ctx.strokeStyle='rgba(7,16,12,.92)';ctx.stroke();
-    ctx.fillStyle='#153027';ctx.font='700 11px Inter';ctx.textAlign='center';
-    ctx.fillText(plant.code.replace('Tạm ',''),x,y+4);
-    if(active){
-      const label=plant.name;
+  const now=performance.now(), q=currentQuest();
+  scene.hotspots.forEach(hs=>{
+    const plant=byId(hs.plantId), {x,y}=hotspotPos(hs);
+    const found=gvState.found.includes(plant.id), active=selectedPlantId===plant.id;
+    const hinting=now<simHintUntil&&plant.id===q.plantId&&!found;
+    if(hinting){
+      const r=44+6*Math.sin(now/170);
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.lineWidth=4;ctx.strokeStyle='rgba(255,224,138,.95)';ctx.stroke();
+      ctx.beginPath();ctx.arc(x,y,r+7,0,Math.PI*2);ctx.lineWidth=2;ctx.strokeStyle='rgba(7,16,12,.65)';ctx.stroke();
+    }
+    if(found||active){
+      ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);
+      ctx.fillStyle=found?'rgba(109,191,120,.96)':'rgba(216,177,108,.96)';ctx.fill();
+      ctx.lineWidth=3;ctx.strokeStyle='rgba(7,16,12,.92)';ctx.stroke();
+      ctx.fillStyle='#153027';ctx.font='700 14px Inter';ctx.textAlign='center';
+      ctx.fillText(found?'✓':'?',x,y+5);
+      const label=plant.name.replace(/ \(chưa chốt\)/,'');
       ctx.font='700 14px Inter';
       const tw=ctx.measureText(label).width;
-      ctx.fillStyle='rgba(7,12,10,.82)';ctx.fillRect(x-tw/2-10,y-48,tw+20,27);
-      ctx.fillStyle='#f4fbf6';ctx.fillText(label,x,y-29);
+      ctx.fillStyle='rgba(7,12,10,.82)';ctx.fillRect(x-tw/2-10,y-46,tw+20,27);
+      ctx.fillStyle='#f4fbf6';ctx.fillText(label,x,y-27);
     }
   });
+}
+function startSimHint(ms){
+  simHintUntil=performance.now()+(ms||7000);
+  clearInterval(simHintTimer);
+  simHintTimer=setInterval(()=>{ const over=performance.now()>simHintUntil||mode!=='sim'; if(mode==='sim') drawScene(); if(over) clearInterval(simHintTimer); },70);
 }
 
 function drawPolygon(points,fill,stroke='rgba(255,255,255,.08)'){
@@ -725,14 +872,12 @@ canvas.addEventListener('click',e=>{
   const x=(e.clientX-rect.left)*(canvas.width/rect.width);
   const y=(e.clientY-rect.top)*(canvas.height/rect.height);
   const scene=scenes[sceneIndex];
-  let found=null;
+  let found=null,best=1e9;
   for(const hs of scene.hotspots){
-    const hx=hs.x*canvas.width, hy=hs.y*canvas.height;
-    const dx=x-hx, dy=y-hy;
-    if(Math.hypot(dx,dy)<32){found=hs.plantId;break;}
+    const p=hotspotPos(hs), d=Math.hypot(x-p.x,y-p.y);
+    if(d<56&&d<best){best=d;found=hs.plantId;}
   }
-  if(found){selectedPlantId=found; renderSelectedPlant(); renderPlantList(); drawScene();
-    if(found===currentQuest().plantId && !questProgress.has(currentQuestId)) markAnswerBtn.onclick();}
+  if(found) gvTapPlant(found); else gvMiss();
 });
 
 function goToPlant(pid){
@@ -750,7 +895,6 @@ function updateMapDot(){
 function moveScene(delta){
   sceneIndex=(sceneIndex+delta+scenes.length)%scenes.length;
   cameraYaw=0;
-  simFocusIndex=0;
   drawScene();
 }
 function turnCamera(delta){
@@ -767,62 +911,57 @@ function turnCamera(delta){
    Góc phủ (hfov/v) tính từ tiêu cự EXIF lúc ghép, nên phối cảnh khớp ảnh gốc.
    Hướng mũi tên sang trạm kế là ƯỚC TÍNH theo ảnh, chưa phải đo đạc.
    ===================================================================== */
-const FP_BASE='/gia-vien-duoc-thao-preview/assets/fp/';
-const fpStations=[
-  {id:'s-0930',name:'Trước giàn · quay từ video mới nhất',desc:'Toàn cảnh ghép từ video quay ngày 30/09: tường tranh phong cảnh, giàn thép, bảng danh sách cây, đèn trụ, bồn đen và ghế đá cuối sân.',date:'30/09/2026',era:'now',file:'pano-2026-09-30.webp',proj:'sphere',hfov:101,v:49,yaw0:0,
-    links:[{to:'s-0926w',yaw:46,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
-  {id:'s-0912',name:'Đầu sân · nhìn toàn dải vườn',desc:'Đứng ở cuối sân gạch, nhìn dọc dải cây chạy theo tường về phía tranh “Ship of Knowledge”.',date:'12/09/2026',era:'now',file:'2026-09-12-toan-dai.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
-    links:[{to:'s-0930',yaw:34,label:'Tới giàn (video 30/09)'},{to:'s-0926p',yaw:-34,label:'Giàn & tường tranh 26/09'}]},
-  {id:'s-0926p',name:'Trước giàn và tường tranh phong cảnh',desc:'Toàn cảnh ghép từ 2 ảnh thật: giàn thép, bảng danh sách cây, đèn trụ và hàng bồn đen dọc tường.',date:'26/09/2026',era:'now',file:'pano-2026-09-26.webp',proj:'cylinder',hfov:103.4,v:1.826,yaw0:0,
-    links:[{to:'s-0926w',yaw:44,label:'Đi dọc tường'},{to:'s-0912',yaw:-46,label:'Lùi về đầu sân'}]},
-  {id:'s-0926w',name:'Dọc tường về phía “Ship of Knowledge”',desc:'Đi dọc hàng bồn sát tường tranh phong cảnh; cuối tầm nhìn là góc giáp tường tranh thứ hai.',date:'26/09/2026',era:'now',file:'2026-09-26-doc-tuong.jpg',proj:'plane',hfov:100.4,vfov:84,yaw0:0,
-    links:[{to:'s-0926p',yaw:-40,label:'Quay lại giàn'}]},
-  {id:'s-0710',name:'Lưu trữ · toàn cảnh trước khi vẽ lại tường',desc:'Toàn cảnh 163° ghép từ 3 ảnh thật ngày 10/07: tường tranh cũ (xanh dương), giàn, bảng danh sách và cụm chậu.',date:'10/07/2026',era:'old',file:'pano-2026-07-10.webp',proj:'sphere',hfov:163.5,v:100.1,yaw0:-10,
-    links:[{to:'s-0606',yaw:-55,label:'Xem góc giàn 06/06'}]},
-  {id:'s-0606',name:'Lưu trữ · góc giàn và bảng tên',desc:'Ghép từ 2 ảnh thật ngày 06/06: giàn mái trong, bảng Gia Viên Dược Thảo, nhãn số trên bồn.',date:'06/06/2026',era:'old',file:'pano-2026-06-06.webp',proj:'sphere',hfov:76,v:58.5,yaw0:0,
-    links:[{to:'s-0710',yaw:30,label:'Toàn cảnh 10/07'}]}
-];
-
 const fpStage=document.getElementById('fpStage');
 const btnFp=document.getElementById('btnFp');
 const fp=(()=>{
   const cv=document.getElementById('fpCanvas');
   const nameEl=document.getElementById('fpName'),descEl=document.getElementById('fpDesc'),dateEl=document.getElementById('fpDate');
-  const compassEl=document.getElementById('fpCompass'),linksEl=document.getElementById('fpLinks');
+  const compassEl=document.getElementById('fpCompass'),linksEl=document.getElementById('fpLinks'),marksEl=document.getElementById('fpMarks');
   const statusEl=document.getElementById('fpStatus'),fadeEl=document.getElementById('fpFade'),stripEl=document.getElementById('fpStrip');
-  const gyroBtn=document.getElementById('fpGyro');
+  const gyroBtn=document.getElementById('fpGyro'),hdEl=document.getElementById('fpHd');
   const D=Math.PI/180;
-  let gl=null,prog=null,loc={},mesh=null,tex=null,running=false,raf=0,dirty=true;
+  let gl=null,isGL2=false,aniso=null,maxTex=2048,prog=null,loc={},mesh=null,tex=null,running=false,raf=0,dirty=true;
   let idx=0,yaw=0,pitch=0,fov=70,loadToken=0,cur=null;
-  let vel=0,gyroOn=false,gyroBase=null;
+  let vel=0,gyroOn=false,gyroBase=null,hintPlant=null,hintUntil=0,pendingHint=null,panRaf=0;
 
   function initGL(){
     if(gl) return true;
-    gl=cv.getContext('webgl',{premultipliedAlpha:true,antialias:true,alpha:false});
+    const opts={premultipliedAlpha:true,antialias:true,alpha:false};
+    gl=cv.getContext('webgl2',opts); isGL2=!!gl;
+    if(!gl) gl=cv.getContext('webgl',opts);
     if(!gl){statusEl.textContent='Thiết bị không hỗ trợ WebGL — hãy dùng chế độ Ảnh thật.';statusEl.classList.add('show');return false;}
+    maxTex=gl.getParameter(gl.MAX_TEXTURE_SIZE)||2048;
+    aniso=gl.getExtension('EXT_texture_filter_anisotropic')||gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
     const vs=`attribute vec3 p;attribute vec2 uv;uniform mat4 m;varying vec2 v;void main(){v=uv;gl_Position=m*vec4(p,1.);}`;
-    const fs=`precision mediump float;varying vec2 v;uniform sampler2D t;void main(){vec4 c=texture2D(t,v);gl_FragColor=vec4(c.rgb*c.a+vec3(.031,.063,.051)*(1.-c.a),1.);}`;
+    // highp để toạ độ ảnh 4000 px không bị nhảy bậc trên GPU di động
+    const fs=`#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+varying vec2 v;uniform sampler2D t;void main(){vec4 c=texture2D(t,v);gl_FragColor=vec4(c.rgb*c.a+vec3(.031,.063,.051)*(1.-c.a),1.);}`;
     const sh=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;};
     prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);
     gl.useProgram(prog);
     loc={p:gl.getAttribLocation(prog,'p'),uv:gl.getAttribLocation(prog,'uv'),m:gl.getUniformLocation(prog,'m'),t:gl.getUniformLocation(prog,'t')};
     return true;
   }
-  // Lưới bề mặt theo đúng phép chiếu của ảnh
+  const horizon=st=>st.cy==null?.5:st.cy;
+  // Lưới bề mặt theo đúng phép chiếu của ảnh (cy = hàng ảnh nằm ngang tầm mắt)
   function buildMesh(st){
     const NX=st.proj==='plane'?2:96, NY=st.proj==='plane'?2:48;
-    const H=st.hfov*D, pos=[], uv=[], ind=[];
+    const H=st.hfov*D, cy=horizon(st), pos=[], uv=[], ind=[];
     for(let j=0;j<=NY;j++){
       const ty=j/NY; // 0 = mép trên ảnh
       for(let i=0;i<=NX;i++){
         const tx=i/NX; let x,y,z;
         if(st.proj==='plane'){
           const hw=Math.tan(H/2), hh=Math.tan(st.vfov*D/2);
-          x=(tx*2-1)*hw; y=(1-ty*2)*hh; z=-1;
+          x=(tx*2-1)*hw; y=(cy-ty)*2*hh; z=-1;
         } else {
           const th=(tx-.5)*H;
-          if(st.proj==='cylinder'){ const yy=(.5-ty)*st.v; x=Math.sin(th); y=yy; z=-Math.cos(th); }
-          else { const ph=(.5-ty)*st.v*D; x=Math.cos(ph)*Math.sin(th); y=Math.sin(ph); z=-Math.cos(ph)*Math.cos(th); }
+          if(st.proj==='cylinder'){ const yy=(cy-ty)*st.v; x=Math.sin(th); y=yy; z=-Math.cos(th); }
+          else { const ph=(cy-ty)*st.v*D; x=Math.cos(ph)*Math.sin(th); y=Math.sin(ph); z=-Math.cos(ph)*Math.cos(th); }
         }
         pos.push(x,y,z); uv.push(tx,ty);
       }
@@ -832,22 +971,45 @@ const fp=(()=>{
     if(mesh){gl.deleteBuffer(mesh.p);gl.deleteBuffer(mesh.uv);gl.deleteBuffer(mesh.i);}
     mesh={p:mk(pos,Float32Array,gl.ARRAY_BUFFER),uv:mk(uv,Float32Array,gl.ARRAY_BUFFER),i:mk(ind,Uint16Array,gl.ELEMENT_ARRAY_BUFFER),n:ind.length};
   }
-  // Biên góc nhìn: không cho quay ra ngoài vùng có ảnh thật
-  function vExtent(st){ return st.proj==='plane'?st.vfov/2: st.proj==='cylinder'?Math.atan(st.v/2)/D : st.v/2; }
-  function hExtent(st){ return st.proj==='plane'?st.hfov/2:st.hfov/2; }
+  // Toạ độ ảnh (u,v) -> hướng nhìn (độ). Dùng cho vùng chạm và nhãn "đã tìm thấy".
+  function uvToAngles(st,u,v){
+    const cy=horizon(st);
+    if(st.proj==='plane'){
+      const hw=Math.tan(st.hfov*D/2), hh=Math.tan(st.vfov*D/2), x=(u*2-1)*hw, y=(cy-v)*2*hh;
+      return {yaw:Math.atan(x)/D,pitch:Math.atan(y/Math.sqrt(1+x*x))/D};
+    }
+    const th=(u-.5)*st.hfov;
+    if(st.proj==='cylinder') return {yaw:th,pitch:Math.atan((cy-v)*st.v)/D};
+    return {yaw:th,pitch:(cy-v)*st.v};
+  }
+  const angOf=(st,t)=>t._a||(t._a=uvToAngles(st,t.u,t.v));
+  // Phần ảnh có thật phía trên/dưới đường chân trời và bề ngang (độ)
+  function vExt(st,c){ // c = tỉ lệ chiều cao phía đó (cy hoặc 1-cy)
+    return st.proj==='plane'?Math.atan(2*Math.tan(st.vfov*D/2)*c)/D : st.proj==='cylinder'?Math.atan(st.v*c)/D : st.v*c;
+  }
+  const vUp=st=>vExt(st,horizon(st)), vDown=st=>vExt(st,1-horizon(st));
   function aspect(){return Math.max(.3,cv.clientWidth/Math.max(1,cv.clientHeight));}
   function hfovView(){return 2*Math.atan(Math.tan(fov*D/2)*aspect())/D;}
-  function maxFov(st){ // fov dọc lớn nhất mà vẫn nằm trong ảnh
-    const vf=2*vExtent(st)*.98, hf=2*hExtent(st)*.98;
-    const vFromH=2*Math.atan(Math.tan(hf*D/2)/aspect())/D;
-    return Math.max(20,Math.min(95,vf,vFromH));
+  const vForH=(h,a)=>2*Math.atan(Math.tan(h*D/2)/a)/D; // fov dọc để đạt bề ngang h ở tỉ lệ khung a
+  // fov dọc lớn nhất: vừa trọn ảnh; màn dọc (điện thoại) được nới ra để vẫn thấy ~50° bề ngang, phần thừa là viền tối
+  function maxFov(st){
+    const a=aspect(), vf=(vUp(st)+vDown(st))*.98, hf=st.hfov*.98;
+    const fit=Math.min(vf,vForH(hf,a));
+    return Math.max(20,Math.min(100,Math.max(fit,vForH(Math.min(hf,50),a))));
   }
+  const minFov=st=>st.hi?14:22;
+  // Đáy khung bị thanh nhiệm vụ và dải trạm che: cho đẩy ảnh lên cao thêm một đoạn để không che cây ở sát mép dưới ảnh
+  const uiPad=()=>Math.min(.3,200/Math.max(300,cv.clientHeight));
   function clamp(){
     if(!cur) return;
-    fov=Math.max(22,Math.min(maxFov(cur),fov));
-    const hy=Math.max(0,hExtent(cur)-hfovView()/2), vy=Math.max(0,vExtent(cur)-fov/2);
-    yaw=Math.max(-hy,Math.min(hy,yaw)); pitch=Math.max(-vy,Math.min(vy,pitch));
+    fov=Math.max(minFov(cur),Math.min(maxFov(cur),fov));
+    const up=vUp(cur),dn=vDown(cur),hy=cur.hfov/2-hfovView()/2,pad=uiPad()*fov;
+    yaw=hy>0?Math.max(-hy,Math.min(hy,yaw)):0;
+    const lo=-dn+fov/2-pad,hi=up-fov/2;
+    if(up+dn>fov&&lo<=hi) pitch=Math.max(lo,Math.min(hi,pitch));
+    else pitch=(up-dn)/2-pad/2; // ảnh thấp hơn khung: căn giữa phần có ảnh trong vùng không bị UI che
   }
+  function initialFov(st){const m=maxFov(st);return Math.min(m,Math.max(m*.82,vForH(Math.min(st.hfov*.9,50),aspect())));}
   function rotXY(){ // view matrix: quay thế giới ngược hướng nhìn
     const y=yaw*D,p=pitch*D, cy=Math.cos(y),sy=Math.sin(y),cp=Math.cos(p),sp=Math.sin(p);
     const Ry=[cy,0,-sy,0, 0,1,0,0, sy,0,cy,0, 0,0,0,1];
@@ -855,9 +1017,10 @@ const fp=(()=>{
     return mul(Rx,Ry);
   }
   function mul(a,b){const o=new Array(16).fill(0);for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[c*4+r]+=a[k*4+r]*b[c*4+k];return o;}
+  function persp(){const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;return[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];}
   function project(yawDeg,pitchDeg){
     const th=yawDeg*D,ph=pitchDeg*D, v=[Math.cos(ph)*Math.sin(th),Math.sin(ph),-Math.cos(ph)*Math.cos(th),1];
-    const m=mul([...(()=>{const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;return[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];})()],rotXY());
+    const m=mul(persp(),rotXY());
     const o=[0,0,0,0];for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[r]+=m[k*4+r]*v[k];
     if(o[3]<=0) return null;
     return {x:(o[0]/o[3]*.5+.5)*cv.clientWidth,y:(-o[1]/o[3]*.5+.5)*cv.clientHeight};
@@ -870,54 +1033,92 @@ const fp=(()=>{
     resize(); clamp();
     gl.viewport(0,0,cv.width,cv.height); gl.clearColor(.031,.063,.051,1); gl.clear(gl.COLOR_BUFFER_BIT);
     if(mesh&&tex){
-      const a=aspect(),f=1/Math.tan(fov*D/2),n=.01,fa=10;
-      const P=[f/a,0,0,0,0,f,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0];
-      gl.uniformMatrix4fv(loc.m,false,new Float32Array(mul(P,rotXY())));
+      gl.uniformMatrix4fv(loc.m,false,new Float32Array(mul(persp(),rotXY())));
       gl.bindBuffer(gl.ARRAY_BUFFER,mesh.p);gl.enableVertexAttribArray(loc.p);gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,0,0);
       gl.bindBuffer(gl.ARRAY_BUFFER,mesh.uv);gl.enableVertexAttribArray(loc.uv);gl.vertexAttribPointer(loc.uv,2,gl.FLOAT,false,0,0);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.i);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);gl.uniform1i(loc.t,0);
       gl.drawElements(gl.TRIANGLES,mesh.n,gl.UNSIGNED_SHORT,0);
     }
     const heading=Math.round(yaw); compassEl.textContent=`Hướng ${heading>0?'phải ':heading<0?'trái ':''}${Math.abs(heading)}°`;
-    placeLinks();
+    placeLinks(); placeMarks();
   }
   function placeLinks(){
-    const W=cv.clientWidth,Hh=cv.clientHeight;
-    linksEl.querySelectorAll('.fp-link').forEach((b,i)=>{
-      const pt=project(+b.dataset.yaw,-18), bw=b.offsetWidth||140;
-      const inView=pt&&pt.x>bw/2+6&&pt.x<W-bw/2-6&&pt.y>60&&pt.y<Hh-110;
-      b.style.display='block';
-      if(inView){b.dataset.dir='up';b.style.left=pt.x+'px';b.style.top=pt.y+'px';}
-      else { // ngoài tầm nhìn: bám mép trái/phải, chỉ hướng cần quay
-        const right=(+b.dataset.yaw)>yaw; b.dataset.dir=right?'right':'left';
-        b.style.left=(right?W-bw/2-8:bw/2+8)+'px'; b.style.top=(Hh-150-i*44)+"px";
-      }
+    const W=cv.clientWidth,Hh=cv.clientHeight, lp=(cur&&cur.linkPitch)||-18, placed=[];
+    const qb=document.getElementById('fpQuest'), bot=Math.min(Hh,(qb&&qb.offsetHeight?qb.offsetTop:stripEl.offsetTop)||Hh)-14; // nút không đè lên thanh nhiệm vụ / dải trạm
+    const items=[...linksEl.querySelectorAll('.fp-link')].map(b=>{
+      const pt=project(+b.dataset.yaw,lp), bw=b.offsetWidth||140, bh=b.offsetHeight||36;
+      return {b,pt,bw,bh,inView:!!pt&&pt.x>bw/2+6&&pt.x<W-bw/2-6&&pt.y>60&&pt.y<bot-bh/2};
+    });
+    // Đặt từng nút; nếu đè lên nút đã đặt thì dời xuống để hai nhãn không chồng nhau
+    const put=(o,x,y,dir)=>{
+      for(let k=0;k<6&&placed.some(r=>Math.abs(x-r.x)<(o.bw+r.w)/2+4&&Math.abs(y-r.y)<(o.bh+r.h)/2+4);k++) y+=o.bh+6;
+      y=Math.max(70,Math.min(y,bot-o.bh/2));
+      placed.push({x,y,w:o.bw,h:o.bh});
+      o.b.style.display='block'; o.b.dataset.dir=dir; o.b.style.left=x+'px'; o.b.style.top=y+'px';
+    };
+    items.filter(o=>o.inView).forEach(o=>put(o,o.pt.x,o.pt.y,'up'));
+    // ngoài tầm nhìn: bám mép trái/phải ở đúng độ cao "mặt đất" của hướng đó, chỉ hướng cần quay
+    items.filter(o=>!o.inView).forEach(o=>{ const right=(+o.b.dataset.yaw)>yaw; put(o,right?W-o.bw/2-8:o.bw/2+8,o.pt?o.pt.y:Hh*.5,right?'right':'left'); });
+    // đang hiện vòng gợi ý: các nút đi trạm mờ đi và không bắt chạm, để chạm vào cây không bị nhầm sang nút
+    const hinting=!!hintPlant&&performance.now()<hintUntil;
+    items.forEach(o=>{ o.b.style.opacity=hinting?'.25':''; o.b.style.pointerEvents=hinting?'none':''; });
+  }
+  // Vòng gợi ý và nhãn "đã tìm thấy" bám theo cây khi xoay/phóng to
+  function placeMarks(){
+    if(!cur||!cur.targets) return;
+    const W=cv.clientWidth,Hh=cv.clientHeight,now=performance.now();
+    cur.targets.forEach((t,i)=>{
+      const found=typeof gvIsFound==='function'&&gvIsFound(t.plant), hinting=hintPlant===t.plant&&now<hintUntil;
+      let el=marksEl.querySelector(`[data-ti="${i}"]`);
+      if(!found&&!hinting){ if(el) el.remove(); return; }
+      const a=angOf(cur,t), pt=project(a.yaw,a.pitch);
+      const cls=hinting&&!found?'fp-ring':'fp-found';
+      if(!el){ el=document.createElement('div'); el.dataset.ti=i; marksEl.appendChild(el); }
+      if(el.className!==cls){ el.className=cls; el.style.width=el.style.height=''; el.textContent=cls==='fp-found'?'✓ '+(byId(t.plant)?.name||'').replace(/ \(chưa chốt\)/,''):''; }
+      if(!pt||pt.x<0||pt.x>W||pt.y<0||pt.y>Hh){ el.style.display='none'; return; }
+      el.style.display='block';
+      if(cls==='fp-ring'){ const pr=project(a.yaw+t.r,a.pitch), R=Math.max(34,Math.min(130,pr?Math.abs(pr.x-pt.x):40)); el.style.width=el.style.height=(R*2)+'px'; }
+      el.style.left=pt.x+'px'; el.style.top=pt.y+'px';
     });
   }
   function loop(){
     if(!running) return;
     if(Math.abs(vel)>.01&&!dragging){yaw+=vel;vel*=.92;dirty=true;}
+    if(hintPlant&&performance.now()<hintUntil+50) dirty=true;
     if(dirty){dirty=false;draw();}
     raf=requestAnimationFrame(loop);
   }
   function upload(img){
-    if(tex) gl.deleteTexture(tex);
-    tex=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,tex);
+    const old=tex; tex=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,tex);
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,true);
-    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
-    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    let src=img,w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;
+    if(Math.max(w,h)>maxTex){ // GPU không nhận ảnh lớn hơn MAX_TEXTURE_SIZE: thu nhỏ vừa đủ
+      const k=maxTex/Math.max(w,h),c=document.createElement('canvas'); c.width=Math.floor(w*k);c.height=Math.floor(h*k);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height); src=c; w=c.width; h=c.height;
+    }
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,src);
+    const pot=n=>(n&(n-1))===0;
+    if(isGL2||(pot(w)&&pot(h))){ // mipmap + lọc tam tuyến: ảnh nét hơn, không lấp lánh khi xoay
+      gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+    } else gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    if(aniso) gl.texParameterf(gl.TEXTURE_2D,aniso.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(8,gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)||1));
+    if(old) gl.deleteTexture(old);
   }
   function renderStrip(){
     stripEl.innerHTML=fpStations.map((s,i)=>`<button data-i="${i}" class="${i===idx?'active':''}" aria-label="${s.name}"><img src="${FP_BASE}${s.file.replace(/\.(jpg|webp)$/,'-thumb.jpg')}" alt="" loading="lazy"><span>${s.era==='old'?'🗂 ':''}${s.date} · ${s.name}</span></button>`).join('');
     stripEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i,false));
     stripEl.querySelector('.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
   }
+  const slowNet=()=>{const c=navigator.connection; return !!(c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||'')));};
   function go(i,walk){
     const st=fpStations[(i+fpStations.length)%fpStations.length]; idx=fpStations.indexOf(st);
     const token=++loadToken;
+    cancelAnimationFrame(panRaf); hintPlant=null; gvNoteData=null;
     nameEl.textContent=st.name; descEl.textContent=st.desc;
     dateEl.textContent=(st.era==='now'?'Hiện trạng · ':'Lưu trữ · ')+st.date; dateEl.className='fp-date '+st.era;
+    hdEl.hidden=true; marksEl.innerHTML='';
     linksEl.innerHTML=st.links.map(l=>`<button class="fp-link" data-to="${l.to}" data-yaw="${l.yaw}">${l.label}</button>`).join('');
     linksEl.querySelectorAll('.fp-link').forEach(b=>b.onclick=e=>{e.stopPropagation();walkTo(b.dataset.to,+b.dataset.yaw);});
     renderStrip();
@@ -926,11 +1127,20 @@ const fp=(()=>{
     img.onload=()=>{
       if(token!==loadToken) return;
       cur=st; buildMesh(st); upload(img); gvVisitFp(st.id);
-      yaw=st.yaw0||0; pitch=-4; fov=maxFov(st)*.82;
+      yaw=st.yaw0||0; fov=initialFov(st); pitch=(vUp(st)-vDown(st))/2-3;
       if(walk){fov=Math.min(maxFov(st),fov*1.15);}
       statusEl.classList.remove('show'); fadeEl.classList.remove('on'); dirty=true;
+      gvQuestBars();
+      if(pendingHint){ const h=pendingHint; pendingHint=null; setTimeout(()=>{ if(token===loadToken) api.hint(h,7000); },500); }
       // tải trước trạm kế
       st.links.forEach(l=>{const n=fpStations.find(s=>s.id===l.to); if(n){const p=new Image(); p.src=FP_BASE+n.file;}});
+      // bản nét cao tải nền, đổi texture mà giữ nguyên góc nhìn (bỏ qua nếu mạng yếu hoặc GPU không nhận ảnh 4000 px)
+      if(st.hi&&!slowNet()&&maxTex>=4096){
+        const hi=new Image(); hi.decoding='async';
+        hi.onload=()=>{ if(token!==loadToken||cur!==st) return; upload(hi); hdEl.hidden=false; dirty=true; };
+        hi.onerror=()=>console.warn('[gia-vien fp] hi-res failed',st.hi);
+        hi.src=FP_BASE+st.hi;
+      }
     };
     img.onerror=()=>{ if(token!==loadToken) return; fadeEl.classList.remove('on'); statusEl.textContent=`Không tải được ${st.file}. Kiểm tra mạng rồi chọn lại trạm.`; statusEl.classList.add('show'); console.error('[gia-vien fp] load failed',st.file); };
     img.src=FP_BASE+st.file;
@@ -947,9 +1157,33 @@ const fp=(()=>{
     };
     requestAnimationFrame(step);
   }
-  // Điều khiển: kéo chuột/chạm, chụm 2 ngón, lăn chuột
-  let dragging=false,lastX=0,lastY=0,lastT=0,pts=new Map(),pinch0=0,fov0=0;
-  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,e);dragging=true;vel=0;lastX=e.clientX;lastY=e.clientY;lastT=performance.now();
+  // Vùng chạm của cây trên trạm hiện tại (elip theo bán kính góc, tối thiểu 34 px để ngón tay chạm trúng)
+  function hitTest(x,y){
+    if(!cur||!cur.targets) return null;
+    let best=null,bd=1e9;
+    for(const t of cur.targets){
+      const a=angOf(cur,t), pt=project(a.yaw,a.pitch); if(!pt) continue;
+      const pr=project(a.yaw+t.r/Math.max(.35,Math.cos(a.pitch*D)),a.pitch), pu=project(a.yaw,a.pitch+t.r);
+      const rx=Math.max(34,pr?Math.abs(pr.x-pt.x):34), ry=Math.max(34,pu?Math.abs(pu.y-pt.y):34);
+      const d=Math.hypot((x-pt.x)/rx,(y-pt.y)/ry);
+      if(d<=1&&d<bd){bd=d;best=t;}
+    }
+    return best;
+  }
+  function ripple(x,y,ok){
+    const el=document.createElement('div'); el.className='fp-tap '+(ok?'hit':'miss'); el.style.left=x+'px'; el.style.top=y+'px';
+    marksEl.appendChild(el); setTimeout(()=>el.remove(),700);
+  }
+  function onTap(clientX,clientY){
+    if(!cur) return;
+    const r=cv.getBoundingClientRect(), x=clientX-r.left, y=clientY-r.top, t=hitTest(x,y);
+    ripple(x,y,!!t);
+    if(typeof gvFpTap==='function') gvFpTap(t?t.plant:null,cur);
+  }
+  // Điều khiển: kéo chuột/chạm, chụm 2 ngón, lăn chuột; chạm nhẹ = xem kỹ cây
+  let dragging=false,lastX=0,lastY=0,lastT=0,pts=new Map(),pinch0=0,fov0=0,tap=null;
+  cv.addEventListener('pointerdown',e=>{cancelAnimationFrame(panRaf);cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,e);dragging=true;vel=0;lastX=e.clientX;lastY=e.clientY;lastT=performance.now();
+    tap=pts.size===1?{id:e.pointerId,x:e.clientX,y:e.clientY,t:lastT}:null;
     if(pts.size===2){const [a,b]=[...pts.values()];pinch0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);fov0=fov;}});
   cv.addEventListener('pointermove',e=>{
     if(!pts.has(e.pointerId)) return; pts.set(e.pointerId,e);
@@ -957,7 +1191,13 @@ const fp=(()=>{
     const k=fov/Math.max(1,cv.clientHeight), dx=e.clientX-lastX, dy=e.clientY-lastY, now=performance.now();
     yaw-=dx*k; pitch+=dy*k; vel=-dx*k*Math.min(1,16/Math.max(1,now-lastT)); lastX=e.clientX;lastY=e.clientY;lastT=now; dirty=true;
   });
-  const up=e=>{pts.delete(e.pointerId); if(pts.size===0) dragging=false; if(pts.size<2) pinch0=0;};
+  const up=e=>{
+    pts.delete(e.pointerId); if(pts.size===0) dragging=false; if(pts.size<2) pinch0=0;
+    if(e.type==='pointerup'&&tap&&tap.id===e.pointerId){
+      if(Math.hypot(e.clientX-tap.x,e.clientY-tap.y)<8&&performance.now()-tap.t<450) onTap(e.clientX,e.clientY);
+    }
+    tap=null;
+  };
   cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
   cv.addEventListener('wheel',e=>{e.preventDefault();fov*=Math.exp(e.deltaY*.0012);dirty=true;},{passive:false});
   document.getElementById('fpZoomIn').onclick=()=>{fov*=.82;dirty=true;};
@@ -976,14 +1216,41 @@ const fp=(()=>{
     gyroBase=null; window.addEventListener('deviceorientation',onOrient); gyroOn=true; gyroBtn.classList.add('on');
   };
   window.addEventListener('resize',()=>{dirty=true;});
-  return {
-    start(){ if(!initGL()) return; running=true; if(!cur) go(idx,false); else dirty=true; cancelAnimationFrame(raf); raf=requestAnimationFrame(loop); },
-    stop(){ running=false; cancelAnimationFrame(raf); },
+  // Xoay mượt tới một hướng (dùng khi xin gợi ý: như người dẫn đường quay đầu bạn về phía cây)
+  function panTo(y1,p1,ms){
+    cancelAnimationFrame(panRaf);
+    const y0=yaw,p0=pitch,t0=performance.now();
+    const step=t=>{
+      const k=Math.min(1,(t-t0)/ms), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      yaw=y0+(y1-y0)*e; pitch=p0+(p1-p0)*e; vel=0; dirty=true;
+      if(k<1) panRaf=requestAnimationFrame(step);
+    };
+    panRaf=requestAnimationFrame(step);
+  }
+  const api={
+    // start(id): mở thẳng một trạm (vd. từ nút "Mở góc nhìn 3D" ở ảnh thật); không có id thì giữ trạm đang đứng
+    start(id){
+      if(!initGL()) return; running=true;
+      const i=id?fpStations.findIndex(s=>s.id===id):-1;
+      if(i>=0&&(!cur||cur.id!==id)) go(i,false); else if(!cur) go(idx,false); else dirty=true;
+      cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+    },
+    stop(){ running=false; cancelAnimationFrame(raf); cancelAnimationFrame(panRaf); },
     turn(d){ yaw+=d; dirty=true; },
     next(d){ go(idx+d,true); },
     walk(){ const l=cur&&cur.links[0]; if(l) walkTo(l.to,l.yaw); else go(idx+1,true); },
+    // goTo(id, plantId): sang trạm khác; có plantId thì tới nơi sẽ tự xoay và khoanh vòng gợi ý quanh cây đó
+    goTo(id,plantId){ const i=fpStations.findIndex(s=>s.id===id); if(i<0) return; pendingHint=plantId||null; go(i,false); },
+    // Gợi ý: xoay tới cây của nhiệm vụ rồi khoanh vòng vàng, nếu cây nằm trong trạm đang đứng
+    hint(plantId,ms){
+      const t=cur&&cur.targets&&cur.targets.find(x=>x.plant===plantId); if(!t) return false;
+      hintPlant=plantId; hintUntil=performance.now()+(ms||6000);
+      const a=angOf(cur,t); panTo(a.yaw,a.pitch,650); dirty=true; return true;
+    },
+    get station(){return cur;},
     get index(){return idx;}
   };
+  return api;
 })();
 
 btnPhoto.onclick=()=>setMode('photo');
@@ -993,18 +1260,8 @@ backBtn.onclick=()=>{ if(mode==='fp') return fp.next(-1); if(mode==='photo'){pho
 nextBtn.onclick=()=>{ if(mode==='fp') return fp.next(1); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else moveScene(1); };
 leftBtn.onclick=()=>{ if(mode==='fp') return fp.turn(-20); if(mode==='photo'){photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMode();} else turnCamera(-.45); };
 rightBtn.onclick=()=>{ if(mode==='fp') return fp.turn(20); if(mode==='photo'){photoIndex=(photoIndex+1)%photos.length;renderPhotoMode();} else turnCamera(.45); };
-focusBtn.onclick=()=>{
-  if(mode==='fp') return fp.walk();
-  if(mode==='photo') setMode('sim');
-  const scene=scenes[sceneIndex];
-  if(scene.hotspots.length){
-    const target=scene.hotspots[simFocusIndex % scene.hotspots.length].plantId;
-    simFocusIndex++;
-    selectedPlantId=target; renderSelectedPlant(); renderPlantList(); drawScene();
-  } else {
-    moveScene(1);
-  }
-};
+// 2.5D không có nút chọn sẵn cây của trạm (nó hiện nhãn tên, tức là chỉ đường cho người chơi, trái với cách chơi tự tìm).
+// Gợi ý nằm ở thanh nhiệm vụ.
 document.addEventListener('keydown',e=>{
   if(mode==='fp' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
     const k={ArrowLeft:()=>fp.turn(-10),ArrowRight:()=>fp.turn(10),ArrowUp:()=>fp.walk(),ArrowDown:()=>fp.next(-1),Enter:()=>fp.walk()}[e.key];
@@ -1015,7 +1272,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){e.preventDefault();moveScene(-1);}
   if(e.key==='ArrowLeft'){e.preventDefault();turnCamera(-.45);}
   if(e.key==='ArrowRight'){e.preventDefault();turnCamera(.45);}
-  if(e.key==='Enter'){e.preventDefault();focusBtn.click();}
 });
 
 markAnswerBtn.onclick=()=>{
@@ -1032,7 +1288,112 @@ markAnswerBtn.onclick=()=>{
     gvToast(`Chưa đúng. Gợi ý: ${q.title.toLowerCase()}`);
   }
 };
-resetQuestBtn.onclick=()=>{questProgress=new Set(); currentQuestId=quests[0].id; updateQuestUI(); statusText.textContent='Đã reset nhiệm vụ';};
+resetQuestBtn.onclick=()=>{questProgress=new Set(); currentQuestId=quests[0].id; gvNoteData=null; updateQuestUI(); statusText.textContent='Đã reset nhiệm vụ';};
+
+/* =====================================================================
+   TÌM CÂY NHƯ THẬT — điểm chạm KHÔNG hiện sẵn: người chơi đọc mô tả nhiệm vụ rồi tự tìm trong ảnh.
+   - Chạm trúng cây có trong danh sách: ghi nhận, hiện tên + thẻ cây. Chạm trượt: báo ngay, không trừ điểm.
+   - "Gợi ý": 3D tự xoay tới cây rồi khoanh vòng vàng (không đọc tên); 2.5D hiện vòng vàng; cây ở trạm khác thì chỉ đường.
+   - Chạm trúng cây của nhiệm vụ khác thì tính luôn cho nhiệm vụ đó (danh sách nhiệm vụ làm theo thứ tự tuỳ ý).
+   ===================================================================== */
+function gvIsFound(pid){ return gvState.found.includes(pid); }
+// Ghi chú ngắn hiện dưới thanh nhiệm vụ (tự mất sau 9 giây hoặc khi đổi nhiệm vụ); action = nút kèm theo
+function gvNote(text,action){
+  gvNoteData=text?{text,action:action||null,q:currentQuestId}:null;
+  clearTimeout(gvNoteT);
+  if(gvNoteData) gvNoteT=setTimeout(()=>{ gvNoteData=null; gvQuestBars(); },9000);
+  gvQuestBars();
+}
+function gvQuestBars(){
+  if(gvNoteData&&gvNoteData.q!==currentQuestId) gvNoteData=null;
+  const q=currentQuest(), total=quests.length, done=questProgress.size;
+  let html='';
+  const old=mode==='fp'&&fp.station&&fp.station.era==='old';
+  if(old){
+    html='<div class="qb-line"><b>Trạm lưu trữ</b> · ảnh chụp trước khi vẽ lại tường, dùng để so sánh với hiện nay. Không tìm cây ở đây; bấm trạm khác ở dải bên dưới.</div>';
+  } else if(done>=total){
+    html=`<div class="qb-line"><b>Đã tìm đủ ${total}/${total} cây.</b> Mở tab “Sổ cây” để xem thẻ cây hoặc bấm “Nhận mặt cây” để thử tài.</div><div class="qb-actions"><button data-a="reset">Chơi lại nhiệm vụ</button></div>`;
+  } else if(q){
+    html=`<div class="qb-line"><b>Nhiệm vụ ${quests.indexOf(q)+1}/${total}</b> · ${q.title}<span style="color:var(--muted)"> · xong ${done}</span></div><div class="qb-actions"><button class="primary" data-a="hint">💡 Gợi ý</button>${total-done>1?'<button data-a="skip">Nhiệm vụ khác</button>':''}</div>`;
+  }
+  if(gvNoteData&&!old) html+=`<div class="qb-msg">${gvNoteData.text}${gvNoteData.action?`<button class="primary" data-a="note">${gvNoteData.action.label}</button>`:''}</div>`;
+  ['fpQuest','simQuest'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=html; });
+}
+['fpQuest','simQuest'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{
+  const b=e.target.closest('button[data-a]'); if(!b) return;
+  const a=b.dataset.a;
+  if(a==='hint') gvHint();
+  else if(a==='skip') gvNextQuest();
+  else if(a==='reset') resetQuestBtn.onclick();
+  else if(a==='note'&&gvNoteData&&gvNoteData.action){ const fn=gvNoteData.action.fn; gvNoteData=null; gvQuestBars(); fn(); }
+}));
+function gvNextQuest(){
+  const undone=quests.filter(x=>!questProgress.has(x.id)); if(undone.length<2) return;
+  const i=undone.findIndex(x=>x.id===currentQuestId);
+  currentQuestId=undone[(i+1)%undone.length].id; gvNoteData=null; updateQuestUI();
+}
+// Trạm 3D hiện trạng có điểm chạm của cây (ưu tiên trạm đang đứng, rồi tới trạm mới nhất)
+function gvStationFor(pid){
+  const c=fp.station;
+  if(c&&c.targets&&c.targets.some(t=>t.plant===pid)) return c;
+  return fpStations.find(s=>s.era==='now'&&s.targets&&s.targets.some(t=>t.plant===pid))||null;
+}
+function gvHint(){
+  const q=currentQuest(); if(!q||questProgress.has(q.id)) return;
+  const pid=q.plantId;
+  if(mode==='fp'){
+    if(fp.hint(pid,7000)){ gvNote('Mình đã xoay tới chỗ có cây cần tìm và khoanh vòng vàng. Chạm vào cây để ghi nhận.'); return; }
+    const st=gvStationFor(pid);
+    if(st) gvNote('Cây này không nằm trong tầm nhìn của trạm này.',{label:'Tới trạm có cây',fn:()=>fp.goTo(st.id,pid)});
+    else gvNote('Chưa có điểm chạm cho cây này ở trạm 3D. Thử chế độ “Khám phá 6 trạm”.');
+  } else if(mode==='sim'){
+    if(scenes[sceneIndex].hotspots.some(h=>h.plantId===pid)){ startSimHint(7000); gvNote('Vòng vàng đang khoanh vùng cây cần tìm. Chạm vào cây để ghi nhận.'); return; }
+    const to=scenes.findIndex(s=>s.hotspots.some(h=>h.plantId===pid));
+    if(to>=0) gvNote(`Cây này không có trong trạm ${sceneIndex+1}, nó nằm ở trạm ${to+1}.`,{label:`Tới trạm ${to+1}`,fn:()=>{ sceneIndex=to; cameraYaw=0; drawScene(); startSimHint(7000); }});
+    else gvNote('Chưa có điểm chạm cho cây này ở chế độ 2.5D. Thử “Góc nhìn 3D”.');
+  }
+}
+// Người chơi chạm trúng cây có trong danh sách (3D hoặc 2.5D)
+function gvTapPlant(pid){
+  const p=byId(pid); if(!p) return;
+  gvMisses=0;
+  selectedPlantId=pid; renderSelectedPlant(); renderPlantList();
+  if(mode==='sim') drawScene();
+  const q=quests.find(x=>x.plantId===pid);
+  if(!q) return;
+  if(questProgress.has(q.id)){
+    const nm=p.name.replace(/ \(chưa chốt\)/,'');
+    if(gvState.quiz[pid]&&gvState.quiz[pid].done) gvToast(`${nm}: bạn đã tìm thấy cây này rồi.`);
+    else { gvToast(`${nm}: mở lại thẻ cây.`); gvQuestDone(pid); } // lần trước bấm “Để sau” thì chạm lại để mở thẻ
+    return;
+  }
+  currentQuestId=q.id; gvNoteData=null;
+  markAnswerBtn.onclick();
+}
+function gvMiss(){
+  if(questProgress.size>=quests.length){ gvToast('Bạn đã tìm đủ cây rồi. Thử “Nhận mặt cây” ở tab Sổ cây.'); return; }
+  gvMisses++;
+  if(gvMisses%3===0) gvNote('Chưa thấy? Bấm “Gợi ý” để mình khoanh vòng quanh cây cần tìm.');
+  else gvToast('Chỗ này chưa có cây nào trong danh sách. Thử chạm chỗ khác.');
+}
+function gvFpTap(pid){ if(pid) gvTapPlant(pid); else gvMiss(); }
+
+/* Phóng to ảnh: xem vừa khung hoặc 1:1 (kéo để xem chi tiết) */
+const lbDlg=document.getElementById('lbDlg'), lbImg=document.getElementById('lbImg'), lbFit=document.getElementById('lbFit');
+function openLightbox(p){
+  const sc=document.querySelector('.lb-scroll');
+  document.getElementById('lbTitle').textContent=p.title;
+  lbImg.alt=p.title; lbImg.classList.add('fit'); lbImg.classList.remove('full'); lbFit.textContent='Xem 1:1';
+  // ảnh dải ngang trên màn hẹp: mở sẵn cỡ thật để kéo ngang xem chi tiết (vừa khung thì chỉ còn một dải mỏng)
+  lbImg.onload=()=>{ if(lbImg.naturalWidth/lbImg.naturalHeight>2.2&&sc.clientWidth<720){ lbImg.classList.remove('fit'); lbImg.classList.add('full'); lbFit.textContent='Vừa khung'; } sc.scrollTo(0,0); };
+  lbImg.src=webSrc(p.src);
+  if(!lbDlg.open) lbDlg.showModal();
+  sc.scrollTo(0,0);
+}
+lbFit.onclick=()=>{ const fit=lbImg.classList.toggle('fit'); lbImg.classList.toggle('full',!fit); lbFit.textContent=fit?'Xem 1:1':'Vừa khung'; };
+document.getElementById('lbClose').onclick=()=>lbDlg.close();
+lbDlg.addEventListener('click',e=>{ if(e.target===lbDlg) lbDlg.close(); });
+lbDlg.addEventListener('close',()=>{ lbImg.removeAttribute('src'); });
 
 
 /* =====================================================================
@@ -1043,40 +1404,6 @@ resetQuestBtn.onclick=()=>{questProgress=new Set(); currentQuestId=quests[0].id;
      không phát tín dụng, không đụng kho giống/ví của Gia Viên đang chạy.
    ===================================================================== */
 const GV_KEY='gv-thuc-canh-v1';
-const plantQuiz={
-  'plant-sa':{q:'Đặc điểm nào giúp nhận ra sả trong vườn?',opts:['Bụi lá dài, hẹp, mọc thẳng từ gốc; vò lá có mùi thơm','Dây leo bám lên khung giàn','Lá dày, có vằn ngang xanh đậm'],ok:0,
-    why:'Sả mọc thành bụi, lá dài hẹp như lá cỏ và có mùi thơm khi vò. Cây trong vườn đang được định danh tạm, chờ đối chiếu danh mục chính thức.'},
-  'plant-sandays':{q:'Sắn dây thuộc dạng cây nào?',opts:['Cây thân gỗ lớn','Dây leo, cần giá đỡ để bám','Bụi thân mềm thấp mọc sát đất'],ok:1,
-    why:'Sắn dây là dây leo nên cần khung hoặc giá đỡ, vì vậy dây trên khung giàn là dấu hiệu để tìm. Vị trí này là định danh tạm, cần đối chiếu mã QR.'},
-  'plant-bacha':{q:'Khi nhận biết bạc hà, đặc điểm nào dễ kiểm tra nhất?',opts:['Mùi thơm mát đặc trưng khi vò nhẹ lá','Lá dày có vằn ngang','Mọc thành dây leo trên giàn'],ok:0,
-    why:'Bạc hà có mùi thơm mát đặc trưng từ tinh dầu trong lá. Vị trí cây trong ảnh hiện chỉ là đoán, cần quét mã QR tại vườn để chốt.'},
-  'plant-zing':{q:'Các cây họ Gừng thường được dùng phần nào làm gia vị?',opts:['Hoa','Thân rễ (củ)','Vỏ thân'],ok:1,
-    why:'Nhiều cây họ Gừng (gừng, nghệ, riềng) được dùng thân rễ làm gia vị. Khóm lá mác trong ảnh mới chỉ định danh tới mức họ, chưa chốt loài.'},
-  'plant-luoiho':{q:'Đặc điểm nào dễ nhận ra lưỡi hổ nhất?',opts:['Lá nhỏ mọc đối, thân mềm','Dây leo lá lớn','Lá dày, mọc thẳng, có vằn ngang xanh đậm'],ok:2,
-    why:'Lưỡi hổ có lá dày, mọc thẳng, vằn ngang xanh đậm khá đặc trưng, nên là cây dễ nhận ra nhất trong bộ này.'}
-};
-const timeQuiz={
-  's-0710':{id:'t1',q:'So với bố cục hiện tại (09/2026), phần tường phía sau giàn trong ảnh lưu trữ 10/07 khác ở điểm nào?',
-    opts:['Tường đã được vẽ lại thành cảnh phong cảnh xanh lá có hồ và rừng cây','Tường chưa từng có tranh','Tường được thay bằng hàng rào kính'],ok:0,
-    why:'Ảnh 10/07 còn tường tranh cũ nền xanh dương. Ảnh từ 12/09 trở đi là tranh phong cảnh mới, vì vậy ảnh cũ được xếp vào mục Lưu trữ.'},
-  's-0606':{id:'t2',q:'Vì sao ảnh tháng 6 và tháng 7 được xếp vào “Lưu trữ” chứ không phải “Hiện trạng”?',
-    opts:['Vì ảnh bị mờ nên không dùng được','Vì chụp trước khi tường tranh được vẽ lại, không còn đúng bố cục hiện tại','Vì ảnh chụp ở khu vườn khác'],ok:1,
-    why:'Game luôn dùng ảnh khớp bố cục hiện tại làm chuẩn. Ảnh cũ được giữ để so sánh thay đổi theo thời gian, không dùng để tìm cây.'}
-};
-
-/* Chương 4 · Nhận mặt cây: 9 ảnh cận do chủ vườn chụp và gắn nhãn; ảnh trong game đã xoá nhãn để người chơi tự đoán.
-   Chỉ nói đặc điểm nhận biết, không có công dụng điều trị. num = số trên bảng danh sách khi đã đối chiếu được. */
-const faceCards=[
-  {id:'f-nhot',name:'Cây nhót',latin:'Elaeagnus latifolia',img:'herb/nhot.jpg',feat:'lá đơn hình bầu dục dài, đầu nhọn, cành mảnh mọc thành thân đứng; mặt dưới lá thường nhạt và ánh bạc'},
-  {id:'f-mantuoi',name:'Cây mần tưới',latin:'Eupatorium fortunei',img:'herb/man-tuoi.jpg',feat:'lá mọc đối, hình mác, mép răng cưa thô rõ, thân đứng thẳng'},
-  {id:'f-cuchoa',name:'Cúc hoa',latin:'Chrysanthemum sp.',num:18,img:'herb/cuc-hoa.jpg',feat:'lá xẻ thùy, mép răng cưa như lá cúc, thân mảnh, bò hoặc đứng'},
-  {id:'f-moqua',name:'Mỏ quạ',latin:'Maclura cochinchinensis',img:'herb/mo-qua.jpg',feat:'cành nhỏ, lá nhỏ nguyên hình bầu dục, mọc so le trên cành mảnh'},
-  {id:'f-sambochinh',name:'Sâm bố chính',latin:'Abelmoschus sagittifolius',num:6,img:'herb/sam-bo-chinh.jpg',feat:'lá chia thùy nông, mặt lá và thân có lông tơ mịn, cuống lá dài'},
-  {id:'f-congot',name:'Cỏ ngọt',latin:'Stevia rebaudiana',img:'herb/co-ngot.jpg',feat:'bụi thấp, lá nhỏ hình mác mọc đối, mép răng cưa nhẹ ở nửa trên, thân có lông tơ'},
-  {id:'f-ngutrao',name:'Ngũ trảo',latin:'Vitex negundo',img:'herb/ngu-trao.jpg',feat:'lá kép chân vịt, thường có 3 đến 5 lá chét thuôn nhọn xòe ra từ một điểm'},
-  {id:'f-cuctan',name:'Cúc tần',latin:'Pluchea indica',num:19,img:'herb/cuc-tan.jpg',feat:'lá đơn thuôn hình trứng ngược, mép có răng cưa thưa, thân thảo mọc đứng'},
-  {id:'f-caygai',name:'Cây gai',latin:'Boehmeria nivea',num:28,img:'herb/cay-gai.jpg',feat:'lá hình tim rộng, mép răng cưa, mặt dưới nhạt như phủ lông trắng'}
-];
 function gvFaceDone(id){ return !!(gvState.face[id]&&gvState.face[id].done); }
 function gvFaceNext(){
   const c=faceCards.find(x=>!gvFaceDone(x.id)); if(!c){ gvToast('Bạn đã nhận mặt đủ 9 cây.'); return; }
@@ -1135,7 +1462,11 @@ function gvQuestDone(plantId){
   if(!gvState.found.includes(plantId)){ gvState.found.push(plantId); gvAfter(`+${POINTS.quest} điểm · tìm thấy ${p.name}`); }
   const qz=plantQuiz[plantId]; const done=gvState.quiz[plantId]&&gvState.quiz[plantId].done;
   if(qz && !done){
-    gvOpenQuiz(`Thẻ cây: ${p.name}`,qz,first=>{ gvState.quiz[plantId]={done:true,first:!!first}; gvAfter(`+${first?POINTS.quizFirst:POINTS.quizRetry} điểm · mở thẻ ${p.name}`); });
+    // Mở thẻ chậm lại một nhịp: để người chơi thấy nhãn "đã tìm thấy" trước, và để cú chạm vừa rồi không "rơi" xuống đáp án của hộp thoại vừa hiện
+    const open=n=>{ if(gvDlg.open){ if(n<20) setTimeout(()=>open(n+1),600); return; } // đang có hộp thoại khác: chờ rồi mở
+      gvOpenQuiz(`Thẻ cây: ${p.name}`,qz,first=>{ gvState.quiz[plantId]={done:true,first:!!first}; gvAfter(`+${first?POINTS.quizFirst:POINTS.quizRetry} điểm · mở thẻ ${p.name}`); });
+    };
+    setTimeout(()=>open(0),450);
   }
 }
 function gvCheckDone(){
@@ -1188,9 +1519,9 @@ function gvIntro(){
   gvBody.innerHTML=`<h3>Nhật ký người giữ vườn</h3>
   <p style="color:#d9ebe1;line-height:1.5">Sáng nay bạn nhận chìa khoá khu vườn dược thảo của khoa. Bảng danh sách cây đã treo ở giàn, nhưng các nhãn còn chờ người kiểm lại. Bạn sẽ đi hết vườn, tìm đúng từng cây, mở thẻ cây và ghi lại vườn đã đổi thế nào so với mấy tháng trước.</p>
   <ol style="color:var(--muted);line-height:1.6;padding-left:20px;margin:8px 0">
-    <li><strong>Ảnh thật:</strong> xem 15 khung hình thật của vườn.</li>
-    <li><strong>Khám phá thực cảnh:</strong> đi 6 trạm, chạm điểm vàng để tìm đúng cây của nhiệm vụ.</li>
-    <li><strong>Góc nhìn thứ nhất 3D:</strong> đứng giữa vườn, nhìn quanh, rồi mở trạm lưu trữ để so sánh với hiện nay.</li>
+    <li><strong>Ảnh thật:</strong> xem ${photos.length} khung hình thật của vườn, ảnh mới nhất xếp trước; bấm “Phóng to” để xem chi tiết.</li>
+    <li><strong>Góc nhìn thứ nhất 3D:</strong> đứng giữa vườn, kéo để nhìn quanh, chụm để phóng to. Không có điểm sáng sẵn: đọc nhiệm vụ rồi tự chạm vào đúng cây; kẹt thì bấm “Gợi ý”.</li>
+    <li><strong>Khám phá ${scenes.length} trạm:</strong> cùng cách chơi trên ảnh thật của từng trạm. Mở trạm lưu trữ trong 3D để so sánh với bố cục cũ.</li>
   </ol>
   <p class="fb">Điểm và thẻ cây lưu trên thiết bị này. Tên cây là định danh tạm, chờ danh mục chính thức.</p>
   <div class="row"><button class="primary" id="gvStart">Bắt đầu</button></div>`;
@@ -1235,9 +1566,14 @@ updateQuestUI();
 gvRender();
 setTimeout(gvIntro,400);
 (function(){
-  let m='photo';
-  try{ const q=new URLSearchParams(location.search).get('mode')||location.hash.replace('#',''); if(['fp','3d'].includes(q)) m='fp'; else if(q==='sim') m='sim'; }catch(e){}
-  setMode(m);
+  let m='photo',st=null;
+  try{
+    const sp=new URLSearchParams(location.search), q=sp.get('mode')||location.hash.replace('#','');
+    if(['fp','3d'].includes(q)) m='fp'; else if(q==='sim') m='sim';
+    const s=sp.get('st'); // ?st=<mã trạm 3D> mở thẳng trạm đó
+    if(s&&fpStations.some(x=>x.id===s)){ st=s; m='fp'; }
+  }catch(e){}
+  setMode(m,{station:st});
   if(m!=='photo'){ try{ document.querySelector('.stage').scrollIntoView({block:'start'}); }catch(e){} }
 })();
 </script>
