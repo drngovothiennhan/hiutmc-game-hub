@@ -184,3 +184,22 @@ test('Điểm tối đa và hạng khớp nhau (không thể lên hạng cao nh�
   const max = scenes.length * pts.scene + fpStations.filter(s => s.era === 'now').length * pts.fp + plants.length * (pts.quest + pts.quizFirst) + Object.keys(timeQuiz).length * pts.time + faceCards.length * pts.faceFirst;
   assert.ok(Math.max(...ranks) < max, `hạng cao nhất (${Math.max(...ranks)}) phải thấp hơn điểm tối đa ${max}`);
 });
+
+test('Video đi bộ và poster có mặt, được dùng trong trang và nằm trong ngân sách di động', () => {
+  const walkDir = join(A, 'walk');
+  assert.ok(existsSync(join(walkDir, 'vuon-di-bo.mp4')), 'thiếu assets/walk/vuon-di-bo.mp4');
+  assert.ok(existsSync(join(walkDir, 'poster.jpg')), 'thiếu assets/walk/poster.jpg');
+  assert.ok(statSync(join(walkDir, 'vuon-di-bo.mp4')).size <= 8 * 1024 * 1024, 'video đi bộ quá nặng cho di động');
+  assert.ok(statSync(join(walkDir, 'poster.jpg')).size <= 200 * 1024, 'poster quá nặng');
+  for (const f of readdirSync(walkDir)) assert.match(html, new RegExp(f.replace('.', '\\.')), `assets/walk/${f} không được dùng ở đâu`);
+});
+
+test('Chế độ Đi bộ có chặng theo thứ tự thời gian và không nêu tên cây', () => {
+  const m = html.match(/const WALK=\{[\s\S]*?chapters:\[([\s\S]*?)\]\};/);
+  assert.ok(m, 'thiếu khai báo WALK.chapters');
+  const ts = [...m[1].matchAll(/\{t:(\d+(?:\.\d+)?)/g)].map(x => +x[1]);
+  assert.ok(ts.length >= 4, 'cần ít nhất 4 chặng');
+  assert.deepEqual(ts, [...ts].sort((a, b) => a - b), 'các chặng phải theo thứ tự thời gian');
+  assert.equal(ts[0], 0, 'chặng đầu phải bắt đầu từ 0 giây');
+  for (const p of plants) assert.doesNotMatch(m[1], new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'));
+});
