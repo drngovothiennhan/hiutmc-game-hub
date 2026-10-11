@@ -28,3 +28,15 @@ test('scope notice is shown on the waiting screen and in the hero', async () => 
   assert.match(game, /không tiếp nhận cấp cứu/);
   assert.equal(SCOPE_NOTICE.toLowerCase().includes('không tiếp nhận cấp cứu'), true);
 });
+
+test('Y Quan clinic views use the consultation-desk scene instead of the bed ward', async () => {
+  const [game, app] = await Promise.all([
+    readFile(new URL('../public/y-quan-live/game.js', import.meta.url), 'utf8'),
+    readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8'),
+  ]);
+  assert.doesNotMatch(game, /duong-tri/);
+  assert.doesNotMatch(app, /duong-tri/);
+  assert.match(game, /phong-kham-ban-kham/);
+  assert.match(app, /phong-kham-ban-kham/);
+  await readFile(new URL('../public/y-quan-live/art/phong-kham-ban-kham.webp', import.meta.url));
+});

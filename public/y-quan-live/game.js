@@ -180,14 +180,14 @@ function navHTML(){
 function journeyHTML(){
   const visits=Array.isArray(doctorVisits)?doctorVisits:[];
   const current=activeCaseVisitId||page==='practice'?3:visits.some(v=>v.status!=='completed')?2:visits.some(v=>v.status==='completed'&&!v.stars)?4:1;
-  const steps=[['Chờ khách','shopfront','Bác sĩ trực, kiểm tra các khu vực'],['Có khách','chan-mach','Tiếp đón và chẩn mạch'],['Nhận định','che-duoc','Tổng hợp dữ kiện, biện chứng'],['Chăm sóc','duong-tri','Theo dõi và nhận đánh giá']];
+  const steps=[['Chờ khách','shopfront','Bác sĩ trực, kiểm tra các khu vực'],['Có khách','chan-mach','Tiếp đón và chẩn mạch'],['Nhận định','che-duoc','Tổng hợp dữ kiện, biện chứng'],['Chăm sóc','phong-kham-ban-kham','Dặn dò và theo dõi, nhận đánh giá']];
   return '<ol class="yq-journey" aria-label="Hành trình chăm sóc sức khỏe">'+steps.map(([title,image,caption],i)=>'<li class="'+(i+1===current?'now':i+1<current?'done':'')+'"><img src="'+art(image)+'" alt="" loading="lazy"><span class="step-no">'+(i+1)+'</span><b>'+title+'</b><small>'+caption+'</small></li>').join('')+'</ol>';
 }
 function roomsHTML(){
   const d=data||{};
   const rooms=[
     ['chan-mach','Chẩn mạch','Vọng · Văn · Vấn · Thiết','Luyện vấn chẩn Thập vấn với ca mô phỏng của hôm nay.','practice','Vào phòng Chẩn mạch'],
-    ['duong-tri','Dưỡng trị','Nghỉ ngơi · Phục hồi · An yên','Lượt khám thật: nhắn tin, theo dõi và nhận đánh giá của bệnh nhân.','patient','Xem lượt khám'],
+    ['phong-kham-ban-kham','Bàn khám','Tư vấn · Bắt mạch · Dặn dò','Lượt khám thật: nhắn tin, theo dõi và nhận đánh giá của bệnh nhân.','patient','Xem lượt khám'],
     ['che-duoc','Chế dược','Chọn lọc · Sắc nấu · Tinh hoa','Tín dụng '+Number(d.credits||0)+' · Kinh nghiệm '+Number(d.experience||0)+' · so tài cùng các bác sĩ khác.','rank','Xem bảng uy tín']
   ];
   return '<section class="yq-rooms" aria-label="Ba phòng của Y Quán">'+rooms.map(([image,title,sub,text,target,action])=>'<article class="room-card"><img src="'+art(image)+'" width="1200" height="900" alt="Phòng '+title+' của HIU Y Quán" loading="lazy"><div class="room-sign"><h3>'+title+'</h3><small>'+sub+'</small></div><p>'+text+'</p><button class="secondary" data-page="'+target+'">'+action+'</button></article>').join('')+'</section>';
