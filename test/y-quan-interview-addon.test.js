@@ -85,7 +85,8 @@ test('Y Quan has a one-case guest trial with no saved progress or parent submiss
   const app = await readFile(new URL('../public/y-quan-live/interview/app.js', import.meta.url), 'utf8');
   const css = await readFile(new URL('../public/y-quan-live/interview/interview.css', import.meta.url), 'utf8');
   assert.match(app, /trialMode=new URLSearchParams\(location\.search\)\.get\('trial'\)==='1'/);
-  assert.match(app, /const index = trialMode \? 0 : Math\.floor\(Math\.random\(\) \* cases\.length\)/);
+  assert.match(app, /const index = trialMode \? 0 : Math\.floor\(Math\.random\(\) \* pool\.length\)/);
+  assert.match(app, /const pool = inScopeCases\(cases\)/);
   assert.match(app, /if \(!trialMode && !signedIn\(\)\)/);
   assert.match(app, /if \(!trialMode && scheduledCase\?\.slot_no\)/);
   assert.match(app, /if \(trialMode \|\| event\.origin!==location\.origin/);
