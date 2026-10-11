@@ -39,3 +39,6 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 .scene-banner figcaption b{display:block;font:800 1.1rem/1.2 Georgia,serif;color:#5f3d21}
 .scene-banner figcaption small{color:#6f6350;font-size:.72rem}
 .character img{border-radius:14px;background:#f6eedb;object-fit:cover;object-position:50% 6%}
+
+/* Phạm vi Y Quán */
+.scope-note{margin-top:8px;font-size:.85rem;opacity:.85}

@@ -1,6 +1,7 @@
 import { cases, questions } from './data.js';
 import { findingLabels as extraFindingLabels } from './cases-extra.js';
 import { createQuestionPlan, scoreAttempt, starsForScore } from './engine.js';
+import { SCOPE_NOTICE, inScopeCases, outOfScopeReason } from './scope.js';
 import { gameHubPath } from '../paths.js';
 
 const Y_QUAN_ROUTE_VERSION='20260929.1';
@@ -43,9 +44,11 @@ function signedIn() {
   catch { return false; }
 }
 function newCase() {
-  const index = trialMode ? 0 : Math.floor(Math.random() * cases.length);
-  const selected = !trialMode && scheduledCase?.case_profile_id ? cases.find(item => item.id === scheduledCase.case_profile_id) : null;
-  caseFile = selected ? {...selected, complaint:scheduledCase.case_prompt || selected.complaint} : cases[index];
+  const pool = inScopeCases(cases);
+  const index = trialMode ? 0 : Math.floor(Math.random() * pool.length);
+  const scheduled = !trialMode && scheduledCase?.case_profile_id ? cases.find(item => item.id === scheduledCase.case_profile_id) : null;
+  const selected = scheduled && !outOfScopeReason(scheduled) ? scheduled : null;
+  caseFile = selected ? {...selected, complaint:scheduledCase.case_prompt || selected.complaint} : pool[index];
   const seed = crypto.getRandomValues(new Uint32Array(1))[0];
   plan = createQuestionPlan(seed);
   asked = [];
@@ -91,7 +94,7 @@ function patientCard(expression='neutral') {
   return `<div class="character patient"><div class="expression">${face[expression] || face.neutral}</div><img src="${esc(patientArtSrc(expression))}" alt="Người bệnh mô phỏng" width="66" height="76"><div><span class="role-label">NGƯỜI BỆNH · CA MÔ PHỎNG</span><b>${esc(caseFile?.patient || 'Người bệnh')}</b><small>${esc(caseFile?.title || '')}</small></div></div>`;
 }
 function waiting() {
-  return `<section class="room-panel room-entry" tabindex="-1"><div class="room-backdrop waiting-bg"><div class="lantern">☯</div><div class="room-copy"><p class="iq-kicker">CA BỆNH GIÁO DỤC · KHÔNG LƯU DỮ LIỆU SỨC KHỎE</p><h2>Chuẩn bị đón người bệnh</h2><p>Mỗi lượt có đúng 10 câu, một câu được chọn ngẫu nhiên từ ngân hàng 220 câu, phân đều cho 10 nội dung Thập vấn. Ca bệnh được rút ngẫu nhiên từ ${cases.length} bệnh cảnh.</p><div class="avatar-select"><span>Chọn bác sĩ:</span><button class="avatar-option ${doctorAvatar==='male'?'picked':''}" data-doctor-avatar="male"><img src="${art('doctor-male')}" alt="">Nam</button><button class="avatar-option ${doctorAvatar==='female'?'picked':''}" data-doctor-avatar="female"><img src="${art('doctor-female')}" alt="">Nữ</button></div><button class="iq-primary" data-action="start">${trialMode ? "Bắt đầu ca mẫu" : "Bắt đầu ca ngẫu nhiên"} <span>→</span></button></div></div><div class="three-notes"><div><b>01 · Hỏi đủ 10 mục</b><span>Mỗi nội dung Thập vấn có một câu hỏi ngẫu nhiên.</span></div><div><b>02 · Ghi nhận</b><span>Chọn dữ kiện phù hợp với lời kể của người bệnh.</span></div><div><b>03 · Biện chứng</b><span>Bot phản hồi độ chính xác chẩn đoán theo phần trăm.</span></div></div></section>`;
+  return `<section class="room-panel room-entry" tabindex="-1"><div class="room-backdrop waiting-bg"><div class="lantern">☯</div><div class="room-copy"><p class="iq-kicker">CA BỆNH GIÁO DỤC · KHÔNG LƯU DỮ LIỆU SỨC KHỎE</p><h2>Chuẩn bị đón người bệnh</h2><p>Mỗi lượt có đúng 10 câu, một câu được chọn ngẫu nhiên từ ngân hàng 220 câu, phân đều cho 10 nội dung Thập vấn. Ca bệnh được rút ngẫu nhiên từ ${inScopeCases(cases).length} bệnh cảnh.</p><p class="scope-note">${SCOPE_NOTICE}</p><div class="avatar-select"><span>Chọn bác sĩ:</span><button class="avatar-option ${doctorAvatar==='male'?'picked':''}" data-doctor-avatar="male"><img src="${art('doctor-male')}" alt="">Nam</button><button class="avatar-option ${doctorAvatar==='female'?'picked':''}" data-doctor-avatar="female"><img src="${art('doctor-female')}" alt="">Nữ</button></div><button class="iq-primary" data-action="start">${trialMode ? "Bắt đầu ca mẫu" : "Bắt đầu ca ngẫu nhiên"} <span>→</span></button></div></div><div class="three-notes"><div><b>01 · Hỏi đủ 10 mục</b><span>Mỗi nội dung Thập vấn có một câu hỏi ngẫu nhiên.</span></div><div><b>02 · Ghi nhận</b><span>Chọn dữ kiện phù hợp với lời kể của người bệnh.</span></div><div><b>03 · Biện chứng</b><span>Bot phản hồi độ chính xác chẩn đoán theo phần trăm.</span></div></div></section>`;
 }
 function categoryPanel() {
   const categories = [...new Set(plan.map(q=>q.category))];

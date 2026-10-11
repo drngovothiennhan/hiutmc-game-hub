@@ -161,3 +161,6 @@ textarea{min-height:90px}
 .yq-pers input,.yq-pers select{display:block;width:100%;margin-top:.25rem;padding:.55rem .6rem;border:1.5px solid #c9b68a;border-radius:10px;background:#fffdf5;font:inherit}
 .yq-pf-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
 @media (max-width:560px){.yq-pf-g{grid-template-columns:1fr}}
+
+/* Phạm vi Y Quán */
+.yq-scope{margin:4px 0 0;font-size:.85rem;opacity:.85}
