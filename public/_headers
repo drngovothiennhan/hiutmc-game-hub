@@ -1,0 +1,6 @@
+# Cloudflare Pages: copied to dist/_headers by scripts/build.mjs (cp public dist).
+# Media of the Gia Vien Duoc Thao preview (26 MB, file names carry no content hash).
+# 7 days: repeat visitors stop re-downloading panoramas and the walk video.
+# Do not use "immutable" here: a replaced file keeps its name.
+/gia-vien-duoc-thao-preview/assets/*
+  Cache-Control: public, max-age=604800
